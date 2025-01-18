@@ -64,48 +64,40 @@ import { Etudiant } from '../etudiant/etudiant.entity';
     parEquivalentIni: number; // Par equivalent Ini (1ALT = 2INI) (entier >= 0)
   
     @Column({ type: 'int', nullable: true })
-    @IsOptional()
     @IsInt()
     @Min(0)
     tutoratAltAff: number; // Nombre de tutorats ALT affectés (entier >= 0)
   
     @Column({ type: 'int', nullable: true })
-    @IsOptional()
     @IsInt()
     @Min(0)
     parTutoratIni: number; // Nombre de tutorats INI disponibles (entier >= 0)
   
     @Column({ type: 'int', nullable: true })
-    @IsOptional()
     @IsInt()
     @Min(0)
     tutoratIniAff: number; // Nombre de tutorats INI affectés (entier >= 0)
   
     @Column({ type: 'int', nullable: true })
-    @IsOptional()
     @IsInt()
     @Min(0)
     totalTutoratAff: number; // Nombre total de tutorats affectés (entier >= 0)
   
     @Column({ type: 'int', nullable: true })
-    @IsOptional()
     @IsInt()
     @Min(0)
     participationJury: number; // Nombre de participations à des jurys de soutenances Memoire, These (entier >= 0)
   
     @Column({ type: 'json', nullable: true })
-    @IsOptional()
     @IsArray()
     matieres: string[]; // Liste des matières enseignées par le tuteur
   
     @Column({ type: 'int', nullable: true })
-    @IsOptional()
     @IsInt()
     @Min(0)
     totalEtudiantsPar: number; // Nombre total d'étudiants dans le PAR (entier >= 0)
   
     @Column({ type: 'int', nullable: true })
-    @IsOptional()
     @IsInt()
     ecartAff: number; // Écart avec l'affectation idéale (entier positif ou négatif)
   
@@ -116,7 +108,6 @@ import { Etudiant } from '../etudiant/etudiant.entity';
     domaines: string[]; // Domaines d'enseignement de l'enseignant EC (ex : ["Informatique", "Mathématiques"])
 
     @Column({ nullable: true })
-    @IsOptional()
     @IsString()
     telephone: string; // Numéro de téléphone du tuteur (ex : "+33 6 12 34 56 78")
     
