@@ -5,7 +5,7 @@ import {
     OneToMany,
   } from 'typeorm';
   import { IsEmail, IsString, IsBoolean, IsOptional, IsInt, Min, Max, IsArray } from 'class-validator';
-  import { Etudiant } from './etudiant.entity';
+import { Etudiant } from '../etudiant/etudiant.entity';
   
   @Entity()
   export class Tuteur {

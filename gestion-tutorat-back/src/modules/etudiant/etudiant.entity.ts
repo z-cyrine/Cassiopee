@@ -4,7 +4,6 @@ import {
     PrimaryGeneratedColumn,
     ManyToOne,
   } from 'typeorm';
-  import { Tuteur } from './tuteur.entity';
   import {
     IsEmail,
     IsString,
@@ -13,6 +12,7 @@ import {
     IsInt,
     Min,
   } from 'class-validator';
+import { Tuteur } from '../tuteur/tuteur.entity';
   
   @Entity()
   export class Etudiant {
