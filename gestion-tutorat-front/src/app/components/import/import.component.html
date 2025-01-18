@@ -1,0 +1,51 @@
+<div class="container mt-5">
+    <div class="card shadow-lg">
+      <div class="card-header bg-primary text-white text-center">
+        <h4 class="card-title mb-0">Importer des Fichiers</h4>
+      </div>
+      <div class="card-body">
+        <form (submit)="onSubmit($event)" class="needs-validation" novalidate>
+          <!-- Section pour PAR TUTORAT -->
+          <div class="mb-4">
+            <label for="file1" class="form-label fw-bold">Fichier PAR TUTORAT :</label>
+            <input
+              type="file"
+              id="file1"
+              class="form-control"
+              (change)="onFileSelected($event, 'parTutorat')"
+            />
+            <small *ngIf="parTutoratFile" class="text-muted mt-1 d-block">
+              <i class="bi bi-file-earmark-text"></i> Fichier sélectionné : 
+              <strong>{{ parTutoratFile?.name }}</strong>
+            </small>
+          </div>
+  
+          <!-- Section pour TUTORATS -->
+          <div class="mb-4">
+            <label for="file2" class="form-label fw-bold">Fichier TUTORATS :</label>
+            <input
+              type="file"
+              id="file2"
+              class="form-control"
+              (change)="onFileSelected($event, 'tutorats')"
+            />
+            <small *ngIf="tutoratsFile" class="text-muted mt-1 d-block">
+              <i class="bi bi-file-earmark-text"></i> Fichier sélectionné : 
+              <strong>{{ tutoratsFile?.name }}</strong>
+            </small>
+          </div>
+  
+          <!-- Bouton de soumission -->
+          <button type="submit" class="btn btn-success w-100 py-2">
+            <i class="bi bi-upload"></i> Importer les Fichiers
+          </button>
+        </form>
+      </div>
+  
+      <!-- Message d'alerte -->
+      <div *ngIf="alertMessage" class="alert alert-info text-center m-3" role="alert">
+        {{ alertMessage }}
+      </div>
+    </div>
+  </div>
+  
