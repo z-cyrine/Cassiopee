@@ -7,6 +7,8 @@ import { ImportService } from './modules/import/import.service';
 import { Etudiant } from './modules/etudiant/etudiant.entity';
 import { Tuteur } from './modules/tuteur/tuteur.entity';
 import { ImportModule } from './modules/import/import.module';
+import { EtudiantService } from './etudiant/etudiant.service';
+import { EtudiantController } from './etudiant/etudiant.controller';
 
 @Module({
   imports: [
@@ -23,8 +25,8 @@ import { ImportModule } from './modules/import/import.module';
     TypeOrmModule.forFeature([Etudiant, Tuteur]),
     ImportModule,
   ],
-  controllers: [AppController, ImportController],
-  providers: [AppService, ImportService],
+  controllers: [AppController, ImportController, EtudiantController],
+  providers: [AppService, ImportService, EtudiantService],
 })
 export class AppModule {
 }
