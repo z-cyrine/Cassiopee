@@ -1,0 +1,37 @@
+/* Sticky Actions Column */
+.sticky {
+    position: sticky;
+    right: 0; /* Ensure the column sticks to the right */
+    background: white; /* Set background color to prevent overlapping */
+    z-index: 1; /* Ensure the column stays above other rows when scrolling */
+  }
+  
+  /* Table Styling */
+  table {
+    width: 100%; /* Ensure the table takes full width */
+    border-collapse: collapse; /* Remove gaps between cells */
+  }
+  
+  th, td {
+    text-align: left; /* Align text to the left */
+    padding: 8px; /* Add padding for readability */
+  }
+  
+  th {
+    background-color: #f1f1f1; /* Light gray header background */
+  }
+  
+  .mat-elevation-z8 {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for table */
+  }
+  
+  /* Add alternating row colors */
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  
+  
