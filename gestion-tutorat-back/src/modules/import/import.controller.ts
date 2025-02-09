@@ -1,4 +1,4 @@
-import { Controller, Post, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFiles, BadRequestException } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ImportService } from './import.service';
 import { diskStorage } from 'multer';
@@ -27,15 +27,17 @@ export class ImportController {
     ),
   )
   async uploadFiles(@UploadedFiles() files: { parTutorat?: Express.Multer.File[]; tutorats?: Express.Multer.File[] }) {
-    if (!files.parTutorat || !files.tutorats) {
-      throw new Error('Les deux fichiers (parTutorat et tutorats) sont requis.');
+    if (!files.parTutorat && !files.tutorats) {
+      throw new BadRequestException('Vous devez envoyer au moins un fichier.');
     }
 
-    await this.importService.processFiles({
-      parTutorat: files.parTutorat[0],
-      tutorats: files.tutorats[0],
-    });
+    if (files.parTutorat) {
+      await this.importService.processParTutorat(files.parTutorat[0]);
+    }
+    if (files.tutorats) {
+      await this.importService.processTutorats(files.tutorats[0]);
+    }
 
-    return { message: 'Fichiers traités avec succès.' };
+    return { message: 'Fichier(s) importé(s) avec succès' };
   }
 }
