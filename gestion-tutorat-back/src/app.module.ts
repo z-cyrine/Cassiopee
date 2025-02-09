@@ -7,6 +7,7 @@ import { ImportService } from './modules/import/import.service';
 import { Etudiant } from './modules/etudiant/etudiant.entity';
 import { Tuteur } from './modules/tuteur/tuteur.entity';
 import { ImportModule } from './modules/import/import.module';
+import { ExcelParserService } from './modules/import/excel-parser/excel-parser.service';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { ImportModule } from './modules/import/import.module';
     ImportModule,
   ],
   controllers: [AppController, ImportController],
-  providers: [AppService, ImportService],
+  providers: [AppService, ImportService, ExcelParserService],
 })
 export class AppModule {
 }
