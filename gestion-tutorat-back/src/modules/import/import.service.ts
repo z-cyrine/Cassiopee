@@ -1,122 +1,127 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as XLSX from 'xlsx';
+import { Repository, ILike } from 'typeorm';
 import { Tuteur } from '../tuteur/tuteur.entity';
 import { Etudiant } from '../etudiant/etudiant.entity';
+import { ExcelParserService } from './excel-parser/excel-parser.service';
 
 @Injectable()
 export class ImportService {
   constructor(
+    private readonly excelParserService: ExcelParserService,
     @InjectRepository(Tuteur)
     private readonly tuteurRepository: Repository<Tuteur>,
     @InjectRepository(Etudiant)
     private readonly etudiantRepository: Repository<Etudiant>,
   ) {}
 
-  async processFiles(files: { parTutorat: Express.Multer.File; tutorats: Express.Multer.File }) {
-    const parTutoratData = this.parseExcel(files.parTutorat.path);
-    const tutoratsData = this.parseExcel(files.tutorats.path);
-
-    await this.processParTutorat(parTutoratData);
-    await this.processTutorats(tutoratsData);
+  async processParTutorat(file: Express.Multer.File) {
+    const data = this.excelParserService.parseExcel(file.path);
+    await this.clearTuteurs();
+    await this.insertTuteurs(data);
   }
 
-  private parseExcel(filePath: string): any[] {
-    const workbook = XLSX.readFile(filePath);
-    const sheetName = workbook.SheetNames[0];
-    return XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+  async processTutorats(file: Express.Multer.File) {
+    const data = this.excelParserService.parseExcel(file.path);
+    await this.clearEtudiants();
+    await this.insertEtudiants(data);
   }
 
-  private async processParTutorat(data: any[]) {
-    const tuteurs = await Promise.all(
-      data.map(async (row) => {
-        const email = row['adresse e-mail'];
-        if (!email) {
-          console.warn(`Email vide détecté pour le tuteur : ${row['NOM TUTEUR']} ${row['PRENOM TUTEUR']}`);
-          return null;
-        }
+  private async clearTuteurs() {
+    await this.etudiantRepository.query(`UPDATE etudiant SET tuteurId = NULL;`);
+    await this.etudiantRepository.query(`DELETE FROM etudiant;`);
+    await this.tuteurRepository.query(`DELETE FROM tuteur;`);
+    await this.tuteurRepository.query(`ALTER TABLE tuteur AUTO_INCREMENT = 1;`);
+    await this.etudiantRepository.query(`ALTER TABLE etudiant AUTO_INCREMENT = 1;`);
+  }
 
-        const existingTuteur = await this.tuteurRepository.findOne({ where: { email } });
-        if (existingTuteur) {
-          console.warn(`Duplication détectée : ${email}. Ce tuteur sera ignoré.`);
-          return null;
+  private async clearEtudiants() {
+    await this.etudiantRepository.query(`SET FOREIGN_KEY_CHECKS = 0;`);
+    await this.etudiantRepository.query(`DELETE FROM etudiant;`);
+    await this.etudiantRepository.query(`ALTER TABLE etudiant AUTO_INCREMENT = 1;`);
+    await this.etudiantRepository.query(`SET FOREIGN_KEY_CHECKS = 1;`);
+  }
+
+  private async insertTuteurs(data: any[]) {
+    const tuteurs = data.map(row => ({
+      nom: this.excelParserService.normalizeValue(row['NOM TUTEUR']),
+      prenom: this.excelParserService.normalizeValue(row['PRENOM TUTEUR']),
+      email: this.excelParserService.normalizeValue(row['adresse e-mail']),
+      departement: this.excelParserService.normalizeValue(row['DPT TUTEUR']),
+      estEligiblePourTutorat: row['Peut faire des tutorats ?']?.trim().toLowerCase() === 'oui',
+      statut: this.excelParserService.normalizeValue(row['Statut PERM/VAC']),
+      colonne2: this.excelParserService.normalizeValue(row['Colonne2']),
+      infoStatut: this.excelParserService.normalizeValue(row['Info Statut']),
+      langueTutorat: this.excelParserService.parseList(row['Langue Tutorat']),
+      profil: this.excelParserService.normalizeValue(row['Profil']),
+      parTutoratAlt: this.excelParserService.toNumber(row['#PAR Tutorat ALT']),
+      tutoratAltAff: this.excelParserService.toNumber(row['Tutorat ALT - Affecté']),
+      soldeAlt: this.excelParserService.toNumber(row['SOLDE ALT']),
+      parTutoratIni: this.excelParserService.toNumber(row['# PAR  Tutorat INI']),
+      tutoratIniAff: this.excelParserService.toNumber(row['Tutorat INI - Affecté']),
+      soldeIni: this.excelParserService.toNumber(row['SOLDE INI']),
+      totalEtudiantsPar: this.excelParserService.toNumber(row['Tot étudiants du par']),
+      nbTutoratAffecte: this.excelParserService.toNumber(row['NB TUTORAT ALT+INI AFFECTE']),
+      soldeTutoratRestant: this.excelParserService.toNumber(row['Solde nombre tutorat restant à affecter ALT+INI']),
+      matieres: this.excelParserService.parseList(row['DONNE DES COURS DANS LA/LES MAJEURES ']),
+      domainesExpertise: this.excelParserService.parseList(row['DOMAINES d\'expertise']),
+    }));
+
+    if (tuteurs.length === 0) {
+      console.warn('⚠️ Aucun tuteur valide trouvé dans le fichier.');
+      return;
+    }
+
+    await this.tuteurRepository.save(tuteurs);
+  }
+
+  private async insertEtudiants(data: any[]) {
+    const etudiants = await Promise.all(
+      data.map(async row => {
+        const nomTuteur = this.excelParserService.normalizeValue(row['Nom Tuteur']);
+
+        console.log(`🔍 Recherche du tuteur: Nom="${nomTuteur}"`);
+
+        const tuteur = await this.tuteurRepository.findOne({
+          where: [
+            { email: row['e-mail Tuteur'] },
+            { nom: ILike(`%${this.excelParserService.normalizeValue(row['Nom Tuteur'])}%`) }
+          ],
+        });
+
+        if (!tuteur) {
+          console.warn(`⚠️ Aucun tuteur trouvé pour: Nom="${nomTuteur}"`);
+        } else {
+          console.log(`✅ Tuteur trouvé: Nom="${nomTuteur}" -> ID: ${tuteur.id}`);
         }
 
         return {
-          nom: row['NOM TUTEUR'],
-          prenom: row['PRENOM TUTEUR'],
-          email,
-          departement: row['DPT TUTEUR'],
-          estEligiblePourTutorat: row['Peut faire des tutorats ?'] === 'Oui',
-          statut: row['Statut PERM/VAC'],
-          colonne2: row['Colonne2'],
-          infoStatut: row['Info Statut'],
-          langueTutorat: row['Langue Tutorat']?.split(','),
-          profil: row['Profil'],
-          parTutoratAlt: this.validateNumber(row['#PAR Tutorat ALT']),
-          parEquivalentIni: this.validateNumber(row['PAR équivalent INI']),
-          tutoratAltAff: this.validateNumber(row['Tutorat ALT - Affecté']),
-          parTutoratIni: this.validateNumber(row['# PAR  Tutorat INI']),
-          tutoratIniAff: this.validateNumber(row['Tutorat INI - Affecté']),
-          totalTutoratAff: this.validateNumber(row['NB TUTORAT ALT+INI AFFECTE']),
-          participationJury: this.validateNumber(row['# PARTICIPATIONS A DES JURYS DE SOUTENANCE MÉMOIRE/THESE  EN NB DE SOUTENANCES']),
-          matieres: row['DONNE DES COURS DANS LA/LES MAJEURES']?.split(','),
-          totalEtudiantsPar: this.validateNumber(row['Tot étudiants du par']),
-          ecartAff: this.validateNumber(row['Ecart avec affectation']),
-          domaines: row['DOMAINES ET/OU MATIERES D\'ENSEIGNEMENT DE L\'EC']?.split(','),
-          telephone: row['Téléphone'],
+          emailEcole: this.excelParserService.normalizeValue(row['Adresse Mail Ecole']),
+          origine: this.excelParserService.normalizeValue(row['Origine']),
+          ecole: this.excelParserService.normalizeValue(row['Ecole']),
+          prenom: this.excelParserService.normalizeValue(row['Prenom Etudiant']),
+          nom: this.excelParserService.normalizeValue(row['Nom Etudiant']),
+          obligationInternational: this.excelParserService.normalizeValue(row['Obligation à l\'International']),
+          stage1A: this.excelParserService.normalizeValue(row['Stage 1A']),
+          codeClasse: this.excelParserService.normalizeValue(row['Code Classe']),
+          nomGroupe: this.excelParserService.normalizeValue(row['Nom groupe']),
+          langueMajeure: this.excelParserService.normalizeValue(row['Langue Majeure ']),
+          iniAlt: this.excelParserService.normalizeValue(row['INI/ALT']),
+          entreprise: this.excelParserService.normalizeValue(row['Entreprise']),
+          fonctionApprenti: this.excelParserService.normalizeValue(row['Fonction de l\'apprenti']),
+          langue: this.excelParserService.normalizeValue(row['Langue Tutorat']),
+          commentaireAffectation: this.excelParserService.normalizeValue(row['Commentaires affectation']),
+          departementRattachement: this.excelParserService.normalizeValue(row['Département \nrattachement\n du tuteur']),
+          tuteur: tuteur || null,
         };
-      }),
+      })
     );
 
-    const filteredTuteurs = tuteurs.filter((tuteur) => tuteur !== null);
-    await this.tuteurRepository.save(filteredTuteurs);
-  }
-
-  private async processTutorats(data: any[]) {
-    const parsedData = [];
-
-    for (const row of data) {
-      const tuteur = await this.tuteurRepository.findOne({
-        where: {
-          nom: row['Nom Tuteur'],
-          prenom: row['Prenom Tuteur'],
-          email: row['e-mail Tuteur'],
-        },
-      });
-
-      if (!tuteur) {
-        console.warn(`Tuteur non trouvé pour l'étudiant : ${row['Prenom Etudiant']} ${row['Nom Etudiant']}`);
-      }
-
-      parsedData.push({
-        emailEcole: row['Adresse Mail Ecole'],
-        origine: row['Origine'],
-        ecole: row['Ecole'],
-        prenom: row['Prenom Etudiant'],
-        nom: row['Nom Etudiant'],
-        langueTutorat: row['Langue Tutorat'],
-        iniAlt: row['INI/ALT'],
-        commentaireAffectation: row['Commentaires affectation'],
-        soutenanceDate: row['SOUTENANCE DATE'],
-        soutenanceHoraire: row['SOUTENANCE HORAIRE'],
-        soutenanceSalle: row['SOUTENANCE SALLE'],
-        membreJury1: row['MEMBRE JURY 1'],
-        membreJury2: row['MEMBRE JURY 2'],
-        tuteur: tuteur || null,
-      });
+    if (etudiants.length === 0) {
+      console.warn('⚠️ Aucun étudiant valide trouvé dans le fichier.');
+      return;
     }
 
-    await this.etudiantRepository.save(parsedData);
-  }
-
-  private validateNumber(value: any): number {
-    const parsed = Number(value);
-    if (isNaN(parsed)) {
-      console.warn(`Invalid number: "${value}", defaulting to 0`);
-      return 0;
-    }
-    return parsed;
+    await this.etudiantRepository.save(etudiants);
   }
 }

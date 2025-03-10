@@ -1,15 +1,5 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-} from 'typeorm';
-import {
-  IsEmail,
-  IsString,
-  IsOptional,
-  IsEnum,
-} from 'class-validator';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { IsEmail, IsString, IsOptional } from 'class-validator';
 import { Tuteur } from '../tuteur/tuteur.entity';
 
 @Entity()
@@ -17,81 +7,74 @@ export class Etudiant {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  prenom?: string; // Prénom de l'étudiant
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  nom?: string; // Nom de l'étudiant
-
-  @Column({ unique: true, nullable: true })
-  @IsOptional()
+  @Column({ unique: true })
   @IsEmail()
-  emailEcole?: string; // Adresse mail école de l'étudiant
+  emailEcole: string;
+
+  @Column()
+  @IsString()
+  origine: string;
+
+  @Column()
+  @IsString()
+  ecole: string;
+
+  @Column()
+  @IsString()
+  prenom: string;
+
+  @Column()
+  @IsString()
+  nom: string;
+
+  @Column()
+  @IsString()
+  obligationInternational: string;
+
+  @Column()
+  @IsString()
+  stage1A: string;
+
+  @Column()
+  @IsString()
+  codeClasse: string;
+
+  @Column()
+  @IsString()
+  nomGroupe: string;
+
+  @Column()
+  @IsString()
+  langueMajeure: string;
+
+  @Column()
+  @IsString()
+  iniAlt: string;
 
   @Column({ nullable: true })
   @IsOptional()
   @IsString()
-  origine?: string; // Origine (ex : "BACHELOR", "HEC/E", etc.)
+  entreprise: string;
 
   @Column({ nullable: true })
   @IsOptional()
   @IsString()
-  ecole?: string; // École de l'étudiant
+  fonctionApprenti: string;
+  
+  @Column({ nullable: true })
+  @IsString()
+  langue: string;
 
   @Column({ nullable: true })
   @IsOptional()
   @IsString()
-  groupe?: string; // Nom du groupe
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsEnum(['ALT', 'INI'])
-  iniAlt?: string; // Type (ex : "ALT" ou "INI")
+  commentaireAffectation: string;
 
   @Column({ nullable: true })
   @IsOptional()
   @IsString()
-  entreprise?: string; // Entreprise de l'étudiant
+  departementRattachement: string;
 
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  commentaireAffectation?: string; // Commentaire sur l'affectation
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  langueTutorat?: string; // Langue utilisée pour le tutorat
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  soutenanceDate?: string; // Date de soutenance
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  soutenanceHoraire?: string; // Horaire de soutenance
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  soutenanceSalle?: string; // Salle de soutenance
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  membreJury1?: string; // Membre du jury 1
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsString()
-  membreJury2?: string; // Membre du jury 2
-
-  @ManyToOne(() => Tuteur, (tuteur) => tuteur.etudiants, { nullable: true })
-  tuteur?: Tuteur; // Relation avec le tuteur
+  @ManyToOne(() => Tuteur, (tuteur) => tuteur.etudiants, { nullable: true, onDelete: 'CASCADE' })
+  tuteur: Tuteur;
 }

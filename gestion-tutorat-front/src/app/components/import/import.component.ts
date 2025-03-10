@@ -29,19 +29,19 @@ export class ImportComponent {
 
   onSubmit(event: Event): void {
     event.preventDefault();
-
-    if (!this.parTutoratFile || !this.tutoratsFile) {
-      this.alertMessage = 'Veuillez sélectionner les deux fichiers avant de soumettre.';
+  
+    if (!this.parTutoratFile && !this.tutoratsFile) {
+      this.alertMessage = 'Veuillez sélectionner au moins un fichier.';
       return;
     }
-
+  
     const formData = new FormData();
-    formData.append('parTutorat', this.parTutoratFile);
-    formData.append('tutorats', this.tutoratsFile);
-
+    if (this.parTutoratFile) formData.append('parTutorat', this.parTutoratFile);
+    if (this.tutoratsFile) formData.append('tutorats', this.tutoratsFile);
+  
     this.http.post('http://localhost:3000/import/upload', formData).subscribe({
       next: () => {
-        this.alertMessage = 'Fichiers importés avec succès !';
+        this.alertMessage = 'Fichier(s) importé(s) avec succès !';
         this.resetForm();
       },
       error: (err) => {
@@ -50,6 +50,7 @@ export class ImportComponent {
       },
     });
   }
+  
 
   private resetForm(): void {
     this.parTutoratFile = null;
