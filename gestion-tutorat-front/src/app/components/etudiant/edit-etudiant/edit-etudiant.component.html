@@ -1,0 +1,31 @@
+<div>
+  <h2>Edit Etudiant</h2>
+  <form [formGroup]="etudiantForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="prenom">Prénom:</label>
+      <input id="prenom" formControlName="prenom" />
+    </div>
+
+    <div>
+      <label for="nom">Nom:</label>
+      <input id="nom" formControlName="nom" />
+    </div>
+
+    <div>
+      <label for="emailEcole">Email:</label>
+      <input id="emailEcole" formControlName="emailEcole" />
+    </div>
+
+    <div>
+      <label for="ecole">Ecole:</label>
+      <input id="ecole" formControlName="ecole" />
+    </div>
+
+    <div>
+      <label for="langueTutorat">Langue:</label>
+      <input id="langueTutorat" formControlName="langueTutorat" />
+    </div>
+
+    <button type="submit">Save Changes</button>
+  </form>
+</div>

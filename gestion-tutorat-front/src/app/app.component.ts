@@ -7,7 +7,7 @@ import { ImportComponent } from './components/import/import.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   standalone: true,
-  imports: [ImportComponent],
+  imports: [RouterOutlet], // Add RouterOutlet to enable routing
 })
 export class AppComponent {
   title = 'gestion-tutorat-front';
