@@ -6,3 +6,23 @@
   [showEdit]="true"
   [showDelete]="true">
 </app-table>
+
+<div class="actions-container">
+  <button class="btn btn-secondary btn-sm">
+    Affecter Automatiquement avec le taux d’affectation {{ tauxAffectation }}%
+  </button>
+  <div class="actions-controls">
+    <span>taux d’affectation:</span>
+    <input
+      type="number"
+      class="affectation-input"
+      [(ngModel)]="tauxAffectationInput"
+      placeholder="80"
+    />
+    <button class="btn btn-primary btn-sm" (click)="updateTauxAffectation()">
+      Valider le taux d'affectation
+    </button>
+    <button class="btn btn-success btn-sm" (click)="viewResults()">voir le résultat de l'affectation </button>
+  </div>
+</div>
+

@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { TableComponent } from '../shared/table/table.component';
 import { EtudiantService } from '../services/etudiant/etudiant.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-affiche-etudiants',
   standalone: true,
-  imports: [TableComponent],
+  imports: [TableComponent, FormsModule],
   templateUrl: './affiche-etudiants.component.html',
   styleUrls: ['./affiche-etudiants.component.css'],
 })
 export class AfficheEtudiantsComponent implements OnInit {
+  tauxAffectation: number=80 ;
+  tauxAffectationInput: number = this.tauxAffectation;
+
   students: any[] = [];
   columns: any[] = [];
   showEdit = true;
@@ -46,4 +50,18 @@ export class AfficheEtudiantsComponent implements OnInit {
     const keys = key.split('.'); 
     return keys.reduce((obj, k) => (obj && obj[k] !== undefined ? obj[k] : ''), element);
   }
+
+  viewResults() {
+    console.log('View results');
+    }
+
+  updateTauxAffectation() {
+    if (this.tauxAffectationInput >= 0 && this.tauxAffectationInput <= 100) {
+      this.tauxAffectation = this.tauxAffectationInput;
+      console.log(`Taux d'affectation updated to ${this.tauxAffectation}%`);
+    } else {
+      alert('Please enter a valid percentage between 0 and 100.');
+    }
+    }
+
 }
