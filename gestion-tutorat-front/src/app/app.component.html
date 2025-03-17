@@ -1,1 +1,16 @@
-<app-import></app-import>
+<!-- app.component.html -->
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Accueil</a>
+    <ul class="nav">
+      <li class="nav-item">
+        <a routerLink="/etudiant-create" class="nav-link">Ajouter Étudiant</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/tuteur-create" class="nav-link">Ajouter Tuteur</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
