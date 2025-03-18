@@ -8,6 +8,8 @@ import { Etudiant } from './modules/etudiant/etudiant.entity';
 import { Tuteur } from './modules/tuteur/tuteur.entity';
 import { ImportModule } from './modules/import/import.module';
 import { ExcelParserService } from './modules/import/excel-parser/excel-parser.service';
+import { EtudiantService } from './etudiant/etudiant.service';
+import { EtudiantController } from './etudiant/etudiant.controller';
 
 @Module({
   imports: [
@@ -24,8 +26,7 @@ import { ExcelParserService } from './modules/import/excel-parser/excel-parser.s
     TypeOrmModule.forFeature([Etudiant, Tuteur]),
     ImportModule,
   ],
-  controllers: [AppController, ImportController],
-  providers: [AppService, ImportService, ExcelParserService],
+  controllers: [AppController, ImportController, EtudiantController],
+  providers: [AppService, ImportService, ExcelParserService, EtudiantService],
 })
-export class AppModule {
-}
+export class AppModule {}
