@@ -16,7 +16,7 @@
             />
             <small *ngIf="parTutoratFile" class="text-muted mt-1 d-block">
               <i class="bi bi-file-earmark-text"></i> Fichier sélectionné : 
-              <strong>{{ parTutoratFile?.name }}</strong>
+              <strong>{{ parTutoratFile.name }}</strong>
             </small>
           </div>
   
@@ -31,9 +31,24 @@
             />
             <small *ngIf="tutoratsFile" class="text-muted mt-1 d-block">
               <i class="bi bi-file-earmark-text"></i> Fichier sélectionné : 
-              <strong>{{ tutoratsFile?.name }}</strong>
+              <strong>{{ tutoratsFile.name }}</strong>
             </small>
           </div>
+
+          <!-- Section pour MAJEURES -->
+        <div class="mb-4">
+          <label for="file3" class="form-label fw-bold">Fichier DES MAJEURES :</label>
+          <input
+            type="file"
+            id="file3"
+            class="form-control"
+            (change)="onFileSelected($event, 'majors')"
+          />
+          <small *ngIf="majorsFile" class="text-muted mt-1 d-block">
+            <i class="bi bi-file-earmark-text"></i> Fichier sélectionné :
+            <strong>{{ majorsFile.name }}</strong>
+          </small>
+        </div>
   
           <!-- Bouton de soumission -->
           <button type="submit" class="btn btn-success w-100 py-2">

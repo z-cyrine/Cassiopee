@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TableComponent } from '../shared/table/table.component';
-import { EtudiantService } from '../services/etudiant/etudiant.service';
+import { TableComponent } from '../../shared/table/table.component';
+import { EtudiantService } from '../../services/etudiant/etudiant.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({

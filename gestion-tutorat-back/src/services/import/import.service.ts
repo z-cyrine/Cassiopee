@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, ILike } from 'typeorm';
-import { Tuteur } from '../tuteur/tuteur.entity';
-import { Etudiant } from '../etudiant/etudiant.entity';
 import { ExcelParserService } from './excel-parser/excel-parser.service';
+import { Tuteur } from 'src/modules/tuteur/tuteur.entity';
+import { Etudiant } from 'src/modules/etudiant/etudiant.entity';
+import { Majeures } from 'src/modules/majeures/majeures';
 
 @Injectable()
 export class ImportService {
@@ -13,6 +14,8 @@ export class ImportService {
     private readonly tuteurRepository: Repository<Tuteur>,
     @InjectRepository(Etudiant)
     private readonly etudiantRepository: Repository<Etudiant>,
+    @InjectRepository(Majeures)
+    private readonly majeuresRepository: Repository<Majeures>,
   ) {}
 
   async processParTutorat(file: Express.Multer.File) {
@@ -25,6 +28,87 @@ export class ImportService {
     const data = this.excelParserService.parseExcel(file.path);
     await this.clearEtudiants();
     await this.insertEtudiants(data);
+  }
+
+  async processMajors(file: Express.Multer.File) {
+    // On lit un tableau 2D
+    const data2D = this.excelParserService.parseExcelMajors(file.path);
+
+    // On s'attend à 7 lignes minimum
+    if (!Array.isArray(data2D) || data2D.length < 7) {
+      throw new BadRequestException(
+        "Le fichier des majeures n'a pas le format attendu (7 lignes).",
+      );
+    }
+
+    // data2D[0] = ex: ["majeure/groupe", "CL_FE-Bachelor3", "CL_FE-Bachelor3_PLG", ...]
+    // data2D[1] = ex: ["departement", "BACHELOR", "BACHELOR", ...]
+    // data2D[2] = ex: ["responsable majeure", "MALET", "MALET", ...]
+    // data2D[3] = ex: ["lanque enseignement", "Français", ...]
+    // data2D[4] = ex: ["INI/ALT", "INI", "INI", "ALT", ...]
+    // data2D[5] = ex: ["programme", "BACH 3", "BACH 3", ...]
+    // data2D[6] = ex: ["code classe", "CL_FE-Bachelor3", "CL_FE-Bachelor3_PLG", ...]
+
+    // On vide la table
+    await this.clearMajors();
+
+    const rowGroupe     = data2D[0];
+    const rowDept       = data2D[1];
+    const rowResponsible= data2D[2];
+    const rowLangue     = data2D[3];
+    const rowIniAlt     = data2D[4];
+    const rowProgramme  = data2D[5];
+    const rowCodeClasse = data2D[6];
+
+    const majorsToSave: Majeures[] = [];
+
+    // On suppose que rowGroupe.length = nombre total de colonnes
+    // On ignore la colonne 0
+    const nbCols = rowGroupe.length;
+    for (let colIndex = 1; colIndex < nbCols; colIndex++) {
+      const groupeVal      = rowGroupe[colIndex];      
+      const deptVal        = rowDept[colIndex];        
+      const responsibleVal = rowResponsible[colIndex]; 
+      const langueVal      = rowLangue[colIndex];      
+      const iniAltVal      = rowIniAlt[colIndex];      
+      const progVal        = rowProgramme[colIndex];   
+      const codeVal        = rowCodeClasse[colIndex];  
+
+      // Normalisation (optionnel)
+      const groupeClean = this.excelParserService.normalizeValue(groupeVal);
+      const deptClean   = this.excelParserService.normalizeValue(deptVal);
+      const respClean   = this.excelParserService.normalizeValue(responsibleVal);
+      const langClean   = this.excelParserService.normalizeValue(langueVal);
+      const iniAltClean = this.excelParserService.normalizeValue(iniAltVal);
+      const progClean   = this.excelParserService.normalizeValue(progVal);
+      const codeClean   = this.excelParserService.normalizeValue(codeVal);
+
+      const maj = new Majeures();
+      // On stocke le "groupe" = la 1ère ligne
+      maj.groupe      = groupeClean;  // => "CL_FE-Bachelor3", etc.
+      maj.dept        = deptClean;
+      maj.responsible = respClean;
+      maj.langue      = langClean;
+      maj.iniAlt      = iniAltClean;
+      maj.programme   = progClean;
+      maj.code        = codeClean;
+
+      majorsToSave.push(maj);
+    }
+
+    if (majorsToSave.length === 0) {
+      console.warn('⚠️ Aucune majeure trouvée (0 colonnes) dans le fichier Excel.');
+      return;
+    }
+
+    // Sauvegarde
+    await this.majeuresRepository.save(majorsToSave);
+    console.log(`✅ ${majorsToSave.length} majeures insérées en base.`);
+  }
+
+  private async clearMajors() {
+    await this.majeuresRepository.query(`DELETE FROM majeures;`);
+    await this.majeuresRepository.query(`ALTER TABLE majeures AUTO_INCREMENT = 1;`);
   }
 
   private async clearTuteurs() {

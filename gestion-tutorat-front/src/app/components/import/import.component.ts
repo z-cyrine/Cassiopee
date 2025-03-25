@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 export class ImportComponent {
   parTutoratFile: File | null = null;
   tutoratsFile: File | null = null;
+  majorsFile: File | null = null;
+
   alertMessage: string | null = null;
 
   constructor(private http: HttpClient) {}
@@ -23,6 +25,8 @@ export class ImportComponent {
         this.parTutoratFile = input.files[0];
       } else if (fileType === 'tutorats') {
         this.tutoratsFile = input.files[0];
+      } else if (fileType === 'majors') {
+        this.majorsFile = input.files[0];
       }
     }
   }
@@ -30,7 +34,7 @@ export class ImportComponent {
   onSubmit(event: Event): void {
     event.preventDefault();
   
-    if (!this.parTutoratFile && !this.tutoratsFile) {
+    if (!this.parTutoratFile && !this.tutoratsFile && !this.majorsFile) {
       this.alertMessage = 'Veuillez sélectionner au moins un fichier.';
       return;
     }
@@ -38,7 +42,8 @@ export class ImportComponent {
     const formData = new FormData();
     if (this.parTutoratFile) formData.append('parTutorat', this.parTutoratFile);
     if (this.tutoratsFile) formData.append('tutorats', this.tutoratsFile);
-  
+    if (this.majorsFile) { formData.append('majors', this.majorsFile); }
+    
     this.http.post('http://localhost:3000/import/upload', formData).subscribe({
       next: () => {
         this.alertMessage = 'Fichier(s) importé(s) avec succès !';
@@ -55,6 +60,8 @@ export class ImportComponent {
   private resetForm(): void {
     this.parTutoratFile = null;
     this.tutoratsFile = null;
+    this.majorsFile = null;
+
     setTimeout(() => (this.alertMessage = null), 5000);
   }
 }
