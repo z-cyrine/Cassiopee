@@ -143,7 +143,15 @@ export class AutoAffectationService {
         logs.push('=> Student remains for manual assignment.');
       }
 
-      details.push({ etudiantId: student.id, assigned, logs });
+      details.push({
+        ...student,
+        etudiantId: student.id,
+        tutorNom: student.tuteur ? student.tuteur.nom : '',
+        tutorPrenom: student.tuteur ? student.tuteur.prenom : '',
+        tutorDept: student.tuteur ? student.tuteur.departement : '',
+        logs,
+        assigned,
+      });
       this.logger.debug(logs.join(' | '));
     }
 

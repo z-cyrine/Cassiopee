@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input'; // Required for inputs
 
 export class TableComponent {
   @Input() data: any[] = [];
-  @Input() columns: { columnDef: string; header: string; cell: (element: any) => string }[] = [];
+  @Input() columns: { columnDef: string; header: string; cell: (element: any) => string  | number}[] = [];
 
   @Input() showEdit: boolean = false;
   @Input() showDelete: boolean = false;
