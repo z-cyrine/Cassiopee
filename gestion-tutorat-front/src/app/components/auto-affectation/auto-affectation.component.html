@@ -1,0 +1,14 @@
+<div class="container">
+    <h2>Affectation Automatique</h2>
+    <button (click)="runAffectation()" [disabled]="loading">
+      {{ loading ? 'Affectation en cours...' : 'Lancer l\'affectation' }}
+    </button>
+    <div *ngIf="result">
+      <h3>Résultat de l'affectation</h3>
+      <pre>{{ result | json }}</pre>
+    </div>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+  </div>
+  
