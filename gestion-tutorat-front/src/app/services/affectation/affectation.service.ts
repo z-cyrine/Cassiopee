@@ -17,7 +17,7 @@ export class AffectationService {
 
   constructor(private http: HttpClient) {}
 
-  runAffectation(): Observable<AffectationResult> {
-    return this.http.post<AffectationResult>(`${this.baseUrl}/auto-affectation`, {});
+  runAffectation(equivalence: number): Observable<AffectationResult> {
+    return this.http.post<AffectationResult>(`${this.baseUrl}/auto-affectation`, {equivalence });
   }
 }

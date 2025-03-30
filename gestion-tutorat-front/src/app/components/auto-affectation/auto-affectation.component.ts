@@ -1,13 +1,14 @@
 // auto-affectation.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../shared/table/table.component';
 import { AffectationResult, AffectationService } from '../../services/affectation/affectation.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-auto-affectation',
   standalone: true,
-  imports: [CommonModule, JsonPipe, TableComponent],
+  imports: [CommonModule, TableComponent, FormsModule],
   templateUrl: './auto-affectation.component.html',
   styleUrls: ['./auto-affectation.component.css']
 })
@@ -17,6 +18,7 @@ export class AutoAffectationComponent implements OnInit {
   columns: { columnDef: string; header: string; cell: (element: any) => string }[] = [];
   loading = false;
   error: string | null = null;
+  equivalence = 2;
 
   constructor(private affectationService: AffectationService) {}
 
@@ -27,7 +29,7 @@ export class AutoAffectationComponent implements OnInit {
   loadAffectation(): void {
     this.loading = true;
     this.error = null;
-    this.affectationService.runAffectation().subscribe({
+    this.affectationService.runAffectation(this.equivalence).subscribe({
       next: (res: AffectationResult) => {
         this.result = res;
         this.data = res.details;

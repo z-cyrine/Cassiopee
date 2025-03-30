@@ -10,8 +10,6 @@ import { ExcelParserService } from 'src/services/import/excel-parser/excel-parse
 @Injectable()
 export class AutoAffectationService {
   private readonly logger = new Logger(AutoAffectationService.name);
-  // Par défaut, 2 INI = 1 ALT
-  private readonly equivalence = 2;
 
   constructor(
     @InjectRepository(Etudiant)
@@ -30,7 +28,7 @@ export class AutoAffectationService {
    * Exécute l’algorithme d’affectation automatique pour les étudiants non assignés.
    * @returns Un objet contenant le nombre total d’étudiants traités, le nombre assigné et les détails de l’affectation.
    */
-  async runAffectation(): Promise<{ total: number; assigned: number; details: any[] }> {
+  async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[] }> {
     // Charger les étudiants n’ayant pas encore de tuteur, ainsi que les tuteurs et majeures.
     const students = await this.etudiantRepository.find({ where: { tuteur: null } });
     const tutors = await this.tuteurRepository.find();
@@ -96,13 +94,13 @@ export class AutoAffectationService {
         logs.push(`P1: after name filter => ${candidates.length} tutor(s)`);
         candidates = candidates.filter(tu => this.tutorSupportsLang(tu.langueTutorat, studentLang));
         logs.push(`P1: after language filter => ${candidates.length} tutor(s)`);
-        candidates = candidates.filter(tu => this.checkCapacity(tu, studentType));
+        candidates = candidates.filter(tu => this.checkCapacity(tu, studentType, equivalence));
         logs.push(`P1: after capacity filter => ${candidates.length} tutor(s)`);
 
         if (candidates.length > 0) {
-          candidates.sort((a, b) => this.availableCapacity(b) - this.availableCapacity(a));
+          candidates.sort((a, b) => this.availableCapacity(b, equivalence) - this.availableCapacity(a, equivalence));
           const chosen = candidates[0];
-          this.updateCapacity(chosen, studentType);
+          this.updateCapacity(chosen, studentType, equivalence);
           student.tuteur = chosen.tutorEntity;
           assignedCount++;
           assigned = true;
@@ -123,13 +121,13 @@ export class AutoAffectationService {
         logs.push(`P2: after department filter => ${candidates.length} tutor(s)`);
         candidates = candidates.filter(tu => this.tutorSupportsLang(tu.langueTutorat, studentLang));
         logs.push(`P2: after language filter => ${candidates.length} tutor(s)`);
-        candidates = candidates.filter(tu => this.checkCapacity(tu, studentType));
+        candidates = candidates.filter(tu => this.checkCapacity(tu, studentType, equivalence));
         logs.push(`P2: after capacity filter => ${candidates.length} tutor(s)`);
 
         if (candidates.length > 0) {
-          candidates.sort((a, b) => this.availableCapacity(b) - this.availableCapacity(a));
+          candidates.sort((a, b) => this.availableCapacity(b, equivalence) - this.availableCapacity(a, equivalence));
           const chosen = candidates[0];
-          this.updateCapacity(chosen, studentType);
+          this.updateCapacity(chosen, studentType, equivalence);
           student.tuteur = chosen.tutorEntity;
           assignedCount++;
           assigned = true;
@@ -152,6 +150,10 @@ export class AutoAffectationService {
         logs,
         assigned,
       });
+
+      student.affecte = assigned;
+      student.logs = logs.join('\n');
+      
       this.logger.debug(logs.join(' | '));
     }
 
@@ -197,11 +199,11 @@ export class AutoAffectationService {
    * @param studentType Type d’étudiant ("ALT" ou "INI").
    * @returns true si le tuteur peut encadrer l’étudiant.
    */
-  private checkCapacity(tu: any, studentType: string): boolean {
+  private checkCapacity(tu: any, studentType: string, equivalence: number): boolean {
     if (studentType === 'ALT') {
-      return tu.capaAlt >= 1 || tu.capaIni >= this.equivalence;
+      return tu.capaAlt >= 1 || tu.capaIni >= equivalence;
     } else {
-      return tu.capaIni >= 1 || tu.capaAlt >= 1 / this.equivalence;
+      return tu.capaIni >= 1 || tu.capaAlt >= 1 / equivalence;
     }
   }
 
@@ -210,18 +212,18 @@ export class AutoAffectationService {
    * @param tu Les capacités du tuteur.
    * @param studentType Type d’étudiant ("ALT" ou "INI").
    */
-  private updateCapacity(tu: any, studentType: string): void {
+  private updateCapacity(tu: any, studentType: string, equivalence: number): void {
     if (studentType === 'ALT') {
       if (tu.capaAlt >= 1) {
         tu.capaAlt -= 1;
-      } else if (tu.capaIni >= this.equivalence) {
-        tu.capaIni -= this.equivalence;
+      } else if (tu.capaIni >= equivalence) {
+        tu.capaIni -= equivalence;
       }
     } else {
       if (tu.capaIni >= 1) {
         tu.capaIni -= 1;
-      } else if (tu.capaAlt >= 1 / this.equivalence) {
-        tu.capaAlt -= 1 / this.equivalence;
+      } else if (tu.capaAlt >= 1 / equivalence) {
+        tu.capaAlt -= 1 / equivalence;
       }
     }
   }
@@ -231,7 +233,7 @@ export class AutoAffectationService {
    * @param tu Les capacités du tuteur.
    * @returns Le nombre total d’unités disponibles.
    */
-  private availableCapacity(tu: any): number {
-    return tu.capaIni + this.equivalence * tu.capaAlt;
+  private availableCapacity(tu: any, equivalence: number): number {
+    return tu.capaIni + equivalence * tu.capaAlt;
   }
 }

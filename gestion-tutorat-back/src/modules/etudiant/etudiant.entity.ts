@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { IsEmail, IsString, IsOptional } from 'class-validator';
+import { IsEmail, IsString, IsOptional, IsBoolean } from 'class-validator';
 import { Tuteur } from '../tuteur/tuteur.entity';
 
 @Entity()
@@ -74,6 +74,14 @@ export class Etudiant {
   @IsOptional()
   @IsString()
   departementRattachement: string;
+
+  @Column({ default: false })
+  @IsBoolean()
+  affecte: boolean;
+
+  @Column('text', { nullable: true })
+  @IsOptional()
+  logs: string;
 
   @ManyToOne(() => Tuteur, (tuteur) => tuteur.etudiants, { nullable: true, onDelete: 'CASCADE' })
   tuteur: Tuteur;
