@@ -14,6 +14,7 @@ export class ImportController {
       [
         { name: 'parTutorat', maxCount: 1 },
         { name: 'tutorats', maxCount: 1 },
+        { name: 'majors', maxCount: 1 },
       ],
       {
         storage: diskStorage({
@@ -26,8 +27,8 @@ export class ImportController {
       },
     ),
   )
-  async uploadFiles(@UploadedFiles() files: { parTutorat?: Express.Multer.File[]; tutorats?: Express.Multer.File[] }) {
-    if (!files.parTutorat && !files.tutorats) {
+  async uploadFiles(@UploadedFiles() files: { parTutorat?: Express.Multer.File[]; tutorats?: Express.Multer.File[] ;  majors?: Express.Multer.File[];}) {
+    if (!files.parTutorat && !files.tutorats && !files.majors) {
       throw new BadRequestException('Vous devez envoyer au moins un fichier.');
     }
 
@@ -36,6 +37,10 @@ export class ImportController {
     }
     if (files.tutorats) {
       await this.importService.processTutorats(files.tutorats[0]);
+    }
+    if (files.majors) {
+      const fileMajors = files.majors[0];
+      await this.importService.processMajors(fileMajors);
     }
 
     return { message: 'Fichier(s) importé(s) avec succès' };

@@ -1,0 +1,43 @@
+/* Sticky Actions Column */
+.sticky {
+  position: sticky;
+  right: 0; /* Ensure the column sticks to the right */
+  background: white; /* Set background color to prevent overlapping */
+  z-index: 1; /* Ensure the column stays above other rows when scrolling */
+  border-left: 1px solid #ddd; /* Add a border for separation */
+}
+
+/* Table Styling */
+table {
+  width: 100%; /* Ensure the table takes full width */
+  border-collapse: collapse; /* Remove gaps between cells */
+  border: 1px solid #ddd; /* Add an outer border for the table */
+}
+
+th, td {
+  text-align: left; /* Align text to the left */
+  padding: 12px; /* Add padding for readability */
+  border: 1px solid #ddd; /* Add borders to cells */
+}
+
+/* Table Header Styling */
+th {
+  color: rgb(47, 1, 1); /* White text for header */
+  font-weight: bold; /* Make text bold */
+  text-align: center; /* Center the header text */
+  border-bottom: 2px solid #ddd; /* Slightly thicker bottom border for headers */
+}
+
+/* Add alternating row colors */
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for even rows */
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+/* Table shadow for better aesthetics */
+.mat-elevation-z8 {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow for better aesthetics */
+}

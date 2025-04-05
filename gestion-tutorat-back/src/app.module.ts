@@ -2,15 +2,21 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ImportController } from './modules/import/import.controller';
-import { ImportService } from './modules/import/import.service';
 import { Etudiant } from './modules/etudiant/etudiant.entity';
 import { Tuteur } from './modules/tuteur/tuteur.entity';
-import { ImportModule } from './modules/import/import.module';
-import { ExcelParserService } from './modules/import/excel-parser/excel-parser.service';
+import { EtudiantService } from './services/etudiant/etudiant.service';
+import { EtudiantController } from './services/etudiant/etudiant.controller';
+import { ImportModule } from './services/import/import.module';
+import { ImportController } from './services/import/import.controller';
+import { ImportService } from './services/import/import.service';
+import { ExcelParserService } from './services/import/excel-parser/excel-parser.service';
 import { EtudiantModule } from './modules/etudiant/etudiant.module';
 import { TuteurModule } from './modules/tuteur/tuteur.module';
 
+import { AutoAffectationModule } from './auto-affectation/auto-affectation.module';
+import { MajeuresModule } from './modules/majeures/majeures.module';
+import { Majeures } from './modules/majeures/majeures';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -21,16 +27,18 @@ import { TuteurModule } from './modules/tuteur/tuteur.module';
       username: 'root',
       password: '',
       database: 'gestion_tutorat', 
-      entities: [__dirname + '/**/*.entity{.ts,.js}'], // Recherche automatique des entités
+      //entities: [__dirname + '/**/*.entity{.ts,.js}'], // Recherche automatique des entités
+      entities: [Etudiant, Tuteur, Majeures],
       synchronize: true, // Synchronisation automatique (désactiver en production)
     }),
-    TypeOrmModule.forFeature([Etudiant, Tuteur]),
+    TypeOrmModule.forFeature([Etudiant, Tuteur, Majeures]),
     ImportModule,
     EtudiantModule,
     TuteurModule,
+    AutoAffectationModule,
+    MajeuresModule,
   ],
-  controllers: [AppController, ImportController],
-  providers: [AppService, ImportService, ExcelParserService],
+  controllers: [AppController, ImportController, EtudiantController],
+  providers: [AppService, ImportService, ExcelParserService, EtudiantService],
 })
-export class AppModule {
-}
+export class AppModule {}

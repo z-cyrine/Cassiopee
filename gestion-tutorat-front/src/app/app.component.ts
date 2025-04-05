@@ -8,6 +8,7 @@ import { ImportComponent } from './components/import/import.component';
   styleUrl: './app.component.css',
   standalone: true,
   imports: [RouterModule],
+ 
 })
 export class AppComponent {
   title = 'gestion-tutorat-front';
