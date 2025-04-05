@@ -14,6 +14,8 @@ import { AutoAffectationModule } from './auto-affectation/auto-affectation.modul
 import { MajeuresModule } from './modules/majeures/majeures.module';
 import { Majeures } from './modules/majeures/majeures';
 import { RouterModule } from '@nestjs/core';
+import { TuteurService } from './services/tuteur/tuteur.service';
+import { TuteurController } from './services/tuteur/tuteur.controller';
 
 @Module({
   imports: [
@@ -33,7 +35,7 @@ import { RouterModule } from '@nestjs/core';
     AutoAffectationModule,
     MajeuresModule,
   ],
-  controllers: [AppController, ImportController, EtudiantController],
-  providers: [AppService, ImportService, ExcelParserService, EtudiantService],
+  controllers: [AppController, ImportController, EtudiantController, TuteurController],
+  providers: [AppService, ImportService, ExcelParserService, EtudiantService, TuteurService],
 })
 export class AppModule {}

@@ -1,0 +1,68 @@
+<h2>Liste des Étudiants</h2>
+
+<div style="overflow-x: auto;">
+  <table mat-table [dataSource]="students" class="mat-elevation-z8">
+    
+    <!-- Colonne "Id" -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+    </ng-container>
+
+    <!-- Colonne "Nom" -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <td mat-cell *matCellDef="let element"> {{ element.nom }} </td>
+    </ng-container>
+
+    <!-- Colonne "Prenom" -->
+    <ng-container matColumnDef="prenom">
+      <th mat-header-cell *matHeaderCellDef> Prénom </th>
+      <td mat-cell *matCellDef="let element"> {{ element.prenom }} </td>
+    </ng-container>
+
+    <!-- Colonne "Email Ecole" -->
+    <ng-container matColumnDef="emailEcole">
+      <th mat-header-cell *matHeaderCellDef> Email Ecole </th>
+      <td mat-cell *matCellDef="let element"> {{ element.emailEcole }} </td>
+    </ng-container>
+
+    <!-- Colonne "Ecole" -->
+    <ng-container matColumnDef="ecole">
+      <th mat-header-cell *matHeaderCellDef> École </th>
+      <td mat-cell *matCellDef="let element"> {{ element.ecole }} </td>
+    </ng-container>
+
+    <!-- Colonne "Origine" -->
+    <ng-container matColumnDef="origine">
+      <th mat-header-cell *matHeaderCellDef> Origine </th>
+      <td mat-cell *matCellDef="let element"> {{ element.origine }} </td>
+    </ng-container>
+
+    <!-- Colonne "Stage1A" -->
+    <ng-container matColumnDef="stage1A">
+      <th mat-header-cell *matHeaderCellDef> Stage1 A </th>
+      <td mat-cell *matCellDef="let element"> {{ element.stage1A }} </td>
+    </ng-container>
+
+    <!-- Colonne "Tuteur" -->
+    <ng-container matColumnDef="tuteur">
+      <th mat-header-cell *matHeaderCellDef> Tuteur </th>
+      <td mat-cell *matCellDef="let element"> {{ element.tuteur || 'Non assigné' }} </td>
+    </ng-container>
+
+    <!-- Colonne d'actions -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="sticky"> Actions </th>
+      <td mat-cell *matCellDef="let element" class="sticky">
+        <button type="button" class="btn btn-outline-warning btn-sm" *ngIf="showEdit" (click)="edit(element)">Edit</button>
+        <button type="button" class="btn btn-danger btn-sm" *ngIf="showDelete" (click)="delete(element)">Delete</button>
+      </td>
+    </ng-container>
+
+    <!-- En-tête du tableau -->
+    <tr mat-header-row *matHeaderRowDef="columnsTuteurs"></tr>
+    <!-- Lignes du tableau -->
+    <tr mat-row *matRowDef="let row; columns: columnsTuteurs"></tr>
+  </table>
+</div>
