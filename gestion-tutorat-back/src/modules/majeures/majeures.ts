@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { IsString, IsOptional } from 'class-validator';
+import { Etudiant } from '../etudiant/etudiant.entity';
 
 @Entity()
 export class Majeures {
@@ -39,4 +40,7 @@ export class Majeures {
   @IsOptional()
   @IsString()
   programme: string;
+
+  @OneToMany(() => Etudiant, (etudiant) => etudiant.majeure)
+  etudiants: Etudiant[];
 }

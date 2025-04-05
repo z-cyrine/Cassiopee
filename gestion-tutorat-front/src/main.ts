@@ -1,26 +1,12 @@
-// main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, Routes } from '@angular/router';
-import { AfficheEtudiantsComponent } from './app/components/affiche-etudiants/affiche-etudiants.component';
-import { ImportComponent } from './app/components/import/import.component';
-import { AutoAffectationComponent } from './app/components/auto-affectation/auto-affectation.component';
-
-const routes: Routes = [
-  { path: '', redirectTo: 'etudiants/all', pathMatch: 'full' },
-  { path: 'etudiants/all', component: AfficheEtudiantsComponent },
-  { path: 'import', component: ImportComponent },    
-  { path: 'auto-affectation', component: AutoAffectationComponent },
-  { path: '**', redirectTo: 'etudiants/all' },
-
-];
+import { provideRouter } from '@angular/router';
+import { appRoutes } from './app/app.routes';
+import { AppComponent } from './app/app.component';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
-    provideAnimationsAsync(),
-    provideRouter(routes),
-  ],
+    provideRouter(appRoutes) // Provide the routes
+  ]
 }).catch((err) => console.error(err));
