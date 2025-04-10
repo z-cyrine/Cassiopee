@@ -1,3 +1,4 @@
+// main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
@@ -20,9 +21,12 @@ const routes: Routes = [
 
 bootstrapApplication(AppComponent, {
   providers: [
+    
     provideHttpClient(),
     provideAnimationsAsync(),
     provideRouter(routes),
     provideAnimationsAsync()
+  ,
+    provideRouter(routes) 
   ],
 }).catch((err) => console.error(err));

@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cors from 'cors';
 import { Logger } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +23,8 @@ app.use((req, res, next) => {
   next();
 });
 
+  // Enable class-validator globally
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(3000);
 }

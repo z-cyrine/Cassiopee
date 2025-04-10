@@ -16,6 +16,9 @@ import { Majeures } from './modules/majeures/majeures';
 import { RouterModule } from '@nestjs/core';
 import { TuteurService } from './services/tuteur/tuteur.service';
 import { TuteurController } from './services/tuteur/tuteur.controller';
+import { EtudiantModule } from './modules/etudiant/etudiant.module';
+import { TuteurModule } from './modules/tuteur/tuteur.module';
+
 
 @Module({
   imports: [
@@ -34,6 +37,8 @@ import { TuteurController } from './services/tuteur/tuteur.controller';
     ImportModule,
     AutoAffectationModule,
     MajeuresModule,
+    EtudiantModule,
+    TuteurModule,
   ],
   controllers: [AppController, ImportController, EtudiantController, TuteurController],
   providers: [AppService, ImportService, ExcelParserService, EtudiantService, TuteurService],

@@ -1,9 +1,27 @@
-<nav>
-    <a routerLink="/etudiants/all">Liste Étudiants</a> |
-    <a routerLink="/import">Importer Fichiers</a> |
-    <a routerLink="/auto-affectation">Auto-Affectation</a> | 
-    <a routerLink="/affectation-manuelle">Affectation-Manuelle</a>
-  </nav>
-  
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Accueil</a>
+    <ul class="nav">
+      <li class="nav-item">
+        <a routerLink="/etudiant-create" class="nav-link">Ajouter Étudiant</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/tuteur-create" class="nav-link">Ajouter Tuteur</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/etudiants/all" class="nav-link">Liste Étudiants</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/import" class="nav-link">Importer Fichiers</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/auto-affectation" class="nav-link">Auto-Affectation</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/affectation-manuelle" class="nav-link">Affectation-Manuelle</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <router-outlet></router-outlet>
-  
