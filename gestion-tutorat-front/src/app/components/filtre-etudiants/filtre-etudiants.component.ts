@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {signal} from '@angular/core';
@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './filtre-etudiants.component.css'
 })
 export class FiltreEtudiantsComponent {
+  @Input() students: any = [];
+  
   showAffectation: any = false;
   affectations = ['Tous','Affecté', 'Non affecté'];
   selectedAffectation: any = 'Tous';
