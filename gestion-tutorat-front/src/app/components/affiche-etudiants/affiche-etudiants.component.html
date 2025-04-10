@@ -1,7 +1,7 @@
 <h2>Liste des étudiants</h2>
 
 
-<div>
+<div style="margin: 1%; margin-right: 2%">
   <table mat-table [dataSource]="students" class="mat-elevation-z8">
 
     <ng-container matColumnDef="id">
@@ -99,7 +99,7 @@
       <td mat-cell *matCellDef="let element"> {{ element.tuteur }} </td>
     </ng-container>
 
-    <ng-container matColumnDef="actions" style="position: sticky">
+    <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let element">
         <button type="button" class="btn btn-outline-warning btn-sm" *ngIf="showEdit" (click)="edit(element)">Edit</button>

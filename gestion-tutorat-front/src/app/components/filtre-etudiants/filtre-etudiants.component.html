@@ -1,0 +1,61 @@
+<mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>
+      <mat-panel-description>
+        Filtrer les étudiants
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <form (ngSubmit)="applyFilters()">
+      <div class="filter-section">
+  
+      <!-- filtre par affectation -->
+      <div class="filter">
+          <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckAffectation" [(ngModel)]="showAffectation" name="showAffectation">
+              <label class="form-check-label" for="flexSwitchCheckAffectation">Selon l'affectation</label>
+          </div>
+  
+          <div *ngIf="showAffectation">
+              <label for="affectation">Choisir l'affectation :</label>
+              <select id="affectation" class="form-select" [(ngModel)]="selectedAffectation" name="affectation">
+              <option *ngFor="let affectation of affectations" [value]="affectation">
+                  {{ affectation }}
+              </option>
+              </select>
+          </div>
+      </div>
+      
+      <!-- filtre par nom -->
+      <div class="filter">
+          <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckNom" [(ngModel)]="showNom" name="showNom">
+              <label class="form-check-label" for="flexSwitchCheckNom">Selon le nom</label>
+          </div>
+          <div *ngIf="showNom">
+              <label for="nom">Saisir le nom de l'étudiant :</label>
+              <input id="nom" class="form-control" [(ngModel)]="nameFilter" name="nameFilter" type="text">
+          </div>
+      </div>
+  
+      <!-- filtre par département d'attachement -->
+      <div class="filter">
+          <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckDep" [(ngModel)]="showdep" name="showDepartement">
+              <label class="form-check-label" for="flexSwitchCheckDep">Selon le code de la classe</label>
+          </div>
+          <div *ngIf="showdep">
+              <label for="dep">Choisir le code de la classe :</label>
+              <select id="dep" class="form-select" [(ngModel)]="selecteddep" name="départementfilter">
+              <option *ngFor="let dep of deps" [value]="dep">
+                  {{ dep }}
+              </option>
+              </select>
+          </div>
+      </div>
+  
+        <div class="filter-actions">
+          <button type="submit" mat-button>Appliquer les filtres</button>
+        </div>
+      </div>
+    </form>
+  </mat-expansion-panel>
+  

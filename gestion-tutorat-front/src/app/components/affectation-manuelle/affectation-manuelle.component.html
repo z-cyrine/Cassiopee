@@ -1,68 +1,122 @@
-<h2>Liste des Étudiants</h2>
+  <app-filtre-etudiants></app-filtre-etudiants>
+  <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>
+      <mat-panel-description>
+        Filtrer les tuteurs
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <form (ngSubmit)="applyFilters()">
+      <div class="filter-section">
+        <div class="filter-group">
+          <label>Étudiants</label>
+          <mat-button-toggle-group name="students" [(ngModel)]="filters.students">
+            <mat-button-toggle value="tous">Tous</mat-button-toggle>
+            <mat-button-toggle value="affectes">Affectés</mat-button-toggle>
+            <mat-button-toggle value="non_affectes">Non Affectés</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+  
+        <div class="filter-group">
+          <label>Enseignants</label>
+          <mat-button-toggle-group name="teachers" [(ngModel)]="filters.teachers">
+            <mat-button-toggle value="majeur">Par Majeur</mat-button-toggle>
+            <mat-button-toggle value="langue">Par Langue</mat-button-toggle>
+            <mat-button-toggle value="departement">Par Département</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+  
+        <div class="filter-actions">
+          <button type="submit" mat-button>Appliquer les filtres</button>
+        </div>
+      </div>
+    </form>
+  </mat-expansion-panel>
+<div class="split-screen">
+  <!-- Students Section -->
+  <div class="left-column">
+    <div class="cards-container">
+      <h2>Liste des Étudiants</h2>
+      <div *ngFor="let student of students" class="student-card">
+        <mat-card class="student-card-content mat-card-student">
+          <mat-card-header>
+            <mat-card-title>    
+              {{ student.prenom }} {{ student.nom }} 
+              <span [ngClass]="{
+                'badge': true, 
+                'badge-success': student.affecte, 
+                'badge-danger': !student.affecte
+              }">
+                {{ student.affecte ? 'Affecté' : 'Non Affecté' }}
+              </span>
+            </mat-card-title> 
+          </mat-card-header>
+          <mat-card-content>
+            <div class="student-details">
+              <span><strong>Email:</strong> {{ student.emailEcole }}, </span>
+              <span><strong>Origine:</strong> {{ student.origine }}, </span>
+              <span><strong>École:</strong> {{ student.ecole }}, </span>
+              <span><strong>Code Classe:</strong> {{ student.codeClasse }}, </span>
+              <span><strong>Nom Groupe:</strong> {{ student.nomGroupe }}, </span>
+              <span><strong>Langue Majeure:</strong> {{ student.langueMajeure }}, </span>
+              <span><strong>Ini/Alt:</strong> {{ student.iniAlt }}, </span>
+              <span><strong>Entreprise:</strong> {{ student.entreprise }}, </span>
+              <span><strong>Fonction Apprenti:</strong> {{ student.fonctionApprenti }}, </span>
+              <span><strong>Langue:</strong> {{ student.langue }}, </span>
+              <span><strong>Commentaire Affectation:</strong> {{ student.commentaireAffectation }}, </span>
+              <span><strong>Département Rattachement:</strong> {{ student.departementRattachement }}, </span>
+              <span><strong>Affecté:</strong> {{ student.affecte ? 'Oui' : 'Non' }}, </span>
+              <span><strong>Tuteur:</strong> {{ student.tuteur || 'Non assigné' }}, </span>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button type="button" class="btn btn-outline-dark btn-sm" (click)="edit(student)">Edit</button>
+            <br><br>
+            <button type="button" class="btn btn-danger btn-sm" (click)="delete(student)">Delete</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 
-<div style="overflow-x: auto;">
-  <table mat-table [dataSource]="students" class="mat-elevation-z8">
-    
-    <!-- Colonne "Id" -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> Id </th>
-      <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
-    </ng-container>
-
-    <!-- Colonne "Nom" -->
-    <ng-container matColumnDef="nom">
-      <th mat-header-cell *matHeaderCellDef> Nom </th>
-      <td mat-cell *matCellDef="let element"> {{ element.nom }} </td>
-    </ng-container>
-
-    <!-- Colonne "Prenom" -->
-    <ng-container matColumnDef="prenom">
-      <th mat-header-cell *matHeaderCellDef> Prénom </th>
-      <td mat-cell *matCellDef="let element"> {{ element.prenom }} </td>
-    </ng-container>
-
-    <!-- Colonne "Email Ecole" -->
-    <ng-container matColumnDef="emailEcole">
-      <th mat-header-cell *matHeaderCellDef> Email Ecole </th>
-      <td mat-cell *matCellDef="let element"> {{ element.emailEcole }} </td>
-    </ng-container>
-
-    <!-- Colonne "Ecole" -->
-    <ng-container matColumnDef="ecole">
-      <th mat-header-cell *matHeaderCellDef> École </th>
-      <td mat-cell *matCellDef="let element"> {{ element.ecole }} </td>
-    </ng-container>
-
-    <!-- Colonne "Origine" -->
-    <ng-container matColumnDef="origine">
-      <th mat-header-cell *matHeaderCellDef> Origine </th>
-      <td mat-cell *matCellDef="let element"> {{ element.origine }} </td>
-    </ng-container>
-
-    <!-- Colonne "Stage1A" -->
-    <ng-container matColumnDef="stage1A">
-      <th mat-header-cell *matHeaderCellDef> Stage1 A </th>
-      <td mat-cell *matCellDef="let element"> {{ element.stage1A }} </td>
-    </ng-container>
-
-    <!-- Colonne "Tuteur" -->
-    <ng-container matColumnDef="tuteur">
-      <th mat-header-cell *matHeaderCellDef> Tuteur </th>
-      <td mat-cell *matCellDef="let element"> {{ element.tuteur || 'Non assigné' }} </td>
-    </ng-container>
-
-    <!-- Colonne d'actions -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef class="sticky"> Actions </th>
-      <td mat-cell *matCellDef="let element" class="sticky">
-        <button type="button" class="btn btn-outline-warning btn-sm" *ngIf="showEdit" (click)="edit(element)">Edit</button>
-        <button type="button" class="btn btn-danger btn-sm" *ngIf="showDelete" (click)="delete(element)">Delete</button>
-      </td>
-    </ng-container>
-
-    <!-- En-tête du tableau -->
-    <tr mat-header-row *matHeaderRowDef="columnsTuteurs"></tr>
-    <!-- Lignes du tableau -->
-    <tr mat-row *matRowDef="let row; columns: columnsTuteurs"></tr>
-  </table>
+  <!-- Tutors Section -->
+  <div class="right-column">
+    <div class="cards-container">
+      <h2>Liste des Tuteurs</h2>
+      <mat-card *ngFor="let tutor of tuteurs" class="tutor-card">
+        <mat-card-header>
+          <mat-card-title>
+            <div> 
+              {{ tutor.prenom }} {{ tutor.nom }}
+              <span [ngClass]="tutor.estEligiblePourTutorat ? 'badge badge-success' : 'badge badge-danger'">
+                {{ tutor.estEligiblePourTutorat ? 'Eligible pour tutorat' : 'Non Eligible pour tutorat' }}
+              </span>
+              <span [ngClass]="tutor.soldeTutoratRestant > 0 ? 'badge badge-success' : 'badge badge-danger'">
+                {{ tutor.soldeTutoratRestant > 0 ? 'Peut tutorer d\'autres étudiants' : 'Ne peut plus tutorer des étudiants' }}
+              </span>
+                          
+            </div>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <span><strong>Email:</strong> {{ tutor.email }}, </span>
+            <span><strong>Département:</strong> {{ tutor.departement }}, </span>
+            <span><strong>Langue de Tutorat:</strong> {{ tutor.langueTutorat || 'Non assigné' }}, </span>
+            <span><strong>Profil:</strong> {{ tutor.profil }}, </span>
+            <span><strong>Statut:</strong> {{ tutor.statut }}, </span>
+            <span><strong>Solde Alt:</strong> {{ tutor.soldeAlt }}, </span>
+            <span><strong>Solde Ini:</strong> {{ tutor.soldeIni }}, </span>
+            <span><strong>Solde Tutorat Restant:</strong> {{ tutor.soldeTutoratRestant }}, </span>
+            <span><strong>Total Étudiants Par:</strong> {{ tutor.totalEtudiantsPar }}, </span>
+            <span><strong>Nombre de Tutorats Affectés:</strong> {{ tutor.nbTutoratAffecte }}</span>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button type="button" class="btn btn-outline-dark btn-sm" (click)="edit(tutor)">Edit</button>
+          <br><br>
+          <button type="button" class="btn btn-danger btn-sm" (click)="delete(tutor)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>

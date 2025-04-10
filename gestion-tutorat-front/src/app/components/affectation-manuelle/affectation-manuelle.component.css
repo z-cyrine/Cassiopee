@@ -1,0 +1,131 @@
+
+.split-screen {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Adds space between the two columns */
+  padding: 20px;
+}
+
+/* Left column for students */
+.left-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #e7e6e6;
+  border-radius: 12px;
+}
+
+.right-column {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+    padding: 16px;
+  }
+
+  .student-card {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  /* Card Styling */
+.mat-card-tutor {
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.mat-card-student {
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+mat-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+}
+
+mat-card-title span {
+  margin-left: 10px;
+}
+
+/* Button container */
+mat-card-actions {
+  display: flex;
+  justify-content: center; /* Centers the buttons */
+  gap: 10px; /* Adds space between buttons */
+  margin-top: 10px; /* Adds space between the content and the buttons */
+}
+
+/* Badge Styles */
+.badge {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: normal;
+  color: white;
+}
+
+.badge-success {
+  background-color: #28a745; /* Green background */
+}
+
+.badge-danger {
+  background-color: #dc3545; /* Red background */
+}
+
+/* Make the card details appear in a single row */
+mat-card-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Adds space between the card details */
+}
+
+mat-card-content div {
+  flex: 1 1 45%; /* Ensures that the details take up space in two columns (responsive) */
+}
+
+/* Styling for the individual card details */
+mat-card-content div label {
+  font-weight: bold;
+}
+
+mat-card-content div span {
+  color: #3a3a3a;
+  font-size: 14px;
+}
+
+h2 {
+  text-align: center; /* Centers the title */
+  font-size: 2rem; /* Makes the title bigger */
+  color: #333; /* Dark color for the text */
+  margin-bottom: 20px; /* Adds some space below the title */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* FILTRES ICI */
+mat-expansion-panel {
+  max-width: 500px; /* Adjust the width as per your preference */
+  margin: 0 auto; 
+  margin-top: 1%;
+  background-color: white;
+}
+mat-panel-description {
+  font-size: 16px;
+}
