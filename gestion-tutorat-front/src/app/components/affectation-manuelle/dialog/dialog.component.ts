@@ -1,6 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Observable, of } from 'rxjs';
@@ -11,18 +12,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AsyncPipe} from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { Output, EventEmitter } from '@angular/core';
+import { Tuteur } from '../../../services/tuteur.service';
 
 export interface DialogData {
   name: string;
   tuteurs: Array<any>;
   prenom: string;
-}
-
-export interface Tuteur {
-  id: number;
-  nom: string;
-  prenom: string;
-  soldeTutoratRestant: number;
+  etudiantId: number;
 }
 
 @Component({
@@ -41,7 +38,10 @@ export interface Tuteur {
   ],
 })
 export class DialogComponent implements OnInit {
-  constructor(private tuteurService: TuteurService) {}
+  constructor(private tuteurService: TuteurService, private snackBar: MatSnackBar) {}
+
+  @Output() etudiantAffecte = new EventEmitter<{ etudiantId: number; tuteur: Tuteur }>();
+
   myControl = new FormControl('');
   filteredTuteurs$: Observable<any[]> = of([]);
 
@@ -207,5 +207,46 @@ export class DialogComponent implements OnInit {
       map(name => name ? this._filter(name) : this.tuteurs.slice())
     );
   }
+
+  affecter() {
+    const tuteur = this.tuteurs.find(t =>
+      t.nom === this.nomSelectionné &&
+      t.prenom === this.prenomSelectionné
+    );
+
+    if (!tuteur) {
+      this.snackBar.open('Aucun tuteur correspondant trouvé.', 'Fermer', {
+        duration: 2000,
+        panelClass: ['snack-error']
+      });
+      return;
+    }
+
+    console.log('Étudiant ID:', this.data.etudiantId);
+
+    this.tuteurService.affecterEtudiant(this.data.etudiantId, tuteur.id).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.snackBar.open(res.message, 'Fermer', {
+            duration: 3000,
+            panelClass: ['snack-success']
+          });
+          this.etudiantAffecte.emit({ etudiantId: res.etudiant.id, tuteur: res.tuteur });
+          this.dialogRef.close(res.etudiant); // ou res.tuteur selon ton besoin
+        } else {
+          this.snackBar.open(res.message, 'Fermer', {
+            duration: 3000,
+            panelClass: ['snack-error']
+          });
+        }
+      },
+      error: () => {
+        this.snackBar.open('Erreur technique, veuillez réessayer.', 'Fermer', {
+          duration: 3000,
+          panelClass: ['snack-error']
+        });
+      }
+    });
+    }
   
 }

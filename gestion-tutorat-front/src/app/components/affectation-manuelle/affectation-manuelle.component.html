@@ -19,7 +19,9 @@
               
             </mat-card-title>
             <div style="float: right;">
-              <app-affecter *ngIf=!student.affecte [etudiant]=student></app-affecter>
+              <app-affecter *ngIf=!student.affecte 
+              [etudiant]=student 
+              (etudiantAffecte)="onEtudiantAffecte($event)"></app-affecter>
             </div>
           </mat-card-header>
           <mat-card-content>
@@ -37,7 +39,8 @@
               <span><strong>Commentaire Affectation:</strong> {{ student.commentaireAffectation }}, </span>
               <span><strong>Département Rattachement:</strong> {{ student.departementRattachement }}, </span>
               <span><strong>Affecté:</strong> {{ student.affecte ? 'Oui' : 'Non' }}, </span>
-              <span><strong>Tuteur:</strong> {{ student.tuteur || 'Non assigné' }}, </span>
+              <span><strong>Tuteur:</strong> {{ student.tuteur?.prenom }} {{ student.tuteur?.nom || 'Non assigné' }}, </span>
+
             </div>
           </mat-card-content>
           <mat-card-actions>

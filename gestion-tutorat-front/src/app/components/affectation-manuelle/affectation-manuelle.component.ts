@@ -12,6 +12,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FiltreEtudiantsComponent } from "../filtre-etudiants/filtre-etudiants.component";
 import { filter } from 'rxjs';
 import { AffecterComponent } from "./affecter/affecter.component";
+import { Tuteur } from '../../services/tuteur.service';
 
 @Component({
   selector: 'app-affectation-manuelle',
@@ -87,5 +88,28 @@ export class AffectationManuelleComponent {
   //   //     });
   //   //     console.log(this.filteredStudents);
   //     }
+
+
+  // Résultat affectation
+  onEtudiantAffecte(event: { etudiantId: number; tuteur: Tuteur }) {
+    const { etudiantId, tuteur } = event;
+  
+    // 1. Met à jour l'étudiant concerné
+    const etuIndex = this.students.findIndex(e => e.id === etudiantId);
+    if (etuIndex !== -1) {
+      this.students[etuIndex].affecte = true;
+      this.students[etuIndex].tuteur = `${tuteur.prenom} ${tuteur.nom}`;
+    }
+  
+    // 2. Met à jour le solde du tuteur concerné
+    const tutIndex = this.tuteurs.findIndex(t => t.id === tuteur.id);
+    if (tutIndex !== -1) {
+      this.tuteurs[tutIndex] = tuteur; // ou juste tuteurs[tutIndex].soldeTutoratRestant = tuteur.soldeTutoratRestant;
+    }
+  
+    // 3. Optionnel : Met à jour les étudiants filtrés
+    this.filteredStudents = [...this.students];
+  }
+  
       
 }

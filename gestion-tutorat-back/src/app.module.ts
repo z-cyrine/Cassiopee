@@ -18,7 +18,8 @@ import { TuteurService } from './services/tuteur/tuteur.service';
 import { TuteurController } from './services/tuteur/tuteur.controller';
 import { EtudiantModule } from './modules/etudiant/etudiant.module';
 import { TuteurModule } from './modules/tuteur/tuteur.module';
-
+import { AffectationManuelleController } from './affectation-manuelle/affectation-manuelle.controller';
+import { AffectationManuelleService } from './affectation-manuelle/affectation-manuelle.service';
 
 @Module({
   imports: [
@@ -40,7 +41,7 @@ import { TuteurModule } from './modules/tuteur/tuteur.module';
     EtudiantModule,
     TuteurModule,
   ],
-  controllers: [AppController, ImportController, EtudiantController, TuteurController],
-  providers: [AppService, ImportService, ExcelParserService, EtudiantService, TuteurService],
+  controllers: [AppController, ImportController, EtudiantController, TuteurController,AffectationManuelleController],
+  providers: [AppService, ImportService, ExcelParserService, EtudiantService, TuteurService,AffectationManuelleService],
 })
 export class AppModule {}

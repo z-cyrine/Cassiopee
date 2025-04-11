@@ -42,6 +42,6 @@
 
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Annuler</button>
-  <button mat-button [mat-dialog-close]="tuteur" cdkFocusInitial>Affecter</button>
+  <button mat-button (click)="affecter()">Affecter</button>
   <button mat-button (click)="resetChamps()">Réinitialiser</button>
 </mat-dialog-actions>
