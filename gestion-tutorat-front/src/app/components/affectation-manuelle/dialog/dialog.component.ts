@@ -22,6 +22,7 @@ export interface Tuteur {
   id: number;
   nom: string;
   prenom: string;
+  soldeTutoratRestant: number;
 }
 
 @Component({
@@ -64,7 +65,7 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
     this.tuteurService.getTuteurs().subscribe({
       next: (response) => {
-        this.tuteurs = response;
+        this.tuteurs = response.filter((t: Tuteur) => t.soldeTutoratRestant > 0);
         console.log('Tuteurs:', this.tuteurs);
   
         // ✅ Prénoms disponibles AVANT sélection
@@ -73,15 +74,32 @@ export class DialogComponent implements OnInit {
         this.filteredPrenoms$ = this.prenomControl.valueChanges.pipe(
           startWith(''),
           map(value => value?.toLowerCase() || ''),
-          map(val => allPrenoms.filter(p => p.toLowerCase().includes(val)))
+          map(val => {
+            const prenoms = this.tuteurs
+              .filter(t => t.soldeTutoratRestant > 0)
+              .map(t => t.prenom)
+              .filter(p => p.toLowerCase().includes(val));
+        
+            return prenoms.length > 0 ? prenoms : ['Aucun tuteur disponible'];
+          })
         );
+        
   
         // ✅ Noms autocomplete
         this.filteredTuteurs$ = this.myControl.valueChanges.pipe(
           startWith(''),
           map((value: string | Tuteur | null): string => typeof value === 'string' ? value : value?.nom ?? ''),
-          map((name: string) => name ? this._filter(name) : this.tuteurs.slice())
+          map((name: string) => {
+            const filtered = name
+              ? this.tuteurs
+                  .filter(t => t.soldeTutoratRestant > 0)
+                  .filter(t => t.nom.toLowerCase().includes(name.toLowerCase()))
+              : this.tuteurs.filter(t => t.soldeTutoratRestant > 0);
+        
+            return filtered.length > 0 ? filtered : [{ nom: 'Aucun tuteur disponible', prenom: '', id: -1 }];
+          })
         );
+        
       },
       error: (err) => {
         console.error('Error fetching students:', err);

@@ -14,9 +14,10 @@
               [formControl]="myControl"
               [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTuteurSelected($event)"   [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredTuteurs$ | async" [value]="option">
-            {{option.nom}}
+          <mat-option *ngFor="let option of filteredTuteurs$ | async" [value]="option" [disabled]="option.id === -1">
+            {{ option.nom }}
           </mat-option>
+          
         </mat-autocomplete>
       </mat-form-field>
       <p>Saisir le prénom du tuteur</p>
@@ -29,9 +30,10 @@
               [formControl]="prenomControl"
               [matAutocomplete]="prenomAuto">
         <mat-autocomplete #prenomAuto="matAutocomplete" (optionSelected)="onPrenomSelected($event)"  [displayWith]="displayPrenom">
-          <mat-option *ngFor="let p of filteredPrenoms$ | async" [value]="p">
-            {{p}}
+          <mat-option *ngFor="let p of filteredPrenoms$ | async" [value]="p" [disabled]="p === 'Aucun tuteur disponible'">
+            {{ p }}
           </mat-option>
+          
         </mat-autocomplete>
       </mat-form-field>
     </form>
