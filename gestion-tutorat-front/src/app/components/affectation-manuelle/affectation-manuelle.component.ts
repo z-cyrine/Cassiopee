@@ -37,6 +37,7 @@ export class AffectationManuelleComponent {
     this.etudiantService.getStudents().subscribe({
       next: (response) => {
         this.students = response;
+        this.filteredStudents = response;
         if (response.length > 0) {
           this.columnsStudents = Object.keys(response[0])
           .filter((key) => key !== 'logs')

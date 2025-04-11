@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, inject, Input, model, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -9,13 +9,17 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrl: './affecter.component.css'
 })
 export class AffecterComponent {
+  @Input() etudiant : { nom: string , prenom: string} = { nom: '' , prenom: ''};
   readonly animal = signal('');
   readonly name = model('');
   readonly dialog = inject(MatDialog);
 
   affecter() : void {
+    (document.activeElement as HTMLElement)?.blur();
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: {name: this.name(), animal: this.animal()},
+      data: {name: this.etudiant.nom, prenom:this.etudiant.prenom
+      },
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(result => {

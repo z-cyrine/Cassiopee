@@ -4,7 +4,7 @@
     <div class="cards-container">
       <h2>Liste des Étudiants</h2>
       <app-filtre-etudiants [students]="students"></app-filtre-etudiants>
-      <div *ngFor="let student of students" class="student-card">
+      <div *ngFor="let student of filteredStudents" class="student-card">
         <mat-card class="student-card-content mat-card-student">
           <mat-card-header style="display: flex; justify-content: space-between; align-items: center;">
             <mat-card-title>    
@@ -19,7 +19,7 @@
               
             </mat-card-title>
             <div style="float: right;">
-              <app-affecter *ngIf=!student.affecte></app-affecter>
+              <app-affecter *ngIf=!student.affecte [etudiant]=student></app-affecter>
             </div>
           </mat-card-header>
           <mat-card-content>
