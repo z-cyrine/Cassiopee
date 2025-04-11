@@ -1,44 +1,12 @@
-  <app-filtre-etudiants [students]="students"></app-filtre-etudiants>
-  <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
-    <mat-expansion-panel-header>
-      <mat-panel-description>
-        Filtrer les tuteurs
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <form (ngSubmit)="applyFilters()">
-      <div class="filter-section">
-        <div class="filter-group">
-          <label>Étudiants</label>
-          <mat-button-toggle-group name="students" [(ngModel)]="filters.students">
-            <mat-button-toggle value="tous">Tous</mat-button-toggle>
-            <mat-button-toggle value="affectes">Affectés</mat-button-toggle>
-            <mat-button-toggle value="non_affectes">Non Affectés</mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-  
-        <div class="filter-group">
-          <label>Enseignants</label>
-          <mat-button-toggle-group name="teachers" [(ngModel)]="filters.teachers">
-            <mat-button-toggle value="majeur">Par Majeur</mat-button-toggle>
-            <mat-button-toggle value="langue">Par Langue</mat-button-toggle>
-            <mat-button-toggle value="departement">Par Département</mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-  
-        <div class="filter-actions">
-          <button type="submit" mat-button>Appliquer les filtres</button>
-        </div>
-      </div>
-    </form>
-  </mat-expansion-panel>
 <div class="split-screen">
   <!-- Students Section -->
   <div class="left-column">
     <div class="cards-container">
       <h2>Liste des Étudiants</h2>
+      <app-filtre-etudiants [students]="students"></app-filtre-etudiants>
       <div *ngFor="let student of students" class="student-card">
         <mat-card class="student-card-content mat-card-student">
-          <mat-card-header>
+          <mat-card-header style="display: flex; justify-content: space-between; align-items: center;">
             <mat-card-title>    
               {{ student.prenom }} {{ student.nom }} 
               <span [ngClass]="{
@@ -48,7 +16,11 @@
               }">
                 {{ student.affecte ? 'Affecté' : 'Non Affecté' }}
               </span>
-            </mat-card-title> 
+              
+            </mat-card-title>
+            <div style="float: right;">
+              <app-affecter *ngIf=!student.affecte></app-affecter>
+            </div>
           </mat-card-header>
           <mat-card-content>
             <div class="student-details">
@@ -82,14 +54,11 @@
   <div class="right-column">
     <div class="cards-container">
       <h2>Liste des Tuteurs</h2>
-      <mat-card *ngFor="let tutor of tuteurs" class="tutor-card">
+      <mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #f8f8f8;">
         <mat-card-header>
           <mat-card-title>
             <div> 
               {{ tutor.prenom }} {{ tutor.nom }}
-              <span [ngClass]="tutor.estEligiblePourTutorat ? 'badge badge-success' : 'badge badge-danger'">
-                {{ tutor.estEligiblePourTutorat ? 'Eligible pour tutorat' : 'Non Eligible pour tutorat' }}
-              </span>
               <span [ngClass]="tutor.soldeTutoratRestant > 0 ? 'badge badge-success' : 'badge badge-danger'">
                 {{ tutor.soldeTutoratRestant > 0 ? 'Peut tutorer d\'autres étudiants' : 'Ne peut plus tutorer des étudiants' }}
               </span>

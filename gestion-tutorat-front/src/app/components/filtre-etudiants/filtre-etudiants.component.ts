@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {signal} from '@angular/core';
@@ -12,8 +12,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './filtre-etudiants.component.css'
 })
 export class FiltreEtudiantsComponent {
+
   @Input() students: any = [];
-  
+  // @Output() filtersApplied = new EventEmitter<any>();
+
   showAffectation: any = false;
   affectations = ['Tous','Affecté', 'Non affecté'];
   selectedAffectation: any = 'Tous';
@@ -23,7 +25,7 @@ export class FiltreEtudiantsComponent {
 
   showdep: any = false;
   selecteddep: any = 'Tous';  
-  deps = [
+  deps = ["Tous",
     "CL_FE-Bachelor3",
     "CL_FE-Bachelor3_PLG",
     "Gp-EM-bach3 APP",
@@ -52,14 +54,32 @@ export class FiltreEtudiantsComponent {
   filterVisible=false;
   readonly panelOpenState = signal(false);
 
-  filters = {  // Initialisation de la propriété filters
-    students: 'tous', // Choix par défaut pour les étudiants
-    teachers: '' // Choix vide par défaut pour les enseignants
+  filters = {
+    affectation: this.selectedAffectation,
+    name: this.nameFilter,
+    dep: this.selecteddep,
+    showAffectation: this.showAffectation,
+    showdep: this.showdep,
+    showNom: this.showNom
   };
 
-
   applyFilters() {
-      throw new Error('Method not implemented.');
-      }
+    this.filters = {
+      affectation: this.selectedAffectation,
+      name: this.nameFilter,
+      dep: this.selecteddep,
+      showAffectation: this.showAffectation,
+      showdep: this.showdep,
+      showNom: this.showNom
+    };
+    // this.filtersApplied.emit(this.filters);  
+    }
+  
+  reinitialiser() {
+    this.selectedAffectation= 'Tous';
+    this.nameFilter = '';
+    this.selecteddep = 'Tous';
+    // this.filtersApplied.emit({ affectation: 'Tous', name: '', dep: 'Tous' });
+    }
 
 }

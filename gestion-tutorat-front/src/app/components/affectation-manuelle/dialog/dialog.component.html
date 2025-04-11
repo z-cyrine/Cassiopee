@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Hi {{data.name}}</h2>
+<mat-dialog-content>
+  <p>Saisir le nom du tuteur</p>
+  <mat-form-field>
+    <mat-label>Nom du tuteur</mat-label>
+    <input matInput [(ngModel)]="tuteur" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="tuteur" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

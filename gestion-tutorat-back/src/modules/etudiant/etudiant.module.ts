@@ -2,7 +2,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Etudiant } from './etudiant.entity';
-<<<<<<< HEAD
 import { EtudiantService } from 'src/services/etudiant/etudiant.service';
 import { EtudiantController } from 'src/services/etudiant/etudiant.controller';
 
@@ -12,9 +11,8 @@ import { EtudiantController } from 'src/services/etudiant/etudiant.controller';
     providers: [EtudiantService],
     controllers: [EtudiantController],
   })
-=======
-import { EtudiantService } from './etudiant.service';
-import { EtudiantController } from './etudiant.controller';
+// import { EtudiantService } from './etudiant.service';
+// import { EtudiantController } from './etudiant.controller';
 
 
 @Module({
@@ -23,5 +21,4 @@ import { EtudiantController } from './etudiant.controller';
   controllers: [EtudiantController],
   exports: [EtudiantService],
 })
->>>>>>> sarra
 export class EtudiantModule {}

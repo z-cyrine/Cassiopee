@@ -10,29 +10,26 @@ import {ChangeDetectionStrategy,signal} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FiltreEtudiantsComponent } from "../filtre-etudiants/filtre-etudiants.component";
+import { filter } from 'rxjs';
+import { AffecterComponent } from "./affecter/affecter.component";
 
 @Component({
   selector: 'app-affectation-manuelle',
-  imports: [MatTableModule, CommonModule, MatCardModule, FormsModule, MatExpansionModule, MatButtonToggleModule, FiltreEtudiantsComponent],
+  imports: [MatTableModule, CommonModule, MatCardModule, FormsModule, MatExpansionModule, MatButtonToggleModule, FiltreEtudiantsComponent, AffecterComponent],
   templateUrl: './affectation-manuelle.component.html',
   styleUrl: './affectation-manuelle.component.css'
 })
 export class AffectationManuelleComponent {
 
-  tutorFilterStatus: any;
-  tutorFilterLangue: any;
-
   students: any[] = [];
   tuteurs: any[] = [];
+  filteredStudents = [...this.students];
 
   showEdit = true;
   showDelete = true;
 
   columnsStudents: any[] = [];
   columnsTuteurs: string[] = ['id', 'nom', 'prenom', 'email', 'departement', 'langueTutorat', 'profil', 'statut', 'actions'];
-  
-  studentFilterLangue: any;
-  studentFilterStatus: any;
 
   constructor(private etudiantService: EtudiantService, private tuteurService: TuteurService) {}
 
@@ -76,25 +73,18 @@ export class AffectationManuelleComponent {
     throw new Error('Method not implemented.');
     }
   
-    /// FILTRES
-  filterVisible=false;
+  /// FILTRES
   readonly panelOpenState = signal(false);
-
-  filters = {  // Initialisation de la propriété filters
-    students: 'tous', // Choix par défaut pour les étudiants
-    teachers: '' // Choix vide par défaut pour les enseignants
-  };
-
-  toggleFilter() {
-      this.filterVisible = !this.filterVisible;
-      console.log('Filter visible:', this.filterVisible);
-    }
-
-  applyFilter() {
-      throw new Error('Method not implemented.');
-      }
-  
-  applyFilters() {
-      throw new Error('Method not implemented.');
-      }
+      
+  // onFiltersApplied(filters: any) {
+  //   console.log(filters)
+  //   //     this.filteredStudents = this.students.filter(student => {
+  //   //       const matchNom = filters.showNom ? student.nom.toLowerCase().includes(filters.name.toLowerCase()) : true;
+  //   //       const matchAffectation = filters.showAffectation ? student.affecte === (filters.affectation === 'Affecté') : true;
+  //   //       const matchDep = filters.showdep ? student.codeClasse === filters.dep : true;
+  //   //       return matchNom && matchAffectation && matchDep;
+  //   //     });
+  //   //     console.log(this.filteredStudents);
+  //     }
+      
 }

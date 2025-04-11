@@ -4,9 +4,7 @@ mat-expansion-panel {
     margin-top: 1%;
     background-color: white;
   }
-  /* mat-panel-description {
-    font-size: 16px;
-  } */
+
   .filter{
     background-color: rgba(233, 232, 232, 0.142);
     margin-bottom: 15px;

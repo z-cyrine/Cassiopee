@@ -28,11 +28,13 @@
       <div class="filter">
           <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="flexSwitchCheckNom" [(ngModel)]="showNom" name="showNom">
-              <label class="form-check-label" for="flexSwitchCheckNom">Selon le nom</label>
+              <label class="form-check-label" for="flexSwitchCheckNom">Selon le nom et prénom</label>
           </div>
           <div *ngIf="showNom">
               <label for="nom">Saisir le nom de l'étudiant :</label>
               <input id="nom" class="form-control" [(ngModel)]="nameFilter" name="nameFilter" type="text">
+              <label for="prenom">Saisir le prénom de l'étudiant :</label>
+              <input id="prenom" class="form-control" [(ngModel)]="nameFilter" name="prenom" type="text">
           </div>
       </div>
   
@@ -52,9 +54,9 @@
           </div>
       </div>
   
-        <div class="filter-actions">
-          <button type="submit" class="btn btn-outline-dark btn-sm" >Appliquer les filtres</button>
-          
+        <div class="filter-actions" style="display: flex; justify-content: space-between; align-items: center;">
+            <button type="submit" class="btn btn-outline-primary btn-sm" >Appliquer les filtres</button>
+            <button type="button" class="btn btn-outline-dark btn-sm" (click)="reinitialiser()">Réinitialiser</button>
         </div>
       </div>
     </form>
