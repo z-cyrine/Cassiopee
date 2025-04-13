@@ -1,0 +1,52 @@
+<div class="tuteur-container">
+  <div class="card tuteur-card">
+    <div class="card-header tuteur-header">
+      <h2 class="mb-0">Détails du Tuteur</h2>
+    </div>
+    <div class="card-body tuteur-body">
+      <div class="info-row">
+        <span class="label">ID :</span>
+        <span class="value">{{ tuteur?.id }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Nom :</span>
+        <span class="value">{{ tuteur?.nom }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Prénom :</span>
+        <span class="value">{{ tuteur?.prenom }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Email :</span>
+        <span class="value">{{ tuteur?.email }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Département :</span>
+        <span class="value">{{ tuteur?.departement }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Langue(s) de tutorat :</span>
+        <span class="value">
+          <ng-container *ngIf="tuteur?.langueTutorat?.length; else pasDeLangues">
+            {{ tuteur.langueTutorat.join(', ') }}
+          </ng-container>
+          <ng-template #pasDeLangues>Non renseignées</ng-template>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="label">Statut :</span>
+        <span class="value">{{ tuteur?.statut }}</span>
+      </div>
+      <div class="action-buttons mt-4">
+        <!-- Redirect to the tutor edit page -->
+        <a [routerLink]="['/tuteurs/edit', tuteur.id]" class="btn edit-btn">
+          <i class="bi bi-pencil-square"></i> Éditer
+        </a>
+        <button class="btn delete-btn" (click)="onDeleteTuteur()">
+          <i class="bi bi-trash-fill"></i> Supprimer
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</div>

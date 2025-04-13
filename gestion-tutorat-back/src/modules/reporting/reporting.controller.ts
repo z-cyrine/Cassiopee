@@ -5,7 +5,7 @@ import { ReportingService } from './reporting.service';
 export class ReportingController {
   constructor(private readonly reportingService: ReportingService) {}
 
-  @Get('dynamic')
+  @Get('/dynamic')
   async getDynamicReporting(@Query() filters: any) {
     return await this.reportingService.getDynamicReporting(filters);
   }

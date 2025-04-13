@@ -1,14 +1,21 @@
 import { Module } from '@nestjs/common';
-import { ReportingModule } from './modules/reporting/reporting.module';  // Import ReportingModule
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Etudiant } from './modules/etudiant/etudiant.entity';
 import { Tuteur } from './modules/tuteur/tuteur.entity';
-import { Majeures } from './modules/majeures/majeures';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { EtudiantService } from './services/etudiant/etudiant.service';
 import { EtudiantController } from './services/etudiant/etudiant.controller';
 import { ImportModule } from './services/import/import.module';
+import { ImportController } from './services/import/import.controller';
+import { ImportService } from './services/import/import.service';
+import { ExcelParserService } from './services/import/excel-parser/excel-parser.service';
+import { AutoAffectationModule } from './auto-affectation/auto-affectation.module';
+import { MajeuresModule } from './modules/majeures/majeures.module';
+import { Majeures } from './modules/majeures/majeures';
+import { ReportingModule } from './modules/reporting/reporting.module';
+import { TuteurModule } from './modules/tuteur/tuteur.module'; // <-- Import TuteurModule here
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -21,13 +28,15 @@ import { ImportModule } from './services/import/import.module';
       database: 'gestion_tutorat',
       entities: [Etudiant, Tuteur, Majeures],
       synchronize: true,
-        // Ensure this is true during development
-    }),    
+    }),
     TypeOrmModule.forFeature([Etudiant, Tuteur, Majeures]),
     ImportModule,
-    ReportingModule,  // Ensure ReportingModule is imported here
+    AutoAffectationModule,
+    MajeuresModule,
+    ReportingModule,
+    TuteurModule, // <-- Now the tuteur-related routes (e.g. GET /tuteur/:id) will be registered
   ],
-  controllers: [AppController, EtudiantController],
-  providers: [AppService, EtudiantService],
+  controllers: [AppController, ImportController, EtudiantController],
+  providers: [AppService, ImportService, ExcelParserService, EtudiantService],
 })
 export class AppModule {}

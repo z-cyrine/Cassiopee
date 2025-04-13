@@ -1,0 +1,64 @@
+.tuteur-container {
+    margin: 60px auto;
+    display: flex;
+    justify-content: center;
+    padding: 0 15px;
+  }
+  
+  .tuteur-card {
+    width: 100%;
+    max-width: 600px;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .tuteur-header {
+    background: linear-gradient(135deg, #00abc7, #9b59b6);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .tuteur-body {
+    padding: 25px;
+  }
+  
+  .info-row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    border-bottom: 1px solid #e9e9e9;
+  }
+  .info-row:last-child {
+    border-bottom: none;
+  }
+  
+  .label {
+    flex: 0 0 40%;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .value {
+    flex: 1;
+    color: #333;
+  }
+  
+  .action-buttons {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  

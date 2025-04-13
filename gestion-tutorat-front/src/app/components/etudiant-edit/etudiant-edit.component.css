@@ -1,0 +1,33 @@
+/* Common container style for edit pages */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Header style using IMTBS brand colors */
+  h2 {
+    color: #0077b6;  /* Use your desired IMTBS primary color */
+    margin-bottom: 20px;
+  }
+  
+  /* Button style */
+  .btn-primary {
+    background-color: #0096c7; /* Example: a bright blue from your palette */
+    border-color: #0096c7;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0077b6;
+    border-color: #0077b6;
+  }
+  
+  /* Form labels */
+  .form-label {
+    font-weight: 600;
+    color: #333;
+  }
+  

@@ -1,0 +1,112 @@
+/* reporting.component.css */
+
+/* Main container (we use a max-width layout) */
+.reporting-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Card for the reporting filter form and results */
+.reporting-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+/* Header using the IMTBS colors from your logo (adjust the hex codes as needed) */
+.reporting-header {
+  background: linear-gradient(135deg, #00abc7, #9b59b6);
+  color: #ffffff;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Body of the card */
+.reporting-body {
+  padding: 25px;
+}
+
+/* Headings */
+h2, h3, h5 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Styling for form labels */
+.form-label {
+  font-weight: 600;
+  color: #444;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Style inputs and selects */
+.form-control,
+.form-select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+/* Checkboxes */
+.form-check {
+  margin-bottom: 10px;
+}
+
+/* Submit button using IMTBS accent colors */
+.btn-primary {
+  background-color: #9b59b6;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #8e44ad;
+}
+
+/* Table styles for the filtered results */
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.results-table thead {
+  background: linear-gradient(135deg, #00abc7, #9b59b6);
+  color: #fff;
+}
+.results-table th,
+.results-table td {
+  border: 1px solid #e9e9e9;
+  padding: 12px 15px;
+  text-align: left;
+}
+.results-table tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Link styling */
+a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Utility spacing classes */
+.ms-4 { margin-left: 1.5rem; }
+.mt-4 { margin-top: 1.5rem; }
