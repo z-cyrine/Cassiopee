@@ -1,6 +1,5 @@
 mat-card{
   border-radius: 5px; /* Rounded corners for the card */
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 .split-screen {
   display: flex;
@@ -70,35 +69,26 @@ mat-card-title span {
 mat-card-actions {
   display: flex;
   justify-content: center; /* Centers the buttons */
-  gap: 10px; /*Adds space between buttons */
-  padding: 0; /* Removes padding */
+  gap: 10px; /* Adds space between buttons */
+  margin-top: 10px; /* Adds space between the content and the buttons */
 }
 
-/* Base Badge Styling */
+/* Badge Styles */
 .badge {
   font-size: 0.75rem;
   padding: 6px 12px;
   border-radius: 12px;
   font-weight: normal;
-  display: inline-block;
-  border: 1px solid; /* Add border */
-  color: inherit; /* Text color is inherited from the badge class */
-  background-color: transparent; /* Make the background transparent */
+  color: white;
 }
 
-/* Green Badge when Affecté */
 .badge-success {
-  border-color: #28a745; /* Green border */
-  color: #28a745; /* Green text */
+  background-color: #28a745; /* Green background */
 }
 
-/* Red Badge when Not Affecté */
 .badge-danger {
-  border-color: #dc3545; /* Red border */
-  color: #dc3545; /* Red text */
+  background-color: #dc3545; /* Red background */
 }
-
-
 
 /* Make the card details appear in a single row */
 mat-card-content {

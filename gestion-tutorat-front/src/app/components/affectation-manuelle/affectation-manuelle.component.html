@@ -5,18 +5,20 @@
       <h2>Liste des Étudiants</h2>
       <app-filtre-etudiants [students]="students"></app-filtre-etudiants>
       <div *ngFor="let student of filteredStudents" class="student-card">
-        <mat-card class="student-card-content mat-card-student">
-          <mat-card-header style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="card">
+          <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
+            
             <mat-card-title>    
+              <h5 class="card-title text-start">
               {{ student.prenom }} {{ student.nom }} 
               <span [ngClass]="{
                 'badge': true, 
                 'badge-success': student.affecte, 
-                'badge-danger': !student.affecte
+                'badge-danger': !student.affecte 
               }">
                 {{ student.affecte ? 'Affecté' : 'Non Affecté' }}
               </span>
-              
+              </h5>
             </mat-card-title>
             <div style="float: right;">
               <app-affecter *ngIf=!student.affecte 
@@ -48,7 +50,7 @@
             <br><br>
             <button type="button" class="btn btn-danger btn-sm" (click)="delete(student)">Delete</button>
           </mat-card-actions>
-        </mat-card>
+      </div>
       </div>
     </div>
   </div>
@@ -58,8 +60,9 @@
     <div class="cards-container">
       <h2>Liste des Tuteurs</h2>
       <mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #f8f8f8;">
+        <div class="card">
         <mat-card-header>
-          <mat-card-title>
+          <mat-card-title><h5 class="card-title text-start">
             <div> 
               {{ tutor.prenom }} {{ tutor.nom }}
               <span [ngClass]="tutor.soldeTutoratRestant > 0 ? 'badge badge-success' : 'badge badge-danger'">
@@ -67,6 +70,7 @@
               </span>
                           
             </div>
+          </h5>
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -88,6 +92,7 @@
           <br><br>
           <button type="button" class="btn btn-danger btn-sm" (click)="delete(tutor)">Delete</button>
         </mat-card-actions>
+      </div>
       </mat-card>
     </div>
   </div>
