@@ -1,0 +1,23 @@
+.imtbs-navbar {
+  background-color: #002b45;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.imtbs-navbar .nav-link {
+  color: #ffffff;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out, border-bottom 0.2s ease-in-out;
+}
+
+.imtbs-navbar .nav-link:hover,
+.imtbs-navbar .nav-link.active {
+  color: #b23ea9;
+  border-bottom: 2px solid #3dd7e5;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: white !important;
+  font-size: 1.3rem;
+}

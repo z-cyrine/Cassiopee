@@ -6,7 +6,6 @@
     </div>
     <div class="reporting-body">
       <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
-
         <!-- Filtrer par Majeure -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="majorFilter" (change)="toggleMajor()" />
@@ -16,9 +15,7 @@
           <label for="major" class="form-label">Sélectionner une Majeure&nbsp;:</label>
           <select formControlName="major" id="major" class="form-select">
             <option value="">-- Choisir une Majeure --</option>
-            <option *ngFor="let m of majors" [value]="m.code">
-              {{ m.name }}
-            </option>
+            <option *ngFor="let m of majors" [value]="m.code">{{ m.groupe }}</option>
           </select>
         </div>
 
@@ -31,9 +28,7 @@
           <label for="department" class="form-label">Sélectionner un Département&nbsp;:</label>
           <select formControlName="department" id="department" class="form-select">
             <option value="">-- Choisir un Département --</option>
-            <option *ngFor="let d of departments" [value]="d">
-              {{ d }}
-            </option>
+            <option *ngFor="let d of departments" [value]="d">{{ d }}</option>
           </select>
         </div>
 
@@ -46,13 +41,13 @@
           <label for="language" class="form-label">Sélectionner une Langue&nbsp;:</label>
           <select formControlName="language" id="language" class="form-select">
             <option value="">-- Choisir une Langue --</option>
-            <option value="english">Anglais</option>
-            <option value="french">Français</option>
-            <option value="english-french">Anglais & Français</option>
+            <option value="FR">Français</option>
+            <option value="EN">Anglais</option>
+            <option value="EN/FR">Anglais & Français</option>
           </select>
         </div>
 
-        <!-- Filtrer par Nom de Tuteur (saisie) -->
+        <!-- Filtrer par Nom de Tuteur -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="tutorFilter" />
           <label class="form-check-label">Filtrer par Nom du Tuteur</label>
@@ -61,7 +56,7 @@
           <input type="text" formControlName="tutorName" class="form-control" placeholder="Saisir le nom du tuteur" />
         </div>
 
-        <!-- Filtrer par Nom de l'Étudiant (saisie) -->
+        <!-- Filtrer par Nom Étudiant -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="studentFilter" />
           <label class="form-check-label">Filtrer par Nom de l'Étudiant</label>
@@ -70,7 +65,7 @@
           <input type="text" formControlName="studentName" class="form-control" placeholder="Saisir le nom de l'étudiant" />
         </div>
 
-        <!-- Filtrer par Statut d'Affectation -->
+        <!-- Filtrer par Statut -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="statusFilter" />
           <label class="form-check-label">Filtrer par Statut d’Affectation</label>
@@ -85,9 +80,8 @@
           </select>
         </div>
 
-        <!-- Sélection de Tuteurs (Optionnel) -->
+        <!-- Tuteurs en option -->
         <div class="mb-3">
-          <h5 class="mb-2">Sélection de Tuteurs (Optionnel) :</h5>
           <div *ngFor="let tutor of tuteurs" class="form-check">
             <input
               type="checkbox"
@@ -98,62 +92,48 @@
           </div>
         </div>
 
-        <!-- Bouton de Soumission -->
-        <button type="submit" class="btn btn-primary">Valider</button>
+        <!-- Boutons Valider + Exporter -->
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Valider</button>
+          <button type="button" class="btn btn-success" *ngIf="filteredData.length > 0" (click)="exportToExcel()">
+            Exporter en Excel
+          </button>
+        </div>
       </form>
     </div>
   </div>
 
-  <!-- Filter Results Card -->
+  <!-- Résultats -->
   <div class="reporting-card mt-4" *ngIf="filteredData && filteredData.length > 0">
     <div class="reporting-header">
       <h3>Résultats du Filtre</h3>
     </div>
     <div class="reporting-body">
-      <table class="table table-striped">
+      <table class="table table-striped results-table">
         <thead>
           <tr>
             <th>Étudiant</th>
             <th>Tuteur</th>
-            <th>Majeure</th>
-            <th>Département</th>
+            <th>Langue</th>
+            <th>Nom Groupe</th>
             <th>Statut</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of filteredData">
             <td>
-              <a [routerLink]="['/etudiants', item.id]">
-                {{ item.prenom }} {{ item.nom }}
-              </a>
+              <a [routerLink]="['/etudiants', item.id]">{{ item.prenom }} {{ item.nom }}</a>
             </td>
-            
             <td>
               <ng-container *ngIf="item.tuteur; else noTutor">
                 <a [routerLink]="['/tuteurs', item.tuteur.id]">
                   {{ item.tuteur.prenom }} {{ item.tuteur.nom }}
                 </a>
               </ng-container>
-              <ng-template #noTutor>
-                <span>Aucun Tuteur</span>
-              </ng-template>
+              <ng-template #noTutor><span>Aucun Tuteur</span></ng-template>
             </td>
-            <td>
-              <ng-container *ngIf="item.majeure; else noMajor">
-                <a [routerLink]="['/majeure', item.majeure.id]">{{ item.majeure.code }}</a>
-              </ng-container>
-              <ng-template #noMajor>
-                <span>Aucune Majeure</span>
-              </ng-template>
-            </td>
-            <td>
-              <ng-container *ngIf="item.majeure?.dept; else noDept">
-                <a [routerLink]="['/departement', item.majeure.dept]">{{ item.majeure.dept }}</a>
-              </ng-container>
-              <ng-template #noDept>
-                <span>Aucun Département</span>
-              </ng-template>
-            </td>
+            <td>{{ item.langue || 'N/A' }}</td>
+            <td>{{ item.nomGroupe || 'N/A' }}</td>
             <td>{{ item.affecte ? 'Affecté' : 'Non Affecté' }}</td>
           </tr>
         </tbody>

@@ -1,38 +1,65 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReportingService {
-  // Adjust the API URL if needed; here it points to your local backend
-  private apiUrl = 'http://localhost:3000';
+  private baseUrl = 'http://localhost:3000'; // Ajuste cette URL selon ton environnement
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  // Fetch distinct majors from the backend endpoint.
-  // The backend should return an array of objects with at least two properties:
-  // For example: [{ code: 'MATH', name: 'Mathématiques' }, ...] 
-  getMajors(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/majeures/distinct`);
+  // Récupérer les données filtrées depuis le backend
+  getFilteredData(filters: any): Observable<any[]> {
+    let params = new HttpParams();
+
+    if (filters.majeure) {
+      params = params.set('majeure', filters.majeure);
+    }
+
+    if (filters.departement) {
+      params = params.set('departement', filters.departement);
+    }
+
+    if (filters.langue) {
+      params = params.set('langue', filters.langue);
+    }
+
+    if (filters.etudiant) {
+      params = params.set('etudiant', filters.etudiant);
+    }
+
+    if (filters.tuteur) {
+      params = params.set('tuteur', filters.tuteur);
+    }
+
+    if (filters.assignmentStatus) {
+      params = params.set('assignmentStatus', filters.assignmentStatus);
+    }
+
+    // Support multi-tuteurs
+    if (filters.tuteurIds && Array.isArray(filters.tuteurIds)) {
+      filters.tuteurIds.forEach((id: number) => {
+        params = params.append('tuteurIds', id.toString());
+      });
+    }
+
+    return this.http.get<any[]>(`${this.baseUrl}/reporting/dynamic`, { params });
   }
 
-  // Fetch tutors from the backend endpoint.
-  // The backend should return an array of tutor objects containing id and nom (or similar)
-  getTuteurs(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/tuteurs`);
+  // Récupérer les majeures
+  getDistinctMajors(): Observable<{ code: string; groupe: string }[]> {
+    return this.http.get<{ code: string; groupe: string }[]>(`${this.baseUrl}/majeures/distinct`);
   }
 
-  // Fetch distinct departments from the backend endpoint.
-  // The backend should return an array of strings (for example: ["Mathematiques", "Informatique", ...])
-  getDepartments(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/majeures/departments`);
+  // Récupérer les départements
+  getDistinctDepartments(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/majeures/departments`);
   }
 
-  // Get filtered reporting data based on the applied filters.
-  // The filters object is sent as query parameters.
-  getFilteredReportingData(filters: any): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/reporting/dynamic`, { params: filters });
+  // Récupérer tous les tuteurs
+  getAllTuteurs(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/tuteurs`);
   }
 }

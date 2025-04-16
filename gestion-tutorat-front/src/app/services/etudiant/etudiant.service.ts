@@ -50,5 +50,4 @@ export class EtudiantService {
     return this.http.put<Etudiant>(`${this.baseUrl}/${id}`, etudiant);
   }
 
-  // (You can add create and delete methods here if needed in the future)
 }

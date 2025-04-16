@@ -81,6 +81,9 @@ export class EtudiantEditComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
+
+    console.log('Formulaire soumis', this.etudiantForm.value);
+    console.log('ID récupéré :', this.etudiantId);
     if (this.etudiantForm.invalid || this.etudiantId === null) {
       return;
     }
@@ -89,6 +92,8 @@ export class EtudiantEditComponent implements OnInit {
     this.etudiantService.update(this.etudiantId, updatedEtudiant).subscribe({
       next: (res: Etudiant) => {
         this.successMessage = 'Étudiant mis à jour avec succès !';
+        this.router.navigate(['/etudiants', this.etudiantId]);
+
       },
       error: (err: any) => {
         console.error('Erreur lors de la mise à jour de l’étudiant', err);

@@ -1,6 +1,6 @@
 /* reporting.component.css */
 
-/* Main container (we use a max-width layout) */
+/* Main container */
 .reporting-container {
   max-width: 1200px;
   margin: 40px auto;
@@ -9,7 +9,7 @@
   background-color: #f5f5f5;
 }
 
-/* Card for the reporting filter form and results */
+/* Card structure */
 .reporting-card {
   background-color: #ffffff;
   border-radius: 12px;
@@ -18,7 +18,7 @@
   margin-bottom: 30px;
 }
 
-/* Header using the IMTBS colors from your logo (adjust the hex codes as needed) */
+/* Header color (IMTBS-inspired) */
 .reporting-header {
   background: linear-gradient(135deg, #00abc7, #9b59b6);
   color: #ffffff;
@@ -26,18 +26,18 @@
   text-align: center;
 }
 
-/* Body of the card */
+/* Body padding */
 .reporting-body {
   padding: 25px;
 }
 
-/* Headings */
+/* Typography */
 h2, h3, h5 {
   color: #333;
   margin-bottom: 15px;
 }
 
-/* Styling for form labels */
+/* Form labels */
 .form-label {
   font-weight: 600;
   color: #444;
@@ -45,7 +45,7 @@ h2, h3, h5 {
   margin-bottom: 5px;
 }
 
-/* Style inputs and selects */
+/* Input fields */
 .form-control,
 .form-select {
   border: 1px solid #ccc;
@@ -61,23 +61,30 @@ h2, h3, h5 {
 .form-check {
   margin-bottom: 10px;
 }
+.form-check-label {
+  margin-left: 6px;
+  font-size: 14px;
+  color: #333;
+}
 
-/* Submit button using IMTBS accent colors */
-.btn-primary {
+/* Buttons */
+.btn-primary,
+.btn-success {
   background-color: #9b59b6;
   border: none;
   border-radius: 6px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 15px;
   color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-success:hover {
   background-color: #8e44ad;
 }
 
-/* Table styles for the filtered results */
+/* Table styles */
 .results-table {
   width: 100%;
   border-collapse: collapse;
@@ -107,6 +114,9 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Utility spacing classes */
+/* Utility classes */
 .ms-4 { margin-left: 1.5rem; }
 .mt-4 { margin-top: 1.5rem; }
+.gap-2 { gap: 0.5rem; }
+.d-flex { display: flex; }
+.justify-content-start { justify-content: flex-start; }
