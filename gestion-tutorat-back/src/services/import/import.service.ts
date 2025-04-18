@@ -34,7 +34,7 @@ export class ImportService {
     const data = this.excelParserService.parseExcel(file.path);
     await this.clearTuteurs();
     await this.insertTuteurs(data);
-    
+
     // Ensuite, supprimer le fichier
     fs.unlink(file.path, (err) => {
       if (err) this.logger.error(`Erreur suppression du fichier ${file.path}`, err);
@@ -104,9 +104,16 @@ export class ImportService {
   =========================================================================*/
 
   private async clearMajors(): Promise<void> {
-    await this.majeuresRepository.query(`DELETE FROM majeures;`);
-    await this.majeuresRepository.query(`ALTER TABLE majeures AUTO_INCREMENT = 1;`);
-  }
+  // Étape 1 : enlever la liaison entre les étudiants et leurs majeures
+  await this.etudiantRepository.query(`UPDATE etudiant SET majeureId = NULL;`);
+
+  // Étape 2 : supprimer les majeures
+  await this.majeuresRepository.query(`DELETE FROM majeures;`);
+
+  // Étape 3 : réinitialiser l'AUTO_INCREMENT
+  await this.majeuresRepository.query(`ALTER TABLE majeures AUTO_INCREMENT = 1;`);
+}
+
 
   private async clearTuteurs(): Promise<void> {
     // Dissocier les étudiants de leurs tuteurs pour respecter les clés étrangères
@@ -212,6 +219,21 @@ export class ImportService {
     if (!etudiants.length) {
       this.logger.warn('⚠️ Aucun étudiant trouvé dans le fichier.');
       return;
+    }
+
+    for (const etu of etudiants) {
+      const groupe = this.excelParserService.cleanForAffectation(etu.nomGroupe);
+      const code = this.excelParserService.cleanForAffectation(etu.codeClasse);
+    
+      const major = await this.majeuresRepository.findOne({
+        where: { groupe, code },
+      });
+    
+      if (major) {
+        etu.majeure = major;
+      } else {
+        this.logger.warn(`⚠️ Aucune majeure trouvée pour groupe='${groupe}' et code='${code}'`);
+      }
     }
   
     await this.etudiantRepository.save(etudiants);

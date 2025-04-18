@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ImportComponent } from './components/import/import.component';
 import { RouterModule } from '@angular/router';
 
 @Component({

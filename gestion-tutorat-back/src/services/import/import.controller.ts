@@ -32,17 +32,17 @@ export class ImportController {
       throw new BadRequestException('Vous devez envoyer au moins un fichier.');
     }
 
+    if (files.majors) {
+      const fileMajors = files.majors[0];
+      await this.importService.processMajors(fileMajors);
+    }
     if (files.parTutorat) {
       await this.importService.processParTutorat(files.parTutorat[0]);
     }
     if (files.tutorats) {
       await this.importService.processTutorats(files.tutorats[0]);
     }
-    if (files.majors) {
-      const fileMajors = files.majors[0];
-      await this.importService.processMajors(fileMajors);
-    }
-
+    
     return { message: 'Fichier(s) importé(s) avec succès' };
   }
 }
