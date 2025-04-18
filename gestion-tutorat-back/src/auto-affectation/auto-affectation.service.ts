@@ -22,7 +22,7 @@ export class AutoAffectationService {
     private readonly majeuresRepository: Repository<Majeures>,
 
     private readonly excelParserService: ExcelParserService,
-  ) {}
+  ) { }
 
   /**
    * Exécute l’algorithme d’affectation automatique pour les étudiants non assignés.
@@ -30,21 +30,9 @@ export class AutoAffectationService {
    */
   async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[] }> {
     // Charger les étudiants n’ayant pas encore de tuteur, ainsi que les tuteurs et majeures.
-    const students = await this.etudiantRepository.find({ where: { tuteur: null } });
+    const students = await this.etudiantRepository.find({ where: { tuteur: null }, relations: ['majeure'] });
     const tutors = await this.tuteurRepository.find();
-    const majors = await this.majeuresRepository.find();
-
-    // Construction d’un mapping des majeures à partir des groupes normalisés.
-    const majorsInfo: Record<string, { dept: string; responsible: string }> = {};
-    for (const m of majors) {
-      const key = this.excelParserService.cleanForAffectation(m.groupe);
-      majorsInfo[key] = {
-        dept: this.excelParserService.cleanForAffectation(m.dept),
-        responsible: this.excelParserService.cleanForAffectation(m.responsible),
-      };
-    }
-    this.logger.debug('Majors Info: ' + JSON.stringify(majorsInfo));
-
+    
     // Création d’une map des tuteurs avec leur capacité restante.
     const tutorsMap = new Map<number, any>();
     for (const t of tutors) {
@@ -78,14 +66,13 @@ export class AutoAffectationService {
 
       logs.push(`Student ID=${student.id}, Group=${groupKey}, Lang=${studentLang}, Type=${studentType}`);
 
-      const majorInfo = majorsInfo[groupKey];
-      if (!majorInfo) {
-        logs.push(`=> No major info for group '${groupKey}' => Assignment impossible.`);
-        details.push({ etudiantId: student.id, assigned: false, logs });
+      const major = student.majeure;
+      if (!major) {
+        logs.push(`=> No major linked to student => Assignment impossible.`);
         continue;
       }
-      const dept = majorInfo.dept;
-      const responsible = majorInfo.responsible;
+      const dept = (major.dept || '').toUpperCase();
+      const responsible = (major.responsible || '').toUpperCase();
       let assigned = false;
 
       // PRIORITÉ 1 : Affectation basée sur le responsable de majeure.
@@ -153,7 +140,7 @@ export class AutoAffectationService {
 
       student.affecte = assigned;
       student.logs = logs.join('\n');
-      
+
       this.logger.debug(logs.join(' | '));
     }
 

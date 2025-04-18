@@ -159,6 +159,14 @@ export class ImportService {
    * Le champ "tuteur" est forcé à null pour permettre l'affectation ultérieure.
    */
   private async insertEtudiants(data: any[]): Promise<void> {
+    // Précharger toutes les majeures et créer une map pour y accéder rapidement
+    const allMajors = await this.majeuresRepository.find();
+    const majorMap = new Map<string, Majeures>();
+    for (const maj of allMajors) {
+      const key = `${maj.groupe?.trim().toUpperCase()}|${maj.code?.trim().toUpperCase()}`;
+      majorMap.set(key, maj);
+    }
+  
     const etudiants: Etudiant[] = data.map(row => {
       const etu = new Etudiant();
       etu.emailEcole = this.excelParserService.cleanForAffectation(row['Adresse Mail Ecole']);
@@ -180,26 +188,21 @@ export class ImportService {
       etu.tuteur = null;
       etu.affecte = false;
       etu.logs = null;
+  
+      // Récupération de la majeure associée (via clé composite groupe|code)
+      const groupe = etu.nomGroupe.trim().toUpperCase();
+      const code = etu.codeClasse.trim().toUpperCase();
+      const key = `${groupe}|${code}`;
+      etu.majeure = majorMap.get(key) || null;
+  
       return etu;
     });
-
+  
     if (!etudiants.length) {
       this.logger.warn('⚠️ Aucun étudiant trouvé dans le fichier.');
       return;
     }
-    for (const etu of etudiants) {
-      const groupe = this.excelParserService.cleanForAffectation(etu.nomGroupe);
-      const code = this.excelParserService.cleanForAffectation(etu.codeClasse);
-    
-      const major = await this.majeuresRepository.findOne({
-        where: {
-          groupe,
-          code,
-        },
-      });
-    
-      etu.majeure = major || null;
-    }
+  
     await this.etudiantRepository.save(etudiants);
     this.logger.log(`✅ ${etudiants.length} étudiants insérés en base (tuteur=null).`);
   }
