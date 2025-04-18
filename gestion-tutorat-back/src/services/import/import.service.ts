@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, ILike } from 'typeorm';
+import { Repository } from 'typeorm';
+import * as fs from 'fs';
 
 import { ExcelParserService } from './excel-parser/excel-parser.service';
 import { Tuteur } from 'src/modules/tuteur/tuteur.entity';
@@ -33,6 +34,11 @@ export class ImportService {
     const data = this.excelParserService.parseExcel(file.path);
     await this.clearTuteurs();
     await this.insertTuteurs(data);
+    
+    // Ensuite, supprimer le fichier
+    fs.unlink(file.path, (err) => {
+      if (err) this.logger.error(`Erreur suppression du fichier ${file.path}`, err);
+    });
   }
 
   /**
@@ -43,6 +49,11 @@ export class ImportService {
     const data = this.excelParserService.parseExcel(file.path);
     await this.clearEtudiants();
     await this.insertEtudiants(data);
+
+    // Ensuite, supprimer le fichier
+    fs.unlink(file.path, (err) => {
+      if (err) this.logger.error(`Erreur suppression du fichier ${file.path}`, err);
+    });
   }
 
   /**
