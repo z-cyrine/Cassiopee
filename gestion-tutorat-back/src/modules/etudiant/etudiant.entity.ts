@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { IsEmail, IsString, IsOptional, IsBoolean } from 'class-validator';
 import { Tuteur } from '../tuteur/tuteur.entity';
+import { Majeures } from '../majeures/majeures';
 
 @Entity()
 export class Etudiant {
@@ -60,7 +61,7 @@ export class Etudiant {
   @IsOptional()
   @IsString()
   fonctionApprenti: string;
-  
+
   @Column({ nullable: true })
   @IsString()
   langue: string;
@@ -85,4 +86,7 @@ export class Etudiant {
 
   @ManyToOne(() => Tuteur, (tuteur) => tuteur.etudiants, { nullable: true, onDelete: 'CASCADE' })
   tuteur: Tuteur;
+
+  @ManyToOne(() => Majeures, { nullable: true })
+  majeure: Majeures;
 }

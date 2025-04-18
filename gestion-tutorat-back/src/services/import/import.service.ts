@@ -159,32 +159,47 @@ export class ImportService {
    * Le champ "tuteur" est forcé à null pour permettre l'affectation ultérieure.
    */
   private async insertEtudiants(data: any[]): Promise<void> {
-    const etudiants = data.map(row => ({
-      emailEcole: this.excelParserService.cleanForAffectation(row['Adresse Mail Ecole']),
-      origine: this.excelParserService.cleanForAffectation(row['Origine']),
-      ecole: this.excelParserService.cleanForAffectation(row['Ecole']),
-      prenom: this.excelParserService.cleanForAffectation(row['Prenom Etudiant']),
-      nom: this.excelParserService.cleanForAffectation(row['Nom Etudiant']),
-      obligationInternational: this.excelParserService.cleanForAffectation(row["Obligation à l'International"]),
-      stage1A: this.excelParserService.cleanForAffectation(row['Stage 1A']),
-      codeClasse: this.excelParserService.cleanForAffectation(row['Code Classe']),
-      nomGroupe: this.excelParserService.cleanForAffectation(row['Nom groupe']),
-      langueMajeure: this.excelParserService.cleanForAffectation(row['Langue Majeure ']),
-      iniAlt: this.excelParserService.cleanForAffectation(row['INI/ALT']),
-      entreprise: this.excelParserService.cleanForAffectation(row['Entreprise']),
-      fonctionApprenti: this.excelParserService.cleanForAffectation(row["Fonction de l'apprenti"]),
-      langue: this.excelParserService.cleanForAffectation(row['Langue Tutorat']),
-      commentaireAffectation: this.excelParserService.cleanForAffectation(row['Commentaires affectation']),
-      departementRattachement: this.excelParserService.cleanForAffectation(row['Département \nrattachement\n du tuteur']),
-      // Force l'affectation à null
-      tuteur: null,
-    }));
+    const etudiants: Etudiant[] = data.map(row => {
+      const etu = new Etudiant();
+      etu.emailEcole = this.excelParserService.cleanForAffectation(row['Adresse Mail Ecole']);
+      etu.origine = this.excelParserService.cleanForAffectation(row['Origine']);
+      etu.ecole = this.excelParserService.cleanForAffectation(row['Ecole']);
+      etu.prenom = this.excelParserService.cleanForAffectation(row['Prenom Etudiant']);
+      etu.nom = this.excelParserService.cleanForAffectation(row['Nom Etudiant']);
+      etu.obligationInternational = this.excelParserService.cleanForAffectation(row["Obligation à l'International"]);
+      etu.stage1A = this.excelParserService.cleanForAffectation(row['Stage 1A']);
+      etu.codeClasse = this.excelParserService.cleanForAffectation(row['Code Classe']);
+      etu.nomGroupe = this.excelParserService.cleanForAffectation(row['Nom groupe']);
+      etu.langueMajeure = this.excelParserService.cleanForAffectation(row['Langue Majeure ']);
+      etu.iniAlt = this.excelParserService.cleanForAffectation(row['INI/ALT']);
+      etu.entreprise = this.excelParserService.cleanForAffectation(row['Entreprise']);
+      etu.fonctionApprenti = this.excelParserService.cleanForAffectation(row["Fonction de l'apprenti"]);
+      etu.langue = this.excelParserService.cleanForAffectation(row['Langue Tutorat']);
+      etu.commentaireAffectation = this.excelParserService.cleanForAffectation(row['Commentaires affectation']);
+      etu.departementRattachement = this.excelParserService.cleanForAffectation(row['Département \nrattachement\n du tuteur']);
+      etu.tuteur = null;
+      etu.affecte = false;
+      etu.logs = null;
+      return etu;
+    });
 
     if (!etudiants.length) {
       this.logger.warn('⚠️ Aucun étudiant trouvé dans le fichier.');
       return;
     }
-
+    for (const etu of etudiants) {
+      const groupe = this.excelParserService.cleanForAffectation(etu.nomGroupe);
+      const code = this.excelParserService.cleanForAffectation(etu.codeClasse);
+    
+      const major = await this.majeuresRepository.findOne({
+        where: {
+          groupe,
+          code,
+        },
+      });
+    
+      etu.majeure = major || null;
+    }
     await this.etudiantRepository.save(etudiants);
     this.logger.log(`✅ ${etudiants.length} étudiants insérés en base (tuteur=null).`);
   }
