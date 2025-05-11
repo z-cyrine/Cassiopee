@@ -1,15 +1,42 @@
-<!-- app.component.html -->
 <nav class="navbar navbar-expand-lg navbar-dark imtbs-navbar">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">Accueil</a>
-    <ul class="nav">
-      <li class="nav-item">
-        <a routerLink="/etudiant-create" class="nav-link">Ajouter Étudiant</a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/tuteur-create" class="nav-link">Ajouter Tuteur</a>
-      </li>
-    </ul>
+    <a class="navbar-brand" routerLink="/">
+      <img src="assets/logo-imtbs.png" alt="Logo IMTBS" height="38" />
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a routerLink="/etudiant-create" routerLinkActive="active" class="nav-link">Ajouter Étudiant</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/tuteur-create" routerLinkActive="active" class="nav-link">Ajouter Tuteur</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/etudiants/all" routerLinkActive="active" class="nav-link">Liste Étudiants</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/import" routerLinkActive="active" class="nav-link">Importer</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/auto-affectation" routerLinkActive="active" class="nav-link">Auto-Affectation</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/reporting" routerLinkActive="active" class="nav-link">Reporting</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 

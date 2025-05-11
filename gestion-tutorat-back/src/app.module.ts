@@ -7,8 +7,8 @@ import { Etudiant } from './modules/etudiant/etudiant.entity';
 import { Tuteur } from './modules/tuteur/tuteur.entity';
 import { Majeures } from './modules/majeures/majeures';
 
-import { EtudiantService } from './services/etudiant/etudiant.service';
-import { EtudiantController } from './services/etudiant/etudiant.controller';
+import { EtudiantService } from './modules/etudiant/etudiant.service';
+import { EtudiantController } from './modules/etudiant/etudiant.controller';
 
 import { ImportController } from './services/import/import.controller';
 import { ImportService } from './services/import/import.service';
