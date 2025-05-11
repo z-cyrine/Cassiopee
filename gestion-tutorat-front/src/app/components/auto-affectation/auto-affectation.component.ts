@@ -23,6 +23,12 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
   equivalence = 2;
   private destroy$ = new Subject<void>();
 
+  // Pagination
+  page = 1;
+  limit = 20;
+  pageCount = 1;
+  pagedData: any[] = [];
+
   constructor(private affectationService: AffectationService) {}
 
   ngOnInit(): void {
@@ -43,6 +49,9 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
         next: (res: AffectationResult) => {
           this.result = res;
           this.data = res.details;
+          this.page = 1;
+          this.pageCount = Math.ceil(this.data.length / this.limit) || 1;
+          this.updatePagedData();
           this.setupColumns();
           this.loading = false;
         },
@@ -52,6 +61,45 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
+  }
+
+  updatePagedData() {
+    const start = (this.page - 1) * this.limit;
+    const end = start + this.limit;
+    this.pagedData = this.data.slice(start, end);
+  }
+
+  nextPage() {
+    if (this.page < this.pageCount) {
+      this.page++;
+      this.updatePagedData();
+    }
+  }
+  prevPage() {
+    if (this.page > 1) {
+      this.page--;
+      this.updatePagedData();
+    }
+  }
+  goToPage(pageNum: number) {
+    if (pageNum >= 1 && pageNum <= this.pageCount) {
+      this.page = pageNum;
+      this.updatePagedData();
+    }
+  }
+  get visiblePages(): number[] {
+    const pages: number[] = [];
+    const maxVisible = 5;
+    const half = Math.floor(maxVisible / 2);
+    let start = Math.max(1, this.page - half);
+    let end = Math.min(this.pageCount, start + maxVisible - 1);
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   setupColumns(): void {
