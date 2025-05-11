@@ -1,9 +1,11 @@
 // auto-affectation.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../shared/table/table.component';
 import { AffectationResult, AffectationService } from '../../services/affectation/affectation.service';
 import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auto-affectation',
@@ -12,13 +14,14 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './auto-affectation.component.html',
   styleUrls: ['./auto-affectation.component.css']
 })
-export class AutoAffectationComponent implements OnInit {
+export class AutoAffectationComponent implements OnInit, OnDestroy {
   result: AffectationResult | null = null;
   data: any[] = [];
   columns: { columnDef: string; header: string; cell: (element: any) => string }[] = [];
   loading = false;
   error: string | null = null;
   equivalence = 2;
+  private destroy$ = new Subject<void>();
 
   constructor(private affectationService: AffectationService) {}
 
@@ -26,22 +29,29 @@ export class AutoAffectationComponent implements OnInit {
     this.loadAffectation();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   loadAffectation(): void {
     this.loading = true;
     this.error = null;
-    this.affectationService.runAffectation(this.equivalence).subscribe({
-      next: (res: AffectationResult) => {
-        this.result = res;
-        this.data = res.details;
-        this.setupColumns();
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.error = "Erreur lors de l'affectation";
-        this.loading = false;
-      }
-    });
+    this.affectationService.runAffectation(this.equivalence)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: AffectationResult) => {
+          this.result = res;
+          this.data = res.details;
+          this.setupColumns();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.error = "Erreur lors de l'affectation";
+          this.loading = false;
+        }
+      });
   }
 
   setupColumns(): void {

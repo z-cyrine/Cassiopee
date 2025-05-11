@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-import',
@@ -9,12 +11,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
 })
-export class ImportComponent {
+export class ImportComponent implements OnDestroy {
   parTutoratFile: File | null = null;
   tutoratsFile: File | null = null;
   majorsFile: File | null = null;
 
   alertMessage: string | null = null;
+
+  private destroy$ = new Subject<void>();
 
   constructor(private http: HttpClient) {}
 
@@ -44,16 +48,18 @@ export class ImportComponent {
     if (this.tutoratsFile) formData.append('tutorats', this.tutoratsFile);
     if (this.majorsFile) { formData.append('majors', this.majorsFile); }
     
-    this.http.post('http://localhost:3000/import/upload', formData).subscribe({
-      next: () => {
-        this.alertMessage = 'Fichier(s) importé(s) avec succès !';
-        this.resetForm();
-      },
-      error: (err) => {
-        console.error('Erreur lors de l\'importation des fichiers :', err);
-        this.alertMessage = 'Une erreur est survenue lors de l\'importation.';
-      },
-    });
+    this.http.post('http://localhost:3000/import/upload', formData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.alertMessage = 'Fichier(s) importé(s) avec succès !';
+          this.resetForm();
+        },
+        error: (err) => {
+          console.error('Erreur lors de l\'importation des fichiers :', err);
+          this.alertMessage = 'Une erreur est survenue lors de l\'importation.';
+        },
+      });
   }
   
 
@@ -63,5 +69,10 @@ export class ImportComponent {
     this.majorsFile = null;
 
     setTimeout(() => (this.alertMessage = null), 5000);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
