@@ -1,23 +1,62 @@
-<div style="overflow-x: auto;">
-<table mat-table [dataSource]="data" class="mat-elevation-z8">
+<div class="table-container">
+  <div style="overflow-x: auto;">
+    <table mat-table [dataSource]="data" class="mat-elevation-z8">
 
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
-      <th mat-header-cell *matHeaderCellDef> {{ column.header }} </th>
-      <td mat-cell *matCellDef="let element">
-        {{ column.cell(element) }}
-      </td>
-    </ng-container>
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+          <th mat-header-cell *matHeaderCellDef [ngClass]="{'logs-col': column.columnDef === 'logs'}">
+            {{ column.header }}
+            <ng-container *ngIf="column.columnDef === 'logs'">
+              <button (click)="toggleLogsCol()" class="logs-eye-btn" title="Afficher/Masquer les logs">
+                <mat-icon>{{ showLogsCol ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element" [ngClass]="{'logs-col': column.columnDef === 'logs'}">
+            <ng-container *ngIf="column.columnDef === 'logs'; else defaultCell">
+              <ng-container *ngIf="showLogsCol">
+                <span>
+                  <ng-container *ngIf="column.cell(element) && column.cell(element) !== 'null'; else emptyLog">
+                    {{ (column.cell(element) + '') | slice:0:50 }}<span *ngIf="(column.cell(element) + '').length > 50">...</span>
+                    <button *ngIf="(column.cell(element) + '').length > 0 && column.cell(element) !== null && column.cell(element) !== 'null'"
+                            class="btn btn-link btn-sm p-0 ms-2"
+                            (click)="openLogModal(column.cell(element) + '')">voir plus</button>
+                  </ng-container>
+                  <ng-template #emptyLog>-</ng-template>
+                </span>
+              </ng-container>
+            </ng-container>
+            <ng-template #defaultCell>
+              {{ column.cell(element) }}
+            </ng-template>
+          </td>
+        </ng-container>
 
-    <ng-container matColumnDef="actions" *ngIf="showEdit || showDelete">
-      <th mat-header-cell *matHeaderCellDef class="sticky"> Actions </th>
-      <td mat-cell *matCellDef="let element" class="sticky">
-        <button type="button" class="btn btn-outline-warning btn-sm" *ngIf="showEdit" (click)="edit(element)">Edit</button>
-        <button type="button" class="btn btn-danger btn-sm" *ngIf="showDelete" (click)="delete(element)">Delete</button>
-      </td>
-    </ng-container>
-    
-  
-    <tr mat-header-row *matHeaderRowDef="columnDefinitions"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnDefinitions"></tr>
-  </table>
+        <ng-container matColumnDef="actions" *ngIf="showEdit || showDelete">
+          <th mat-header-cell *matHeaderCellDef class="sticky"> Actions </th>
+          <td mat-cell *matCellDef="let element" class="sticky">
+            <button type="button" class="icon-btn edit" *ngIf="showEdit" (click)="edit(element)" title="Éditer">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button type="button" class="icon-btn delete" *ngIf="showDelete" (click)="delete(element)" title="Supprimer">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        
+      
+        <tr mat-header-row *matHeaderRowDef="columnDefinitions"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnDefinitions"></tr>
+      </table>
+  </div>
+</div>
+
+<!-- Modal logs -->
+<div class="modal-log-backdrop" *ngIf="showLogModal">
+  <div class="modal-log-content">
+    <div class="modal-log-header">
+      <span>Logs complets</span>
+      <button class="close-btn" (click)="closeLogModal()">&times;</button>
+    </div>
+    <pre class="modal-log-body">{{ logModalContent }}</pre>
+  </div>
 </div>

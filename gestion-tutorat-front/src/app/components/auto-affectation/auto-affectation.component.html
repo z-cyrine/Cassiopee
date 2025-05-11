@@ -30,5 +30,29 @@
   </div>
 
   <!-- Utilisation du composant table réutilisable -->
-  <app-table [data]="data" [columns]="columns" [showEdit]="false" [showDelete]="false"></app-table>
+  <app-table [data]="pagedData" [columns]="columns" [showEdit]="false" [showDelete]="false"></app-table>
+
+  <div class="pagination-controls" *ngIf="pageCount > 1">
+    <button (click)="prevPage()" [disabled]="page === 1 || loading" class="pagination-btn">
+      <i class="fas fa-chevron-left"></i> Précédent
+    </button>
+    <div class="pagination-numbers">
+      <button *ngIf="page > 2" (click)="goToPage(1)" class="pagination-number">1</button>
+      <span *ngIf="page > 3" class="pagination-ellipsis">...</span>
+      <button *ngFor="let pageNum of visiblePages"
+              (click)="goToPage(pageNum)"
+              [class.active]="pageNum === page"
+              class="pagination-number">
+        {{ pageNum }}
+      </button>
+      <span *ngIf="page < pageCount - 2" class="pagination-ellipsis">...</span>
+      <button *ngIf="page < pageCount - 1" (click)="goToPage(pageCount)" class="pagination-number">
+        {{ pageCount }}
+      </button>
+    </div>
+    <button (click)="nextPage()" [disabled]="page === pageCount || loading" class="pagination-btn">
+      Suivant <i class="fas fa-chevron-right"></i>
+    </button>
+    <span *ngIf="loading" class="loading-indicator">Chargement...</span>
+  </div>
 </div>
