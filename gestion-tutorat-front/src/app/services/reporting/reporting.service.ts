@@ -15,9 +15,10 @@ export class ReportingService {
   getFilteredData(filters: any): Observable<any[]> {
     let params = new HttpParams();
 
-    if (filters.majeure) {
-      params = params.set('majeure', filters.majeure);
-    }
+if (filters.groupe) {
+  params = params.set('groupe', filters.groupe);
+}
+
 
     if (filters.departement) {
       params = params.set('departement', filters.departement);

@@ -6,16 +6,17 @@
     </div>
     <div class="reporting-body">
       <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+
         <!-- Filtrer par Majeure -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="majorFilter" (change)="toggleMajor()" />
           <label class="form-check-label">Filtrer par Majeure</label>
         </div>
         <div *ngIf="filterForm.get('majorFilter')?.value" class="mb-3 ms-4">
-          <label for="major" class="form-label">Sélectionner une Majeure&nbsp;:</label>
+          <label for="major" class="form-label">Nom de la Majeure (Groupe)&nbsp;:</label>
           <select formControlName="major" id="major" class="form-select">
             <option value="">-- Choisir une Majeure --</option>
-            <option *ngFor="let m of majors" [value]="m.code">{{ m.groupe }}</option>
+            <option *ngFor="let m of majors" [value]="m.groupe">{{ m.groupe }}</option>
           </select>
         </div>
 
@@ -114,8 +115,9 @@
           <tr>
             <th>Étudiant</th>
             <th>Tuteur</th>
+            <th>Majeure</th>
+            <th>Département</th>
             <th>Langue</th>
-            <th>Nom Groupe</th>
             <th>Statut</th>
           </tr>
         </thead>
@@ -132,8 +134,23 @@
               </ng-container>
               <ng-template #noTutor><span>Aucun Tuteur</span></ng-template>
             </td>
+            <td>
+              <ng-container *ngIf="item.majeure; else noMajor">
+                <a 
+                  [routerLink]="['/majeures', item.majeure.id]" 
+                  class="text-decoration-underline">
+                  {{ item.majeure.groupe }}
+                </a>
+              </ng-container>
+              <ng-template #noMajor><span>Aucune Majeure</span></ng-template>
+            </td>
+            <td>
+              <ng-container *ngIf="item.majeure?.dept; else noDept">
+                {{ item.majeure.dept }}
+              </ng-container>
+              <ng-template #noDept><span>Aucun Département</span></ng-template>
+            </td>
             <td>{{ item.langue || 'N/A' }}</td>
-            <td>{{ item.nomGroupe || 'N/A' }}</td>
             <td>{{ item.affecte ? 'Affecté' : 'Non Affecté' }}</td>
           </tr>
         </tbody>
@@ -161,5 +178,10 @@
         </button>
       </div>
     </div>
+  </div>
+
+  <!-- No results message -->
+  <div class="alert alert-warning mt-4" *ngIf="hasSubmitted && filteredData.length === 0">
+    Aucun résultat trouvé pour les filtres sélectionnés.
   </div>
 </div>

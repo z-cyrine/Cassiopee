@@ -22,6 +22,7 @@ export class ReportingComponent implements OnInit {
   departments: string[] = [];
   tuteurs: any[] = [];
   selectedTuteurs: number[] = [];
+  hasSubmitted = false;
 
   // Pagination
   page = 1;
@@ -91,10 +92,12 @@ export class ReportingComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.hasSubmitted = true;
+
     const filters: any = {};
 
     if (this.filterForm.value.majorFilter && this.filterForm.value.major) {
-      filters.majeure = this.filterForm.value.major;
+      filters.groupe = this.filterForm.value.major;
     }
 
     if (this.filterForm.value.departmentFilter && this.filterForm.value.department) {
@@ -180,7 +183,6 @@ export class ReportingComponent implements OnInit {
         ObligationInternationale: item.obligationInternational,
         Stage1A: item.stage1A,
         CodeClasse: item.codeClasse,
-        NomGroupe: item.nomGroupe,
         LangueMajeure: item.langueMajeure,
         INI_ALT: item.iniAlt,
         Entreprise: item.entreprise,
@@ -188,6 +190,7 @@ export class ReportingComponent implements OnInit {
         Langue: item.langue,
         CommentaireAffectation: item.commentaireAffectation,
         DépartementRattachement: item.departementRattachement,
+        Département: item.majeure?.dept || 'Aucun Département',
         Tuteur: item.tuteur ? `${item.tuteur.prenom} ${item.tuteur.nom}` : 'Aucun Tuteur',
         Statut: item.affecte ? 'Affecté' : 'Non Affecté'
       }))
