@@ -23,6 +23,12 @@ export class ReportingComponent implements OnInit {
   tuteurs: any[] = [];
   selectedTuteurs: number[] = [];
 
+  // Pagination
+  page = 1;
+  limit = 20;
+  pageCount = 1;
+  pagedData: any[] = [];
+
   constructor(private fb: FormBuilder, private reportingService: ReportingService) {
     this.filterForm = this.fb.group({
       majorFilter: [false],
@@ -117,7 +123,49 @@ export class ReportingComponent implements OnInit {
 
     this.reportingService.getFilteredData(filters).subscribe((data) => {
       this.filteredData = data;
+      this.page = 1;
+      this.pageCount = Math.ceil(this.filteredData.length / this.limit) || 1;
+      this.updatePagedData();
     });
+  }
+
+  updatePagedData() {
+    const start = (this.page - 1) * this.limit;
+    const end = start + this.limit;
+    this.pagedData = this.filteredData.slice(start, end);
+  }
+
+  nextPage() {
+    if (this.page < this.pageCount) {
+      this.page++;
+      this.updatePagedData();
+    }
+  }
+  prevPage() {
+    if (this.page > 1) {
+      this.page--;
+      this.updatePagedData();
+    }
+  }
+  goToPage(pageNum: number) {
+    if (pageNum >= 1 && pageNum <= this.pageCount) {
+      this.page = pageNum;
+      this.updatePagedData();
+    }
+  }
+  get visiblePages(): number[] {
+    const pages: number[] = [];
+    const maxVisible = 5;
+    const half = Math.floor(maxVisible / 2);
+    let start = Math.max(1, this.page - half);
+    let end = Math.min(this.pageCount, start + maxVisible - 1);
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   exportToExcel(): void {

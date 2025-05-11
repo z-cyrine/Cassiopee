@@ -68,7 +68,7 @@
         <!-- Filtrer par Statut -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="statusFilter" />
-          <label class="form-check-label">Filtrer par Statut d’Affectation</label>
+          <label class="form-check-label">Filtrer par Statut d'Affectation</label>
         </div>
         <div *ngIf="filterForm.get('statusFilter')?.value" class="mb-3 ms-4">
           <label for="status" class="form-label">Sélectionner un Statut&nbsp;:</label>
@@ -120,7 +120,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of filteredData">
+          <tr *ngFor="let item of pagedData">
             <td>
               <a [routerLink]="['/etudiants', item.id]">{{ item.prenom }} {{ item.nom }}</a>
             </td>
@@ -138,6 +138,28 @@
           </tr>
         </tbody>
       </table>
+      <div class="pagination-controls" *ngIf="pageCount > 1">
+        <button (click)="prevPage()" [disabled]="page === 1" class="pagination-btn">
+          <i class="fas fa-chevron-left"></i> Précédent
+        </button>
+        <div class="pagination-numbers">
+          <button *ngIf="page > 2" (click)="goToPage(1)" class="pagination-number">1</button>
+          <span *ngIf="page > 3" class="pagination-ellipsis">...</span>
+          <button *ngFor="let pageNum of visiblePages"
+                  (click)="goToPage(pageNum)"
+                  [class.active]="pageNum === page"
+                  class="pagination-number">
+            {{ pageNum }}
+          </button>
+          <span *ngIf="page < pageCount - 2" class="pagination-ellipsis">...</span>
+          <button *ngIf="page < pageCount - 1" (click)="goToPage(pageCount)" class="pagination-number">
+            {{ pageCount }}
+          </button>
+        </div>
+        <button (click)="nextPage()" [disabled]="page === pageCount" class="pagination-btn">
+          Suivant <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
     </div>
   </div>
 </div>
