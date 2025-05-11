@@ -87,8 +87,6 @@ export class EtudiantEditComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted = true;
 
-    console.log('Formulaire soumis', this.etudiantForm.value);
-    console.log('ID récupéré :', this.etudiantId);
     if (this.etudiantForm.invalid || this.etudiantId === null) {
       return;
     }

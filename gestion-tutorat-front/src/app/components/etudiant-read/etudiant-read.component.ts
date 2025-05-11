@@ -29,7 +29,6 @@ export class EtudiantReadComponent implements OnInit {
         .subscribe({
           next: data => {
             this.etudiant = data;
-            console.log('Étudiant reçu:', this.etudiant);
           },
           error: err => {
             console.error('Erreur lors de la récupération de l’étudiant', err);
@@ -54,8 +53,8 @@ export class EtudiantReadComponent implements OnInit {
             this.router.navigate(['/etudiants/all']);
           },
           error: err => {
-            console.error("Erreur lors de la suppression de l’étudiant", err);
-            alert("Une erreur s’est produite lors de la suppression.");
+            console.error("Erreur lors de la suppression de l'étudiant", err);
+            alert("Une erreur s'est produite lors de la suppression.");
           }
         });
     }

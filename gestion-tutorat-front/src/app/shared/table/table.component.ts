@@ -28,10 +28,10 @@ export class TableComponent {
   }
 
   edit(element: any): void {
-    console.log('Edit:', element);
+    // Action d'édition (à implémenter)
   }
 
   delete(element: any): void {
-    console.log('Delete:', element);
+    // Action de suppression (à implémenter)
   }
 }

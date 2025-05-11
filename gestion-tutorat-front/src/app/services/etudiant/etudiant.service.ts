@@ -36,9 +36,11 @@ export class EtudiantService {
     return this.http.post<Etudiant>(this.baseUrl, data);
   }
 
-  // Get all students
-  getStudents(): Observable<Etudiant[]> {
-    return this.http.get<Etudiant[]>(this.baseUrl);
+  // Get all students (paginated)
+  getStudents(page: number = 1, limit: number = 20) {
+    return this.http.get<{ data: Etudiant[]; total: number; page: number; pageCount: number }>(
+      `${this.baseUrl}?page=${page}&limit=${limit}`
+    );
   }
 
   // Get a single student by ID

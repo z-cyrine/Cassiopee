@@ -29,7 +29,6 @@ export class TuteurReadComponent implements OnInit {
         .subscribe({
           next: data => {
             this.tuteur = data;
-            console.log('Tuteur reçu:', this.tuteur);
           },
           error: err => {
             console.error('Erreur lors de la récupération du tuteur', err);

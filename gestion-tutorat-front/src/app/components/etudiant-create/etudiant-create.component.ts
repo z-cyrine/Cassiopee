@@ -63,7 +63,6 @@ export class EtudiantCreateComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.successMessage = 'Étudiant créé avec succès !';
-          console.log('Réponse du serveur:', res);
           // Reset du formulaire
           this.etudiantForm.reset();
           this.submitted = false;
