@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { IsEmail, IsString, IsOptional, IsBoolean } from 'class-validator';
 import { Tuteur } from '../tuteur/tuteur.entity';
 import { Majeures } from '../majeures/majeures';
+import { Majeures } from '../majeures/majeures';
 
 @Entity()
 export class Etudiant {

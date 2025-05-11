@@ -1,0 +1,79 @@
+<div class="container mt-5">
+  <div class="card read-card">
+    <div class="card-header read-card-header">
+      <h2>Détails de l'Étudiant</h2>
+    </div>
+    <div class="card-body" *ngIf="etudiant">
+      <div class="detail-row">
+        <span class="detail-label">ID :</span>
+        <span class="detail-value">{{ etudiant.id }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Nom :</span>
+        <span class="detail-value">{{ etudiant.nom }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Prénom :</span>
+        <span class="detail-value">{{ etudiant.prenom }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Email École :</span>
+        <span class="detail-value">{{ etudiant.emailEcole }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Origine :</span>
+        <span class="detail-value">{{ etudiant.origine }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">École :</span>
+        <span class="detail-value">{{ etudiant.ecole }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Langue Majeure :</span>
+        <span class="detail-value">{{ etudiant.langueMajeure }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Affecté :</span>
+        <span class="detail-value">{{ etudiant.affecte ? 'Oui' : 'Non' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Tuteur :</span>
+        <span class="detail-value">
+          <ng-container *ngIf="etudiant.tuteur; else noTutor">
+            <a [routerLink]="['/tuteurs', etudiant.tuteur.id]">
+              {{ etudiant.tuteur.nom }} {{ etudiant.tuteur.prenom }}
+            </a>
+          </ng-container>
+          <ng-template #noTutor>
+            Aucun tuteur
+          </ng-template>
+        </span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Majeure :</span>
+        <span class="detail-value">
+          <ng-container *ngIf="etudiant.majeure; else noMajor">
+            <a [routerLink]="['/majeure', etudiant.majeure.id]">
+              {{ etudiant.majeure.code }} – {{ etudiant.majeure.groupe }}
+            </a>
+          </ng-container>
+          <ng-template #noMajor>
+            Aucune majeure
+          </ng-template>
+        </span>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="action-buttons mt-4">
+        <!-- Redirect to the student edit page -->
+        <a [routerLink]="['/etudiants/edit', etudiant.id]" class="btn edit-btn">
+          <i class="bi bi-pencil-square"></i> Éditer
+        </a>
+        <button class="btn delete-btn" (click)="onDeleteEtudiant()">
+          <i class="bi bi-trash-fill"></i> Supprimer
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</div>

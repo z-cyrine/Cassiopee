@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { EtudiantService, Etudiant } from '../../services/etudiant.service';
+import { EtudiantService, Etudiant } from '../../services/etudiant/etudiant.service';
 
 @Component({
   standalone: true,
   selector: 'app-etudiant-create',
   templateUrl: './etudiant-create.component.html',
+  styleUrls: ['./etudiant-create.component.css'],
   imports: [CommonModule, ReactiveFormsModule]
 })
 export class EtudiantCreateComponent implements OnInit {
@@ -58,14 +59,14 @@ export class EtudiantCreateComponent implements OnInit {
 
     // Appel au service pour créer l'étudiant
     this.etudiantService.createEtudiant(newEtudiant).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.successMessage = 'Étudiant créé avec succès !';
         console.log('Réponse du serveur:', res);
         // Reset du formulaire
         this.etudiantForm.reset();
         this.submitted = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Erreur lors de la création de l\'étudiant', err);
       }
     });

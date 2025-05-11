@@ -7,6 +7,7 @@ import { TuteurService, Tuteur } from '../../services/tuteur.service';
   standalone: true,
   selector: 'app-tuteur-create',
   templateUrl: './tuteur-create.component.html',
+  styleUrls: ['./tuteur-create.component.css'],
   imports: [CommonModule, ReactiveFormsModule]
 })
 export class TuteurCreateComponent implements OnInit {

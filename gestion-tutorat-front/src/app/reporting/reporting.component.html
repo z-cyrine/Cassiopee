@@ -1,0 +1,143 @@
+<div class="reporting-container">
+  <!-- Filter Form Card -->
+  <div class="reporting-card">
+    <div class="reporting-header">
+      <h2>Filtres Dynamiques de Reporting</h2>
+    </div>
+    <div class="reporting-body">
+      <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+        <!-- Filtrer par Majeure -->
+        <div class="form-check mb-2">
+          <input type="checkbox" class="form-check-input" formControlName="majorFilter" (change)="toggleMajor()" />
+          <label class="form-check-label">Filtrer par Majeure</label>
+        </div>
+        <div *ngIf="filterForm.get('majorFilter')?.value" class="mb-3 ms-4">
+          <label for="major" class="form-label">Sélectionner une Majeure&nbsp;:</label>
+          <select formControlName="major" id="major" class="form-select">
+            <option value="">-- Choisir une Majeure --</option>
+            <option *ngFor="let m of majors" [value]="m.code">{{ m.groupe }}</option>
+          </select>
+        </div>
+
+        <!-- Filtrer par Département -->
+        <div class="form-check mb-2">
+          <input type="checkbox" class="form-check-input" formControlName="departmentFilter" (change)="toggleDepartment()" />
+          <label class="form-check-label">Filtrer par Département</label>
+        </div>
+        <div *ngIf="filterForm.get('departmentFilter')?.value" class="mb-3 ms-4">
+          <label for="department" class="form-label">Sélectionner un Département&nbsp;:</label>
+          <select formControlName="department" id="department" class="form-select">
+            <option value="">-- Choisir un Département --</option>
+            <option *ngFor="let d of departments" [value]="d">{{ d }}</option>
+          </select>
+        </div>
+
+        <!-- Filtrer par Langue -->
+        <div class="form-check mb-2">
+          <input type="checkbox" class="form-check-input" formControlName="languageFilter" />
+          <label class="form-check-label">Filtrer par Langue</label>
+        </div>
+        <div *ngIf="filterForm.get('languageFilter')?.value" class="mb-3 ms-4">
+          <label for="language" class="form-label">Sélectionner une Langue&nbsp;:</label>
+          <select formControlName="language" id="language" class="form-select">
+            <option value="">-- Choisir une Langue --</option>
+            <option value="FR">Français</option>
+            <option value="EN">Anglais</option>
+            <option value="EN/FR">Anglais & Français</option>
+          </select>
+        </div>
+
+        <!-- Filtrer par Nom de Tuteur -->
+        <div class="form-check mb-2">
+          <input type="checkbox" class="form-check-input" formControlName="tutorFilter" />
+          <label class="form-check-label">Filtrer par Nom du Tuteur</label>
+        </div>
+        <div *ngIf="filterForm.get('tutorFilter')?.value" class="mb-3 ms-4">
+          <input type="text" formControlName="tutorName" class="form-control" placeholder="Saisir le nom du tuteur" />
+        </div>
+
+        <!-- Filtrer par Nom Étudiant -->
+        <div class="form-check mb-2">
+          <input type="checkbox" class="form-check-input" formControlName="studentFilter" />
+          <label class="form-check-label">Filtrer par Nom de l'Étudiant</label>
+        </div>
+        <div *ngIf="filterForm.get('studentFilter')?.value" class="mb-3 ms-4">
+          <input type="text" formControlName="studentName" class="form-control" placeholder="Saisir le nom de l'étudiant" />
+        </div>
+
+        <!-- Filtrer par Statut -->
+        <div class="form-check mb-2">
+          <input type="checkbox" class="form-check-input" formControlName="statusFilter" />
+          <label class="form-check-label">Filtrer par Statut d’Affectation</label>
+        </div>
+        <div *ngIf="filterForm.get('statusFilter')?.value" class="mb-3 ms-4">
+          <label for="status" class="form-label">Sélectionner un Statut&nbsp;:</label>
+          <select formControlName="status" id="status" class="form-select">
+            <option value="">-- Choisir un Statut --</option>
+            <option value="AFFECTES">Affecté</option>
+            <option value="NON_AFFECTES">Non Affecté</option>
+            <option value="ALL">Tous</option>
+          </select>
+        </div>
+
+        <!-- Tuteurs en option -->
+        <div class="mb-3">
+          <div *ngFor="let tutor of tuteurs" class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              [value]="tutor.id"
+              (change)="toggleTuteurSelection(tutor.id)" />
+            <label class="form-check-label">{{ tutor.prenom }} {{ tutor.nom }}</label>
+          </div>
+        </div>
+
+        <!-- Boutons Valider + Exporter -->
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Valider</button>
+          <button type="button" class="btn btn-success" *ngIf="filteredData.length > 0" (click)="exportToExcel()">
+            Exporter en Excel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Résultats -->
+  <div class="reporting-card mt-4" *ngIf="filteredData && filteredData.length > 0">
+    <div class="reporting-header">
+      <h3>Résultats du Filtre</h3>
+    </div>
+    <div class="reporting-body">
+      <table class="table table-striped results-table">
+        <thead>
+          <tr>
+            <th>Étudiant</th>
+            <th>Tuteur</th>
+            <th>Langue</th>
+            <th>Nom Groupe</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredData">
+            <td>
+              <a [routerLink]="['/etudiants', item.id]">{{ item.prenom }} {{ item.nom }}</a>
+            </td>
+            <td>
+              <ng-container *ngIf="item.tuteur; else noTutor">
+                <a [routerLink]="['/tuteurs', item.tuteur.id]">
+                  {{ item.tuteur.prenom }} {{ item.tuteur.nom }}
+                </a>
+              </ng-container>
+              <ng-template #noTutor><span>Aucun Tuteur</span></ng-template>
+            </td>
+            <td>{{ item.langue || 'N/A' }}</td>
+            <td>{{ item.nomGroupe || 'N/A' }}</td>
+            <td>{{ item.affecte ? 'Affecté' : 'Non Affecté' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

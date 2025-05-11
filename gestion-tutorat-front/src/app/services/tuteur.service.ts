@@ -38,4 +38,13 @@ export class TuteurService {
   createTuteur(tuteur: Tuteur): Observable<Tuteur> {
     return this.http.post<Tuteur>(this.baseUrl, tuteur);
   }
+
+  findOne(id: number): Observable<Tuteur> {
+    return this.http.get<Tuteur>(`${this.baseUrl}/${id}`);
+  }
+  
+  update(id: number, tuteur: Tuteur): Observable<Tuteur> {
+    return this.http.put<Tuteur>(`${this.baseUrl}/${id}`, tuteur);
+  }
+  
 }

@@ -1,0 +1,68 @@
+.container {
+  margin-top: 30px;
+}
+
+/* Card styling */
+.create-card {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-card .card-header {
+  background-color: #0085C3; /* Same teal as above */
+  color: #ffffff;
+  text-align: center;
+  padding: 15px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom: none;
+  font-size: 1.25rem;
+}
+
+.create-card .card-body {
+  padding: 20px;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Labels in magenta/purple */
+.form-group label,
+.form-check-label {
+  font-weight: 600;
+  color: #b42978;
+}
+
+/* Inputs */
+.form-control {
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Submit button in magenta/purple */
+.btn-submit {
+  background-color: #b42978;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  padding: 10px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #931c67; /* Darker hover shade */
+}
+
+/* Success message */
+.success-alert {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}
