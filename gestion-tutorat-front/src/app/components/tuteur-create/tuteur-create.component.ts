@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TuteurService, Tuteur } from '../../services/tuteur.service';
+import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
