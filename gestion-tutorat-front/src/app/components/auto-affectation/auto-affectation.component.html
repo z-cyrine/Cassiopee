@@ -1,23 +1,32 @@
 <!-- auto-affectation.component.html -->
 <div class="container">
-
-  <div class="form-group mb-3">
-    <label for="equivalence">Équivalence : </label>
-    <input type="number" id="equivalence" [(ngModel)]="equivalence" min="1" class="form-control" />
-    <small class="form-text text-muted">Nombre de INI équivalents à 1 ALT (ex: 2 signifie 2 INI = 1 ALT)</small>
+  <div class="equivalence-card">
+    <span class="equivalence-icon"><i class="bi bi-arrow-left-right"></i></span>
+    <label for="equivalence" class="equivalence-label">Équivalence :</label>
+    <input type="number" id="equivalence" [(ngModel)]="equivalence" min="1" class="equivalence-input" />
+    <span class="equivalence-help">Nombre de INI équivalents à 1 ALT (ex: 2 signifie 2 INI = 1 ALT)</span>
   </div>
 
   <h2>Résultat de l'affectation automatique</h2>
-  <button (click)="loadAffectation()">Relancer l'affectation</button>
+  <button (click)="loadAffectation()"><i class="bi bi-arrow-repeat"></i> Relancer l'affectation</button>
 
   <div *ngIf="loading">Chargement...</div>
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
-  <!-- Affichage du résumé -->
-  <div *ngIf="result">
-    <p>Total étudiants traités : {{ result.total }}</p>
-    <p>Étudiants affectés automatiquement : {{ result.assigned }}</p>
-    <p>Étudiants à traiter manuellement : {{ result.total - result.assigned }}</p>
+  <!-- Affichage du résumé sous forme de cartes -->
+  <div *ngIf="result" class="summary-cards">
+    <div class="summary-card">
+      <span>Total étudiants traités</span><br>
+      <span class="summary-value" style="color:#7b5fc9;">{{ result.total }}</span>
+    </div>
+    <div class="summary-card">
+      <span>Étudiants affectés automatiquement</span><br>
+      <span class="summary-value" style="color:#27ae60;">{{ result.assigned }}</span>
+    </div>
+    <div class="summary-card">
+      <span>Étudiants à traiter manuellement</span><br>
+      <span class="summary-value" style="color:#e67e22;">{{ result.total - result.assigned }}</span>
+    </div>
   </div>
 
   <!-- Utilisation du composant table réutilisable -->
