@@ -12,7 +12,12 @@ import * as FileSaver from 'file-saver';
   templateUrl: './reporting.component.html',
   styleUrls: ['./reporting.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterModule
+  ],
   providers: [ReportingService]
 })
 export class ReportingComponent implements OnInit {
@@ -30,7 +35,10 @@ export class ReportingComponent implements OnInit {
   pageCount = 1;
   pagedData: any[] = [];
 
-  constructor(private fb: FormBuilder, private reportingService: ReportingService) {
+  constructor(
+    private fb: FormBuilder,
+    private reportingService: ReportingService
+  ) {
     this.filterForm = this.fb.group({
       majorFilter: [false],
       major: [''],

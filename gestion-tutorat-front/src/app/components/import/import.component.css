@@ -113,3 +113,23 @@ input[type="file"]::-webkit-file-upload-button {
 input[type="file"]::-webkit-file-upload-button:hover {
   background: #2980b9;
 }
+
+.danger-zone {
+  border: 2px solid #dc3545;
+  background: #fff0f3;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(220,53,69,0.05);
+}
+
+.danger-title {
+  color: #dc3545;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.danger-text {
+  color: #b52a3a;
+  font-size: 1rem;
+}

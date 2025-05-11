@@ -1,4 +1,4 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tuteur } from '../../modules/tuteur/tuteur.entity';
@@ -20,14 +20,8 @@ export class ResetService {
 
   /**
    * Réinitialise la base de données en supprimant toutes les données
-   * @param adminPassword Mot de passe administrateur pour confirmation
    */
-  async resetDatabase(adminPassword: string): Promise<void> {
-    // Vérification du mot de passe administrateur
-    if (adminPassword !== process.env.ADMIN_PASSWORD) {
-      throw new UnauthorizedException('Mot de passe administrateur incorrect');
-    }
-
+  async resetDatabase(): Promise<void> {
     try {
       this.logger.log('Début de la réinitialisation de la base de données...');
 

@@ -50,16 +50,34 @@
           </small>
         </div>
   
-          <!-- Bouton de soumission -->
+          <!-- Bouton d'import -->
           <button type="submit" class="btn btn-success w-100 py-2">
             <i class="bi bi-upload"></i> Importer les Fichiers
           </button>
         </form>
       </div>
   
-      <!-- Message d'alerte -->
-      <div *ngIf="alertMessage" class="alert alert-info text-center m-3" role="alert">
-        {{ alertMessage }}
+      <!-- Section Danger / Administration avancée (en dehors du form) -->
+      <div class="danger-zone my-4 p-3">
+        <h5 class="danger-title mb-3">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          Zone d'administration avancée
+        </h5>
+        <p class="danger-text mb-3">
+          <strong>Attention :</strong> Cette action supprimera <u>toutes</u> les données de la base. Elle est irréversible.
+        </p>
+        <button type="button" class="btn btn-danger w-100 py-2" (click)="openResetConfirmation()">
+          <i class="bi bi-trash"></i> Réinitialiser la base de données
+        </button>
+        <!-- Message d'alerte pour la réinitialisation -->
+        <div *ngIf="resetMessage" class="alert alert-danger text-center mt-3" role="alert">
+          {{ resetMessage }}
+        </div>
+      </div>
+  
+      <!-- Message d'alerte pour l'import -->
+      <div *ngIf="importMessage" class="alert alert-info text-center m-3" role="alert">
+        {{ importMessage }}
       </div>
     </div>
   </div>
