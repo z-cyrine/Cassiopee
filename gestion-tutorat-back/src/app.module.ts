@@ -20,6 +20,7 @@ import { MajeuresModule } from './modules/majeures/majeures.module';
 import { EtudiantModule } from './modules/etudiant/etudiant.module';
 import { TuteurModule } from './modules/tuteur/tuteur.module';
 import { ReportingModule } from './modules/reporting/reporting.module';
+import { ResetModule } from './services/reset/reset.module';
 
 @Module({
 imports: [
@@ -40,6 +41,7 @@ MajeuresModule,
 EtudiantModule,
 TuteurModule,
 ReportingModule,
+ResetModule
 ],
 controllers: [
 AppController,
