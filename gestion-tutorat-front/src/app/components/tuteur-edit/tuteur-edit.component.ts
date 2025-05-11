@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TuteurService, Tuteur } from '../../services/tuteur.service';
+import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tuteur-edit',
@@ -11,11 +13,12 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule]
 })
-export class TuteurEditComponent implements OnInit {
+export class TuteurEditComponent implements OnInit, OnDestroy {
   tuteurForm!: FormGroup;
   submitted = false;
   tuteurId!: number;
   successMessage = '';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -55,21 +58,23 @@ export class TuteurEditComponent implements OnInit {
   }
 
   loadTuteur(): void {
-    this.tuteurService.findOne(this.tuteurId).subscribe({
-      next: (data: Tuteur) => {
-        // Convert arrays into comma‐separated strings for the form inputs.
-        const patchedData = {
-          ...data,
-          langueTutorat: Array.isArray(data.langueTutorat) ? data.langueTutorat.join(', ') : '',
-          matieres: Array.isArray(data.matieres) ? data.matieres.join(', ') : '',
-          domainesExpertise: Array.isArray(data.domainesExpertise) ? data.domainesExpertise.join(', ') : ''
-        };
-        this.tuteurForm.patchValue(patchedData);
-      },
-      error: (err: any) => {
-        console.error('Erreur lors du chargement du tuteur', err);
-      }
-    });
+    this.tuteurService.findOne(this.tuteurId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data: Tuteur) => {
+          // Convert arrays into comma‐separated strings for the form inputs.
+          const patchedData = {
+            ...data,
+            langueTutorat: Array.isArray(data.langueTutorat) ? data.langueTutorat.join(', ') : '',
+            matieres: Array.isArray(data.matieres) ? data.matieres.join(', ') : '',
+            domainesExpertise: Array.isArray(data.domainesExpertise) ? data.domainesExpertise.join(', ') : ''
+          };
+          this.tuteurForm.patchValue(patchedData);
+        },
+        error: (err: any) => {
+          console.error('Erreur lors du chargement du tuteur', err);
+        }
+      });
   }
 
   // For easy access to form controls in the template.
@@ -98,13 +103,20 @@ export class TuteurEditComponent implements OnInit {
       (typeof formValue.domainesExpertise === 'string' && formValue.domainesExpertise) ?
         formValue.domainesExpertise.split(',').map((s: string) => s.trim()).filter((s: string) => s) : [];
 
-    this.tuteurService.update(this.tuteurId, formValue).subscribe({
-      next: (res: Tuteur) => {
-        this.successMessage = 'Tuteur mis à jour avec succès !';
-      },
-      error: (err) => {
-        console.error('Erreur lors de la mise à jour du tuteur', err);
-      }
-    });
+    this.tuteurService.update(this.tuteurId, formValue)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: Tuteur) => {
+          this.successMessage = 'Tuteur mis à jour avec succès !';
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour du tuteur', err);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

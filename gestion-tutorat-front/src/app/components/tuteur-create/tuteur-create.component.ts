@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TuteurService, Tuteur } from '../../services/tuteur.service';
+import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   standalone: true,
@@ -10,10 +12,11 @@ import { TuteurService, Tuteur } from '../../services/tuteur.service';
   styleUrls: ['./tuteur-create.component.css'],
   imports: [CommonModule, ReactiveFormsModule]
 })
-export class TuteurCreateComponent implements OnInit {
+export class TuteurCreateComponent implements OnInit, OnDestroy {
   tuteurForm!: FormGroup;
   submitted = false;
   successMessage = '';
+  private destroy$ = new Subject<void>();
 
   constructor(private fb: FormBuilder, private tuteurService: TuteurService) {}
 
@@ -72,15 +75,22 @@ export class TuteurCreateComponent implements OnInit {
 
     const newTuteur: Tuteur = formValue;
 
-    this.tuteurService.createTuteur(newTuteur).subscribe({
-      next: (res) => {
-        this.successMessage = 'Tuteur créé avec succès !';
-        this.tuteurForm.reset();
-        this.submitted = false;
-      },
-      error: (err) => {
-        console.error('Erreur lors de la création du tuteur', err);
-      }
-    });
+    this.tuteurService.createTuteur(newTuteur)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.successMessage = 'Tuteur créé avec succès !';
+          this.tuteurForm.reset();
+          this.submitted = false;
+        },
+        error: (err) => {
+          console.error('Erreur lors de la création du tuteur', err);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

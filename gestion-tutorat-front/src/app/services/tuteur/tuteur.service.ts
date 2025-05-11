@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Tuteur {
   id?: number;
@@ -31,7 +32,7 @@ export interface Tuteur {
   providedIn: 'root'
 })
 export class TuteurService {
-  private baseUrl = 'http://localhost:3000/tuteur'; // Adjust if needed (or use a proxy)
+  private baseUrl = `${environment.apiUrl}/tuteur`;
 
   constructor(private http: HttpClient) {}
 

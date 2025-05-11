@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportingService {
-  private baseUrl = 'http://localhost:3000'; // Ajuste cette URL selon ton environnement
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface AffectationResult {
   total: number;
@@ -13,7 +14,7 @@ export interface AffectationResult {
   providedIn: 'root',
 })
 export class AffectationService {
-  private readonly baseUrl = 'http://localhost:3000'; // Adaptez selon votre configuration
+  private readonly baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

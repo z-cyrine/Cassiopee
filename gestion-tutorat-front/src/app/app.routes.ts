@@ -1,26 +1,16 @@
 import { Routes } from '@angular/router';
-import { EtudiantCreateComponent } from './components/etudiant-create/etudiant-create.component';
-import { TuteurCreateComponent } from './components/tuteur-create/tuteur-create.component';
-import { AfficheEtudiantsComponent } from './components/affiche-etudiants/affiche-etudiants.component';
-import { ImportComponent } from './components/import/import.component';
-import { AutoAffectationComponent } from './components/auto-affectation/auto-affectation.component';
-import { ReportingComponent } from './reporting/reporting.component';
-import { EtudiantReadComponent } from './components/etudiant-read/etudiant-read.component';
-import { TuteurReadComponent } from './components/tuteur-read/tuteur-read.component';
-import { EtudiantEditComponent } from './components/etudiant-edit/etudiant-edit.component';
-import { TuteurEditComponent } from './components/tuteur-edit/tuteur-edit.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: '/etudiants/all', pathMatch: 'full' },
-  { path: 'etudiants/all', component: AfficheEtudiantsComponent },
-  { path: 'import', component: ImportComponent },
-  { path: 'auto-affectation', component: AutoAffectationComponent },
-  { path: 'etudiant-create', component: EtudiantCreateComponent },
-  { path: 'tuteur-create', component: TuteurCreateComponent },
-  { path: 'reporting', component: ReportingComponent },
-  { path: 'etudiants/:id', component: EtudiantReadComponent },
-  { path: 'tuteurs/:id', component: TuteurReadComponent },
-  { path: 'etudiants/edit/:id', component: EtudiantEditComponent },
-  { path: 'tuteurs/edit/:id', component: TuteurEditComponent },
+  { path: 'etudiants/all', loadComponent: () => import('./components/affiche-etudiants/affiche-etudiants.component').then(m => m.AfficheEtudiantsComponent) },
+  { path: 'import', loadComponent: () => import('./components/import/import.component').then(m => m.ImportComponent) },
+  { path: 'auto-affectation', loadComponent: () => import('./components/auto-affectation/auto-affectation.component').then(m => m.AutoAffectationComponent) },
+  { path: 'etudiant-create', loadComponent: () => import('./components/etudiant-create/etudiant-create.component').then(m => m.EtudiantCreateComponent) },
+  { path: 'tuteur-create', loadComponent: () => import('./components/tuteur-create/tuteur-create.component').then(m => m.TuteurCreateComponent) },
+  { path: 'reporting', loadComponent: () => import('./reporting/reporting.component').then(m => m.ReportingComponent) },
+  { path: 'etudiants/:id', loadComponent: () => import('./components/etudiant-read/etudiant-read.component').then(m => m.EtudiantReadComponent) },
+  { path: 'tuteurs/:id', loadComponent: () => import('./components/tuteur-read/tuteur-read.component').then(m => m.TuteurReadComponent) },
+  { path: 'etudiants/edit/:id', loadComponent: () => import('./components/etudiant-edit/etudiant-edit.component').then(m => m.EtudiantEditComponent) },
+  { path: 'tuteurs/edit/:id', loadComponent: () => import('./components/tuteur-edit/tuteur-edit.component').then(m => m.TuteurEditComponent) },
   { path: '**', redirectTo: '/etudiants/all' }  // Catch-all route
 ];

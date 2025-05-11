@@ -7,6 +7,7 @@ import {
     Put,
     Delete,
     ParseIntPipe,
+    Query,
   } from '@nestjs/common';
   import { EtudiantService } from './etudiant.service';
   import { CreateEtudiantDto } from './dto/create-etudiant.dto';
@@ -25,8 +26,11 @@ import {
   
     // READ ALL
     @Get()
-    findAll(): Promise<Etudiant[]> {
-      return this.etudiantService.findAll();
+    findAll(
+      @Query('page') page: number = 1,
+      @Query('limit') limit: number = 20
+    ) {
+      return this.etudiantService.findAllPaginated(Number(page), Number(limit));
     }
   
     // READ ONE

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-tuteur-read',
@@ -24,11 +25,10 @@ export class TuteurReadComponent implements OnInit {
     const idParam = this.route.snapshot.paramMap.get('id');
     this.tuteurId = idParam ? parseInt(idParam, 10) : null;
     if (this.tuteurId !== null) {
-      this.http.get(`http://localhost:3000/tuteur/${this.tuteurId}`)
+      this.http.get(`${environment.apiUrl}/tuteur/${this.tuteurId}`)
         .subscribe({
           next: data => {
             this.tuteur = data;
-            console.log('Tuteur reçu:', this.tuteur);
           },
           error: err => {
             console.error('Erreur lors de la récupération du tuteur', err);
@@ -46,7 +46,7 @@ export class TuteurReadComponent implements OnInit {
 
   onDeleteTuteur(): void {
     if (this.tuteurId !== null && confirm("Confirmez-vous la suppression de ce tuteur ?")) {
-      this.http.delete(`http://localhost:3000/tuteur/${this.tuteurId}`)
+      this.http.delete(`${environment.apiUrl}/tuteur/${this.tuteurId}`)
         .subscribe({
           next: () => {
             alert("Tuteur supprimé avec succès.");

@@ -49,4 +49,19 @@ export class EtudiantService {
     const etudiant = await this.findOne(id);
     await this.etudiantRepository.remove(etudiant);
   }
+
+  async findAllPaginated(page: number = 1, limit: number = 20): Promise<{ data: Etudiant[]; total: number; page: number; pageCount: number }> {
+    const [result, total] = await this.etudiantRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      relations: ['tuteur'],
+      order: { id: 'ASC' }
+    });
+    return {
+      data: result,
+      total,
+      page,
+      pageCount: Math.ceil(total / limit)
+    };
+  }
 }
