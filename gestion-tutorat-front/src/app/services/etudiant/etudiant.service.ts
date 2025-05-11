@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Etudiant {
   id?: number;
@@ -27,7 +28,7 @@ export interface Etudiant {
 })
 export class EtudiantService {
   // Use the backend Etudiant controller base URL.
-  private baseUrl = 'http://localhost:3000/etudiant';
+  private baseUrl = `${environment.apiUrl}/etudiant`;
 
   constructor(private http: HttpClient) {}
 

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-import',
@@ -48,7 +49,7 @@ export class ImportComponent implements OnDestroy {
     if (this.tutoratsFile) formData.append('tutorats', this.tutoratsFile);
     if (this.majorsFile) { formData.append('majors', this.majorsFile); }
     
-    this.http.post('http://localhost:3000/import/upload', formData)
+    this.http.post(`${environment.apiUrl}/import/upload`, formData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
