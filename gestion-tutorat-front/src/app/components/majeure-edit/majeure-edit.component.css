@@ -1,0 +1,68 @@
+/* Container styling */
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header style */
+h2.form-title {
+  color: #0077b6;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Form labels */
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Input styling */
+.form-control {
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Validation feedback */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875em;
+}
+
+/* Submit button styling */
+.btn-primary {
+  background-color: #0096c7;
+  border-color: #0096c7;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background-color: #0077b6;
+  border-color: #0077b6;
+}
+
+/* Success message */
+.alert-success {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .container {
+    padding: 15px;
+  }
+}

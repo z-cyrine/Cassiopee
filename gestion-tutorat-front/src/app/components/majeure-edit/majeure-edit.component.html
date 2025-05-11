@@ -1,0 +1,58 @@
+<div class="container mt-4">
+  <h2 class="form-title">Modifier la Majeure</h2>
+  <form [formGroup]="majeureForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Code</label>
+      <input type="text" class="form-control" formControlName="code" [ngClass]="{ 'is-invalid': submitted && f['code'].errors }" />
+      <div *ngIf="submitted && f['code'].errors" class="invalid-feedback">Ce champ est requis</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Nom Groupe</label>
+      <input type="text" class="form-control" formControlName="groupe" [ngClass]="{ 'is-invalid': submitted && f['groupe'].errors }" />
+      <div *ngIf="submitted && f['groupe'].errors" class="invalid-feedback">Ce champ est requis</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Département</label>
+      <input type="text" class="form-control" formControlName="dept" [ngClass]="{ 'is-invalid': submitted && f['dept'].errors }" />
+      <div *ngIf="submitted && f['dept'].errors" class="invalid-feedback">Ce champ est requis</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Responsable</label>
+      <input type="text" class="form-control" formControlName="responsible" [ngClass]="{ 'is-invalid': submitted && f['responsible'].errors }" />
+      <div *ngIf="submitted && f['responsible'].errors" class="invalid-feedback">Ce champ est requis</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Langue</label>
+      <select class="form-select" formControlName="langue" [ngClass]="{ 'is-invalid': submitted && f['langue'].errors }">
+        <option value="">-- Choisir --</option>
+        <option value="FR">Français</option>
+        <option value="EN">Anglais</option>
+        <option value="FR,EN">Français & Anglais</option>
+      </select>
+      <div *ngIf="submitted && f['langue'].errors" class="invalid-feedback">Ce champ est requis</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">INI / ALT</label>
+      <input type="text" class="form-control" formControlName="iniAlt" [ngClass]="{ 'is-invalid': submitted && f['iniAlt'].errors }" />
+      <div *ngIf="submitted && f['iniAlt'].errors" class="invalid-feedback">Ce champ est requis</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Programme</label>
+      <input type="text" class="form-control" formControlName="programme" [ngClass]="{ 'is-invalid': submitted && f['programme'].errors }" />
+      <div *ngIf="submitted && f['programme'].errors" class="invalid-feedback">Ce champ est requis</div>
+    </div>
+
+    <!-- Only update button remains -->
+    <button class="btn btn-primary" type="submit">Mettre à jour la Majeure</button>
+  </form>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }}
+  </div>
+</div>

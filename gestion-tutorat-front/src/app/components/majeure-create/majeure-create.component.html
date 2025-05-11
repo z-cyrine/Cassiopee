@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="card create-card">
+    <div class="card-header">
+      <h2>Ajouter une Majeure</h2>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="majeureForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Code</label>
+          <input type="text" formControlName="code" class="form-control" placeholder="Code de la majeure">
+        </div>
+        <div class="form-group">
+          <label>Nom Groupe</label>
+          <input type="text" formControlName="groupe" class="form-control" placeholder="Nom du groupe">
+        </div>
+        <div class="form-group">
+          <label>Département</label>
+          <input type="text" formControlName="dept" class="form-control" placeholder="Département">
+        </div>
+        <div class="form-group">
+          <label>Responsable</label>
+          <input type="text" formControlName="responsible" class="form-control" placeholder="Responsable">
+        </div>
+
+        <div class="form-group">
+          <label>Langue</label>
+          <select formControlName="langue" class="form-select" required>
+            <option value="">-- Choisir une langue --</option>
+            <option value="FR">Français</option>
+            <option value="EN">Anglais</option>
+            <option value="FR,EN">Français & Anglais</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>INI / ALT</label>
+          <input type="text" formControlName="iniAlt" class="form-control" placeholder="INI ou ALT">
+        </div>
+        <div class="form-group">
+          <label>Programme</label>
+          <input type="text" formControlName="programme" class="form-control" placeholder="Programme">
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-submit">Créer la Majeure</button>
+        </div>
+      </form>
+
+      <div *ngIf="successMessage" class="alert alert-success success-alert mt-3">
+        {{ successMessage }}
+      </div>
+    </div>
+  </div>
+</div>

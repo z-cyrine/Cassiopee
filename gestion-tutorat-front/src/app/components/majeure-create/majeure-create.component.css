@@ -1,0 +1,61 @@
+.container {
+  margin-top: 30px;
+}
+
+.create-card {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-card .card-header {
+  background-color: #0085C3;
+  color: #ffffff;
+  text-align: center;
+  padding: 15px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom: none;
+  font-size: 1.25rem;
+}
+
+.create-card .card-body {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #b42978;
+}
+
+.form-control {
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.btn-submit {
+  background-color: #b42978;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  padding: 10px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #931c67;
+}
+
+.success-alert {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}

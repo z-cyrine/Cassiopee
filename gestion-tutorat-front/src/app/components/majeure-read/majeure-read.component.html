@@ -1,0 +1,48 @@
+<div class="container mt-5">
+  <div class="card read-card">
+    <div class="card-header read-card-header">
+      <h2>Détails de la Majeure</h2>
+    </div>
+    <div class="card-body" *ngIf="majeure">
+      <div class="detail-row">
+        <span class="detail-label">ID :</span>
+        <span class="detail-value">{{ majeure.id }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Code :</span>
+        <span class="detail-value">{{ majeure.code }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Nom Groupe :</span>
+        <span class="detail-value">{{ majeure.groupe }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Département :</span>
+        <span class="detail-value">{{ majeure.dept }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Responsable :</span>
+        <span class="detail-value">{{ majeure.responsible }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Langue :</span>
+        <span class="detail-value">{{ majeure.langue }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">INI / ALT :</span>
+        <span class="detail-value">{{ majeure.iniAlt }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Programme :</span>
+        <span class="detail-value">{{ majeure.programme }}</span>
+      </div>
+
+      <!-- Only Edit button remains -->
+      <div class="action-buttons mt-4">
+        <a [routerLink]="['/majeures/edit', majeure.id]" class="btn edit-btn">
+          <i class="bi bi-pencil-square"></i> Éditer
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
