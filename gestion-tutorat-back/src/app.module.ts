@@ -43,7 +43,8 @@ MajeuresModule,
 EtudiantModule,
 TuteurModule,
 ReportingModule,
-ResetModule
+ResetModule,
+AffectationManuelleModule,
 ],
 controllers: [
 AppController,
