@@ -1,9 +1,10 @@
 <div class="split-screen">
   <!-- Students Section -->
-  <div class="left-column">
+  <div class="left-column border">
     <div class="cards-container">
       <h2>Liste des Étudiants</h2>
       <app-filtre-etudiants [students]="students"></app-filtre-etudiants>
+
       <div *ngFor="let student of filteredStudents" class="student-card">
         <div class="card">
           <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
@@ -56,10 +57,10 @@
   </div>
 
   <!-- Tutors Section -->
-  <div class="right-column">
+  <div class="right-column border">
     <div class="cards-container">
       <h2>Liste des Tuteurs</h2>
-      <mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #f8f8f8;">
+      <mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #075cb100;">
         <div class="card">
         <mat-card-header>
           <mat-card-title><h5 class="card-title text-start">
