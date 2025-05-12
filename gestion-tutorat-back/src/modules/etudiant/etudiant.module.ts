@@ -5,6 +5,15 @@ import { EtudiantService } from './etudiant.service';
 import { EtudiantController } from './etudiant.controller';
 
 @Module({
+    imports: [TypeOrmModule.forFeature([Etudiant])],
+    providers: [EtudiantService],
+    controllers: [EtudiantController],
+  })
+// import { EtudiantService } from './etudiant.service';
+// import { EtudiantController } from './etudiant.controller';
+
+
+@Module({
   imports: [TypeOrmModule.forFeature([Etudiant])],
   providers: [EtudiantService],
   controllers: [EtudiantController],

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TableComponent } from '../../shared/table/table.component';
 import { EtudiantService } from '../../services/etudiant/etudiant.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { MatTableModule } from '@angular/material/table'; // Required for mat-table
 @Component({
   selector: 'app-affiche-etudiants',
   standalone: true,
-  imports: [CommonModule, TableComponent, FormsModule],
+  imports: [CommonModule, FormsModule, MatTableModule, CommonModule],
   templateUrl: './affiche-etudiants.component.html',
   styleUrls: ['./affiche-etudiants.component.css'],
 })
@@ -68,11 +67,9 @@ export class AfficheEtudiantsComponent implements OnInit {
         this.page = response.page;
         this.pageCount = response.pageCount;
         if (this.students.length > 0) {
-          this.columns = Object.keys(this.students[0]).map((key) => ({
-            columnDef: key,
-            header: this.formatHeader(key),
-            cell: (element: any) => this.extractNestedData(element, key),
-          }));
+          this.columns = Object.keys(this.students[0])
+          .filter((key) => key !== 'logs')
+          .concat('actions');
         }
         this.loading = false;
       },
@@ -119,6 +116,14 @@ export class AfficheEtudiantsComponent implements OnInit {
     } else {
       alert('Please enter a valid percentage between 0 and 100.');
     }
+    }
+
+    edit(element: any): void {
+      console.log('Edit:', element);
+    }
+  
+    delete(element: any): void {
+      console.log('Delete:', element);
     }
 
 }
