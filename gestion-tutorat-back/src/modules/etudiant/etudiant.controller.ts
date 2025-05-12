@@ -33,6 +33,11 @@ import {
       return this.etudiantService.findAllPaginated(Number(page), Number(limit));
     }
   
+    @Get('all')
+    findAllNotPaginated() {
+      return this.etudiantService.findAll();
+    }
+
     // READ ONE
     @Get(':id')
     findOne(@Param('id', ParseIntPipe) id: number): Promise<Etudiant> {
