@@ -22,6 +22,7 @@ import { TuteurController } from './services/tuteur/tuteur.controller';
 import { TuteurModule } from './modules/tuteur/tuteur.module';
 import { AffectationManuelleController } from './affectation-manuelle/affectation-manuelle.controller';
 import { AffectationManuelleService } from './affectation-manuelle/affectation-manuelle.service';
+import { AffectationManuelleModule } from './affectation-manuelle/affectation-manuelle.module';
 
 @Module({
 imports: [
