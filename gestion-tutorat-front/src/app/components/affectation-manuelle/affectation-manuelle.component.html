@@ -42,7 +42,7 @@
             
             <mat-card-title>    
               <h5 class="card-title text-start">
-              {{ student.prenom }} {{ student.nom }} 
+                <a [routerLink]="['/etudiants', student.id]">{{ student.prenom }} {{ student.nom }} </a>
               <span [ngClass]="{
                 'badge': true, 
                 'badge-success': student.affecte, 
@@ -52,11 +52,16 @@
               </span>
               </h5>
             </mat-card-title>
-            <div style="float: right;">
-              <app-affecter *ngIf=!student.affecte 
-              [etudiant]=student 
-              (etudiantAffecte)="onEtudiantAffecte($event)"></app-affecter>
-            </div>
+            <mat-card-actions>
+              <ng-container matColumnDef="actions">
+                  <button type="button" [routerLink]="['/etudiants/edit', student.id]" class="icon-btn edit" *ngIf="showEdit" title="Éditer">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button type="button" class="icon-btn delete" (click)="onDeleteEtudiant(student.id)" title="Supprimer">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+              </ng-container>
+            </mat-card-actions>
           </mat-card-header>
           <mat-card-content>
             <div class="student-details">
@@ -77,15 +82,12 @@
 
             </div>
           </mat-card-content>
-          <mat-card-actions>
-            <button [routerLink]="['/etudiants/edit', student.id]" class="btn edit-btn">
-              <i class="bi bi-pencil-square"></i> Éditer
-            </button>
-            <br><br>
-            <button class="btn delete-btn" (click)="onDeleteEtudiant(student.id)">
-              <i class="bi bi-trash-fill"></i> Supprimer
-            </button>
-          </mat-card-actions>
+
+          <div >
+            <app-affecter *ngIf=!student.affecte 
+            [etudiant]=student 
+            (etudiantAffecte)="onEtudiantAffecte($event)" class="affecter-btn"></app-affecter>
+          </div>
       </div>
       </div>
     </div>

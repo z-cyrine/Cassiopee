@@ -225,34 +225,48 @@ h2 {
 }
 
 /* boutons */
-.delete-btn {
-  background-color: #e74c3c;
-  color: #fff;
-}
-
-.delete-btn:hover {
-  background-color: #c0392b;
-}
-
 .action-buttons {
   margin-top: 20px;
   text-align: right;
 }
 
-.edit-btn, .delete-btn {
-  padding: 8px 16px;
+.affecter-btn{
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+a {
+  color: #7d3bb8;
+  text-decoration:underline;
+}
+/* icon buttons */
+.icon-btn {
+  background: none;
   border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
   cursor: pointer;
+  padding: 4px 6px;
+  margin-right: 4px;
+  border-radius: 4px;
+  font-size: 1.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
 }
-
-.edit-btn {
-  background-color: #00abc7;
+.icon-btn.edit mat-icon {
+  color: #00abc7;
+}
+.icon-btn.delete mat-icon {
+  color: #9b59b6;
+}
+.icon-btn.edit:hover {
+  background: #008fa3;
+}
+.icon-btn.delete:hover {
+  background: #7d3bb8;
+}
+.icon-btn.edit:hover mat-icon,
+.icon-btn.delete:hover mat-icon {
   color: #fff;
-  margin-right: 8px;
-}
-
-.edit-btn:hover {
-  background-color: #0095a3;
 }

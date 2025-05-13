@@ -15,10 +15,12 @@ import { Tuteur } from '../../services/tuteur/tuteur.service';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-affectation-manuelle',
-  imports: [MatTableModule, CommonModule, MatCardModule, FormsModule, MatExpansionModule, MatButtonToggleModule, FiltreEtudiantsComponent, AffecterComponent, RouterModule],
+  imports: [MatIconModule, MatTableModule, CommonModule, MatCardModule, FormsModule, MatExpansionModule, MatButtonToggleModule, FiltreEtudiantsComponent, AffecterComponent, RouterModule],
   templateUrl: './affectation-manuelle.component.html',
   styleUrls: ['./affectation-manuelle.component.css']
 })
