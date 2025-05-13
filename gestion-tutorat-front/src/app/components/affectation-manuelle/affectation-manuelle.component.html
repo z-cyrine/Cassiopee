@@ -5,6 +5,37 @@
       <h2>Liste des Étudiants</h2>
       <app-filtre-etudiants [students]="students"></app-filtre-etudiants>
 
+      <!--PAGINATION 2-->
+      <div class="pagination-wrapper">
+      <div class="pagination-controls" *ngIf="totalPages > 1">
+        <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="pagination-btn">
+          Précédent
+        </button>
+      
+        <div class="pagination-numbers">
+          <button *ngIf="currentPage > 2" (click)="goToPage(1)" class="pagination-number">1</button>
+          <span *ngIf="currentPage > 3" class="pagination-ellipsis">...</span>
+      
+          <button *ngFor="let pageNum of getVisiblePages()" 
+                  (click)="goToPage(pageNum)" 
+                  [class.active]="pageNum === currentPage" 
+                  class="pagination-number">
+            {{ pageNum }}
+          </button>
+      
+          <span *ngIf="currentPage < totalPages - 2" class="pagination-ellipsis">...</span>
+          <button *ngIf="currentPage < totalPages - 1" (click)="goToPage(totalPages)" class="pagination-number">
+            {{ totalPages }}
+          </button>
+        </div>
+      
+        <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">
+          Suivant
+        </button>
+      </div>    
+      </div>  
+      <!--FIN PAGINATION 2-->
+      
       <div *ngFor="let student of filteredStudents" class="student-card">
         <div class="card">
           <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
@@ -47,9 +78,13 @@
             </div>
           </mat-card-content>
           <mat-card-actions>
-            <button type="button" class="btn btn-outline-dark btn-sm" (click)="edit(student)">Edit</button>
+            <button [routerLink]="['/etudiants/edit', student.id]" class="btn edit-btn">
+              <i class="bi bi-pencil-square"></i> Éditer
+            </button>
             <br><br>
-            <button type="button" class="btn btn-danger btn-sm" (click)="delete(student)">Delete</button>
+            <button class="btn delete-btn" (click)="onDeleteEtudiant(student.id)">
+              <i class="bi bi-trash-fill"></i> Supprimer
+            </button>
           </mat-card-actions>
       </div>
       </div>
@@ -60,7 +95,38 @@
   <div class="right-column border">
     <div class="cards-container">
       <h2>Liste des Tuteurs</h2>
-      <mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #075cb100;">
+      <!-- PAGINATION TUTEURS -->
+        <div class="pagination-wrapper">
+          <div class="pagination-controls" *ngIf="totalPagesTuteur > 1">
+            <button (click)="goToPreviousPageTuteur()" [disabled]="currentPageTuteur === 1" class="pagination-btn">
+              Précédent
+            </button>
+
+            <div class="pagination-numbers">
+              <button *ngIf="currentPageTuteur > 2" (click)="goToPageTuteur(1)" class="pagination-number">1</button>
+              <span *ngIf="currentPageTuteur > 3" class="pagination-ellipsis">...</span>
+
+              <button *ngFor="let pageNum of getVisiblePagesTuteur()"
+                      (click)="goToPageTuteur(pageNum)"
+                      [class.active]="pageNum === currentPageTuteur"
+                      class="pagination-number">
+                {{ pageNum }}
+              </button>
+
+              <span *ngIf="currentPageTuteur < totalPagesTuteur - 2" class="pagination-ellipsis">...</span>
+              <button *ngIf="currentPageTuteur < totalPagesTuteur - 1" (click)="goToPageTuteur(totalPagesTuteur)" class="pagination-number">
+                {{ totalPagesTuteur }}
+              </button>
+            </div>
+
+            <button (click)="goToNextPageTuteur()" [disabled]="currentPageTuteur === totalPagesTuteur" class="pagination-btn">
+              Suivant
+            </button>
+          </div>
+        </div>
+      <!-- FIN PAGINATION TUTEURS -->
+      <!--<mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #075cb100;">-->
+      <mat-card *ngFor="let tutor of pagedTuteurs" class="tutor-card">
         <div class="card">
         <mat-card-header>
           <mat-card-title><h5 class="card-title text-start">
@@ -89,9 +155,12 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button type="button" class="btn btn-outline-dark btn-sm" (click)="edit(tutor)">Edit</button>
-          <br><br>
-          <button type="button" class="btn btn-danger btn-sm" (click)="delete(tutor)">Delete</button>
+          <button [routerLink]="['/tuteurs/edit', tutor.id]" class="btn edit-btn">
+            <i class="bi bi-pencil-square"></i> Éditer
+          </button>
+          <button class="btn delete-btn" (click)="onDeleteTuteur(tutor.id)">
+            <i class="bi bi-trash-fill"></i> Supprimer
+          </button>
         </mat-card-actions>
       </div>
       </mat-card>
