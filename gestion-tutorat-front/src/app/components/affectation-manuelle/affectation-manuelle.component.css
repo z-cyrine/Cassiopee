@@ -1,0 +1,267 @@
+mat-card{
+  border-radius: 5px; /* Rounded corners for the card */
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+.split-screen {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Adds space between the two columns */
+  padding: 20px;
+  
+}
+
+/* Left column for students */
+.left-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 5px;
+  max-height: 89vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.right-column {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  max-height: 89vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+    padding: 16px;
+  }
+
+  .student-card {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  /* Card Styling */
+.mat-card-tutor {
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.mat-card-student {
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 5px; /* Rounded corners for the card */
+}
+
+
+mat-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  position: sticky;
+}
+
+mat-card-title span {
+  margin-left: 10px;
+}
+
+/* Button container */
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end; /* Centers the buttons */
+  gap: 10px; /*Adds space between buttons */
+  padding: 0; /* Removes padding */
+}
+
+/* Base Badge Styling */
+.badge {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: normal;
+  display: inline-block;
+  border: 1px solid; /* Add border */
+  color: inherit; /* Text color is inherited from the badge class */
+  background-color: transparent; /* Make the background transparent */
+}
+
+/* Green Badge when Affecté */
+.badge-success {
+  border-color: #28a745; /* Green border */
+  color: #28a745; /* Green text */
+}
+
+/* Red Badge when Not Affecté */
+.badge-danger {
+  border-color: #dc3545; /* Red border */
+  color: #dc3545; /* Red text */
+}
+
+
+
+/* Make the card details appear in a single row */
+mat-card-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Adds space between the card details */
+}
+
+mat-card-content div {
+  flex: 1 1 45%; /* Ensures that the details take up space in two columns (responsive) */
+}
+
+/* Styling for the individual card details */
+mat-card-content div label {
+  font-weight: bold;
+}
+
+mat-card-content div span {
+  color: #3a3a3ae7;
+  font-size: 14px;
+}
+
+h2 {
+  text-align: center; /* Centers the title */
+  font-size: 2rem; /* Makes the title bigger */
+  color: #333; /* Dark color for the text */
+  margin-bottom: 20px; /* Adds some space below the title */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* PAGINATION STYLES */
+
+.pagination-controls {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 600px;
+}
+ 
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination-btn,
+.pagination-number {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  color: #333;
+  min-width: 2.5rem;
+  text-align: center;
+}
+
+.pagination-btn:hover:not(:disabled),
+.pagination-number:hover:not(.active) {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-number.active {
+  background: linear-gradient(135deg, #00abc7, #9b59b6);
+  color: white;
+  border-color: transparent;
+}
+
+.pagination-ellipsis {
+  color: #666;
+  padding: 0 0.5rem;
+}
+
+.loading-indicator {
+  color: #666;
+  font-style: italic;
+  margin-left: 1rem;
+}
+
+@media (max-width: 768px) {
+  .pagination-numbers {
+    gap: 0.25rem;
+  }
+  .pagination-number {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* boutons */
+.affecter-btn{
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+a {
+  color: #7d3bb8;
+  text-decoration:underline;
+}
+/* icon buttons */
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  margin-right: 4px;
+  border-radius: 4px;
+  font-size: 1.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.icon-btn.edit mat-icon {
+  color: #00abc7;
+}
+.icon-btn.delete mat-icon {
+  color: #9b59b6;
+}
+.icon-btn.edit:hover {
+  background: #008fa3;
+}
+.icon-btn.delete:hover {
+  background: #7d3bb8;
+}
+.icon-btn.edit:hover mat-icon,
+.icon-btn.delete:hover mat-icon {
+  color: #fff;
+}

@@ -1,0 +1,172 @@
+  <div class="split-screen">
+    <!-- Students Section -->
+    <div class="left-column border">
+      <div class="cards-container">
+        <h2>Liste des Étudiants</h2>
+        <app-filtre-etudiants [students]="students" (onFilter)="applyFilters($event)"></app-filtre-etudiants>
+
+        <!--PAGINATION 2-->
+        <div class="pagination-wrapper">
+        <div class="pagination-controls" *ngIf="totalPages > 1">
+          <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="pagination-btn">
+            Précédent
+          </button>
+        
+          <div class="pagination-numbers">
+            <button *ngIf="currentPage > 2" (click)="goToPage(1)" class="pagination-number">1</button>
+            <span *ngIf="currentPage > 3" class="pagination-ellipsis">...</span>
+        
+            <button *ngFor="let pageNum of getVisiblePages()" 
+                    (click)="goToPage(pageNum)" 
+                    [class.active]="pageNum === currentPage" 
+                    class="pagination-number">
+              {{ pageNum }}
+            </button>
+        
+            <span *ngIf="currentPage < totalPages - 2" class="pagination-ellipsis">...</span>
+            <button *ngIf="currentPage < totalPages - 1" (click)="goToPage(totalPages)" class="pagination-number">
+              {{ totalPages }}
+            </button>
+          </div>
+        
+          <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">
+            Suivant
+          </button>
+        </div>    
+        </div>  
+        <!--FIN PAGINATION 2-->
+        
+        <div *ngFor="let student of filteredStudents" class="student-card">
+          <div class="card">
+            <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
+              
+              <mat-card-title>    
+                <h5 class="card-title text-start">
+                  <a [routerLink]="['/etudiants', student.id]">{{ student.prenom }} {{ student.nom }} </a>
+                <span [ngClass]="{
+                  'badge': true, 
+                  'badge-success': student.affecte, 
+                  'badge-danger': !student.affecte 
+                }">
+                  {{ student.affecte ? 'Affecté' : 'Non Affecté' }}
+                </span>
+                </h5>
+              </mat-card-title>
+              <mat-card-actions>
+                <ng-container matColumnDef="actions">
+                    <button type="button" [routerLink]="['/etudiants/edit', student.id]" class="icon-btn edit" *ngIf="showEdit" title="Éditer">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button type="button" class="icon-btn delete" (click)="onDeleteEtudiant(student.id)" title="Supprimer">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                </ng-container>
+              </mat-card-actions>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="student-details">
+                <span><strong>Email:</strong> {{ student.emailEcole }}, </span>
+                <span><strong>Origine:</strong> {{ student.origine }}, </span>
+                <span><strong>École:</strong> {{ student.ecole }}, </span>
+                <span><strong>Code Classe:</strong> {{ student.codeClasse }}, </span>
+                <span><strong>Nom Groupe:</strong> {{ student.nomGroupe }}, </span>
+                <span><strong>Langue Majeure:</strong> {{ student.langueMajeure }}, </span>
+                <span><strong>Ini/Alt:</strong> {{ student.iniAlt }}, </span>
+                <span><strong>Entreprise:</strong> {{ student.entreprise }}, </span>
+                <span><strong>Fonction Apprenti:</strong> {{ student.fonctionApprenti }}, </span>
+                <span><strong>Langue:</strong> {{ student.langue }}, </span>
+                <span><strong>Commentaire Affectation:</strong> {{ student.commentaireAffectation }}, </span>
+                <span><strong>Département Rattachement:</strong> {{ student.departementRattachement }}, </span>
+                <span><strong>Affecté:</strong> {{ student.affecte ? 'Oui' : 'Non' }}, </span>
+                <span><strong>Tuteur:</strong> {{ student.tuteur?.prenom }} {{ student.tuteur?.nom || 'Non assigné' }}, </span>
+
+              </div>
+            </mat-card-content>
+
+            <div >
+              <app-affecter *ngIf=!student.affecte 
+              [etudiant]=student 
+              (etudiantAffecte)="onEtudiantAffecte($event)" class="affecter-btn"></app-affecter>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tutors Section -->
+    <div class="right-column border">
+      <div class="cards-container">
+        <h2>Liste des Tuteurs</h2>
+        <!-- PAGINATION TUTEURS -->
+          <div class="pagination-wrapper">
+            <div class="pagination-controls" *ngIf="totalPagesTuteur > 1">
+              <button (click)="goToPreviousPageTuteur()" [disabled]="currentPageTuteur === 1" class="pagination-btn">
+                Précédent
+              </button>
+
+              <div class="pagination-numbers">
+                <button *ngIf="currentPageTuteur > 2" (click)="goToPageTuteur(1)" class="pagination-number">1</button>
+                <span *ngIf="currentPageTuteur > 3" class="pagination-ellipsis">...</span>
+
+                <button *ngFor="let pageNum of getVisiblePagesTuteur()"
+                        (click)="goToPageTuteur(pageNum)"
+                        [class.active]="pageNum === currentPageTuteur"
+                        class="pagination-number">
+                  {{ pageNum }}
+                </button>
+
+                <span *ngIf="currentPageTuteur < totalPagesTuteur - 2" class="pagination-ellipsis">...</span>
+                <button *ngIf="currentPageTuteur < totalPagesTuteur - 1" (click)="goToPageTuteur(totalPagesTuteur)" class="pagination-number">
+                  {{ totalPagesTuteur }}
+                </button>
+              </div>
+
+              <button (click)="goToNextPageTuteur()" [disabled]="currentPageTuteur === totalPagesTuteur" class="pagination-btn">
+                Suivant
+              </button>
+            </div>
+          </div>
+        <!-- FIN PAGINATION TUTEURS -->
+        <!--<mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #075cb100;">-->
+        <mat-card *ngFor="let tutor of pagedTuteurs" class="tutor-card">
+          <div class="card">
+          <mat-card-header>
+            <mat-card-title><h5 class="card-title text-start">
+              <div> 
+                {{ tutor.prenom }} {{ tutor.nom }}
+                <span [ngClass]="tutor.soldeTutoratRestant > 0 ? 'badge badge-success' : 'badge badge-danger'">
+                  {{ tutor.soldeTutoratRestant > 0 ? 'Peut tutorer d\'autres étudiants' : 'Ne peut plus tutorer des étudiants' }}
+                </span>
+                            
+              </div>
+            </h5>
+            </mat-card-title>
+            <mat-card-actions>
+              <button type="button" [routerLink]="['/tuteurs/edit', tutor.id]" class="icon-btn edit" *ngIf="showEdit" title="Éditer">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button type="button" (click)="onDeleteTuteur(tutor.id)" class="icon-btn delete" title="Supprimer">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card-header>
+          <mat-card-content>
+            <div>
+              <span><strong>Email:</strong> {{ tutor.email }}, </span>
+              <span><strong>Département:</strong> {{ tutor.departement }}, </span>
+              <span><strong>Langue de Tutorat:</strong> {{ tutor.langueTutorat || 'Non assigné' }}, </span>
+              <span><strong>Profil:</strong> {{ tutor.profil }}, </span>
+              <span><strong>Statut:</strong> {{ tutor.statut }}, </span>
+              <span><strong>Solde Alt:</strong> {{ tutor.soldeAlt }}, </span>
+              <span><strong>Solde Ini:</strong> {{ tutor.soldeIni }}, </span>
+              <span><strong>Solde Tutorat Restant:</strong> {{ tutor.soldeTutoratRestant }}, </span>
+              <span><strong>Total Étudiants Par:</strong> {{ tutor.totalEtudiantsPar }}, </span>
+              <span><strong>Nombre de Tutorats Affectés:</strong> {{ tutor.nbTutoratAffecte }}</span>
+            </div>
+          </mat-card-content>
+
+        </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>

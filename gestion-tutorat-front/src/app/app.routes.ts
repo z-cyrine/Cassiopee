@@ -9,6 +9,7 @@ export const appRoutes: Routes = [
   { path: 'etudiants/all', loadComponent: () => import('./components/affiche-etudiants/affiche-etudiants.component').then(m => m.AfficheEtudiantsComponent) },
   { path: 'auto-affectation', loadComponent: () => import('./components/auto-affectation/auto-affectation.component').then(m => m.AutoAffectationComponent) },
   { path: 'reporting', loadComponent: () => import('./reporting/reporting.component').then(m => m.ReportingComponent) },
+  { path: 'affectation-manuelle', loadComponent: () => import('./components/affectation-manuelle/affectation-manuelle.component').then(m => m.AffectationManuelleComponent) },
 
   // Créations
   { path: 'etudiant-create', loadComponent: () => import('./components/etudiant-create/etudiant-create.component').then(m => m.EtudiantCreateComponent) },

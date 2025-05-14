@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Affectation de l'étudiant {{data.name}} {{data.prenom}}</h2>
+
+<mat-dialog-content>
+  <div  style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+    
+    <form class="example-form">
+      <p>Saisir le nom du tuteur</p>
+      <mat-form-field class="example-full-width">
+        <mat-label>Nom du tuteur</mat-label>
+        <input type="text"
+              placeholder="Saisir un nom"
+              aria-label="Nom du tuteur"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTuteurSelected($event)"   [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredTuteurs$ | async" [value]="option" [disabled]="option.id === -1">
+            {{ option.nom }}
+          </mat-option>
+          
+        </mat-autocomplete>
+      </mat-form-field>
+      <p>Saisir le prénom du tuteur</p>
+      <mat-form-field class="example-full-width">
+        <mat-label>Prénom du tuteur</mat-label>
+        <input type="text"
+              placeholder="Saisir un prénom"
+              aria-label="Prénom du tuteur"
+              matInput
+              [formControl]="prenomControl"
+              [matAutocomplete]="prenomAuto">
+        <mat-autocomplete #prenomAuto="matAutocomplete" (optionSelected)="onPrenomSelected($event)"  [displayWith]="displayPrenom">
+          <mat-option *ngFor="let p of filteredPrenoms$ | async" [value]="p" [disabled]="p === 'Aucun tuteur disponible'">
+            {{ p }}
+          </mat-option>
+          
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button (click)="affecter()">Affecter</button>
+  <button mat-button (click)="resetChamps()">Réinitialiser</button>
+</mat-dialog-actions>

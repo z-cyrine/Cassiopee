@@ -50,7 +50,7 @@ export class TuteurReadComponent implements OnInit {
         .subscribe({
           next: () => {
             alert("Tuteur supprimé avec succès.");
-            this.router.navigate(['/tuteurs/all']);
+            this.router.navigate(['/home']);
           },
           error: err => {
             console.error("Erreur lors de la suppression du tuteur", err);

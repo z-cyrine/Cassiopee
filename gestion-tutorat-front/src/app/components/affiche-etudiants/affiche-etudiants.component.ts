@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { TableComponent } from '../../shared/table/table.component';
 import { EtudiantService } from '../../services/etudiant/etudiant.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table'; // Required for mat-table
+import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-affiche-etudiants',
   standalone: true,
-  imports: [CommonModule, TableComponent, FormsModule],
+  imports: [CommonModule, FormsModule, MatTableModule, CommonModule, MatIconModule, RouterLink],
   templateUrl: './affiche-etudiants.component.html',
   styleUrls: ['./affiche-etudiants.component.css'],
 })
@@ -26,9 +30,9 @@ export class AfficheEtudiantsComponent implements OnInit {
   total = 0;
   pageCount = 1;
   loading = false;
-  maxVisiblePages = 5; // Nombre maximum de pages visibles dans la pagination
+  maxVisiblePages = 5;
 
-  constructor(private etudiantService: EtudiantService) {}
+  constructor(private etudiantService: EtudiantService, private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadStudents();
@@ -64,15 +68,14 @@ export class AfficheEtudiantsComponent implements OnInit {
     this.etudiantService.getStudents(this.page, this.limit).subscribe({
       next: (response) => {
         this.students = response.data;
+        console.log('Students:', this.students);
         this.total = response.total;
         this.page = response.page;
         this.pageCount = response.pageCount;
         if (this.students.length > 0) {
-          this.columns = Object.keys(this.students[0]).map((key) => ({
-            columnDef: key,
-            header: this.formatHeader(key),
-            cell: (element: any) => this.extractNestedData(element, key),
-          }));
+          this.columns = Object.keys(this.students[0])
+          .filter((key) => key !== 'logs')
+          .concat('actions');
         }
         this.loading = false;
       },
@@ -96,18 +99,6 @@ export class AfficheEtudiantsComponent implements OnInit {
     }
   }
 
-  private formatHeader(key: string): string {
-    return key
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/_/g, ' ')
-      .replace(/\b\w/g, (char) => char.toUpperCase());
-  }
-
-  private extractNestedData(element: any, key: string): any {
-    const keys = key.split('.'); 
-    return keys.reduce((obj, k) => (obj && obj[k] !== undefined ? obj[k] : ''), element);
-  }
-
   viewResults() {
     // Action de visualisation des résultats (à implémenter)
     }
@@ -119,6 +110,22 @@ export class AfficheEtudiantsComponent implements OnInit {
     } else {
       alert('Please enter a valid percentage between 0 and 100.');
     }
+    }
+
+  onDeleteEtudiant(etudiantId:number): void {
+      if (etudiantId !== null && confirm("Confirmez-vous la suppression de cet étudiant ?")) {
+        this.http.delete(`${environment.apiUrl}/etudiant/${etudiantId}`)
+          .subscribe({
+            next: () => {
+              alert("Étudiant supprimé avec succès.");
+              this.loadStudents()
+            },
+            error: err => {
+              console.error("Erreur lors de la suppression de l'étudiant", err);
+              alert("Une erreur s'est produite lors de la suppression.");
+            }
+          });
+      }
     }
 
 }
