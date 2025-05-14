@@ -33,7 +33,6 @@ export interface Tuteur {
 })
 export class TuteurService {
   private baseUrl = `${environment.apiUrl}/tuteur`;
-  private apiUrl = 'http://localhost:3000/tuteur/all'; 
   private affectationUrl = 'http://localhost:3000/affectation-manuelle';
   
   constructor(private http: HttpClient) {}
@@ -51,7 +50,7 @@ export class TuteurService {
   }
   
   getTuteurs(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.baseUrl);
   }
 
       affecterEtudiant(etudiantId: number, tuteurId: number): Observable<any> {
