@@ -78,7 +78,7 @@ mat-card-title span {
 /* Button container */
 mat-card-actions {
   display: flex;
-  justify-content: center; /* Centers the buttons */
+  justify-content: flex-end; /* Centers the buttons */
   gap: 10px; /*Adds space between buttons */
   padding: 0; /* Removes padding */
 }
@@ -225,11 +225,6 @@ h2 {
 }
 
 /* boutons */
-.action-buttons {
-  margin-top: 20px;
-  text-align: right;
-}
-
 .affecter-btn{
   display: flex;
   justify-content: center;

@@ -224,5 +224,27 @@ export class AffectationManuelleComponent {
     }
   }
   
+  //FILTRE ETUDIANT
+
+applyFilters(filters: any) {
+  this.filteredStudents = this.students.filter(student => {
+    const matchAffectation = !filters.showAffectation || 
+      (filters.affectation === 'Tous') ||
+      (filters.affectation === 'Affecté' && student.affecte) ||
+      (filters.affectation === 'Non affecté' && !student.affecte);
+
+    const fullName = (student.nom + ' ' + student.prenom).toLowerCase();
+    const matchName = !filters.showNom || 
+      filters.name.trim() === '' || 
+      fullName.includes(filters.name.toLowerCase());
+
+    const matchDep = !filters.showdep || 
+      (filters.dep === 'Tous') ||
+      (student.codeClasse && student.codeClasse === filters.dep);
+
+    return matchAffectation && matchName && matchDep;
+  });
+}
+
   
 }

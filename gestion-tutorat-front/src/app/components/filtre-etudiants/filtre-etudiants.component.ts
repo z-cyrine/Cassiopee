@@ -14,7 +14,8 @@ import { FormsModule } from '@angular/forms';
 export class FiltreEtudiantsComponent {
 
   @Input() students: any = [];
-  // @Output() filtersApplied = new EventEmitter<any>();
+  @Output() onFilter = new EventEmitter<any>();
+
 
   showAffectation: any = false;
   affectations = ['Tous','Affecté', 'Non affecté'];
@@ -72,14 +73,13 @@ export class FiltreEtudiantsComponent {
       showdep: this.showdep,
       showNom: this.showNom
     };
-    // this.filtersApplied.emit(this.filters);  
+    this.onFilter.emit(this.filters);
     }
   
   reinitialiser() {
     this.selectedAffectation= 'Tous';
     this.nameFilter = '';
     this.selecteddep = 'Tous';
-    // this.filtersApplied.emit({ affectation: 'Tous', name: '', dep: 'Tous' });
     }
 
 }
