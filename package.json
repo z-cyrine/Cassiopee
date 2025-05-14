@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "ngx-toastr": "^19.0.0"
+    "file-saver": "^2.0.5",
+    "ngx-toastr": "^19.0.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7"
   }
 }

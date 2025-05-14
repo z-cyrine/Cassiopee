@@ -1,0 +1,100 @@
+<div class="split-screen">
+  <!-- Students Section -->
+  <div class="left-column border">
+    <div class="cards-container">
+      <h2>Liste des Étudiants</h2>
+      <app-filtre-etudiants [students]="students"></app-filtre-etudiants>
+
+      <div *ngFor="let student of filteredStudents" class="student-card">
+        <div class="card">
+          <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
+            
+            <mat-card-title>    
+              <h5 class="card-title text-start">
+              {{ student.prenom }} {{ student.nom }} 
+              <span [ngClass]="{
+                'badge': true, 
+                'badge-success': student.affecte, 
+                'badge-danger': !student.affecte 
+              }">
+                {{ student.affecte ? 'Affecté' : 'Non Affecté' }}
+              </span>
+              </h5>
+            </mat-card-title>
+            <div style="float: right;">
+              <app-affecter *ngIf=!student.affecte 
+              [etudiant]=student 
+              (etudiantAffecte)="onEtudiantAffecte($event)"></app-affecter>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="student-details">
+              <span><strong>Email:</strong> {{ student.emailEcole }}, </span>
+              <span><strong>Origine:</strong> {{ student.origine }}, </span>
+              <span><strong>École:</strong> {{ student.ecole }}, </span>
+              <span><strong>Code Classe:</strong> {{ student.codeClasse }}, </span>
+              <span><strong>Nom Groupe:</strong> {{ student.nomGroupe }}, </span>
+              <span><strong>Langue Majeure:</strong> {{ student.langueMajeure }}, </span>
+              <span><strong>Ini/Alt:</strong> {{ student.iniAlt }}, </span>
+              <span><strong>Entreprise:</strong> {{ student.entreprise }}, </span>
+              <span><strong>Fonction Apprenti:</strong> {{ student.fonctionApprenti }}, </span>
+              <span><strong>Langue:</strong> {{ student.langue }}, </span>
+              <span><strong>Commentaire Affectation:</strong> {{ student.commentaireAffectation }}, </span>
+              <span><strong>Département Rattachement:</strong> {{ student.departementRattachement }}, </span>
+              <span><strong>Affecté:</strong> {{ student.affecte ? 'Oui' : 'Non' }}, </span>
+              <span><strong>Tuteur:</strong> {{ student.tuteur?.prenom }} {{ student.tuteur?.nom || 'Non assigné' }}, </span>
+
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button type="button" class="btn btn-outline-dark btn-sm" (click)="edit(student)">Edit</button>
+            <br><br>
+            <button type="button" class="btn btn-danger btn-sm" (click)="delete(student)">Delete</button>
+          </mat-card-actions>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tutors Section -->
+  <div class="right-column border">
+    <div class="cards-container">
+      <h2>Liste des Tuteurs</h2>
+      <mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #075cb100;">
+        <div class="card">
+        <mat-card-header>
+          <mat-card-title><h5 class="card-title text-start">
+            <div> 
+              {{ tutor.prenom }} {{ tutor.nom }}
+              <span [ngClass]="tutor.soldeTutoratRestant > 0 ? 'badge badge-success' : 'badge badge-danger'">
+                {{ tutor.soldeTutoratRestant > 0 ? 'Peut tutorer d\'autres étudiants' : 'Ne peut plus tutorer des étudiants' }}
+              </span>
+                          
+            </div>
+          </h5>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <span><strong>Email:</strong> {{ tutor.email }}, </span>
+            <span><strong>Département:</strong> {{ tutor.departement }}, </span>
+            <span><strong>Langue de Tutorat:</strong> {{ tutor.langueTutorat || 'Non assigné' }}, </span>
+            <span><strong>Profil:</strong> {{ tutor.profil }}, </span>
+            <span><strong>Statut:</strong> {{ tutor.statut }}, </span>
+            <span><strong>Solde Alt:</strong> {{ tutor.soldeAlt }}, </span>
+            <span><strong>Solde Ini:</strong> {{ tutor.soldeIni }}, </span>
+            <span><strong>Solde Tutorat Restant:</strong> {{ tutor.soldeTutoratRestant }}, </span>
+            <span><strong>Total Étudiants Par:</strong> {{ tutor.totalEtudiantsPar }}, </span>
+            <span><strong>Nombre de Tutorats Affectés:</strong> {{ tutor.nbTutoratAffecte }}</span>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button type="button" class="btn btn-outline-dark btn-sm" (click)="edit(tutor)">Edit</button>
+          <br><br>
+          <button type="button" class="btn btn-danger btn-sm" (click)="delete(tutor)">Delete</button>
+        </mat-card-actions>
+      </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

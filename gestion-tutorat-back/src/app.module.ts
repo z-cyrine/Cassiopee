@@ -2,25 +2,27 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { Etudiant } from './modules/etudiant/etudiant.entity';
 import { Tuteur } from './modules/tuteur/tuteur.entity';
 import { Majeures } from './modules/majeures/majeures';
-
 import { EtudiantService } from './modules/etudiant/etudiant.service';
 import { EtudiantController } from './modules/etudiant/etudiant.controller';
-
 import { ImportController } from './services/import/import.controller';
 import { ImportService } from './services/import/import.service';
 import { ExcelParserService } from './services/import/excel-parser/excel-parser.service';
-
 import { ImportModule } from './services/import/import.module';
 import { AutoAffectationModule } from './auto-affectation/auto-affectation.module';
 import { MajeuresModule } from './modules/majeures/majeures.module';
 import { EtudiantModule } from './modules/etudiant/etudiant.module';
-import { TuteurModule } from './modules/tuteur/tuteur.module';
 import { ReportingModule } from './modules/reporting/reporting.module';
 import { ResetModule } from './services/reset/reset.module';
+import { RouterModule } from '@nestjs/core';
+import { TuteurService } from './services/tuteur/tuteur.service';
+import { TuteurController } from './services/tuteur/tuteur.controller';
+import { TuteurModule } from './modules/tuteur/tuteur.module';
+import { AffectationManuelleController } from './affectation-manuelle/affectation-manuelle.controller';
+import { AffectationManuelleService } from './affectation-manuelle/affectation-manuelle.service';
+import { AffectationManuelleModule } from './affectation-manuelle/affectation-manuelle.module';
 
 @Module({
 imports: [
@@ -41,7 +43,8 @@ MajeuresModule,
 EtudiantModule,
 TuteurModule,
 ReportingModule,
-ResetModule
+ResetModule,
+AffectationManuelleModule,
 ],
 controllers: [
 AppController,
