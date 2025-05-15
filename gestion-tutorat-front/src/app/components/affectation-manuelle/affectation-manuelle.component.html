@@ -133,7 +133,7 @@
           <mat-card-header>
             <mat-card-title><h5 class="card-title text-start">
               <div> 
-                {{ tutor.prenom }} {{ tutor.nom }}
+                <a [routerLink]="['/tuteurs', tutor.id]">{{ tutor.prenom }} {{ tutor.nom }} </a>
                 <span [ngClass]="tutor.soldeTutoratRestant > 0 ? 'badge badge-success' : 'badge badge-danger'">
                   {{ tutor.soldeTutoratRestant > 0 ? 'Peut tutorer d\'autres étudiants' : 'Ne peut plus tutorer des étudiants' }}
                 </span>

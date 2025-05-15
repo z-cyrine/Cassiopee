@@ -80,6 +80,9 @@ export class FiltreEtudiantsComponent {
     this.selectedAffectation= 'Tous';
     this.nameFilter = '';
     this.selecteddep = 'Tous';
+    this.applyFilters();
     }
+
+    
 
 }
