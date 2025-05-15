@@ -4,6 +4,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReportingService } from '../../services/reporting/reporting.service';
 
 @Component({
   selector: 'app-filtre-etudiants',
@@ -12,6 +13,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './filtre-etudiants.component.css'
 })
 export class FiltreEtudiantsComponent {
+  constructor(private reportingService: ReportingService) { }
 
   @Input() students: any = [];
   @Output() onFilter = new EventEmitter<any>();
@@ -26,6 +28,9 @@ export class FiltreEtudiantsComponent {
 
   showdep: any = false;
   selecteddep: any = 'Tous';  
+
+  departments: string[] = [];
+
   deps = ["Tous",
     "CL_FE-Bachelor3",
     "CL_FE-Bachelor3_PLG",
@@ -52,6 +57,9 @@ export class FiltreEtudiantsComponent {
   ];
   
 
+  ngOnInit() {
+    this.loadDepartments();
+  }
   filterVisible=false;
   readonly panelOpenState = signal(false);
 
@@ -83,6 +91,11 @@ export class FiltreEtudiantsComponent {
     this.applyFilters();
     }
 
-    
+  // initialization
+    loadDepartments() {
+    this.reportingService.getDistinctDepartments().subscribe((departments) => {
+      this.departments = departments;
+    });
+  }
 
 }

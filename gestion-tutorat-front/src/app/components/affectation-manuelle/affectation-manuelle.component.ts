@@ -16,6 +16,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { MatIconModule } from '@angular/material/icon';
+import { ReportingService } from '../../services/reporting/reporting.service';
 
 
 @Component({
@@ -37,17 +38,21 @@ export class AffectationManuelleComponent {
   columnsStudents: any[] = [];
   columnsTuteurs: string[] = ['id', 'nom', 'prenom', 'email', 'departement', 'langueTutorat', 'profil', 'statut', 'actions'];
 
+  departments: string[] = [];
+
   //PAGINATION
   currentPage = 1;
   totalPages = 1;
   itemsPerPage = 10;
   totalItems = 0;
 
-  constructor(private etudiantService: EtudiantService, private tuteurService: TuteurService, private router: Router, private http: HttpClient) {}
+  constructor(private etudiantService: EtudiantService, private tuteurService: TuteurService, private router: Router, private http: HttpClient, private reportingService: ReportingService) {}
 
+  // INITIALISATION
   ngOnInit() {
-    this.loadStudents();
+    this.loadAllStudents();
     this.loadTuteurs();
+    this.loadDepartments();
   }
 
   loadTuteurs(){
@@ -68,22 +73,29 @@ export class AffectationManuelleComponent {
       },
     });
   }
-
-  loadStudents(page: number = 1) {
-    this.etudiantService.getStudents(page, this.itemsPerPage).subscribe({
+  
+  loadAllStudents() {
+    this.etudiantService.getAllStudents().subscribe({
       next: (response) => {
-        this.students = response.data;
-        this.filteredStudents = response.data;
-        this.totalItems = response.total;
-        this.totalPages = response.pageCount;
-        this.currentPage = response.page;
+        this.students = response;
+        this.filteredStudents = [...this.students];
+        this.totalItems = this.filteredStudents.length;
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+        this.currentPage = 1;
+        this.updatePagedStudents();
       },
       error: (err) => {
         console.error('Erreur lors du chargement des étudiants:', err);
       }
     });
   }
-  
+
+  loadDepartments() {
+    this.reportingService.getDistinctDepartments().subscribe((departments) => {
+      this.departments = departments;
+    });
+  }
+
   //BOUTONS
   onDeleteEtudiant(etudiantId:number): void {
       if (etudiantId !== null && confirm("Confirmez-vous la suppression de cet étudiant ?")) {
@@ -91,7 +103,7 @@ export class AffectationManuelleComponent {
           .subscribe({
             next: () => {
               alert("Étudiant supprimé avec succès.");
-              this.loadStudents()
+              this.loadAllStudents();
             },
             error: err => {
               console.error("Erreur lors de la suppression de l'étudiant", err);
@@ -140,39 +152,52 @@ export class AffectationManuelleComponent {
   
   //PAGINATION ETUDIANTS 
   getVisiblePages(): number[] {
-    const pages: number[] = [];
-    const maxVisible = 3;
-    let startPage = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
-    let endPage = startPage + maxVisible - 1;
-  
-    if (endPage > this.totalPages) {
-      endPage = this.totalPages;
-      startPage = Math.max(1, endPage - maxVisible + 1);
-    }
-  
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-    return pages;
+  const pages: number[] = [];
+  const maxVisible = 3;
+  let startPage = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
+  let endPage = startPage + maxVisible - 1;
+
+  if (endPage > this.totalPages) {
+    endPage = this.totalPages;
+    startPage = Math.max(1, endPage - maxVisible + 1);
   }
-  
+
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+  return pages;
+}
+
   goToPage(page: number) {
     if (page !== this.currentPage && page >= 1 && page <= this.totalPages) {
-      this.loadStudents(page);
+      this.currentPage = page;
+      this.updatePagedStudents();
     }
   }
-  
+
   goToPreviousPage() {
-    if (this.currentPage > 1) {
-      this.loadStudents(this.currentPage - 1);
-    }
+  if (this.currentPage > 1) {
+    this.currentPage--;
+    this.updatePagedStudents();
   }
-  
+}
+
   goToNextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.loadStudents(this.currentPage + 1);
-    }
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+    this.updatePagedStudents();
   }
+}
+
+
+  pagedStudents: any[] = [];
+
+  updatePagedStudents() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.pagedStudents = this.filteredStudents.slice(startIndex, endIndex);
+  }
+
 
   //PAGINATION TUTEURS
   currentPageTuteur = 1;
@@ -226,7 +251,7 @@ export class AffectationManuelleComponent {
   
   //FILTRE ETUDIANT
 
-applyFilters(filters: any) {
+  applyFilters(filters: any) {
   this.filteredStudents = this.students.filter(student => {
     const matchAffectation = !filters.showAffectation || 
       (filters.affectation === 'Tous') ||
@@ -244,7 +269,13 @@ applyFilters(filters: any) {
 
     return matchAffectation && matchName && matchDep;
   });
+
+  this.totalItems = this.filteredStudents.length;
+  this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+  this.currentPage = 1;
+  this.updatePagedStudents();
 }
+
 
   
 }

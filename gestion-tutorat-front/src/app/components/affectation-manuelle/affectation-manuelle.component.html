@@ -7,7 +7,7 @@
 
         <!--PAGINATION 2-->
         <div class="pagination-wrapper">
-        <div class="pagination-controls" *ngIf="totalPages > 1">
+        <div class="pagination-controls" >
           <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="pagination-btn">
             Précédent
           </button>
@@ -36,7 +36,7 @@
         </div>  
         <!--FIN PAGINATION 2-->
         
-        <div *ngFor="let student of filteredStudents" class="student-card">
+        <div *ngFor="let student of pagedStudents" class="student-card">
           <div class="card">
             <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
               
