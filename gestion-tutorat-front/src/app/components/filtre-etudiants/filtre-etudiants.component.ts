@@ -5,10 +5,17 @@ import {signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReportingService } from '../../services/reporting/reporting.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @Component({
   selector: 'app-filtre-etudiants',
-  imports: [MatButtonToggleModule, MatExpansionModule, CommonModule, FormsModule],
+  imports: [MatButtonToggleModule, MatExpansionModule, CommonModule, FormsModule, MatMenuModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule],
   templateUrl: './filtre-etudiants.component.html',
   styleUrl: './filtre-etudiants.component.css'
 })
@@ -18,6 +25,7 @@ export class FiltreEtudiantsComponent {
   @Input() students: any = [];
   @Output() onFilter = new EventEmitter<any>();
 
+  menuVisible = false;
 
   showAffectation: any = false;
   affectations = ['Tous','Affecté', 'Non affecté'];
