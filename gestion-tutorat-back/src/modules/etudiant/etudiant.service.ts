@@ -64,4 +64,15 @@ export class EtudiantService {
       pageCount: Math.ceil(total / limit)
     };
   }
+
+  async getDistinctCodeClasses(): Promise<string[]> {
+    const result = await this.etudiantRepository
+      .createQueryBuilder('etudiant')
+      .select('DISTINCT etudiant.codeClasse', 'codeClasse')
+      .where('etudiant.codeClasse IS NOT NULL')
+      .getRawMany();
+
+    return result.map(r => r.codeClasse);
+  }
+
 }

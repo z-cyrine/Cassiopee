@@ -38,6 +38,12 @@ import {
     ) {
       return this.etudiantService.findAllPaginated(Number(page), Number(limit));
     }
+    
+    // Get distinct code classes
+    @Get('code-classes')
+    getDistinctCodeClasses() {
+      return this.etudiantService.getDistinctCodeClasses();
+    }
 
     // READ ONE
     @Get(':id')

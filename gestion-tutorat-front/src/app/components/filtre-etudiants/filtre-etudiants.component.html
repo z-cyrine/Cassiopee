@@ -38,7 +38,7 @@
           </div>
       </div>
   
-      <!-- filtre par département d'attachement -->
+      <!-- filtre par code de classe -->
       <div class="filter">
           <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="flexSwitchCheckDep" [(ngModel)]="showdep" name="showDepartement">
@@ -47,12 +47,29 @@
           <div *ngIf="showdep">
               <label for="dep">Choisir le code de la classe :</label>
               <select id="dep" class="form-select" [(ngModel)]="selecteddep" name="départementfilter">
-              <option *ngFor="let dep of deps" [value]="dep">
+              <option *ngFor="let dep of codes" [value]="dep">
                   {{ dep }}
               </option>
               </select>
           </div>
       </div>
+      <!-- filtre par département de rattachement -->
+        <div class="filter">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDepartement" [(ngModel)]="showdepartement" name="showdepartement">
+            <label class="form-check-label" for="flexSwitchCheckDepartement">Selon le département de rattachement</label>
+        </div>
+
+        <div *ngIf="showdepartement">
+            <label for="departement">Choisir le département :</label>
+            <select id="departement" class="form-select" [(ngModel)]="selecteddepartement" name="departementfilter">
+            <option *ngFor="let dep of departements" [value]="dep">
+                {{ dep }}
+            </option>
+            </select>
+        </div>
+        </div>
+
   
         <div class="filter-actions" style="display: flex; justify-content: space-between; align-items: center;">
             <button type="submit" class="btn btn-outline-primary btn-sm" >Appliquer les filtres</button>

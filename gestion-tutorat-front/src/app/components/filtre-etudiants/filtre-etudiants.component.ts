@@ -26,40 +26,28 @@ export class FiltreEtudiantsComponent {
   showNom: any = false;
   nameFilter: string = '';   
 
+  //CODES EMA ENI 8LOTET FEL TASMYA
+  codes: string[] = [];
   showdep: any = false;
   selecteddep: any = 'Tous';  
 
-  departments: string[] = [];
 
-  deps = ["Tous",
-    "CL_FE-Bachelor3",
-    "CL_FE-Bachelor3_PLG",
-    "Gp-EM-bach3 APP",
-    "Gp-EM-bach3APP",
-    "GP-em3 BDI",
-    "Gp-em3 MSIF",
-    "Gp-em3 ISI",
-    "Gp-em3 MD",
-    "Gp-em3 MS",
-    "Gp-em3 ACSI",    
-    "Gp-em3 IB",
-    "Gp-em3 IDEE",
-    "Gp-em3 MIDE",
-    "Gp-em3 SIF",
-    "Gp-em3 INT",
-    "Gp-em3 DD_REO",
-    "Gp-em3-PLG",
-    "Gp-EM_FMSc_IB2",
-    "Gp-EM_FMSc_MIDE2",
-    "MS CMSI_ALT",
-    "MS_IAI_ALT",
-    "MS DPM_ALT"
-  ];
+  // DEPARTEMENTS
+  departements: string[] = [];
+  showdepartement: any = false;
+  selecteddepartement: any = 'Tous';  
   
 
   ngOnInit() {
     this.loadDepartments();
+     this.reportingService.getDistinctCodeClasses().subscribe({
+      next: (codes) => this.codes = codes,
+      error: (err) => console.error('Erreur chargement codeClasse', err)
+    });
   }
+
+
+  // Filter
   filterVisible=false;
   readonly panelOpenState = signal(false);
 
@@ -67,9 +55,11 @@ export class FiltreEtudiantsComponent {
     affectation: this.selectedAffectation,
     name: this.nameFilter,
     dep: this.selecteddep,
+    departement: this.selecteddepartement,
     showAffectation: this.showAffectation,
     showdep: this.showdep,
-    showNom: this.showNom
+    showNom: this.showNom,
+    showDepartement: this.showdepartement
   };
 
   applyFilters() {
@@ -77,9 +67,11 @@ export class FiltreEtudiantsComponent {
       affectation: this.selectedAffectation,
       name: this.nameFilter,
       dep: this.selecteddep,
+      departement: this.selecteddepartement,
       showAffectation: this.showAffectation,
       showdep: this.showdep,
-      showNom: this.showNom
+      showNom: this.showNom,
+      showDepartement: this.showdepartement
     };
     this.onFilter.emit(this.filters);
     }
@@ -88,13 +80,14 @@ export class FiltreEtudiantsComponent {
     this.selectedAffectation= 'Tous';
     this.nameFilter = '';
     this.selecteddep = 'Tous';
+    this.selecteddepartement = 'Tous';
     this.applyFilters();
     }
 
   // initialization
     loadDepartments() {
     this.reportingService.getDistinctDepartments().subscribe((departments) => {
-      this.departments = departments;
+      this.departements = departments;
     });
   }
 

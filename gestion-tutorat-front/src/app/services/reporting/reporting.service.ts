@@ -64,4 +64,10 @@ if (filters.groupe) {
   getAllTuteurs(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/tuteurs`);
   }
+
+  // Récupérer les codeClasse distincts
+  getDistinctCodeClasses(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/etudiant/code-classes`);
+  }
+
 }

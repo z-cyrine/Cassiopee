@@ -267,7 +267,14 @@ export class AffectationManuelleComponent {
       (filters.dep === 'Tous') ||
       (student.codeClasse && student.codeClasse === filters.dep);
 
-    return matchAffectation && matchName && matchDep;
+      const matchDept = !filters.showDepartement ||
+      (filters.departement === 'Tous') ||
+      (student.departementRattachement && student.departementRattachement === filters.departement);
+
+  console.log('Filtre demandé :', filters.departement);
+  console.log('Départements des étudiants :', this.students.map(s => s.departementRattachement));
+
+    return matchAffectation && matchName && matchDep && matchDept;
   });
 
   this.totalItems = this.filteredStudents.length;
