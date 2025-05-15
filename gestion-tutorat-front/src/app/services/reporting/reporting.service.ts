@@ -67,7 +67,7 @@ if (filters.groupe) {
 
   // Récupérer les codeClasse distincts
   getDistinctCodeClasses(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/etudiant/code-classes`);
+    return this.http.get<string[]>(`${this.baseUrl}/majeures/code-classes`);
   }
 
 }
