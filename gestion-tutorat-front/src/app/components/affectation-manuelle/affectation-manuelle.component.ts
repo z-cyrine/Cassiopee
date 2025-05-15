@@ -259,9 +259,9 @@ export class AffectationManuelleComponent {
       (filters.affectation === 'Non affecté' && !student.affecte);
 
     const fullName = (student.nom + ' ' + student.prenom).toLowerCase();
-    const matchName = !filters.showNom || 
-      filters.name.trim() === '' || 
-      fullName.includes(filters.name.toLowerCase());
+    const matchLastName = !filters.showNom || filters.lastName.trim() === '' || student.nom.toLowerCase().includes(filters.lastName.toLowerCase());
+    const matchFirstName = !filters.showNom || filters.firstName.trim() === '' || student.prenom.toLowerCase().includes(filters.firstName.toLowerCase());
+
 
     const matchDep = !filters.showdep || 
       (filters.dep === 'Tous') ||
@@ -271,10 +271,7 @@ export class AffectationManuelleComponent {
       (filters.departement === 'Tous') ||
       (student.departementRattachement && student.departementRattachement === filters.departement);
 
-  console.log('Filtre demandé :', filters.departement);
-  console.log('Départements des étudiants :', this.students.map(s => s.departementRattachement));
-
-    return matchAffectation && matchName && matchDep && matchDept;
+    return matchAffectation && matchLastName && matchFirstName && matchDep && matchDept;
   });
 
   this.totalItems = this.filteredStudents.length;

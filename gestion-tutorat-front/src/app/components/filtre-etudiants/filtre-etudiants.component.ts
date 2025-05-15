@@ -23,8 +23,10 @@ export class FiltreEtudiantsComponent {
   affectations = ['Tous','Affecté', 'Non affecté'];
   selectedAffectation: any = 'Tous';
 
+  //NOM ET PRENOM
   showNom: any = false;
-  nameFilter: string = '';   
+  lastNameFilter: string = '';
+  firstNameFilter: string = '';
 
   //CODES EMA ENI 8LOTET FEL TASMYA
   codes: string[] = [];
@@ -53,7 +55,8 @@ export class FiltreEtudiantsComponent {
 
   filters = {
     affectation: this.selectedAffectation,
-    name: this.nameFilter,
+    lastName: this.lastNameFilter,
+    firstName: this.firstNameFilter,
     dep: this.selecteddep,
     departement: this.selecteddepartement,
     showAffectation: this.showAffectation,
@@ -65,7 +68,8 @@ export class FiltreEtudiantsComponent {
   applyFilters() {
     this.filters = {
       affectation: this.selectedAffectation,
-      name: this.nameFilter,
+      lastName: this.lastNameFilter,
+      firstName: this.firstNameFilter,
       dep: this.selecteddep,
       departement: this.selecteddepartement,
       showAffectation: this.showAffectation,
@@ -78,7 +82,8 @@ export class FiltreEtudiantsComponent {
   
   reinitialiser() {
     this.selectedAffectation= 'Tous';
-    this.nameFilter = '';
+    this.lastNameFilter = '';
+    this.firstNameFilter = '';
     this.selecteddep = 'Tous';
     this.selecteddepartement = 'Tous';
     this.applyFilters();

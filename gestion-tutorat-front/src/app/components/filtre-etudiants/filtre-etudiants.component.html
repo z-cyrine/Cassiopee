@@ -31,10 +31,10 @@
               <label class="form-check-label" for="flexSwitchCheckNom">Selon le nom et prénom</label>
           </div>
           <div *ngIf="showNom">
-              <label for="nom">Saisir le nom de l'étudiant :</label>
-              <input id="nom" class="form-control" [(ngModel)]="nameFilter" name="nameFilter" type="text">
-              <label for="prenom">Saisir le prénom de l'étudiant :</label>
-              <input id="prenom" class="form-control" [(ngModel)]="nameFilter" name="prenom" type="text">
+            <label for="nom">Saisir le nom de l'étudiant :</label>
+            <input id="nom" class="form-control" [(ngModel)]="lastNameFilter" name="lastName" type="text">
+            <label for="prenom">Saisir le prénom de l'étudiant :</label>
+            <input id="prenom" class="form-control" [(ngModel)]="firstNameFilter" name="firstName" type="text">
           </div>
       </div>
   
