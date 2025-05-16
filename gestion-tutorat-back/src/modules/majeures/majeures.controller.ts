@@ -32,6 +32,11 @@ export class MajorsController {
   findAll() {
     return this.majorsService.findAll();
   }
+  
+  @Get('code-classes')
+  getDistinctCodeClasses() {
+    return this.majorsService.getDistinctCodeClasses();
+  }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
@@ -52,4 +57,7 @@ export class MajorsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.majorsService.remove(id);
   }
+
+
+
 }

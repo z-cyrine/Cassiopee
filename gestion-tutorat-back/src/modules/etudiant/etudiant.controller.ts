@@ -19,17 +19,25 @@ import {
   export class EtudiantController {
     constructor(private readonly etudiantService: EtudiantService) {}
   
+    @Get('all')
+    findAllNotPaginated() {
+      return this.etudiantService.findAll();
+    }
+
     // CREATE
     @Post()
     create(@Body() createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
       return this.etudiantService.create(createEtudiantDto);
     }
   
-    @Get('all')
-    findAllNotPaginated() {
-      return this.etudiantService.findAll();
+    // READ ALL
+    @Get()
+    findAll(
+      @Query('page') page: number = 1,
+      @Query('limit') limit: number = 20
+    ) {
+      return this.etudiantService.findAllPaginated(Number(page), Number(limit));
     }
-
     // READ ONE
     @Get(':id')
     findOne(@Param('id', ParseIntPipe) id: number): Promise<Etudiant> {

@@ -5,9 +5,9 @@
         <h2>Liste des Étudiants</h2>
         <app-filtre-etudiants [students]="students" (onFilter)="applyFilters($event)"></app-filtre-etudiants>
 
-        <!--PAGINATION 2-->
-        <div class="pagination-wrapper">
-        <div class="pagination-controls" *ngIf="totalPages > 1">
+        <!--PAGINATION-->
+        <div class="pagination-wrapper" *ngIf="pagedStudents.length !== 0">
+        <div class="pagination-controls" >
           <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="pagination-btn">
             Précédent
           </button>
@@ -34,9 +34,11 @@
           </button>
         </div>    
         </div>  
-        <!--FIN PAGINATION 2-->
-        
-        <div *ngFor="let student of filteredStudents" class="student-card">
+        <!--FIN PAGINATION-->
+        <div *ngIf="pagedStudents.length === 0" class="no-results">
+            Aucun étudiant ne correspond aux filtres appliqués.
+          </div>
+        <div *ngFor="let student of pagedStudents" class="student-card"> 
           <div class="card">
             <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
               
@@ -97,6 +99,7 @@
     <div class="right-column border">
       <div class="cards-container">
         <h2>Liste des Tuteurs</h2>
+        <app-filtre-tuteur (onFilter)="applyTutorFilters($event)"></app-filtre-tuteur>
         <!-- PAGINATION TUTEURS -->
           <div class="pagination-wrapper">
             <div class="pagination-controls" *ngIf="totalPagesTuteur > 1">
@@ -127,7 +130,6 @@
             </div>
           </div>
         <!-- FIN PAGINATION TUTEURS -->
-        <!--<mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #075cb100;">-->
         <mat-card *ngFor="let tutor of pagedTuteurs" class="tutor-card">
           <div class="card">
           <mat-card-header>

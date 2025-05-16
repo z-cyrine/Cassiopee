@@ -58,4 +58,17 @@ export class MajorsService {
     const major = await this.findOne(id);
     await this.majorsRepository.remove(major);
   }
+
+  async getDistinctCodeClasses(): Promise<string[]> {
+    const result = await this.majorsRepository
+      .createQueryBuilder('major')
+      .select('DISTINCT major.code', 'code')
+      .where('major.code IS NOT NULL')
+      .orderBy('major.code', 'ASC')
+      .getRawMany();
+
+    return result.map(r => r.code);
+  }
+
+
 }
