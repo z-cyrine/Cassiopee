@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {signal} from '@angular/core';
@@ -104,4 +104,23 @@ export class FiltreEtudiantsComponent {
     });
   }
 
+
+  testVisible = false;
+
+  toggleFilter(event: MouseEvent) {
+    event.stopPropagation(); //empêcher la fermeture immédiate
+    this.testVisible = !this.testVisible;
+  }
+
+  @HostListener('document:click')
+  closeFilter() {
+    this.testVisible = false;
+  }
+
 }
+
+
+
+
+
+

@@ -17,11 +17,12 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { MatIconModule } from '@angular/material/icon';
 import { ReportingService } from '../../services/reporting/reporting.service';
+import { FiltreTuteurComponent } from '../../filtre-tuteur/filtre-tuteur.component';
 
 
 @Component({
   selector: 'app-affectation-manuelle',
-  imports: [MatIconModule, MatTableModule, CommonModule, MatCardModule, FormsModule, MatExpansionModule, MatButtonToggleModule, FiltreEtudiantsComponent, AffecterComponent, RouterModule],
+  imports: [MatIconModule, MatTableModule, CommonModule, MatCardModule, FormsModule, MatExpansionModule, MatButtonToggleModule, FiltreEtudiantsComponent, AffecterComponent, RouterModule, FiltreTuteurComponent],
   templateUrl: './affectation-manuelle.component.html',
   styleUrls: ['./affectation-manuelle.component.css']
 })
