@@ -15,7 +15,7 @@ export const appRoutes: Routes = [
   { path: 'authentification', loadComponent: () => import('./components/auth/auth.component').then(m => m.AuthComponent) },
   { path: 'tuteur-dashboard', loadComponent: () => import('./components/tuteur-dashboard/tuteur-dashboard.component').then(m => m.TuteurDashboardComponent) },
   { path: 'register', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
-
+  { path: 'inscription', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
   // Créations
   { path: 'etudiant-create', loadComponent: () => import('./components/etudiant-create/etudiant-create.component').then(m => m.EtudiantCreateComponent) },
   { path: 'tuteur-create', loadComponent: () => import('./components/tuteur-create/tuteur-create.component').then(m => m.TuteurCreateComponent) },
