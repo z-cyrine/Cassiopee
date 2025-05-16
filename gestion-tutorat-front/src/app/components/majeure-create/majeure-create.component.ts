@@ -40,7 +40,7 @@ export class MajeureCreateComponent implements OnInit, OnDestroy {
       dept: [''],
       responsible: [''],
       langue: [''],
-      iniAlt: ['', Validators.required], // dropdown, must be ALT or INI
+      iniAlt: [''], // dropdown, must be ALT or INI
       programme: ['']
     });
   }
@@ -62,7 +62,7 @@ export class MajeureCreateComponent implements OnInit, OnDestroy {
           setTimeout(() => this.router.navigate(['/majeures', created.id]), 1000);
         },
         error: () => {
-          this.errorMessage = 'Erreur';
+          this.errorMessage = 'Erreur inattendue lors de la création.';
         }
       });
   }
