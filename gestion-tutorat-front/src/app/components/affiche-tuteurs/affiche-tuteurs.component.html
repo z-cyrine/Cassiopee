@@ -1,0 +1,281 @@
+<div style="margin: 1%; margin-right: 2%">
+  <div class="table-scroll-wrapper">
+    <table mat-table [dataSource]="pagedTuteurs" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef class="stickyID">Id</th>
+        <td mat-cell *matCellDef="let element" class="stickyID">
+          <ng-container *ngIf="element.id != null; else notId">
+            {{ element.id }}
+          </ng-container>
+          <ng-template #notId><span class="text-muted">Non assigné</span></ng-template>
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="nom">
+        <th mat-header-cell *matHeaderCellDef>Nom</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.nom; else notNom">
+            <a [routerLink]="['/tuteurs', element.id]">{{ element.nom }}</a>
+          </ng-container>
+          <ng-template #notNom><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="prenom">
+        <th mat-header-cell *matHeaderCellDef>Prénom</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.prenom; else notPrenom">
+            <a [routerLink]="['/tuteurs', element.id]">{{ element.prenom }}</a>
+          </ng-container>
+          <ng-template #notPrenom><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.email; else notEmail">
+            {{ element.email }}
+          </ng-container>
+          <ng-template #notEmail><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="departement">
+        <th mat-header-cell *matHeaderCellDef>Département</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.departement; else notDepartement">
+            {{ element.departement }}
+          </ng-container>
+          <ng-template #notDepartement><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="langueTutorat">
+        <th mat-header-cell *matHeaderCellDef>Langue de tutorat</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.langueTutorat && element.langueTutorat.length > 0; else notLangue">
+            {{ element.langueTutorat.join(', ') }}
+          </ng-container>
+          <ng-template #notLangue><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="profil">
+        <th mat-header-cell *matHeaderCellDef>Profil</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.profil; else notProfil">
+            {{ element.profil }}
+          </ng-container>
+          <ng-template #notProfil><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="statut">
+        <th mat-header-cell *matHeaderCellDef>Statut</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.statut; else notStatut">
+            {{ element.statut }}
+          </ng-container>
+          <ng-template #notStatut><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="estEligiblePourTutorat">
+        <th mat-header-cell *matHeaderCellDef>Éligible Tutorat</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.estEligiblePourTutorat !== undefined">
+            {{ element.estEligiblePourTutorat ? 'Oui' : 'Non' }}
+          </ng-container>
+          <ng-container *ngIf="element.estEligiblePourTutorat === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="colonne2">
+        <th mat-header-cell *matHeaderCellDef>Colonne 2</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.colonne2; else notCol2">
+            {{ element.colonne2 }}
+          </ng-container>
+          <ng-template #notCol2><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="infoStatut">
+        <th mat-header-cell *matHeaderCellDef>Info Statut</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.infoStatut; else notInfoStatut">
+            {{ element.infoStatut }}
+          </ng-container>
+          <ng-template #notInfoStatut><span class="text-muted">Non spécifié</span></ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="parTutoratAlt">
+        <th mat-header-cell *matHeaderCellDef>Par Tutorat Alt</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.parTutoratAlt !== undefined">
+            {{ element.parTutoratAlt }}
+          </ng-container>
+          <ng-container *ngIf="element.parTutoratAlt === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="tutoratAltAff">
+        <th mat-header-cell *matHeaderCellDef>Tutorat Alt Aff</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.tutoratAltAff !== undefined">
+            {{ element.tutoratAltAff }}
+          </ng-container>
+          <ng-container *ngIf="element.tutoratAltAff === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="soldeAlt">
+        <th mat-header-cell *matHeaderCellDef>Solde Alt</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.soldeAlt !== undefined">
+            {{ element.soldeAlt }}
+          </ng-container>
+          <ng-container *ngIf="element.soldeAlt === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="parTutoratIni">
+        <th mat-header-cell *matHeaderCellDef>Par Tutorat Ini</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.parTutoratIni !== undefined">
+            {{ element.parTutoratIni }}
+          </ng-container>
+          <ng-container *ngIf="element.parTutoratIni === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="tutoratIniAff">
+        <th mat-header-cell *matHeaderCellDef>Tutorat Ini Aff</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.tutoratIniAff !== undefined">
+            {{ element.tutoratIniAff }}
+          </ng-container>
+          <ng-container *ngIf="element.tutoratIniAff === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="soldeIni">
+        <th mat-header-cell *matHeaderCellDef>Solde Ini</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.soldeIni !== undefined">
+            {{ element.soldeIni }}
+          </ng-container>
+          <ng-container *ngIf="element.soldeIni === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="totalEtudiantsPar">
+        <th mat-header-cell *matHeaderCellDef>Total Étudiants Par</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.totalEtudiantsPar !== undefined">
+            {{ element.totalEtudiantsPar }}
+          </ng-container>
+          <ng-container *ngIf="element.totalEtudiantsPar === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="nbTutoratAffecte">
+        <th mat-header-cell *matHeaderCellDef>Nb Tutorat Affecté</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.nbTutoratAffecte !== undefined">
+            {{ element.nbTutoratAffecte }}
+          </ng-container>
+          <ng-container *ngIf="element.nbTutoratAffecte === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="soldeTutoratRestant">
+        <th mat-header-cell *matHeaderCellDef>Solde Tutorat Restant</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.soldeTutoratRestant !== undefined">
+            {{ element.soldeTutoratRestant }}
+          </ng-container>
+          <ng-container *ngIf="element.soldeTutoratRestant === undefined">
+            <span class="text-muted">Non spécifié</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="matieres">
+        <th mat-header-cell *matHeaderCellDef>Matières</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.matieres && element.matieres.length > 0; else notMatieres">
+            {{ element.matieres.join(', ') }}
+          </ng-container>
+          <ng-template #notMatieres><span class="text-muted">Non spécifiées</span></ng-template>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="domainesExpertise">
+        <th mat-header-cell *matHeaderCellDef>Domaines Expertise</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.domainesExpertise && element.domainesExpertise.length > 0; else notDomaines">
+            {{ element.domainesExpertise.join(', ') }}
+          </ng-container>
+          <ng-template #notDomaines><span class="text-muted">Non spécifiés</span></ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" *ngIf="showEdit || showDelete">
+        <th mat-header-cell *matHeaderCellDef class="sticky">Actions</th>
+        <td mat-cell *matCellDef="let element" class="sticky">
+          <button type="button" [routerLink]="['/tuteurs/edit', element.id]" class="icon-btn edit" *ngIf="showEdit" title="Éditer">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button type="button" class="icon-btn delete" *ngIf="showDelete" (click)="onDeleteTuteur(element.id)" title="Supprimer">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+  </div>
+</div>
+
+<div>{{ pageCount }} pages, {{ total }} tuteurs</div>
+
+<div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="page === 1 || loading" class="pagination-btn">
+    <i class="fas fa-chevron-left"></i> Précédent
+  </button>
+  
+  <div class="pagination-numbers">
+    <button *ngIf="page > 2 && visiblePages[0] !== 1" (click)="goToPage(1)" class="pagination-number">1</button>
+    <span *ngIf="page > 3 && visiblePages[0] !== 1" class="pagination-ellipsis">...</span>
+    
+    <button *ngFor="let pageNum of visiblePages" 
+            (click)="goToPage(pageNum)"
+            [class.active]="pageNum === page"
+            class="pagination-number">
+      {{ pageNum }}
+    </button>
+    
+    <span *ngIf="page < pageCount - 2 && visiblePages[visiblePages.length-1] !== pageCount" class="pagination-ellipsis">...</span>
+    <button *ngIf="page < pageCount - 1 && visiblePages[visiblePages.length-1] !== pageCount" (click)="goToPage(pageCount)" class="pagination-number">
+      {{ pageCount }}
+    </button>
+  </div>
+
+  <button (click)="nextPage()" [disabled]="page === pageCount || loading" class="pagination-btn">
+    Suivant <i class="fas fa-chevron-right"></i>
+  </button>
+  
+  <span *ngIf="loading" class="loading-indicator">Chargement...</span>
+</div> 

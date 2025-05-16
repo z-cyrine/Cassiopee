@@ -1,0 +1,10 @@
+<table class="majeures-table">
+  <tr>
+    <th></th>
+    <th *ngFor="let maj of pagedMajeures">{{ maj.groupe }}</th>
+  </tr>
+  <tr *ngFor="let prop of propertyLabels">
+    <th>{{ prop.label }}</th>
+    <td *ngFor="let maj of pagedMajeures">{{ maj[prop.key] }}</td>
+  </tr>
+</table> 
