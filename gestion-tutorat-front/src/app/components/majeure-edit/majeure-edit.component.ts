@@ -46,7 +46,15 @@ export class MajeureEditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (data: any) => {
-            this.majeureForm.patchValue(data);
+            this.majeureForm.patchValue({
+              code: data.code,
+              groupe: data.groupe,
+              dept: data.dept,
+              responsible: data.responsible || data.responsable,
+              langue: this.mapLangueToOption(data.langue),
+              iniAlt: data.iniAlt,
+              programme: data.programme
+            });
           },
           error: (err: any) => {
             console.error('Erreur lors du chargement de la majeure', err);
@@ -84,5 +92,18 @@ export class MajeureEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private mapLangueToOption(langue: string): string {
+    if (!langue) return '';
+    const l = langue.trim().toUpperCase();
+    // On normalise les séparateurs
+    const normalized = l.replace(/[\\/,&]/g, ' ').replace(/\s+/g, ' ');
+    const hasFR = normalized.includes('FR') || normalized.includes('FRANÇAIS');
+    const hasEN = normalized.includes('EN') || normalized.includes('ANGLAIS');
+    if (hasFR && hasEN) return 'FR,EN';
+    if (hasFR) return 'FR';
+    if (hasEN) return 'EN';
+    return '';
   }
 }

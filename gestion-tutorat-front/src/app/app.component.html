@@ -32,15 +32,16 @@
           <a routerLink="/import" routerLinkActive="active" class="nav-link">Importer Fichiers</a>
         </li>
 
-        <!-- Liste -->
-        <li class="nav-item">
-          <a routerLink="/etudiants/all" routerLinkActive="active" class="nav-link">Liste Étudiants</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/tuteurs/all" routerLinkActive="active" class="nav-link">Liste Tuteurs</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/majeures/all" routerLinkActive="active" class="nav-link">Liste Majeures</a>
+        <!-- Listes Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="listesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Listes
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="listesDropdown">
+            <li><a class="dropdown-item" routerLink="/etudiants/all">Liste Étudiants</a></li>
+            <li><a class="dropdown-item" routerLink="/tuteurs/all">Liste Tuteurs</a></li>
+            <li><a class="dropdown-item" routerLink="/majeures/all">Liste Majeures</a></li>
+          </ul>
         </li>
 
         <!-- Auto-Affectation -->
@@ -58,15 +59,16 @@
           <a routerLink="/reporting" routerLinkActive="active" class="nav-link">Reporting</a>
         </li>
 
-        <!-- Ajouts -->
-        <li class="nav-item">
-          <a routerLink="/etudiant-create" routerLinkActive="active" class="nav-link">Ajouter Étudiant</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/tuteur-create" routerLinkActive="active" class="nav-link">Ajouter Tuteur</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/majeure-create" routerLinkActive="active" class="nav-link">Ajouter Majeure</a>
+        <!-- Ajouter Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="ajouterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Ajouter
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ajouterDropdown">
+            <li><a class="dropdown-item" routerLink="/etudiant-create">Ajouter Étudiant</a></li>
+            <li><a class="dropdown-item" routerLink="/tuteur-create">Ajouter Tuteur</a></li>
+            <li><a class="dropdown-item" routerLink="/majeure-create">Ajouter Majeure</a></li>
+          </ul>
         </li>
     </ul>
     </div>

@@ -118,4 +118,8 @@ export class AfficheMajeuresComponent implements OnInit {
         });
     }
   }
+
+  onEditMajeure(majeureKey: string): void {
+    this.router.navigate(['/majeures/edit', majeureKey]);
+  }
 } 
