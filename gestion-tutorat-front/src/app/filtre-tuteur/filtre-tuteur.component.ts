@@ -15,7 +15,7 @@ export class FiltreTuteurComponent {
   @Input() tuteurs: any[] = [];
   @Output() onFilter = new EventEmitter<any>();
 
-  profils: string[] = ['Interne', 'Externe'];
+  profils: string[] = [];
   departements: string[] = [];
 
   showNom = false;
@@ -41,6 +41,12 @@ export class FiltreTuteurComponent {
   ngOnInit() {
     this.reportingService.getDistinctDepartments().subscribe((deps) => {
       this.departements = deps;
+    });
+    this.reportingService.getDistinctProfils().subscribe((data) => {
+      this.profils = data;
+    });
+    this.reportingService.getDistinctDepartments().subscribe((data) => {
+      this.departements = data;
     });
   }
 

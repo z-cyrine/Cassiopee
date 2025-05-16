@@ -30,7 +30,9 @@
           <div *ngIf="showProfil">
             <select class="form-select" [(ngModel)]="selectedProfil" name="profil">
               <option value="Tous">Tous</option>
-              <option *ngFor="let profil of profils" [value]="profil">{{ profil }}</option>
+              <option *ngFor="let profil of profils" [value]="profil">
+                {{ profil === '' ? 'Non spécifié' : profil }}
+              </option>
             </select>
           </div>
         </div>

@@ -56,22 +56,17 @@ export class AffectationManuelleComponent {
     this.loadDepartments();
   }
 
-  loadTuteurs(){
+    loadTuteurs() {
     this.tuteurService.getTuteurs().subscribe({
       next: (response) => {
         this.tuteurs = response;
-        this.totalItemsTuteur = response.length;
-        this.totalPagesTuteur = Math.ceil(response.length / this.itemsPerPageTuteur);
+        this.filteredTuteurs = [...this.tuteurs];
+        this.totalItemsTuteur = this.filteredTuteurs.length;
+        this.totalPagesTuteur = Math.ceil(this.totalItemsTuteur / this.itemsPerPageTuteur);
         this.currentPageTuteur = 1;
         this.updatePagedTuteurs();
-    
-        if (response.length > 0) {
-          this.columnsTuteurs = Object.keys(response[0]).concat('actions');
-        }
       },
-      error: (err) => {
-        console.error('Error fetching tuteurs:', err);
-      },
+      error: (err) => console.error('Erreur chargement tuteurs', err)
     });
   }
   
@@ -151,6 +146,13 @@ export class AffectationManuelleComponent {
     this.filteredStudents = [...this.students];
   }
   
+  //PAGINATION
+  paginate<T>(list: T[], page: number, itemsPerPage: number): T[] {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return list.slice(startIndex, endIndex);
+  }
+
   //PAGINATION ETUDIANTS 
   getVisiblePages(): number[] {
   const pages: number[] = [];
@@ -194,10 +196,9 @@ export class AffectationManuelleComponent {
   pagedStudents: any[] = [];
 
   updatePagedStudents() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.pagedStudents = this.filteredStudents.slice(startIndex, endIndex);
+    this.pagedStudents = this.paginate(this.filteredStudents, this.currentPage, this.itemsPerPage);
   }
+
 
 
   //PAGINATION TUTEURS
@@ -208,24 +209,24 @@ export class AffectationManuelleComponent {
   pagedTuteurs: Tuteur[] = [];
 
   updatePagedTuteurs() {
-    const startIndex = (this.currentPageTuteur - 1) * this.itemsPerPageTuteur;
-    const endIndex = startIndex + this.itemsPerPageTuteur;
-    this.pagedTuteurs = this.tuteurs.slice(startIndex, endIndex);
+    this.pagedTuteurs = this.paginate(this.filteredTuteurs, this.currentPageTuteur, this.itemsPerPageTuteur);
   }
+
   getVisiblePagesTuteur(): number[] {
     const pages: number[] = [];
     const maxVisible = 3;
     let startPage = Math.max(1, this.currentPageTuteur - Math.floor(maxVisible / 2));
     let endPage = startPage + maxVisible - 1;
-  
+
     if (endPage > this.totalPagesTuteur) {
       endPage = this.totalPagesTuteur;
       startPage = Math.max(1, endPage - maxVisible + 1);
     }
-  
+
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
+
     return pages;
   }
   
@@ -242,13 +243,16 @@ export class AffectationManuelleComponent {
       this.updatePagedTuteurs();
     }
   }
-  
+
   goToNextPageTuteur() {
     if (this.currentPageTuteur < this.totalPagesTuteur) {
       this.currentPageTuteur++;
       this.updatePagedTuteurs();
     }
   }
+
+  filteredTuteurs: Tuteur[] = [];
+
   
   //FILTRE ETUDIANT
 
@@ -280,5 +284,34 @@ export class AffectationManuelleComponent {
   this.currentPage = 1;
   this.updatePagedStudents();
 }
+
+//FILTRE TUTEUR
+  applyTutorFilters(filters: any) {
+    this.filteredTuteurs = this.tuteurs.filter(tuteur => {
+      const matchNom = !filters.showNom || !filters.nom || tuteur.nom?.toLowerCase().includes(filters.nom.toLowerCase());
+      const matchPrenom = !filters.showNom || !filters.prenom || tuteur.prenom?.toLowerCase().includes(filters.prenom.toLowerCase());
+
+      const matchProfil = !filters.showProfil ||
+        filters.profil === 'Tous' ||
+        (filters.profil === 'Non spécifié' && (tuteur.profil === '' || tuteur.profil == null)) ||
+        tuteur.profil === filters.profil;
+
+      const matchDept = !filters.showDepartement ||
+        filters.departement === 'Tous' ||
+        tuteur.departement === filters.departement;
+
+      const matchSolde = !filters.showSoldeRestant || tuteur.soldeTutoratRestant >= filters.soldeRestant;
+
+      const matchNbTut = !filters.showNbAffectes || tuteur.nbTutoratAffecte >= filters.nbAffectes;
+
+      return matchNom && matchPrenom && matchProfil && matchDept && matchSolde && matchNbTut;
+    });
+
+    this.totalItemsTuteur = this.filteredTuteurs.length;
+    this.totalPagesTuteur = Math.ceil(this.totalItemsTuteur / this.itemsPerPageTuteur);
+    this.currentPageTuteur = 1;
+    this.updatePagedTuteurs();
+  }
+
   
 }

@@ -99,7 +99,7 @@
     <div class="right-column border">
       <div class="cards-container">
         <h2>Liste des Tuteurs</h2>
-        <app-filtre-tuteur></app-filtre-tuteur>
+        <app-filtre-tuteur (onFilter)="applyTutorFilters($event)"></app-filtre-tuteur>
         <!-- PAGINATION TUTEURS -->
           <div class="pagination-wrapper">
             <div class="pagination-controls" *ngIf="totalPagesTuteur > 1">
@@ -130,7 +130,6 @@
             </div>
           </div>
         <!-- FIN PAGINATION TUTEURS -->
-        <!--<mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #075cb100;">-->
         <mat-card *ngFor="let tutor of pagedTuteurs" class="tutor-card">
           <div class="card">
           <mat-card-header>
