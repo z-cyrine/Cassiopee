@@ -309,3 +309,11 @@ a {
   color: #7d3bb8;
   text-decoration:underline;
 }
+
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f5f7fa;
+  border-bottom: 2px solid #e0e0e0;
+}

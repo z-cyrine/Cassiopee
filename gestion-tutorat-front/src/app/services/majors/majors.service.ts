@@ -3,6 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Majeure {
   id?: number;
@@ -19,7 +20,7 @@ export interface Majeure {
   providedIn: 'root'
 })
 export class MajorsService {
-  private baseUrl = 'http://localhost:3000/majeures';
+  private baseUrl = `${environment.apiUrl}/majeures`;
 
   constructor(private http: HttpClient) {}
 
