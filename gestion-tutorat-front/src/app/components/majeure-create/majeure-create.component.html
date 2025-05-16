@@ -5,26 +5,35 @@
     </div>
     <div class="card-body">
       <form [formGroup]="majeureForm" (ngSubmit)="onSubmit()">
+
+        <!-- Code -->
         <div class="form-group">
           <label>Code</label>
-          <input type="text" formControlName="code" class="form-control" placeholder="Code de la majeure">
-        </div>
-        <div class="form-group">
-          <label>Nom Groupe</label>
-          <input type="text" formControlName="groupe" class="form-control" placeholder="Nom du groupe">
-        </div>
-        <div class="form-group">
-          <label>Département</label>
-          <input type="text" formControlName="dept" class="form-control" placeholder="Département">
-        </div>
-        <div class="form-group">
-          <label>Responsable</label>
-          <input type="text" formControlName="responsible" class="form-control" placeholder="Responsable">
+          <input type="text" formControlName="code" class="form-control" placeholder="Code de la majeure" />
         </div>
 
+        <!-- Groupe -->
+        <div class="form-group">
+          <label>Nom Groupe</label>
+          <input type="text" formControlName="groupe" class="form-control" placeholder="Nom du groupe" />
+        </div>
+
+        <!-- Département -->
+        <div class="form-group">
+          <label>Département</label>
+          <input type="text" formControlName="dept" class="form-control" placeholder="Département" />
+        </div>
+
+        <!-- Responsable -->
+        <div class="form-group">
+          <label>Responsable</label>
+          <input type="text" formControlName="responsible" class="form-control" placeholder="Responsable" />
+        </div>
+
+        <!-- Langue -->
         <div class="form-group">
           <label>Langue</label>
-          <select formControlName="langue" class="form-select" required>
+          <select formControlName="langue" class="form-select">
             <option value="">-- Choisir une langue --</option>
             <option value="FR">Français</option>
             <option value="EN">Anglais</option>
@@ -32,22 +41,42 @@
           </select>
         </div>
 
+        <!-- INI / ALT (dropdown) -->
         <div class="form-group">
           <label>INI / ALT</label>
-          <input type="text" formControlName="iniAlt" class="form-control" placeholder="INI ou ALT">
-        </div>
-        <div class="form-group">
-          <label>Programme</label>
-          <input type="text" formControlName="programme" class="form-control" placeholder="Programme">
+          <select
+            formControlName="iniAlt"
+            class="form-select"
+            [ngClass]="{ 'is-invalid': submitted && majeureForm.get('iniAlt')?.invalid }">
+            <option value="">-- Choisir --</option>
+            <option value="INI">INI</option>
+            <option value="ALT">ALT</option>
+          </select>
+          <div *ngIf="submitted && majeureForm.get('iniAlt')?.invalid" class="invalid-feedback">
+            Veuillez choisir une valeur.
+          </div>
         </div>
 
+        <!-- Programme -->
+        <div class="form-group">
+          <label>Programme</label>
+          <input type="text" formControlName="programme" class="form-control" placeholder="Programme" />
+        </div>
+
+        <!-- Submit Button -->
         <div class="text-center">
           <button type="submit" class="btn btn-submit">Créer la Majeure</button>
         </div>
       </form>
 
-      <div *ngIf="successMessage" class="alert alert-success success-alert mt-3">
+      <!-- Success Alert -->
+      <div *ngIf="successMessage" class="alert alert-success success-alert mt-3 text-center">
         {{ successMessage }}
+      </div>
+
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
+        {{ errorMessage }}
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { EtudiantService, Etudiant } from '../../services/etudiant/etudiant.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,17 +11,24 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-etudiant-create',
   templateUrl: './etudiant-create.component.html',
   styleUrls: ['./etudiant-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
 })
 export class EtudiantCreateComponent implements OnInit, OnDestroy {
   etudiantForm!: FormGroup;
   submitted = false;
   successMessage = '';
+  errorMessage = '';
+  duplicateEmail = false;
+
   private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private etudiantService: EtudiantService) {}
+  constructor(
+    private fb: FormBuilder,
+    private etudiantService: EtudiantService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.etudiantForm = this.fb.group({
       emailEcole: ['', [Validators.required, Validators.email]],
       origine: ['', Validators.required],
@@ -38,38 +45,57 @@ export class EtudiantCreateComponent implements OnInit, OnDestroy {
       fonctionApprenti: [''],
       langue: [''],
       commentaireAffectation: [''],
-      departementRattachement: ['']
+      departementRattachement: [''],
     });
   }
 
+  /** Accès pratique aux contrôles depuis le template */
   get f() {
     return this.etudiantForm.controls;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
+    this.successMessage = '';
+    this.errorMessage = '';
+    this.duplicateEmail = false;
 
-    // Si le formulaire est invalide, on arrête
     if (this.etudiantForm.invalid) {
       return;
     }
 
-    // Conversion en type Etudiant
     const newEtudiant: Etudiant = this.etudiantForm.value;
 
-    // Appel au service pour créer l'étudiant
-    this.etudiantService.createEtudiant(newEtudiant)
+    this.etudiantService
+      .createEtudiant(newEtudiant)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res: any) => {
+        next: (created: Etudiant) => {
           this.successMessage = 'Étudiant créé avec succès !';
-          // Reset du formulaire
-          this.etudiantForm.reset();
-          this.submitted = false;
+          setTimeout(() => {
+            this.router.navigate(['/etudiants', created.id]);
+          }, 1000);
         },
-        error: (err: any) => {
-          console.error('Erreur lors de la création de l\'étudiant', err);
-        }
+error: (err) => {
+  console.error('Erreur lors de la création', err);
+  console.log('Raw err.error:', err?.error);
+
+  try {
+    const backend = err?.error;
+    const nestedMessage = backend?.message;
+
+    if (nestedMessage?.duplicate) {
+      this.errorMessage = nestedMessage.message || 'Cet e-mail est déjà utilisé.';
+    } else if (typeof nestedMessage === 'string') {
+      this.errorMessage = nestedMessage;
+    } else {
+      this.errorMessage = JSON.stringify(nestedMessage || backend || err);
+    }
+  } catch (e) {
+    console.error('Parsing failed:', e);
+    this.errorMessage = 'Erreur inattendue lors de la création.';
+  }
+}
       });
   }
 
