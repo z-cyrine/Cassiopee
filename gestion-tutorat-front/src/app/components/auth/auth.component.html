@@ -51,10 +51,21 @@
         </button>
 
         <!-- Lien CAS -->
-        <div class="text-center mt-3">
-          <a [href]="casLoginUrl">Connexion avec CAS</a>
+        <div class="d-flex justify-content-center mt-3">
+          <a [href]="casLoginUrl" class="text-decoration-underline">Connexion avec CAS</a>
         </div>
+
+        
+
+
       </form>
+      
+      <div class="text-center mt-3 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+          <span>Vous n'avez pas de compte ?</span>
+          <a routerLink="/inscription">Inscrivez-vous</a>
+        </div>
     </div>
+
+
   </div>
 </div>
