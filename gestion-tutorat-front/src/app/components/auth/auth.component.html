@@ -44,15 +44,15 @@
         <!-- Bouton -->
         <button
           type="submit"
-          class="btn btn-primary w-100 py-2"
+          class="btn btn-purple w-100 py-2"
           [disabled]="loginForm.invalid || loading">
           <i class="bi bi-box-arrow-in-right"></i>
-          {{ loading ? 'Connexion...' : 'Se connecter' }}
+          {{ loading ? 'Connexion ...' : 'Se connecter' }}
         </button>
 
         <!-- Lien CAS -->
         <div class="text-center mt-3">
-          <a [href]="casLoginUrl" class="text-decoration-none">Connexion avec CAS</a>
+          <a [href]="casLoginUrl">Connexion avec CAS</a>
         </div>
       </form>
     </div>
