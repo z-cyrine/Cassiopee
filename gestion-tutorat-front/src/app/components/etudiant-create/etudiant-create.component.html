@@ -3,78 +3,193 @@
     <div class="card-header">
       <h2>Ajouter un Étudiant</h2>
     </div>
+
     <div class="card-body">
       <form [formGroup]="etudiantForm" (ngSubmit)="onSubmit()">
+
+        <!-- Email École -->
         <div class="form-group">
           <label>Email École</label>
-          <input type="email" formControlName="emailEcole" class="form-control" placeholder="Votre email école">
+          <input
+            type="email"
+            class="form-control"
+            formControlName="emailEcole"
+            [ngClass]="{ 'is-invalid': submitted && f['emailEcole'].invalid }" />
+          <div *ngIf="submitted && f['emailEcole'].invalid" class="invalid-feedback">
+            <span *ngIf="f['emailEcole'].errors?.['required']">Champ obligatoire.</span>
+            <span *ngIf="f['emailEcole'].errors?.['email']">Format e-mail invalide.</span>
+          </div>
         </div>
+
+        <!-- Origine -->
         <div class="form-group">
           <label>Origine</label>
-          <input type="text" formControlName="origine" class="form-control" placeholder="Votre origine">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="origine"
+            [ngClass]="{ 'is-invalid': submitted && f['origine'].invalid }" />
+          <div *ngIf="submitted && f['origine'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- École -->
         <div class="form-group">
           <label>École</label>
-          <input type="text" formControlName="ecole" class="form-control" placeholder="Votre école">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ecole"
+            [ngClass]="{ 'is-invalid': submitted && f['ecole'].invalid }" />
+          <div *ngIf="submitted && f['ecole'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- Prénom -->
         <div class="form-group">
           <label>Prénom</label>
-          <input type="text" formControlName="prenom" class="form-control" placeholder="Votre prénom">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="prenom"
+            [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }" />
+          <div *ngIf="submitted && f['prenom'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- Nom -->
         <div class="form-group">
           <label>Nom</label>
-          <input type="text" formControlName="nom" class="form-control" placeholder="Votre nom">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nom"
+            [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }" />
+          <div *ngIf="submitted && f['nom'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- Obligation Internationale -->
         <div class="form-group">
           <label>Obligation Internationale</label>
-          <input type="text" formControlName="obligationInternational" class="form-control" placeholder="Obligation internationale">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="obligationInternational"
+            [ngClass]="{ 'is-invalid': submitted && f['obligationInternational'].invalid }" />
+          <div *ngIf="submitted && f['obligationInternational'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- Stage 1A -->
         <div class="form-group">
           <label>Stage 1A</label>
-          <input type="text" formControlName="stage1A" class="form-control" placeholder="Stage 1A">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="stage1A"
+            [ngClass]="{ 'is-invalid': submitted && f['stage1A'].invalid }" />
+          <div *ngIf="submitted && f['stage1A'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- Code classe -->
         <div class="form-group">
           <label>Code Classe</label>
-          <input type="text" formControlName="codeClasse" class="form-control" placeholder="Code classe">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="codeClasse"
+            [ngClass]="{ 'is-invalid': submitted && f['codeClasse'].invalid }" />
+          <div *ngIf="submitted && f['codeClasse'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- Nom groupe -->
         <div class="form-group">
           <label>Nom Groupe</label>
-          <input type="text" formControlName="nomGroupe" class="form-control" placeholder="Nom du groupe">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nomGroupe"
+            [ngClass]="{ 'is-invalid': submitted && f['nomGroupe'].invalid }" />
+          <div *ngIf="submitted && f['nomGroupe'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- Langue majeure -->
         <div class="form-group">
           <label>Langue Majeure</label>
-          <input type="text" formControlName="langueMajeure" class="form-control" placeholder="Langue majeure">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="langueMajeure"
+            [ngClass]="{ 'is-invalid': submitted && f['langueMajeure'].invalid }" />
+          <div *ngIf="submitted && f['langueMajeure'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- INI / ALT -->
         <div class="form-group">
           <label>INI / ALT</label>
-          <input type="text" formControlName="iniAlt" class="form-control" placeholder="INI / ALT">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="iniAlt"
+            [ngClass]="{ 'is-invalid': submitted && f['iniAlt'].invalid }" />
+          <div *ngIf="submitted && f['iniAlt'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
         </div>
+
+        <!-- Champs facultatifs (pas de validation obligatoire) -->
         <div class="form-group">
           <label>Entreprise (facultatif)</label>
-          <input type="text" formControlName="entreprise" class="form-control" placeholder="Entreprise">
+          <input type="text" class="form-control" formControlName="entreprise" />
         </div>
+
         <div class="form-group">
           <label>Fonction Apprenti (facultatif)</label>
-          <input type="text" formControlName="fonctionApprenti" class="form-control" placeholder="Fonction Apprenti">
+          <input type="text" class="form-control" formControlName="fonctionApprenti" />
         </div>
+
         <div class="form-group">
           <label>Langue (facultatif)</label>
-          <input type="text" formControlName="langue" class="form-control" placeholder="Langue">
+          <input type="text" class="form-control" formControlName="langue" />
         </div>
+
         <div class="form-group">
           <label>Commentaire Affectation (facultatif)</label>
-          <input type="text" formControlName="commentaireAffectation" class="form-control" placeholder="Commentaire Affectation">
+          <input type="text" class="form-control" formControlName="commentaireAffectation" />
         </div>
+
         <div class="form-group">
           <label>Département Rattachement (facultatif)</label>
-          <input type="text" formControlName="departementRattachement" class="form-control" placeholder="Département Rattachement">
+          <input type="text" class="form-control" formControlName="departementRattachement" />
         </div>
+
+        <!-- Bouton -->
         <div class="text-center">
           <button type="submit" class="btn btn-submit">Créer l'Étudiant</button>
         </div>
       </form>
-      <div *ngIf="successMessage" class="alert alert-success success-alert">
+
+      <!-- Alertes -->
+      <div *ngIf="successMessage" class="alert alert-success success-alert mt-3 text-center">
         {{ successMessage }}
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
+        {{ errorMessage }}
       </div>
     </div>
   </div>

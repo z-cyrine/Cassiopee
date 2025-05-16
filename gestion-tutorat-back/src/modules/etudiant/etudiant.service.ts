@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { Etudiant } from './etudiant.entity';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
@@ -12,11 +12,22 @@ export class EtudiantService {
     private readonly etudiantRepository: Repository<Etudiant>,
   ) {}
 
-  async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
-
+async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
+  try {
     const etudiant = this.etudiantRepository.create(createEtudiantDto);
     return await this.etudiantRepository.save(etudiant);
+  } catch (err) {
+    if (err instanceof QueryFailedError && (err as any).code === 'ER_DUP_ENTRY') {
+      // Duplicate email detected
+      throw new ConflictException({
+        duplicate: true,
+        message: 'Cet e-mail est déjà utilisé.'
+      });
+    }
+    throw new InternalServerErrorException('Erreur inattendue lors de la création.');
   }
+}
+
 
 
   async findAll(): Promise<Etudiant[]> {

@@ -1,38 +1,55 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MajorsService } from '../../services/majors/majors.service';
+import { MajorsService, Majeure } from '../../services/majors/majors.service';
 
 @Component({
   standalone: true,
   selector: 'app-majeure-create',
   templateUrl: './majeure-create.component.html',
   styleUrls: ['./majeure-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
 })
 export class MajeureCreateComponent implements OnInit, OnDestroy {
   majeureForm!: FormGroup;
+  submitted = false;
   successMessage = '';
+  errorMessage = '';
+
   private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private majorsService: MajorsService) {}
+  constructor(
+    private fb: FormBuilder,
+    private majorsService: MajorsService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.majeureForm = this.fb.group({
-      code: ['', Validators.required],
-      groupe: ['', Validators.required],
-      dept: ['', Validators.required],
-      responsible: ['', Validators.required],
-      langue: ['', Validators.required], // dropdown handles values directly now
-      iniAlt: ['', Validators.required],
-      programme: ['', Validators.required]
+      code: [''],
+      groupe: [''],
+      dept: [''],
+      responsible: [''],
+      langue: [''],
+      iniAlt: ['', Validators.required], // dropdown, must be ALT or INI
+      programme: ['']
     });
   }
 
   onSubmit() {
+    this.submitted = true;
+    this.successMessage = '';
+    this.errorMessage = '';
+
     if (this.majeureForm.invalid) return;
 
     const formValue = this.majeureForm.value;
@@ -40,12 +57,12 @@ export class MajeureCreateComponent implements OnInit, OnDestroy {
     this.majorsService.createMajeure(formValue)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => {
+        next: (created: Majeure) => {
           this.successMessage = 'Majeure créée avec succès !';
-          this.majeureForm.reset();
+          setTimeout(() => this.router.navigate(['/majeures', created.id]), 1000);
         },
-        error: (err: any) => {
-          console.error('Erreur création majeure :', err);
+        error: () => {
+          this.errorMessage = 'Erreur';
         }
       });
   }

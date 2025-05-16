@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { Tuteur } from './tuteur.entity';
 import { CreateTuteurDto } from './dto/create-tuteur.dto';
 import { UpdateTuteurDto } from './dto/update-tuteur.dto';
@@ -13,10 +13,17 @@ export class TuteurService {
   ) {}
 
   // CREATE
-  async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
+async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
+  try {
     const tuteur = this.tuteurRepository.create(createTuteurDto);
     return await this.tuteurRepository.save(tuteur);
+  } catch (err) {
+    if (err instanceof QueryFailedError && (err as any).code === 'ER_DUP_ENTRY') {
+      throw new ConflictException({ duplicate: true, message: 'Cet e-mail est déjà utilisé.' });
+    }
+    throw new InternalServerErrorException('Erreur interne');
   }
+}
 
   // READ ALL
   async findAll(): Promise<Tuteur[]> {
