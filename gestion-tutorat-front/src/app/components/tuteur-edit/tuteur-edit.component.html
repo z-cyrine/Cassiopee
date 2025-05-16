@@ -1,94 +1,184 @@
 <div class="container mt-4">
   <h2>Modifier le Tuteur</h2>
+
   <form [formGroup]="tuteurForm" (ngSubmit)="onSubmit()">
+    <!-- Nom -->
     <div class="mb-3">
       <label class="form-label">Nom</label>
-      <input type="text" class="form-control" formControlName="nom" />
+      <input
+        type="text"
+        class="form-control"
+        formControlName="nom"
+        [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }" />
+      <div *ngIf="submitted && f['nom'].invalid" class="invalid-feedback">
+        Ce champ est requis
+      </div>
     </div>
+
+    <!-- Prénom -->
     <div class="mb-3">
       <label class="form-label">Prénom</label>
-      <input type="text" class="form-control" formControlName="prenom" />
+      <input
+        type="text"
+        class="form-control"
+        formControlName="prenom"
+        [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }" />
+      <div *ngIf="submitted && f['prenom'].invalid" class="invalid-feedback">
+        Ce champ est requis
+      </div>
     </div>
+
+    <!-- Email -->
     <div class="mb-3">
       <label class="form-label">Email</label>
-      <input type="email" class="form-control" formControlName="email" />
+      <input
+        type="email"
+        class="form-control"
+        formControlName="email"
+        [ngClass]="{
+          'is-invalid': submitted && (f['email'].errors?.['required'] || f['email'].errors?.['email'])
+        }" />
+      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+        <span *ngIf="f['email'].errors['required']">Ce champ est requis</span>
+        <span *ngIf="f['email'].errors['email']">Email invalide</span>
+      </div>
     </div>
+
+    <!-- Département -->
     <div class="mb-3">
       <label class="form-label">Département</label>
-      <input type="text" class="form-control" formControlName="departement" />
+      <input
+        type="text"
+        class="form-control"
+        formControlName="departement"
+        [ngClass]="{ 'is-invalid': submitted && f['departement'].invalid }" />
+      <div *ngIf="submitted && f['departement'].invalid" class="invalid-feedback">
+        Ce champ est requis
+      </div>
     </div>
+
+    <!-- Est éligible -->
     <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" formControlName="estEligiblePourTutorat" id="eligibleCheck" />
-      <label class="form-check-label" for="eligibleCheck">Est Eligible pour Tutorat</label>
+      <input
+        type="checkbox"
+        class="form-check-input"
+        formControlName="estEligiblePourTutorat"
+        id="eligibleCheck" />
+      <label class="form-check-label" for="eligibleCheck">
+        Est Eligible pour Tutorat
+      </label>
     </div>
+
+    <!-- Statut -->
     <div class="mb-3">
       <label class="form-label">Statut</label>
-      <input type="text" class="form-control" formControlName="statut" />
+      <input
+        type="text"
+        class="form-control"
+        formControlName="statut"
+        [ngClass]="{ 'is-invalid': submitted && f['statut'].invalid }" />
+      <div *ngIf="submitted && f['statut'].invalid" class="invalid-feedback">
+        Ce champ est requis
+      </div>
     </div>
+
+    <!-- Colonne2 / InfoStatut -->
     <div class="mb-3">
       <label class="form-label">Colonne 2</label>
       <input type="text" class="form-control" formControlName="colonne2" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Info Statut</label>
       <input type="text" class="form-control" formControlName="infoStatut" />
     </div>
+
+    <!-- Langues tutorat -->
     <div class="mb-3">
-      <label class="form-label">Langue Tutorats (séparées par des virgules)</label>
+      <label class="form-label">Langues Tutorats (séparées par des virgules)</label>
       <input type="text" class="form-control" formControlName="langueTutorat" />
     </div>
+
+    <!-- Profil -->
     <div class="mb-3">
       <label class="form-label">Profil</label>
-      <input type="text" class="form-control" formControlName="profil" />
+      <input
+        type="text"
+        class="form-control"
+        formControlName="profil"
+        [ngClass]="{ 'is-invalid': submitted && f['profil'].invalid }" />
+      <div *ngIf="submitted && f['profil'].invalid" class="invalid-feedback">
+        Ce champ est requis
+      </div>
     </div>
+
+    <!-- Capacités / Soldes -->
     <div class="mb-3">
       <label class="form-label">Par Tutorats Alt</label>
-      <input type="number" class="form-control" formControlName="parTutoratAlt" />
+      <input
+        type="number"
+        class="form-control"
+        formControlName="parTutoratAlt"
+        [ngClass]="{ 'is-invalid': submitted && f['parTutoratAlt'].invalid }" />
+      <div *ngIf="submitted && f['parTutoratAlt'].invalid" class="invalid-feedback">
+        Valeur ≥ 0
+      </div>
     </div>
+
     <div class="mb-3">
       <label class="form-label">Tutorats Alt Affectés</label>
       <input type="number" class="form-control" formControlName="tutoratAltAff" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Solde Alt</label>
       <input type="number" class="form-control" formControlName="soldeAlt" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Par Tutorats Ini</label>
       <input type="number" class="form-control" formControlName="parTutoratIni" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Tutorats Ini Affectés</label>
       <input type="number" class="form-control" formControlName="tutoratIniAff" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Solde Ini</label>
       <input type="number" class="form-control" formControlName="soldeIni" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Total Étudiants Par</label>
       <input type="number" class="form-control" formControlName="totalEtudiantsPar" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Nombre de Tutorats Affectés</label>
       <input type="number" class="form-control" formControlName="nbTutoratAffecte" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Solde Tutorat Restant</label>
       <input type="number" class="form-control" formControlName="soldeTutoratRestant" />
     </div>
+
+    <!-- Matières / Domaines -->
     <div class="mb-3">
       <label class="form-label">Matieres (séparées par des virgules)</label>
       <input type="text" class="form-control" formControlName="matieres" />
     </div>
+
     <div class="mb-3">
       <label class="form-label">Domaines Expertise (séparées par des virgules)</label>
       <input type="text" class="form-control" formControlName="domainesExpertise" />
     </div>
-    <button type="submit" class="btn btn-primary">Mettre à jour le Tuteur</button>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary">
+      Mettre à jour le Tuteur
+    </button>
   </form>
-  
-  <div *ngIf="successMessage" class="alert alert-success mt-3">
-    {{ successMessage }}
-  </div>
 </div>

@@ -1,23 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
+
 @Component({
+  standalone: true,
   selector: 'app-tuteur-edit',
   templateUrl: './tuteur-edit.component.html',
   styleUrls: ['./tuteur-edit.component.css'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
 })
 export class TuteurEditComponent implements OnInit, OnDestroy {
   tuteurForm!: FormGroup;
   submitted = false;
   tuteurId!: number;
-  successMessage = '';
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -27,9 +27,14 @@ export class TuteurEditComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  /* ---------------------------------------------------------------- */
+  /* --------------------------- Init -------------------------------- */
+  /* ---------------------------------------------------------------- */
   ngOnInit(): void {
+    /* id contenu dans l’URL  /tuteurs/edit/:id */
     this.tuteurId = Number(this.route.snapshot.paramMap.get('id'));
-    // Initialize the form with default values.
+
+    /* construction du formulaire réactif */
     this.tuteurForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
@@ -39,8 +44,7 @@ export class TuteurEditComponent implements OnInit, OnDestroy {
       statut: ['', Validators.required],
       colonne2: [''],
       infoStatut: [''],
-      // We use a plain text input for these array fields; they will be comma‐separated.
-      langueTutorat: [''],
+      langueTutorat: [''],      /* champs texte => tableau backend */
       profil: ['', Validators.required],
       parTutoratAlt: [0, Validators.min(0)],
       tutoratAltAff: [0, Validators.min(0)],
@@ -51,70 +55,90 @@ export class TuteurEditComponent implements OnInit, OnDestroy {
       totalEtudiantsPar: [0, Validators.min(0)],
       nbTutoratAffecte: [0, Validators.min(0)],
       soldeTutoratRestant: [0, Validators.min(0)],
-      matieres: [''],
-      domainesExpertise: ['']
+      matieres: [''],           /* idem */
+      domainesExpertise: ['']   /* idem */
     });
+
     this.loadTuteur();
   }
 
-  loadTuteur(): void {
-    this.tuteurService.findOne(this.tuteurId)
+  /* ---------------------------------------------------------------- */
+  /* ----------------------- Chargement data ------------------------ */
+  /* ---------------------------------------------------------------- */
+  private loadTuteur(): void {
+    this.tuteurService
+      .findOne(this.tuteurId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data: Tuteur) => {
-          // Convert arrays into comma‐separated strings for the form inputs.
-          const patchedData = {
+          /* passages array -> string séparé par virgules pour l’input texte */
+          const patched = {
             ...data,
-            langueTutorat: Array.isArray(data.langueTutorat) ? data.langueTutorat.join(', ') : '',
-            matieres: Array.isArray(data.matieres) ? data.matieres.join(', ') : '',
-            domainesExpertise: Array.isArray(data.domainesExpertise) ? data.domainesExpertise.join(', ') : ''
+            langueTutorat: Array.isArray(data.langueTutorat)
+              ? data.langueTutorat.join(', ')
+              : '',
+            matieres: Array.isArray(data.matieres)
+              ? data.matieres.join(', ')
+              : '',
+            domainesExpertise: Array.isArray(data.domainesExpertise)
+              ? data.domainesExpertise.join(', ')
+              : '',
           };
-          this.tuteurForm.patchValue(patchedData);
+          this.tuteurForm.patchValue(patched);
         },
-        error: (err: any) => {
-          console.error('Erreur lors du chargement du tuteur', err);
-        }
+        error: (err) =>
+          console.error('Erreur lors du chargement du tuteur :', err),
       });
   }
 
-  // For easy access to form controls in the template.
+  /* getter pratique pour le template */
   get f() {
     return this.tuteurForm.controls;
   }
 
+  /* ---------------------------------------------------------------- */
+  /* --------------------------- Submit ----------------------------- */
+  /* ---------------------------------------------------------------- */
   onSubmit(): void {
     this.submitted = true;
-    if (this.tuteurForm.invalid) {
-      return;
-    }
+    if (this.tuteurForm.invalid) return;
 
-    // Get a clone of the form values.
-    const formValue = { ...this.tuteurForm.value };
+    /* Clone + conversion string→array pour les champs JSON */
+    const payload: any = { ...this.tuteurForm.value };
+    payload.langueTutorat = this.stringToArray(payload.langueTutorat);
+    payload.matieres = this.stringToArray(payload.matieres);
+    payload.domainesExpertise = this.stringToArray(payload.domainesExpertise);
 
-    // For fields that are stored as arrays in the backend,
-    // split the comma-separated strings into arrays (after trimming each element).
-    formValue.langueTutorat =
-      (typeof formValue.langueTutorat === 'string' && formValue.langueTutorat) ?
-        formValue.langueTutorat.split(',').map((s: string) => s.trim()).filter((s: string) => s) : [];
-    formValue.matieres =
-      (typeof formValue.matieres === 'string' && formValue.matieres) ?
-        formValue.matieres.split(',').map((s: string) => s.trim()).filter((s: string) => s) : [];
-    formValue.domainesExpertise =
-      (typeof formValue.domainesExpertise === 'string' && formValue.domainesExpertise) ?
-        formValue.domainesExpertise.split(',').map((s: string) => s.trim()).filter((s: string) => s) : [];
-
-    this.tuteurService.update(this.tuteurId, formValue)
+    this.tuteurService
+      .update(this.tuteurId, payload)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res: Tuteur) => {
-          this.successMessage = 'Tuteur mis à jour avec succès !';
+        next: () => {
+          /* ✅ pop-up de succès */
+          window.alert('Tuteur mis à jour avec succès !');
+          /* redirection vers la page détail */
+          this.router.navigate(['/tuteurs', this.tuteurId]);
         },
-        error: (err) => {
-          console.error('Erreur lors de la mise à jour du tuteur', err);
-        }
+        error: (err) =>
+          console.error('Erreur lors de la mise à jour du tuteur :', err),
       });
   }
 
+  /* utilitaire : transforme « a, b ,c » -> ['a','b','c'] */
+  private stringToArray(source: string | string[]): string[] {
+    return typeof source === 'string'
+      ? source
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : Array.isArray(source)
+      ? source
+      : [];
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* ----------------------- Destruction ----------------------------- */
+  /* ---------------------------------------------------------------- */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
