@@ -40,12 +40,14 @@ export class AuthComponent {
 
     this.http.post(`${environment.apiUrl}/auth/login`, { email, password }).subscribe({
       next: (res: any) => {
-        localStorage.setItem('token', res.token);
-        this.router.navigate(['/dashboard']);
+        // localStorage.setItem('token', res.token);
+        localStorage.setItem('token', res.accessToken);
+        console.log("YEEEEEEEEEEEEEEY C BON");
+        this.router.navigate(['/']);
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.errorMessage = 'Identifiants incorrects';
+        this.errorMessage = err.error?.message || 'Identifiants incorrects';
       }
     });
   }
