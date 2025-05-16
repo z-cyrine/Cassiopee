@@ -1,0 +1,24 @@
+.majeures-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.majeures-table th, .majeures-table td {
+  border: 1px solid #ececec;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 1rem;
+}
+.majeures-table th {
+  background: #f5f7fa;
+  font-weight: 600;
+}
+.majeures-table tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+.majeures-table tr:nth-child(odd) td {
+  background-color: #ffffff;
+} 

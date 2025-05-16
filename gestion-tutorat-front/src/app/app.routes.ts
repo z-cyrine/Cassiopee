@@ -10,6 +10,8 @@ export const appRoutes: Routes = [
   { path: 'auto-affectation', loadComponent: () => import('./components/auto-affectation/auto-affectation.component').then(m => m.AutoAffectationComponent) },
   { path: 'reporting', loadComponent: () => import('./reporting/reporting.component').then(m => m.ReportingComponent) },
   { path: 'affectation-manuelle', loadComponent: () => import('./components/affectation-manuelle/affectation-manuelle.component').then(m => m.AffectationManuelleComponent) },
+  { path: 'tuteurs/all', loadComponent: () => import('./components/affiche-tuteurs/affiche-tuteurs.component').then(m => m.AfficheTuteursComponent) },
+  { path: 'majeures/all', loadComponent: () => import('./components/affiche-majeures/affiche-majeures.component').then(m => m.AfficheMajeuresComponent) },
   { path: 'authentification', loadComponent: () => import('./components/auth/auth.component').then(m => m.AuthComponent) },
 
   // Créations
