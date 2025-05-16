@@ -13,6 +13,7 @@ export const appRoutes: Routes = [
   { path: 'tuteurs/all', loadComponent: () => import('./components/affiche-tuteurs/affiche-tuteurs.component').then(m => m.AfficheTuteursComponent) },
   { path: 'majeures/all', loadComponent: () => import('./components/affiche-majeures/affiche-majeures.component').then(m => m.AfficheMajeuresComponent) },
   { path: 'authentification', loadComponent: () => import('./components/auth/auth.component').then(m => m.AuthComponent) },
+  { path: 'register', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
 
   // Créations
   { path: 'etudiant-create', loadComponent: () => import('./components/etudiant-create/etudiant-create.component').then(m => m.EtudiantCreateComponent) },
