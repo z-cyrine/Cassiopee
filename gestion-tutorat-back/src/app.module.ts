@@ -58,7 +58,6 @@ controllers: [
 AppController,
 ImportController,
 EtudiantController,
-AuthController,
 ],
 providers: [
 AppService,

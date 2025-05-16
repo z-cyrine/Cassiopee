@@ -4,6 +4,9 @@ import { UserService } from '../users/user.service';
 import { UserRole } from '../users/user.entity';
 import { JwtService } from '@nestjs/jwt';
 
+import * as bcrypt from 'bcrypt';
+import { createUserDto } from '../users/dto/createUser.dto';
+
 type SignInData = { userId: number; username:string; role: UserRole}
 type AuthResult = {accessToken:string; userId:number; username:string}
 @Injectable()
@@ -12,16 +15,22 @@ export class AuthService {
 
     async validateUser(input: AuthPayloadDto): Promise<SignInData | null> {
         const user = await this.userService.findByEmail(input.email);
-        console.log('password:', user.password);
-        if (user && user.password == input.password){
+
+        if (!user) return null;
+
+        const isPasswordValid = await bcrypt.compare(input.password, user.password);
+
+        if (isPasswordValid) {
             return {
-                userId: user.id,
-                username: user.name,
-                role: user.role
-            }
+            userId: user.id,
+            username: user.name,
+            role: user.role
+            };
         }
-        return null ;
+
+        return null;
     }
+
 
     async authenticate(input:AuthPayloadDto): Promise<AuthResult|null>{
 
@@ -46,4 +55,15 @@ export class AuthService {
         const accessToken = await this.jwtService.signAsync(tokenPayload);
         return {accessToken, username:user.username, userId:user.userId} ;
     }
+
+    async register(data: createUserDto): Promise<{ message: string }> {
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        await this.userService.createUser({
+            ...data,
+            password: hashedPassword,
+        });
+
+        return { message: 'User registered successfully' };
+    }
+
 }
