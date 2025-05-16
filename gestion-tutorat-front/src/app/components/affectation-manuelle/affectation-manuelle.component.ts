@@ -280,7 +280,5 @@ export class AffectationManuelleComponent {
   this.currentPage = 1;
   this.updatePagedStudents();
 }
-
-
   
 }
