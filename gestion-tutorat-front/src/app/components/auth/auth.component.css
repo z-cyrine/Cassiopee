@@ -136,7 +136,22 @@ input[type="file"]::-webkit-file-upload-button:hover {
 
 a {
   color: #7d3bb8;
-  text-decoration:underline;
+  text-decoration:underline !important;
   display: flex;
   align-items: center;
+}
+
+.btn-purple {
+  background: linear-gradient(90deg, #7b5fc9 0%, #a084e8 100%);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-purple:hover {
+  background: linear-gradient(90deg, #a084e8 0%, #7b5fc9 100%);
+  box-shadow: 0 5px 15px rgba(123, 95, 201, 0.2);
+  transform: translateY(-2px);
 }

@@ -23,6 +23,12 @@ import { TuteurModule } from './modules/tuteur/tuteur.module';
 import { AffectationManuelleController } from './affectation-manuelle/affectation-manuelle.controller';
 import { AffectationManuelleService } from './affectation-manuelle/affectation-manuelle.service';
 import { AffectationManuelleModule } from './affectation-manuelle/affectation-manuelle.module';
+import { UsersModule } from './modules/users/user.module';
+import { User } from './modules/users/user.entity';
+import { AuthController } from './modules/auth/auth.controller';
+import { AuthService } from './modules/auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
 imports: [
@@ -33,10 +39,10 @@ port: 3306,
 username: 'root',
 password: '',
 database: 'gestion_tutorat',
-entities: [Etudiant, Tuteur, Majeures],
+entities: [Etudiant, Tuteur, Majeures, User],
 synchronize: true,
 }),
-TypeOrmModule.forFeature([Etudiant, Tuteur, Majeures]),
+TypeOrmModule.forFeature([Etudiant, Tuteur, Majeures, User]),
 ImportModule,
 AutoAffectationModule,
 MajeuresModule,
@@ -45,11 +51,14 @@ TuteurModule,
 ReportingModule,
 ResetModule,
 AffectationManuelleModule,
+UsersModule,
+AuthModule
 ],
 controllers: [
 AppController,
 ImportController,
 EtudiantController,
+AuthController,
 ],
 providers: [
 AppService,
