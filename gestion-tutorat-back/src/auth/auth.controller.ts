@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Controller, Get, Query, Res, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
 
@@ -16,9 +16,24 @@ export class AuthController {
     return res.redirect(this.authService.getLogoutUrl());
   }
 
+  @Get('validate-ticket')
+  async validateTicket(@Query('ticket') ticket: string, @Query('service') service: string) {
+    try {
+      const user = await this.authService.validateTicket(ticket, service);
+      if (!user) {
+        throw new HttpException('Ticket invalide', HttpStatus.UNAUTHORIZED);
+      }
+      return { user };
+    } catch (error) {
+      throw new HttpException('Erreur de validation du ticket', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
   @Get('cas/callback')
   casCallback(@Query('ticket') ticket: string, @Res() res: Response) {
-    // Redirige vers le front avec le ticket en paramètre (à adapter selon besoin)
-    return res.redirect(`http://localhost:4200?ticket=${ticket}`);
+    if (!ticket) {
+      return res.redirect('https://localhost:4200?error=no_ticket');
+    }
+    return res.redirect(`https://localhost:4200?ticket=${ticket}`);
   }
 } 

@@ -25,8 +25,8 @@
                 "glob": "**/*",
                 "input": "public"
               },
-                "src/assets",
-                "src/favicon.ico"
+              "src/assets",
+              "src/favicon.ico"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
@@ -69,7 +69,12 @@
               "buildTarget": "gestion-tutorat-front:build:production"
             },
             "development": {
-              "buildTarget": "gestion-tutorat-front:build:development"
+              "buildTarget": "gestion-tutorat-front:build:development",
+              "ssl": true,
+              "sslKey": "ssl/key.pem",
+              "sslCert": "ssl/cert.pem",
+              "host": "localhost",
+              "port": 4200
             }
           },
           "defaultConfiguration": "development"
@@ -95,7 +100,9 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           }
         }
       }
