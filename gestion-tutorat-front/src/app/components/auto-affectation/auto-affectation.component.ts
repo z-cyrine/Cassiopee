@@ -32,7 +32,7 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
   constructor(private affectationService: AffectationService) {}
 
   ngOnInit(): void {
-    this.loadAffectation();
+    this.loadEtatAffectation();
   }
 
   ngOnDestroy(): void {
@@ -58,6 +58,29 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.error(err);
           this.error = "Erreur lors de l'affectation";
+          this.loading = false;
+        }
+      });
+  }
+
+  loadEtatAffectation(): void {
+    this.loading = true;
+    this.error = null;
+    this.affectationService.getEtatAffectation()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: AffectationResult) => {
+          this.result = res;
+          this.data = res.details;
+          this.page = 1;
+          this.pageCount = Math.ceil(this.data.length / this.limit) || 1;
+          this.updatePagedData();
+          this.setupColumns();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.error = "Erreur lors de la récupération de l'état";
           this.loading = false;
         }
       });

@@ -21,4 +21,8 @@ export class AffectationService {
   runAffectation(equivalence: number): Observable<AffectationResult> {
     return this.http.post<AffectationResult>(`${this.baseUrl}/auto-affectation`, {equivalence });
   }
+
+  getEtatAffectation(): Observable<AffectationResult> {
+    return this.http.get<AffectationResult>(`${this.baseUrl}/auto-affectation/etat-actuel`);
+  }
 }

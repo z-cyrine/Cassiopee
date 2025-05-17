@@ -29,6 +29,8 @@ export class AutoAffectationService {
    * @returns Un objet contenant le nombre total d'étudiants traités, le nombre assigné et les détails de l'affectation.
    */
   async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[] }> {
+    // Réinitialise tous les étudiants et tuteurs avant l'affectation
+    await this.resetAffectationState();
     // Charger les étudiants n'ayant pas encore de tuteur, ainsi que les tuteurs et majeures.
     const students = await this.etudiantRepository.find({ where: { tuteur: null }, relations: ['majeure'] });
     const tutors = await this.tuteurRepository.find();
@@ -172,6 +174,29 @@ export class AutoAffectationService {
     };
   }
 
+  private async resetAffectationState() {
+    // Réinitialise tous les étudiants
+    const allStudents = await this.etudiantRepository.find();
+    for (const etu of allStudents) {
+      etu.tuteur = null;
+      etu.affecte = false;
+      etu.logs = '';
+    }
+    await this.etudiantRepository.save(allStudents);
+
+    // Réinitialise tous les tuteurs
+    const allTuteurs = await this.tuteurRepository.find();
+    for (const tut of allTuteurs) {
+      tut.tutoratAltAff = 0;
+      tut.tutoratIniAff = 0;
+      tut.soldeAlt = tut.parTutoratAlt || 0;
+      tut.soldeIni = tut.parTutoratIni || 0;
+      tut.nbTutoratAffecte = 0;
+      tut.soldeTutoratRestant = (tut.parTutoratAlt || 0) + (tut.parTutoratIni || 0);
+    }
+    await this.tuteurRepository.save(allTuteurs);
+  }
+
   /*========================================================================
       MÉTHODES UTILES POUR L'AFFECTATION
   =========================================================================*/
@@ -240,5 +265,24 @@ export class AutoAffectationService {
    */
   private availableCapacity(tu: any, equivalence: number): number {
     return tu.capaIni + equivalence * tu.capaAlt;
+  }
+
+  async getEtatAffectation(): Promise<{ total: number; assigned: number; details: any[] }> {
+    const students = await this.etudiantRepository.find({ relations: ['tuteur', 'majeure'] });
+    const details = students.map(student => ({
+      ...student,
+      etudiantId: student.id,
+      tutorNom: student.tuteur ? student.tuteur.nom : '',
+      tutorPrenom: student.tuteur ? student.tuteur.prenom : '',
+      tutorDept: student.tuteur ? student.tuteur.departement : '',
+      assigned: !!student.tuteur,
+      logs: student.logs || '',
+    }));
+    const assigned = details.filter(d => d.assigned).length;
+    return {
+      total: students.length,
+      assigned,
+      details,
+    };
   }
 }
