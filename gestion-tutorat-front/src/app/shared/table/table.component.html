@@ -26,7 +26,18 @@
               </ng-container>
             </ng-container>
             <ng-template #defaultCell>
-              {{ column.cell(element) }}
+              <ng-container *ngIf="column.columnDef === 'frozen'; else defaultCell">
+                <button class="btn btn-sm"
+                        [class.btn-outline-secondary]="!element.frozen"
+                        [class.btn-secondary]="element.frozen"
+                        (click)="onToggleFrozen(element); $event.stopPropagation()">
+                  <i class="bi" [class.bi-lock]="element.frozen" [class.bi-unlock]="!element.frozen"></i>
+                  {{ element.frozen ? 'Figé' : 'Non figé' }}
+                </button>
+              </ng-container>
+              <ng-template #defaultCell>
+                {{ column.cell(element) }}
+              </ng-template>
             </ng-template>
           </td>
         </ng-container>

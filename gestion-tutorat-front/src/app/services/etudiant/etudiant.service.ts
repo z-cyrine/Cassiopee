@@ -57,5 +57,16 @@ export class EtudiantService {
   return this.http.get<Etudiant[]>(`${this.baseUrl}/all`);
 }
 
+toggleFrozen(etudiantId: number, action: 'freeze' | 'unfreeze') {
+  return this.http.put(`${this.baseUrl}/${etudiantId}/${action}`, {});
+}
+
+batchFreeze(ids: number[]) {
+  return this.http.put(`${this.baseUrl}/batch/freeze`, ids);
+}
+
+batchUnfreeze(ids: number[]) {
+  return this.http.put(`${this.baseUrl}/batch/unfreeze`, ids);
+}
 
 }

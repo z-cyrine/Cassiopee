@@ -187,4 +187,18 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
   formatDate(date: Date | null): string {
     return date ? formatDate(date, 'dd/MM/yyyy HH:mm:ss', 'fr-FR') : '';
   }
+
+  toggleFrozenEtudiant(etudiant: any): void {
+    const action = etudiant.frozen ? 'unfreeze' : 'freeze';
+    this.affectationService.toggleFrozen(etudiant.etudiantId, action).subscribe({
+      next: () => {
+        etudiant.frozen = !etudiant.frozen;
+        this.loadEtatAffectation();
+      },
+      error: (err: any) => {
+        console.error('Erreur lors du changement de statut figé:', err);
+        this.error = "Erreur lors du changement de statut figé";
+      }
+    });
+  }
 }

@@ -41,7 +41,11 @@
   </div>
 
   <!-- Utilisation du composant table réutilisable -->
-  <app-table [data]="pagedData" [columns]="columns" [showEdit]="false" [showDelete]="false"></app-table>
+  <app-table
+    [data]="pagedData"
+    [columns]="columns"
+    (toggleFrozen)="toggleFrozenEtudiant($event)"
+  ></app-table>
 
   <div class="pagination-controls" *ngIf="pageCount > 1">
     <button (click)="prevPage()" [disabled]="page === 1 || loading" class="pagination-btn">

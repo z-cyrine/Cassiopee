@@ -23,7 +23,7 @@ export class ImportService {
   ) {}
 
   /*========================================================================
-      PROCESSUS D’IMPORTATION DES DONNÉES
+      PROCESSUS D'IMPORTATION DES DONNÉES
   =========================================================================*/
 
   /**
@@ -241,4 +241,46 @@ export class ImportService {
     await this.etudiantRepository.save(etudiants);
     this.logger.log(`✅ ${etudiants.length} étudiants insérés en base (tuteur=null).`);
   }
+
+  /**
+   * Corrige les étudiants sans majeure en leur associant la bonne majeure selon groupe|code
+   */
+  async corrigerEtudiantsSansMajeure() {
+    const allMajors = await this.majeuresRepository.find();
+    const majorMap = new Map<string, Majeures>();
+    for (const maj of allMajors) {
+      // On normalise le mapping (trim, lowercase, sans accents)
+      const key = `${normalize(maj.groupe)}|${normalize(maj.code)}`;
+      majorMap.set(key, maj);
+    }
+    const etudiants = await this.etudiantRepository.find({ relations: ['majeure'] });
+    let count = 0;
+    let notFound = [];
+    for (const etu of etudiants) {
+      if (!etu.majeure) {
+        const groupe = normalize(etu.nomGroupe);
+        const code = normalize(etu.codeClasse);
+        const key = `${groupe}|${code}`;
+        const maj = majorMap.get(key) || null;
+        if (maj) {
+          etu.majeure = maj;
+          await this.etudiantRepository.save(etu);
+          count++;
+        } else {
+          notFound.push({ id: etu.id, groupe: etu.nomGroupe, code: etu.codeClasse, key });
+        }
+      }
+    }
+    this.logger.log(`✅ Correction terminée : ${count} étudiants ré-associés à une majeure.`);
+    if (notFound.length) {
+      this.logger.warn(`⚠️ Etudiants sans correspondance majeure :`);
+      notFound.forEach(e => this.logger.warn(`ID=${e.id} | groupe='${e.groupe}' | code='${e.code}' | key='${e.key}'`));
+    }
+  }
+}
+
+// Ajoute la fonction de normalisation
+function normalize(str: string): string {
+  if (!str) return '';
+  return str.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }

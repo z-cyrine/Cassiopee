@@ -20,6 +20,7 @@ export class TableComponent {
   @Input() showEdit: boolean = false;
   @Input() showDelete: boolean = false;
   @Output() rowClick = new EventEmitter<any>();
+  @Output() toggleFrozen = new EventEmitter<any>();
 
   // Pour le modal logs
   showLogModal = false;
@@ -59,5 +60,9 @@ export class TableComponent {
 
   onRowClick(row: any) {
     this.rowClick.emit(row);
+  }
+
+  onToggleFrozen(element: any) {
+    this.toggleFrozen.emit(element);
   }
 }

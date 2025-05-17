@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 
 import { Etudiant } from 'src/modules/etudiant/etudiant.entity';
 import { Tuteur } from 'src/modules/tuteur/tuteur.entity';
@@ -10,6 +10,9 @@ import { ExcelParserService } from 'src/services/import/excel-parser/excel-parse
 @Injectable()
 export class AutoAffectationService {
   private readonly logger = new Logger(AutoAffectationService.name);
+
+  // Stockage en mémoire du dernier état d'affectation
+  private lastAffectationResult: any = null;
 
   constructor(
     @InjectRepository(Etudiant)
@@ -31,8 +34,8 @@ export class AutoAffectationService {
   async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[]; lastUpdated: Date; stats: any }> {
     // Réinitialise tous les étudiants et tuteurs avant l'affectation
     await this.resetAffectationState();
-    // Charger les étudiants n'ayant pas encore de tuteur, ainsi que les tuteurs et majeures.
-    const students = await this.etudiantRepository.find({ where: { tuteur: null }, relations: ['majeure'] });
+    // Charger les étudiants n'ayant pas encore de tuteur et non figés, ainsi que les tuteurs et majeures.
+    const students = await this.etudiantRepository.find({ where: { tuteur: null, frozen: false }, relations: ['majeure'] });
     const tutors = await this.tuteurRepository.find();
     
     // Création d'une map des tuteurs avec leur capacité restante.
@@ -163,24 +166,35 @@ export class AutoAffectationService {
     }
 
     // Sauvegarder les étudiants mis à jour (avec tuteur affecté)
-    await this.etudiantRepository.save(students);
-    // Sauvegarder les tuteurs mis à jour (avec compteurs actualisés)
+    // Recharge la relation majeure avant le save massif
+    const studentsWithMaj = await this.etudiantRepository.find({ where: { id: In(students.map(s => s.id)) }, relations: ['majeure'] });
+    for (const s of students) {
+      const majStudent = studentsWithMaj.find(e => e.id === s.id);
+      if (majStudent) {
+        majStudent.tuteur = s.tuteur;
+        majStudent.affecte = s.affecte;
+        majStudent.logs = s.logs;
+      }
+    }
+    await this.etudiantRepository.save(studentsWithMaj);
     await this.tuteurRepository.save(tutors);
 
     const lastUpdated = await this.getLastUpdated();
     const stats = await this.getStats(details);
-    return {
+    const result = {
       total: students.length,
       assigned: assignedCount,
       details,
       lastUpdated,
       stats,
     };
+    this.lastAffectationResult = result; // On stocke le dernier état
+    return result;
   }
 
   public async resetAffectationState() {
     // Réinitialise tous les étudiants
-    const allStudents = await this.etudiantRepository.find();
+    const allStudents = await this.etudiantRepository.find({ relations: ['majeure'] });
     for (const etu of allStudents) {
       etu.tuteur = null;
       etu.affecte = false;
@@ -301,6 +315,10 @@ export class AutoAffectationService {
   }
 
   async getEtatAffectation(): Promise<{ total: number; assigned: number; details: any[]; lastUpdated: Date; stats: any }> {
+    if (this.lastAffectationResult) {
+      return this.lastAffectationResult;
+    }
+    // Si aucun run n'a encore été fait, retourne l'état courant (fallback)
     const students = await this.etudiantRepository.find({ relations: ['tuteur', 'majeure'] });
     const details = students.map(student => ({
       ...student,
@@ -309,6 +327,7 @@ export class AutoAffectationService {
       tutorPrenom: student.tuteur ? student.tuteur.prenom : '',
       tutorDept: student.tuteur ? student.tuteur.departement : '',
       assigned: !!student.tuteur,
+      frozen: student.frozen,
       logs: student.logs || '',
     }));
     const assigned = details.filter(d => d.assigned).length;

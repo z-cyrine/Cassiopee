@@ -59,5 +59,30 @@ import {
       return this.etudiantService.remove(id);
     }
 
+    @Put(':id/freeze')
+    freeze(@Param('id', ParseIntPipe) id: number): Promise<Etudiant> {
+      return this.etudiantService.update(id, { frozen: true });
+    }
+
+    @Put(':id/unfreeze')
+    unfreeze(@Param('id', ParseIntPipe) id: number): Promise<Etudiant> {
+      return this.etudiantService.update(id, { frozen: false });
+    }
+
+    @Put('batch/freeze')
+    batchFreeze(@Body() ids: number[]): Promise<Etudiant[]> {
+      return this.etudiantService.batchUpdate(ids, { frozen: true });
+    }
+
+    @Put('batch/unfreeze')
+    batchUnfreeze(@Body() ids: number[]): Promise<Etudiant[]> {
+      return this.etudiantService.batchUpdate(ids, { frozen: false });
+    }
+
+    @Get('diagnostic-majeures')
+    async diagnosticMajeures() {
+      await this.etudiantService.diagnostiquerEtudiantsSansMajeure();
+      return { success: true };
+    }
   }
   

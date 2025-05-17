@@ -81,6 +81,10 @@ export class Etudiant {
   @IsBoolean()
   affecte: boolean;
 
+  @Column({ default: false })
+  @IsBoolean()
+  frozen: boolean;
+
   @Column('text', { nullable: true })
   @IsOptional()
   logs: string;

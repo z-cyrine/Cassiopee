@@ -4,6 +4,7 @@ import {
     IsOptional,
     IsNumber,
     IsNotEmpty,
+    IsBoolean,
   } from 'class-validator';
   
   export class CreateEtudiantDto {
@@ -71,9 +72,9 @@ import {
     @IsOptional()
     departementRattachement?: string;
   
-    // If you want to link to a Tuteur by ID, you can do something like:
-    // @IsNumber()
-    // @IsOptional()
-    // tuteurId?: number;
+    @IsBoolean()
+    @IsOptional()
+    frozen?: boolean;
+  
   }
   

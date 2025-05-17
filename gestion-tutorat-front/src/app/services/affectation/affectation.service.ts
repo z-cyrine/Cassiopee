@@ -29,4 +29,8 @@ export class AffectationService {
   resetAffectation(): Observable<any> {
     return this.http.post(`${this.baseUrl}/auto-affectation/reset`, {});
   }
+
+  toggleFrozen(etudiantId: number, action: 'freeze' | 'unfreeze') {
+    return this.http.put(`${this.baseUrl}/etudiant/${etudiantId}/${action}`, {});
+  }
 }
