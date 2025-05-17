@@ -14,4 +14,10 @@ export class AutoAffectationController {
     async getEtatAffectation() {
       return await this.autoAffectationService.getEtatAffectation();
     }
+
+    @Post('reset')
+    async resetAffectation() {
+      await this.autoAffectationService.resetAffectationState();
+      return { success: true };
+    }
 }

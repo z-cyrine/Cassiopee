@@ -6,6 +6,7 @@ import { AffectationResult, AffectationService } from '../../services/affectatio
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-auto-affectation',
@@ -29,6 +30,12 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
   pageCount = 1;
   pagedData: any[] = [];
 
+  lastUpdated: Date | null = null;
+  isCache: boolean = true;
+  stats: any = null;
+  showLogModal = false;
+  logModalContent = '';
+
   constructor(private affectationService: AffectationService) {}
 
   ngOnInit(): void {
@@ -46,7 +53,8 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
     this.affectationService.runAffectation(this.equivalence)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res: AffectationResult) => {
+        next: (res: AffectationResult & { lastUpdated?: string | Date, stats?: any }) => {
+          console.log('Données reçues (auto):', res.details);
           this.result = res;
           this.data = res.details;
           this.page = 1;
@@ -54,6 +62,9 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
           this.updatePagedData();
           this.setupColumns();
           this.loading = false;
+          this.lastUpdated = res.lastUpdated ? new Date(res.lastUpdated) : null;
+          this.stats = res.stats || null;
+          this.isCache = false;
         },
         error: (err) => {
           console.error(err);
@@ -69,7 +80,8 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
     this.affectationService.getEtatAffectation()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res: AffectationResult) => {
+        next: (res: AffectationResult & { lastUpdated?: string | Date, stats?: any }) => {
+          console.log('Données reçues (état):', res.details);
           this.result = res;
           this.data = res.details;
           this.page = 1;
@@ -77,6 +89,9 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
           this.updatePagedData();
           this.setupColumns();
           this.loading = false;
+          this.lastUpdated = res.lastUpdated ? new Date(res.lastUpdated) : null;
+          this.stats = res.stats || null;
+          this.isCache = true;
         },
         error: (err) => {
           console.error(err);
@@ -141,7 +156,35 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
       { columnDef: 'tutorDept', header: 'Tutor Département', cell: (e: any) => e.tutorDept || '' },
       // Logs d'affectation
       { columnDef: 'assigned', header: 'Affectation', cell: (e: any) => e.assigned ? 'Assigné' : 'À traiter manuellement'},
-      { columnDef: 'logs', header: 'Logs', cell: (e: any) => e.logs ? e.logs.join(' | ') : '' },
+      { columnDef: 'logs', header: 'Logs', cell: (e: any) => Array.isArray(e.logs) ? e.logs.join(' | ') : (e.logs || '') },
     ];
+  }
+
+  resetAffectation(): void {
+    if (confirm('Voulez-vous vraiment réinitialiser toutes les affectations ?')) {
+      this.loading = true;
+      this.affectationService.resetAffectation().subscribe({
+        next: () => {
+          this.loadEtatAffectation();
+        },
+        error: (err) => {
+          this.error = "Erreur lors de la réinitialisation";
+          this.loading = false;
+        }
+      });
+    }
+  }
+
+  openLogModal(logs: string) {
+    this.logModalContent = logs;
+    this.showLogModal = true;
+  }
+  closeLogModal() {
+    this.showLogModal = false;
+    this.logModalContent = '';
+  }
+
+  formatDate(date: Date | null): string {
+    return date ? formatDate(date, 'dd/MM/yyyy HH:mm:ss', 'fr-FR') : '';
   }
 }

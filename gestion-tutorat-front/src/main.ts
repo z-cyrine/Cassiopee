@@ -12,6 +12,9 @@ import { ImportComponent } from './app/components/import/import.component';
 import { AutoAffectationComponent } from './app/components/auto-affectation/auto-affectation.component';
 import { AffectationManuelleComponent } from './app/components/affectation-manuelle/affectation-manuelle.component';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr-FR');
 
 const routes: Routes = [
   { path: '', redirectTo: 'etudiants/all', pathMatch: 'full' },

@@ -28,7 +28,7 @@ export class AutoAffectationService {
    * Exécute l'algorithme d'affectation automatique pour les étudiants non assignés.
    * @returns Un objet contenant le nombre total d'étudiants traités, le nombre assigné et les détails de l'affectation.
    */
-  async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[] }> {
+  async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[]; lastUpdated: Date; stats: any }> {
     // Réinitialise tous les étudiants et tuteurs avant l'affectation
     await this.resetAffectationState();
     // Charger les étudiants n'ayant pas encore de tuteur, ainsi que les tuteurs et majeures.
@@ -167,14 +167,18 @@ export class AutoAffectationService {
     // Sauvegarder les tuteurs mis à jour (avec compteurs actualisés)
     await this.tuteurRepository.save(tutors);
 
+    const lastUpdated = await this.getLastUpdated();
+    const stats = await this.getStats(details);
     return {
       total: students.length,
       assigned: assignedCount,
       details,
+      lastUpdated,
+      stats,
     };
   }
 
-  private async resetAffectationState() {
+  public async resetAffectationState() {
     // Réinitialise tous les étudiants
     const allStudents = await this.etudiantRepository.find();
     for (const etu of allStudents) {
@@ -267,7 +271,36 @@ export class AutoAffectationService {
     return tu.capaIni + equivalence * tu.capaAlt;
   }
 
-  async getEtatAffectation(): Promise<{ total: number; assigned: number; details: any[] }> {
+  private async getLastUpdated(): Promise<Date> {
+    // Cherche la date de dernière modification d'un étudiant ou tuteur
+    const lastStudent = await this.etudiantRepository.createQueryBuilder('etudiant')
+      .orderBy('etudiant.id', 'DESC')
+      .getOne();
+    const lastTuteur = await this.tuteurRepository.createQueryBuilder('tuteur')
+      .orderBy('tuteur.id', 'DESC')
+      .getOne();
+    const dates = [lastStudent?.updatedAt, lastTuteur?.updatedAt].filter(Boolean).map(d => new Date(d));
+    return dates.length ? new Date(Math.max(...dates.map(d => d.getTime()))) : new Date();
+  }
+
+  private async getStats(details: any[]): Promise<any> {
+    // Nombre de tuteurs saturés
+    const tuteurs = await this.tuteurRepository.find();
+    const tuteursSatures = tuteurs.filter(t => (t.soldeAlt || 0) + (t.soldeIni || 0) + (t.soldeTutoratRestant || 0) === 0).length;
+    // Nombre d'étudiants sans tuteur par majeure
+    const etudiantsSansTuteur = details.filter(d => !d.assigned);
+    const parMajeure: Record<string, number> = {};
+    etudiantsSansTuteur.forEach(e => {
+      const maj = e.majeure?.code || 'Inconnue';
+      parMajeure[maj] = (parMajeure[maj] || 0) + 1;
+    });
+    return {
+      tuteursSatures,
+      etudiantsSansTuteurParMajeure: parMajeure,
+    };
+  }
+
+  async getEtatAffectation(): Promise<{ total: number; assigned: number; details: any[]; lastUpdated: Date; stats: any }> {
     const students = await this.etudiantRepository.find({ relations: ['tuteur', 'majeure'] });
     const details = students.map(student => ({
       ...student,
@@ -279,10 +312,14 @@ export class AutoAffectationService {
       logs: student.logs || '',
     }));
     const assigned = details.filter(d => d.assigned).length;
+    const lastUpdated = await this.getLastUpdated();
+    const stats = await this.getStats(details);
     return {
       total: students.length,
       assigned,
       details,
+      lastUpdated,
+      stats,
     };
   }
 }

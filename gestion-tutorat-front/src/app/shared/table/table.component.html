@@ -45,7 +45,7 @@
         
       
         <tr mat-header-row *matHeaderRowDef="columnDefinitions"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnDefinitions"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnDefinitions" (click)="onRowClick(row)"></tr>
       </table>
   </div>
 </div>
