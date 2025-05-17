@@ -25,15 +25,15 @@ export class AutoAffectationService {
   ) { }
 
   /**
-   * Exécute l’algorithme d’affectation automatique pour les étudiants non assignés.
-   * @returns Un objet contenant le nombre total d’étudiants traités, le nombre assigné et les détails de l’affectation.
+   * Exécute l'algorithme d'affectation automatique pour les étudiants non assignés.
+   * @returns Un objet contenant le nombre total d'étudiants traités, le nombre assigné et les détails de l'affectation.
    */
   async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[] }> {
-    // Charger les étudiants n’ayant pas encore de tuteur, ainsi que les tuteurs et majeures.
+    // Charger les étudiants n'ayant pas encore de tuteur, ainsi que les tuteurs et majeures.
     const students = await this.etudiantRepository.find({ where: { tuteur: null }, relations: ['majeure'] });
     const tutors = await this.tuteurRepository.find();
     
-    // Création d’une map des tuteurs avec leur capacité restante.
+    // Création d'une map des tuteurs avec leur capacité restante.
     const tutorsMap = new Map<number, any>();
     for (const t of tutors) {
       tutorsMap.set(t.id, {
@@ -47,7 +47,7 @@ export class AutoAffectationService {
       });
     }
 
-    // Trier les étudiants : traiter d’abord les "ALT" puis les "INI".
+    // Trier les étudiants : traiter d'abord les "ALT" puis les "INI".
     students.sort((a, b) => {
       const A = a.iniAlt?.toUpperCase() === 'ALT' ? 0 : 1;
       const B = b.iniAlt?.toUpperCase() === 'ALT' ? 0 : 1;
@@ -124,6 +124,22 @@ export class AutoAffectationService {
         }
       }
 
+      if (assigned && student.tuteur) {
+        // Met à jour les compteurs sur l'entité tuteur
+        const tuteur = tutors.find(t => t.id === student.tuteur.id);
+        if (tuteur) {
+          if (studentType === 'ALT') {
+            tuteur.tutoratAltAff = (tuteur.tutoratAltAff || 0) + 1;
+            tuteur.soldeAlt = (tuteur.parTutoratAlt || 0) - tuteur.tutoratAltAff;
+          } else {
+            tuteur.tutoratIniAff = (tuteur.tutoratIniAff || 0) + 1;
+            tuteur.soldeIni = (tuteur.parTutoratIni || 0) - tuteur.tutoratIniAff;
+          }
+          tuteur.nbTutoratAffecte = (tuteur.tutoratAltAff || 0) + (tuteur.tutoratIniAff || 0);
+          tuteur.soldeTutoratRestant = ((tuteur.parTutoratAlt || 0) + (tuteur.parTutoratIni || 0)) - tuteur.nbTutoratAffecte;
+        }
+      }
+
       if (!assigned) {
         logs.push('=> Student remains for manual assignment.');
       }
@@ -146,6 +162,8 @@ export class AutoAffectationService {
 
     // Sauvegarder les étudiants mis à jour (avec tuteur affecté)
     await this.etudiantRepository.save(students);
+    // Sauvegarder les tuteurs mis à jour (avec compteurs actualisés)
+    await this.tuteurRepository.save(tutors);
 
     return {
       total: students.length,
@@ -155,14 +173,14 @@ export class AutoAffectationService {
   }
 
   /*========================================================================
-      MÉTHODES UTILES POUR L’AFFECTATION
+      MÉTHODES UTILES POUR L'AFFECTATION
   =========================================================================*/
 
   /**
-   * Vérifie si le tuteur supporte la langue de l’étudiant.
-   * La vérification est flexible : si l’un des langages du tuteur contient la langue demandée, c’est accepté.
+   * Vérifie si le tuteur supporte la langue de l'étudiant.
+   * La vérification est flexible : si l'un des langages du tuteur contient la langue demandée, c'est accepté.
    * @param tutorLangs Tableau des langues du tuteur.
-   * @param studentLang Langue de l’étudiant.
+   * @param studentLang Langue de l'étudiant.
    * @returns true si la langue est supportée.
    */
   private tutorSupportsLang(tutorLangs: string[], studentLang: string): boolean {
@@ -183,8 +201,8 @@ export class AutoAffectationService {
   /**
    * Vérifie si le tuteur dispose de la capacité pour un étudiant donné.
    * @param tu Les capacités du tuteur.
-   * @param studentType Type d’étudiant ("ALT" ou "INI").
-   * @returns true si le tuteur peut encadrer l’étudiant.
+   * @param studentType Type d'étudiant ("ALT" ou "INI").
+   * @returns true si le tuteur peut encadrer l'étudiant.
    */
   private checkCapacity(tu: any, studentType: string, equivalence: number): boolean {
     if (studentType === 'ALT') {
@@ -195,9 +213,9 @@ export class AutoAffectationService {
   }
 
   /**
-   * Met à jour la capacité du tuteur suite à l’affectation d’un étudiant.
+   * Met à jour la capacité du tuteur suite à l'affectation d'un étudiant.
    * @param tu Les capacités du tuteur.
-   * @param studentType Type d’étudiant ("ALT" ou "INI").
+   * @param studentType Type d'étudiant ("ALT" ou "INI").
    */
   private updateCapacity(tu: any, studentType: string, equivalence: number): void {
     if (studentType === 'ALT') {
@@ -218,7 +236,7 @@ export class AutoAffectationService {
   /**
    * Calcule la capacité totale disponible du tuteur exprimée en unités "INI".
    * @param tu Les capacités du tuteur.
-   * @returns Le nombre total d’unités disponibles.
+   * @returns Le nombre total d'unités disponibles.
    */
   private availableCapacity(tu: any, equivalence: number): number {
     return tu.capaIni + equivalence * tu.capaAlt;
