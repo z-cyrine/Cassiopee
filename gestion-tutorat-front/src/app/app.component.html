@@ -3,6 +3,7 @@
     <a class="navbar-brand" routerLink="/">
       <img src="assets/logo-imtbs.png" alt="Logo IMTBS" height="38" />
     </a>
+
     <button
       class="navbar-toggler"
       type="button"
@@ -17,12 +18,13 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <!-- Connexion -->      
+
+        <!-- Connexion -->
         <li class="nav-item">
           <a routerLink="/authentification" routerLinkActive="active" class="nav-link">Connexion</a>
         </li>
 
-        <!-- Création de compte -->
+        <!-- Inscription -->
         <li class="nav-item">
           <a routerLink="/inscription" routerLinkActive="active" class="nav-link">Inscription</a>
         </li>
@@ -41,6 +43,7 @@
             <li><a class="dropdown-item" routerLink="/etudiants/all">Liste Étudiants</a></li>
             <li><a class="dropdown-item" routerLink="/tuteurs/all">Liste Tuteurs</a></li>
             <li><a class="dropdown-item" routerLink="/majeures/all">Liste Majeures</a></li>
+            <li><a class="dropdown-item" routerLink="/utilisateurs/all">Liste Utilisateurs</a></li> <!-- ✅ NEW -->
           </ul>
         </li>
 
@@ -68,12 +71,13 @@
             <li><a class="dropdown-item" routerLink="/etudiant-create">Ajouter Étudiant</a></li>
             <li><a class="dropdown-item" routerLink="/tuteur-create">Ajouter Tuteur</a></li>
             <li><a class="dropdown-item" routerLink="/majeure-create">Ajouter Majeure</a></li>
+            <li><a class="dropdown-item" routerLink="/utilisateurs/create">Ajouter Utilisateur</a></li> <!-- ✅ NEW -->
           </ul>
         </li>
+
       </ul>
     </div>
   </div>
 </nav>
 
 <router-outlet></router-outlet>
-
