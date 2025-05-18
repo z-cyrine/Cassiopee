@@ -1,4 +1,5 @@
 <!-- affiche-majeures.component.html -->
+<<<<<<< HEAD
 <h2 class="majeures-title">{{ 'MAJORS.LIST_TITLE' | translate }}</h2>
 
 <!-- 🔍 Search Bar -->
@@ -8,19 +9,39 @@
     <input
       type="text"
       placeholder="{{ 'MAJORS.GROUP' | translate }}"
+=======
+<h2 class="majeures-title">Liste des majeures</h2>
+
+<!-- 🔍 Search Bar -->
+<div class="actions-container">
+  <div class="actions-text">Recherche de majeure</div>
+  <div class="actions-controls search-majeures">
+    <input
+      type="text"
+      placeholder="Groupe"
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
       [(ngModel)]="searchGroupe"
       (ngModelChange)="searchGroupe = searchGroupe.trim()"
       class="search-input"
     />
     <input
       type="text"
+<<<<<<< HEAD
       placeholder="{{ 'MAJORS.CLASS_CODE' | translate }}"
+=======
+      placeholder="Code classe"
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
       [(ngModel)]="searchCode"
       (ngModelChange)="searchCode = searchCode.trim()"
       class="search-input"
     />
+<<<<<<< HEAD
     <button (click)="onSearch()" class="search-btn primary">{{ 'COMMON.SEARCH' | translate }}</button>
     <button (click)="onClearSearch()" class="search-btn secondary">{{ 'COMMON.RESET' | translate }}</button>
+=======
+    <button (click)="onSearch()" class="search-btn primary">Rechercher</button>
+    <button (click)="onClearSearch()" class="search-btn secondary">Réinitialiser</button>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
   </div>
 </div>
 
@@ -43,7 +64,11 @@
       </div>
       <div class="majors-card-body">
         <div *ngFor="let prop of propertyLabels" class="majors-property">
+<<<<<<< HEAD
           <strong>{{ prop.label | translate }}:</strong> {{ maj[prop.key] || '—' }}
+=======
+          <strong>{{ prop.label }}:</strong> {{ maj[prop.key] || '—' }}
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
       </div>
     </div>
@@ -51,7 +76,11 @@
 
   <ng-template #noResultMsg>
     <div class="text-center mt-4 text-muted">
+<<<<<<< HEAD
       {{ 'MAJORS.NO_MAJOR_FOUND' | translate }}
+=======
+      Aucune majeure trouvée.
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
     </div>
   </ng-template>
 </div>
@@ -74,7 +103,11 @@
     </div>
     <div class="majors-card-body">
       <div *ngFor="let prop of propertyLabels" class="majors-property">
+<<<<<<< HEAD
         <strong>{{ prop.label | translate }}:</strong> {{ maj[prop.key] || '—' }}
+=======
+        <strong>{{ prop.label }}:</strong> {{ maj[prop.key] || '—' }}
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
       </div>
     </div>
   </div>

@@ -3,6 +3,9 @@
     <a class="navbar-brand" routerLink="/">
       <img src="assets/logo-imtbs.png" alt="Logo IMTBS" height="38" />
     </a>
+
+    
+
     <button
       class="navbar-toggler"
       type="button"
@@ -17,14 +20,29 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
+
+        <li class="nav-item">
+  <a routerLink="/profil" routerLinkActive="active" class="nav-link">Mon Profil</a>
+</li>
+
+
         <!-- Connexion -->
         <li class="nav-item">
+<<<<<<< HEAD
           <a routerLink="/authentification" routerLinkActive="active" class="nav-link">{{ 'NAV.CONNEXION' | translate }}</a>
         </li>
 
         <!-- Création de compte -->
         <li class="nav-item">
           <a routerLink="/inscription" routerLinkActive="active" class="nav-link">{{ 'NAV.INSCRIPTION' | translate }}</a>
+=======
+          <a routerLink="/authentification" routerLinkActive="active" class="nav-link">Connexion</a>
+        </li>
+
+        <!-- Inscription -->
+        <li class="nav-item">
+          <a routerLink="/inscription" routerLinkActive="active" class="nav-link">Inscription</a>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </li>
 
         <!-- Importation -->
@@ -38,9 +56,10 @@
             {{ 'NAV.LISTES' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="listesDropdown">
-            <li><a class="dropdown-item" routerLink="/etudiants/all">{{ 'NAV.LISTE_ETUDIANTS' | translate }}</a></li>
-            <li><a class="dropdown-item" routerLink="/tuteurs/all">{{ 'NAV.LISTE_TUTEURS' | translate }}</a></li>
-            <li><a class="dropdown-item" routerLink="/majeures/all">{{ 'NAV.LISTE_MAJEURES' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/etudiants/all">Liste Étudiants</a></li>
+            <li><a class="dropdown-item" routerLink="/tuteurs/all">Liste Tuteurs</a></li>
+            <li><a class="dropdown-item" routerLink="/majeures/all">Liste Majeures</a></li>
+            <li><a class="dropdown-item" routerLink="/utilisateurs/all">Liste Utilisateurs</a></li> <!-- ✅ NEW -->
           </ul>
         </li>
 
@@ -65,11 +84,19 @@
             {{ 'NAV.AJOUTER' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ajouterDropdown">
+<<<<<<< HEAD
             <li><a class="dropdown-item" routerLink="/etudiant-create">{{ 'NAV.AJOUTER_ETUDIANT' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/tuteur-create">{{ 'NAV.AJOUTER_TUTEUR' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/majeure-create">{{ 'NAV.AJOUTER_MAJEURE' | translate }}</a></li>
+=======
+            <li><a class="dropdown-item" routerLink="/etudiant-create">Ajouter Étudiant</a></li>
+            <li><a class="dropdown-item" routerLink="/tuteur-create">Ajouter Tuteur</a></li>
+            <li><a class="dropdown-item" routerLink="/majeure-create">Ajouter Majeure</a></li>
+            <li><a class="dropdown-item" routerLink="/utilisateurs/create">Ajouter Utilisateur</a></li> <!-- ✅ NEW -->
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           </ul>
         </li>
+
       </ul>
       <app-language-selector class="ms-3"></app-language-selector>
     </div>

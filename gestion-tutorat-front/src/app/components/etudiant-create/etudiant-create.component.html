@@ -9,89 +9,162 @@
 
         <!-- Email École -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.EMAIL_SCHOOL' | translate }}</label>
           <input type="email" class="form-control" formControlName="emailEcole"
                  [ngClass]="{ 'is-invalid': submitted && f['emailEcole'].invalid }" />
           <div *ngIf="submitted && f['emailEcole'].invalid" class="invalid-feedback">
             <span *ngIf="f['emailEcole'].errors?.['required']">{{ 'CREATE.REQUIRED' | translate }}</span>
             <span *ngIf="f['emailEcole'].errors?.['email']">{{ 'CREATE.INVALID_EMAIL' | translate }}</span>
+=======
+          <label>Email École</label>
+          <input type="email" class="form-control" formControlName="emailEcole"
+                 [ngClass]="{ 'is-invalid': submitted && f['emailEcole'].invalid }" />
+          <div *ngIf="submitted && f['emailEcole'].invalid" class="invalid-feedback">
+            <span *ngIf="f['emailEcole'].errors?.['required']">Champ obligatoire.</span>
+            <span *ngIf="f['emailEcole'].errors?.['email']">Format e-mail invalide.</span>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           </div>
         </div>
 
         <!-- Origine -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.ORIGIN' | translate }}</label>
           <input type="text" class="form-control" formControlName="origine"
                  [ngClass]="{ 'is-invalid': submitted && f['origine'].invalid }" />
           <div *ngIf="submitted && f['origine'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>Origine</label>
+          <input type="text" class="form-control" formControlName="origine"
+                 [ngClass]="{ 'is-invalid': submitted && f['origine'].invalid }" />
+          <div *ngIf="submitted && f['origine'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- École -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.SCHOOL' | translate }}</label>
           <input type="text" class="form-control" formControlName="ecole"
                  [ngClass]="{ 'is-invalid': submitted && f['ecole'].invalid }" />
           <div *ngIf="submitted && f['ecole'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>École</label>
+          <input type="text" class="form-control" formControlName="ecole"
+                 [ngClass]="{ 'is-invalid': submitted && f['ecole'].invalid }" />
+          <div *ngIf="submitted && f['ecole'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Prénom -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.FIRSTNAME' | translate }}</label>
           <input type="text" class="form-control" formControlName="prenom"
                  [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }" />
           <div *ngIf="submitted && f['prenom'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>Prénom</label>
+          <input type="text" class="form-control" formControlName="prenom"
+                 [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }" />
+          <div *ngIf="submitted && f['prenom'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Nom -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.LASTNAME' | translate }}</label>
           <input type="text" class="form-control" formControlName="nom"
                  [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }" />
           <div *ngIf="submitted && f['nom'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>Nom</label>
+          <input type="text" class="form-control" formControlName="nom"
+                 [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }" />
+          <div *ngIf="submitted && f['nom'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Obligation Internationale -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.INTERNATIONAL_OBLIGATION' | translate }}</label>
           <input type="text" class="form-control" formControlName="obligationInternational"
                  [ngClass]="{ 'is-invalid': submitted && f['obligationInternational'].invalid }" />
           <div *ngIf="submitted && f['obligationInternational'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>Obligation Internationale</label>
+          <input type="text" class="form-control" formControlName="obligationInternational"
+                 [ngClass]="{ 'is-invalid': submitted && f['obligationInternational'].invalid }" />
+          <div *ngIf="submitted && f['obligationInternational'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Stage 1A -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.STAGE_1A' | translate }}</label>
           <input type="text" class="form-control" formControlName="stage1A"
                  [ngClass]="{ 'is-invalid': submitted && f['stage1A'].invalid }" />
           <div *ngIf="submitted && f['stage1A'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>Stage 1A</label>
+          <input type="text" class="form-control" formControlName="stage1A"
+                 [ngClass]="{ 'is-invalid': submitted && f['stage1A'].invalid }" />
+          <div *ngIf="submitted && f['stage1A'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Code classe -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.CLASS_CODE' | translate }}</label>
           <input type="text" class="form-control" formControlName="codeClasse"
                  [ngClass]="{ 'is-invalid': submitted && f['codeClasse'].invalid }" />
           <div *ngIf="submitted && f['codeClasse'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>Code Classe</label>
+          <input type="text" class="form-control" formControlName="codeClasse"
+                 [ngClass]="{ 'is-invalid': submitted && f['codeClasse'].invalid }" />
+          <div *ngIf="submitted && f['codeClasse'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Nom groupe -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.GROUP_NAME' | translate }}</label>
           <input type="text" class="form-control" formControlName="nomGroupe"
                  [ngClass]="{ 'is-invalid': submitted && f['nomGroupe'].invalid }" />
           <div *ngIf="submitted && f['nomGroupe'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>Nom Groupe</label>
+          <input type="text" class="form-control" formControlName="nomGroupe"
+                 [ngClass]="{ 'is-invalid': submitted && f['nomGroupe'].invalid }" />
+          <div *ngIf="submitted && f['nomGroupe'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Langue majeure -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.MAJOR_LANGUAGE' | translate }}</label>
           <input type="text" class="form-control" formControlName="langueMajeure"
                  [ngClass]="{ 'is-invalid': submitted && f['langueMajeure'].invalid }" />
           <div *ngIf="submitted && f['langueMajeure'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>Langue Majeure</label>
+          <input type="text" class="form-control" formControlName="langueMajeure"
+                 [ngClass]="{ 'is-invalid': submitted && f['langueMajeure'].invalid }" />
+          <div *ngIf="submitted && f['langueMajeure'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- INI / ALT (liste déroulante) -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.INI_ALT' | translate }}</label>
           <select class="form-control" formControlName="iniAlt"
                   [ngClass]="{ 'is-invalid': submitted && f['iniAlt'].invalid }">
@@ -100,31 +173,61 @@
             <option value="ALT">ALT</option>
           </select>
           <div *ngIf="submitted && f['iniAlt'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
+=======
+          <label>INI / ALT</label>
+          <select class="form-control" formControlName="iniAlt"
+                  [ngClass]="{ 'is-invalid': submitted && f['iniAlt'].invalid }">
+            <option value="">-- Sélectionner --</option>
+            <option value="INI">INI</option>
+            <option value="ALT">ALT</option>
+          </select>
+          <div *ngIf="submitted && f['iniAlt'].invalid" class="invalid-feedback">Champ obligatoire.</div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Champs facultatifs -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.COMPANY' | translate }}</label>
+=======
+          <label>Entreprise (facultatif)</label>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           <input type="text" class="form-control" formControlName="entreprise" />
         </div>
 
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.APPRENTICE_FUNCTION' | translate }}</label>
+=======
+          <label>Fonction Apprenti (facultatif)</label>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           <input type="text" class="form-control" formControlName="fonctionApprenti" />
         </div>
 
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.LANGUAGE' | translate }}</label>
+=======
+          <label>Langue (facultatif)</label>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           <input type="text" class="form-control" formControlName="langue" />
         </div>
 
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.ASSIGNMENT_COMMENT' | translate }}</label>
+=======
+          <label>Commentaire Affectation (facultatif)</label>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           <input type="text" class="form-control" formControlName="commentaireAffectation" />
         </div>
 
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.DEPARTMENT_ATTACHMENT' | translate }}</label>
+=======
+          <label>Département Rattachement (facultatif)</label>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           <input type="text" class="form-control" formControlName="departementRattachement" />
         </div>
 
@@ -136,11 +239,19 @@
 
       <!-- Messages -->
       <div *ngIf="successMessage" class="alert alert-success success-alert mt-3 text-center">
+<<<<<<< HEAD
         {{ 'CREATE.SUCCESS_STUDENT' | translate }}
       </div>
 
       <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
         {{ 'CREATE.ERROR' | translate }}
+=======
+        {{ successMessage }}
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
+        {{ errorMessage }}
       </div>
     </div>
   </div>

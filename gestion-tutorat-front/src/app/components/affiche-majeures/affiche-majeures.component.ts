@@ -6,13 +6,21 @@ import { Router , RouterLink} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { MajorsService } from '../../services/majors/majors.service';
+<<<<<<< HEAD
 import { FormsModule } from '@angular/forms';               
 import { TranslateModule } from '@ngx-translate/core';
+=======
+import { FormsModule } from '@angular/forms';               // ✅ Add this
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
 
 @Component({
   selector: 'app-affiche-majeures',
   standalone: true,
+<<<<<<< HEAD
   imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink, TranslateModule], 
+=======
+  imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink], 
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
   templateUrl: './affiche-majeures.component.html',
   styleUrls: ['./affiche-majeures.component.css'],
 })

@@ -8,6 +8,7 @@
 
         <!-- Code -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.CODE' | translate }}</label>
           <input type="text" formControlName="code" class="form-control" placeholder="{{ 'CREATE.CODE' | translate }}" />
         </div>
@@ -38,27 +39,78 @@
             <option value="FR">{{ 'CREATE.FRENCH' | translate }}</option>
             <option value="EN">{{ 'CREATE.ENGLISH' | translate }}</option>
             <option value="FR,EN">{{ 'CREATE.FRENCH_ENGLISH' | translate }}</option>
+=======
+          <label>Code</label>
+          <input type="text" formControlName="code" class="form-control" placeholder="Code de la majeure" />
+        </div>
+
+        <!-- Groupe -->
+        <div class="form-group">
+          <label>Nom Groupe</label>
+          <input type="text" formControlName="groupe" class="form-control" placeholder="Nom du groupe" />
+        </div>
+
+        <!-- Département -->
+        <div class="form-group">
+          <label>Département</label>
+          <input type="text" formControlName="dept" class="form-control" placeholder="Département" />
+        </div>
+
+        <!-- Responsable -->
+        <div class="form-group">
+          <label>Responsable</label>
+          <input type="text" formControlName="responsible" class="form-control" placeholder="Responsable" />
+        </div>
+
+        <!-- Langue -->
+        <div class="form-group">
+          <label>Langue</label>
+          <select formControlName="langue" class="form-select">
+            <option value="">-- Choisir une langue --</option>
+            <option value="FR">Français</option>
+            <option value="EN">Anglais</option>
+            <option value="FR,EN">Français & Anglais</option>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           </select>
         </div>
 
         <!-- INI / ALT (dropdown) -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.INI_ALT' | translate }}</label>
+=======
+          <label>INI / ALT</label>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
           <select
             formControlName="iniAlt"
             class="form-select"
             [ngClass]="{ 'is-invalid': submitted && majeureForm.get('iniAlt')?.invalid }">
+<<<<<<< HEAD
             <option value="">{{ 'CREATE.CHOOSE' | translate }}</option>
             <option value="INI">INI</option>
             <option value="ALT">ALT</option>
           </select>
           <div *ngIf="submitted && majeureForm.get('iniAlt')?.invalid" class="invalid-feedback">{{ 'CREATE.VALUE_REQUIRED' | translate }}</div>
+=======
+            <option value="">-- Choisir --</option>
+            <option value="INI">INI</option>
+            <option value="ALT">ALT</option>
+          </select>
+          <div *ngIf="submitted && majeureForm.get('iniAlt')?.invalid" class="invalid-feedback">
+            Veuillez choisir une valeur.
+          </div>
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Programme -->
         <div class="form-group">
+<<<<<<< HEAD
           <label>{{ 'CREATE.PROGRAM' | translate }}</label>
           <input type="text" formControlName="programme" class="form-control" placeholder="{{ 'CREATE.PROGRAM' | translate }}" />
+=======
+          <label>Programme</label>
+          <input type="text" formControlName="programme" class="form-control" placeholder="Programme" />
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
         </div>
 
         <!-- Submit Button -->
@@ -69,12 +121,21 @@
 
       <!-- Success Alert -->
       <div *ngIf="successMessage" class="alert alert-success success-alert mt-3 text-center">
+<<<<<<< HEAD
         {{ 'CREATE.SUCCESS_MAJOR' | translate }}
       </div>
 
       <!-- Error Alert -->
       <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
         {{ 'CREATE.ERROR' | translate }}
+=======
+        {{ successMessage }}
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
+      </div>
+
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
+        {{ errorMessage }}
       </div>
     </div>
   </div>

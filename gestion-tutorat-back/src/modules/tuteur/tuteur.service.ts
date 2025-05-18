@@ -14,17 +14,17 @@ export class TuteurService {
   ) {}
 
   // CREATE
-  async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
-    try {
-      const tuteur = this.tuteurRepository.create(createTuteurDto);
-      return await this.tuteurRepository.save(tuteur);
-    } catch (err) {
-      if (err instanceof QueryFailedError && (err as any).code === 'ER_DUP_ENTRY') {
-        throw new ConflictException({ duplicate: true, message: 'Cet e-mail est déjà utilisé.' });
-      }
-      throw new InternalServerErrorException('Erreur interne');
+async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
+  try {
+    const tuteur = this.tuteurRepository.create(createTuteurDto);
+    return await this.tuteurRepository.save(tuteur);
+  } catch (err) {
+    if (err instanceof QueryFailedError && (err as any).code === 'ER_DUP_ENTRY') {
+      throw new ConflictException({ duplicate: true, message: 'Cet e-mail est déjà utilisé.' });
     }
+    throw new InternalServerErrorException('Erreur interne');
   }
+}
 
   // READ ALL
   async findAll(): Promise<Tuteur[]> {
@@ -67,6 +67,7 @@ export class TuteurService {
     return result.map(r => r.profil);
   }
 
+<<<<<<< HEAD
   // Récupération des étudiants par tuteur
   async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
     const tuteur = await this.tuteurRepository.findOne({
@@ -103,4 +104,44 @@ export class TuteurService {
 
     return result;
   }
+=======
+  // tuteur.service.ts
+async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
+  const tuteur = await this.tuteurRepository.findOne({
+    where: { id },
+    relations: ['etudiants'],
+  });
+
+  if (!tuteur) {
+    throw new NotFoundException(`Tuteur avec l'ID=${id} introuvable`);
+  }
+
+  return tuteur.etudiants;
+}
+
+
+async searchByName(nom?: string, prenom?: string): Promise<Tuteur[]> {
+  const query = this.tuteurRepository
+    .createQueryBuilder('tuteur')
+    .leftJoinAndSelect('tuteur.etudiants', 'etudiant');
+
+  if (nom) {
+    query.andWhere('tuteur.nom LIKE :nom', { nom: `%${nom}%` });
+  }
+
+  if (prenom) {
+    query.andWhere('tuteur.prenom LIKE :prenom', { prenom: `%${prenom}%` });
+  }
+
+  const result = await query.getMany();
+
+  if (result.length === 0) {
+    throw new NotFoundException('Aucun tuteur ne correspond à la recherche.');
+  }
+
+  return result;
+}
+
+
+>>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
 }
