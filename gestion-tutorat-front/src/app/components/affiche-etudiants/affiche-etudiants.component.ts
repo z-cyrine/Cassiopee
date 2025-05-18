@@ -34,6 +34,10 @@ export class AfficheEtudiantsComponent implements OnInit {
 
   showFloatingHeader = false;
 
+  loadingFrozen: { [id: number]: boolean } = {};
+
+  displayedColumns: string[] = [];
+
   constructor(private etudiantService: EtudiantService, private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -76,8 +80,9 @@ export class AfficheEtudiantsComponent implements OnInit {
         this.pageCount = response.pageCount;
         if (this.students.length > 0) {
           this.columns = Object.keys(this.students[0])
-          .filter((key) => key !== 'logs')
-          .concat('actions');
+            .filter((key) => key !== 'logs' && key !== 'createdAt' && key !== 'updatedAt' && key !== 'frozen' && key !== 'majeure')
+            .concat('actions');
+          this.displayedColumns = ['figer', 'id', ...this.columns.filter(c => c !== 'id' && c !== 'figer')];
         }
         this.loading = false;
       },
@@ -136,6 +141,21 @@ export class AfficheEtudiantsComponent implements OnInit {
     if (!table) return;
     const rect = table.getBoundingClientRect();
     this.showFloatingHeader = rect.top < 60 && rect.bottom > 60;
+  }
+
+  toggleFrozenEtudiant(etudiant: any): void {
+    const action = etudiant.frozen ? 'unfreeze' : 'freeze';
+    this.loadingFrozen[etudiant.id] = true;
+    this.etudiantService.toggleFrozen(etudiant.id, action).subscribe({
+      next: () => {
+        this.loadStudents();
+        this.loadingFrozen[etudiant.id] = false;
+      },
+      error: (err: any) => {
+        console.error('Erreur lors du changement de statut figé:', err);
+        this.loadingFrozen[etudiant.id] = false;
+      }
+    });
   }
 
 }

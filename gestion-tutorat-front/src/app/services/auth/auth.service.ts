@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
@@ -17,13 +17,12 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private readonly CAS_URL = 'https://cas7d.imtbs-tsp.eu/cas';
-  private readonly SERVICE_URL = 'http://localhost:8080';
+  private readonly SERVICE_URL = 'https://localhost:8080';
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
-    // Vérifier si l'utilisateur est déjà authentifié au chargement
     this.checkAuth();
   }
 
@@ -32,7 +31,6 @@ export class AuthService {
     if (ticket) {
       this.validateTicket(ticket);
     } else {
-      // Vérifier si on a un token en session
       const user = sessionStorage.getItem('currentUser');
       if (user) {
         this.currentUserSubject.next(JSON.parse(user));
@@ -47,7 +45,6 @@ export class AuthService {
       next: (response) => {
         if (response.user) {
           this.setCurrentUser(response.user);
-          // Rediriger vers la page d'accueil sans le ticket dans l'URL
           this.router.navigate(['/']);
         }
       },

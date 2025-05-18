@@ -4,12 +4,15 @@ import { QueryFailedError, Repository } from 'typeorm';
 import { Etudiant } from './etudiant.entity';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
+import { Majeures } from '../majeures/majeures';
 
 @Injectable()
 export class EtudiantService {
   constructor(
     @InjectRepository(Etudiant)
     private readonly etudiantRepository: Repository<Etudiant>,
+    @InjectRepository(Majeures)
+    private readonly majeureRepository: Repository<Majeures>,
   ) {}
 
 async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
@@ -32,7 +35,7 @@ async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
 
   async findAll(): Promise<Etudiant[]> {
     return await this.etudiantRepository.find({
-      relations: ['tuteur'],
+      relations: ['tuteur', 'majeure'],
     });
   }
 
@@ -40,7 +43,7 @@ async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
   async findOne(id: number): Promise<Etudiant> {
     const etudiant = await this.etudiantRepository.findOne({
       where: { id },
-      relations: ['tuteur'],
+      relations: ['tuteur', 'majeure'],
     });
     if (!etudiant) {
       throw new NotFoundException(`Etudiant with ID=${id} not found`);
@@ -65,7 +68,7 @@ async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
     const [result, total] = await this.etudiantRepository.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
-      relations: ['tuteur'],
+      relations: ['tuteur', 'majeure'],
       order: { id: 'ASC' }
     });
     return {
@@ -84,6 +87,47 @@ async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
       .getRawMany();
 
     return result.map(r => r.codeClasse);
+  }
+
+  async batchUpdate(ids: number[], updateData: Partial<Etudiant>): Promise<Etudiant[]> {
+    const etudiants = await this.etudiantRepository.findByIds(ids);
+    if (!etudiants.length) {
+      throw new NotFoundException('No students found with the provided IDs');
+    }
+    
+    const updatedEtudiants = etudiants.map(etudiant => {
+      Object.assign(etudiant, updateData);
+      return etudiant;
+    });
+    
+    return this.etudiantRepository.save(updatedEtudiants);
+  }
+
+  async diagnostiquerEtudiantsSansMajeure() {
+    const etudiants = await this.etudiantRepository.find({ relations: ['majeure'] });
+    let sansMajeure = 0;
+    let majeureInexistante = 0;
+    let majeureSansDept = 0;
+    for (const etu of etudiants) {
+      if (!etu.majeure) {
+        console.log(`Etudiant ID=${etu.id} (${etu.nom} ${etu.prenom}) n'a PAS de majeure (majeureId: ${etu['majeureId'] || 'null'})`);
+        sansMajeure++;
+      } else {
+        // Vérifie que la majeure existe bien en base (sécurité)
+        const maj = await this.majeureRepository.findOne({ where: { id: etu.majeure.id } });
+        if (!maj) {
+          console.log(`Etudiant ID=${etu.id} (${etu.nom} ${etu.prenom}) a une majeureId=${etu.majeure.id} qui n'existe PAS dans la table majeures`);
+          majeureInexistante++;
+        } else if (!maj.dept) {
+          console.log(`Etudiant ID=${etu.id} (${etu.nom} ${etu.prenom}) a une majeure (${maj.code}) SANS département`);
+          majeureSansDept++;
+        }
+      }
+    }
+    console.log(`\nRésumé :`);
+    console.log(`- Etudiants sans majeure : ${sansMajeure}`);
+    console.log(`- Etudiants avec majeure inexistante : ${majeureInexistante}`);
+    console.log(`- Etudiants avec majeure sans département : ${majeureSansDept}`);
   }
 
 }

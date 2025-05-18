@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Required for ngIf, ngFor
 import { MatTableModule } from '@angular/material/table'; // Required for mat-table
 import { MatButtonModule } from '@angular/material/button'; // Required for buttons
@@ -19,6 +19,8 @@ export class TableComponent {
 
   @Input() showEdit: boolean = false;
   @Input() showDelete: boolean = false;
+  @Output() rowClick = new EventEmitter<any>();
+  @Output() toggleFrozen = new EventEmitter<any>();
 
   // Pour le modal logs
   showLogModal = false;
@@ -54,5 +56,13 @@ export class TableComponent {
   closeLogModal() {
     this.showLogModal = false;
     this.logModalContent = '';
+  }
+
+  onRowClick(row: any) {
+    this.rowClick.emit(row);
+  }
+
+  onToggleFrozen(element: any) {
+    this.toggleFrozen.emit(element);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 
 import { Etudiant } from 'src/modules/etudiant/etudiant.entity';
 import { Tuteur } from 'src/modules/tuteur/tuteur.entity';
@@ -10,6 +10,9 @@ import { ExcelParserService } from 'src/services/import/excel-parser/excel-parse
 @Injectable()
 export class AutoAffectationService {
   private readonly logger = new Logger(AutoAffectationService.name);
+
+  // Stockage en mémoire du dernier état d'affectation
+  private lastAffectationResult: any = null;
 
   constructor(
     @InjectRepository(Etudiant)
@@ -25,15 +28,17 @@ export class AutoAffectationService {
   ) { }
 
   /**
-   * Exécute l’algorithme d’affectation automatique pour les étudiants non assignés.
-   * @returns Un objet contenant le nombre total d’étudiants traités, le nombre assigné et les détails de l’affectation.
+   * Exécute l'algorithme d'affectation automatique pour les étudiants non assignés.
+   * @returns Un objet contenant le nombre total d'étudiants traités, le nombre assigné et les détails de l'affectation.
    */
-  async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[] }> {
-    // Charger les étudiants n’ayant pas encore de tuteur, ainsi que les tuteurs et majeures.
-    const students = await this.etudiantRepository.find({ where: { tuteur: null }, relations: ['majeure'] });
+  async runAffectation(equivalence = 2): Promise<{ total: number; assigned: number; details: any[]; lastUpdated: Date; stats: any }> {
+    // Réinitialise tous les étudiants et tuteurs avant l'affectation
+    await this.resetAffectationState();
+    // Charger les étudiants n'ayant pas encore de tuteur et non figés, ainsi que les tuteurs et majeures.
+    const students = await this.etudiantRepository.find({ where: { tuteur: null, frozen: false }, relations: ['majeure'] });
     const tutors = await this.tuteurRepository.find();
     
-    // Création d’une map des tuteurs avec leur capacité restante.
+    // Création d'une map des tuteurs avec leur capacité restante.
     const tutorsMap = new Map<number, any>();
     for (const t of tutors) {
       tutorsMap.set(t.id, {
@@ -47,7 +52,7 @@ export class AutoAffectationService {
       });
     }
 
-    // Trier les étudiants : traiter d’abord les "ALT" puis les "INI".
+    // Trier les étudiants : traiter d'abord les "ALT" puis les "INI".
     students.sort((a, b) => {
       const A = a.iniAlt?.toUpperCase() === 'ALT' ? 0 : 1;
       const B = b.iniAlt?.toUpperCase() === 'ALT' ? 0 : 1;
@@ -124,6 +129,22 @@ export class AutoAffectationService {
         }
       }
 
+      if (assigned && student.tuteur) {
+        // Met à jour les compteurs sur l'entité tuteur
+        const tuteur = tutors.find(t => t.id === student.tuteur.id);
+        if (tuteur) {
+          if (studentType === 'ALT') {
+            tuteur.tutoratAltAff = (tuteur.tutoratAltAff || 0) + 1;
+            tuteur.soldeAlt = (tuteur.parTutoratAlt || 0) - tuteur.tutoratAltAff;
+          } else {
+            tuteur.tutoratIniAff = (tuteur.tutoratIniAff || 0) + 1;
+            tuteur.soldeIni = (tuteur.parTutoratIni || 0) - tuteur.tutoratIniAff;
+          }
+          tuteur.nbTutoratAffecte = (tuteur.tutoratAltAff || 0) + (tuteur.tutoratIniAff || 0);
+          tuteur.soldeTutoratRestant = ((tuteur.parTutoratAlt || 0) + (tuteur.parTutoratIni || 0)) - tuteur.nbTutoratAffecte;
+        }
+      }
+
       if (!assigned) {
         logs.push('=> Student remains for manual assignment.');
       }
@@ -145,24 +166,64 @@ export class AutoAffectationService {
     }
 
     // Sauvegarder les étudiants mis à jour (avec tuteur affecté)
-    await this.etudiantRepository.save(students);
+    // Recharge la relation majeure avant le save massif
+    const studentsWithMaj = await this.etudiantRepository.find({ where: { id: In(students.map(s => s.id)) }, relations: ['majeure'] });
+    for (const s of students) {
+      const majStudent = studentsWithMaj.find(e => e.id === s.id);
+      if (majStudent) {
+        majStudent.tuteur = s.tuteur;
+        majStudent.affecte = s.affecte;
+        majStudent.logs = s.logs;
+      }
+    }
+    await this.etudiantRepository.save(studentsWithMaj);
+    await this.tuteurRepository.save(tutors);
 
-    return {
+    const lastUpdated = await this.getLastUpdated();
+    const stats = await this.getStats(details);
+    const result = {
       total: students.length,
       assigned: assignedCount,
       details,
+      lastUpdated,
+      stats,
     };
+    this.lastAffectationResult = result; // On stocke le dernier état
+    return result;
+  }
+
+  public async resetAffectationState() {
+    // Réinitialise tous les étudiants
+    const allStudents = await this.etudiantRepository.find({ relations: ['majeure'] });
+    for (const etu of allStudents) {
+      etu.tuteur = null;
+      etu.affecte = false;
+      etu.logs = '';
+    }
+    await this.etudiantRepository.save(allStudents);
+
+    // Réinitialise tous les tuteurs
+    const allTuteurs = await this.tuteurRepository.find();
+    for (const tut of allTuteurs) {
+      tut.tutoratAltAff = 0;
+      tut.tutoratIniAff = 0;
+      tut.soldeAlt = tut.parTutoratAlt || 0;
+      tut.soldeIni = tut.parTutoratIni || 0;
+      tut.nbTutoratAffecte = 0;
+      tut.soldeTutoratRestant = (tut.parTutoratAlt || 0) + (tut.parTutoratIni || 0);
+    }
+    await this.tuteurRepository.save(allTuteurs);
   }
 
   /*========================================================================
-      MÉTHODES UTILES POUR L’AFFECTATION
+      MÉTHODES UTILES POUR L'AFFECTATION
   =========================================================================*/
 
   /**
-   * Vérifie si le tuteur supporte la langue de l’étudiant.
-   * La vérification est flexible : si l’un des langages du tuteur contient la langue demandée, c’est accepté.
+   * Vérifie si le tuteur supporte la langue de l'étudiant.
+   * La vérification est flexible : si l'un des langages du tuteur contient la langue demandée, c'est accepté.
    * @param tutorLangs Tableau des langues du tuteur.
-   * @param studentLang Langue de l’étudiant.
+   * @param studentLang Langue de l'étudiant.
    * @returns true si la langue est supportée.
    */
   private tutorSupportsLang(tutorLangs: string[], studentLang: string): boolean {
@@ -183,8 +244,8 @@ export class AutoAffectationService {
   /**
    * Vérifie si le tuteur dispose de la capacité pour un étudiant donné.
    * @param tu Les capacités du tuteur.
-   * @param studentType Type d’étudiant ("ALT" ou "INI").
-   * @returns true si le tuteur peut encadrer l’étudiant.
+   * @param studentType Type d'étudiant ("ALT" ou "INI").
+   * @returns true si le tuteur peut encadrer l'étudiant.
    */
   private checkCapacity(tu: any, studentType: string, equivalence: number): boolean {
     if (studentType === 'ALT') {
@@ -195,9 +256,9 @@ export class AutoAffectationService {
   }
 
   /**
-   * Met à jour la capacité du tuteur suite à l’affectation d’un étudiant.
+   * Met à jour la capacité du tuteur suite à l'affectation d'un étudiant.
    * @param tu Les capacités du tuteur.
-   * @param studentType Type d’étudiant ("ALT" ou "INI").
+   * @param studentType Type d'étudiant ("ALT" ou "INI").
    */
   private updateCapacity(tu: any, studentType: string, equivalence: number): void {
     if (studentType === 'ALT') {
@@ -218,9 +279,66 @@ export class AutoAffectationService {
   /**
    * Calcule la capacité totale disponible du tuteur exprimée en unités "INI".
    * @param tu Les capacités du tuteur.
-   * @returns Le nombre total d’unités disponibles.
+   * @returns Le nombre total d'unités disponibles.
    */
   private availableCapacity(tu: any, equivalence: number): number {
     return tu.capaIni + equivalence * tu.capaAlt;
+  }
+
+  private async getLastUpdated(): Promise<Date> {
+    // Cherche la date de dernière modification d'un étudiant ou tuteur
+    const lastStudent = await this.etudiantRepository.createQueryBuilder('etudiant')
+      .orderBy('etudiant.id', 'DESC')
+      .getOne();
+    const lastTuteur = await this.tuteurRepository.createQueryBuilder('tuteur')
+      .orderBy('tuteur.id', 'DESC')
+      .getOne();
+    const dates = [lastStudent?.updatedAt, lastTuteur?.updatedAt].filter(Boolean).map(d => new Date(d));
+    return dates.length ? new Date(Math.max(...dates.map(d => d.getTime()))) : new Date();
+  }
+
+  private async getStats(details: any[]): Promise<any> {
+    // Nombre de tuteurs saturés
+    const tuteurs = await this.tuteurRepository.find();
+    const tuteursSatures = tuteurs.filter(t => (t.soldeAlt || 0) + (t.soldeIni || 0) + (t.soldeTutoratRestant || 0) === 0).length;
+    // Nombre d'étudiants sans tuteur par majeure
+    const etudiantsSansTuteur = details.filter(d => !d.assigned);
+    const parMajeure: Record<string, number> = {};
+    etudiantsSansTuteur.forEach(e => {
+      const maj = e.majeure?.code || 'Inconnue';
+      parMajeure[maj] = (parMajeure[maj] || 0) + 1;
+    });
+    return {
+      tuteursSatures,
+      etudiantsSansTuteurParMajeure: parMajeure,
+    };
+  }
+
+  async getEtatAffectation(): Promise<{ total: number; assigned: number; details: any[]; lastUpdated: Date; stats: any }> {
+    if (this.lastAffectationResult) {
+      return this.lastAffectationResult;
+    }
+    // Si aucun run n'a encore été fait, retourne l'état courant (fallback)
+    const students = await this.etudiantRepository.find({ relations: ['tuteur', 'majeure'] });
+    const details = students.map(student => ({
+      ...student,
+      etudiantId: student.id,
+      tutorNom: student.tuteur ? student.tuteur.nom : '',
+      tutorPrenom: student.tuteur ? student.tuteur.prenom : '',
+      tutorDept: student.tuteur ? student.tuteur.departement : '',
+      assigned: !!student.tuteur,
+      frozen: student.frozen,
+      logs: student.logs || '',
+    }));
+    const assigned = details.filter(d => d.assigned).length;
+    const lastUpdated = await this.getLastUpdated();
+    const stats = await this.getStats(details);
+    return {
+      total: students.length,
+      assigned,
+      details,
+      lastUpdated,
+      stats,
+    };
   }
 }
