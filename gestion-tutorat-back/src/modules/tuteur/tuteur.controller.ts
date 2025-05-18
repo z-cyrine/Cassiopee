@@ -40,4 +40,11 @@ export class TuteurController {
   remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.tuteurService.remove(id);
   }
+
+  // tuteur.controller.ts
+@Get(':id/etudiants')
+async getEtudiants(@Param('id') id: number) {
+  return this.tuteurService.getEtudiantsForTuteur(+id);
+}
+
 }
