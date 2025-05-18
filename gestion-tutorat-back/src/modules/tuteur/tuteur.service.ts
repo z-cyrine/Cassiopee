@@ -4,6 +4,7 @@ import { QueryFailedError, Repository } from 'typeorm';
 import { Tuteur } from './tuteur.entity';
 import { CreateTuteurDto } from './dto/create-tuteur.dto';
 import { UpdateTuteurDto } from './dto/update-tuteur.dto';
+import { Etudiant } from '../etudiant/etudiant.entity';
 
 @Injectable()
 export class TuteurService {
@@ -54,4 +55,19 @@ async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
     const tuteur = await this.findOne(id);
     await this.tuteurRepository.remove(tuteur);
   }
+
+  // tuteur.service.ts
+async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
+  const tuteur = await this.tuteurRepository.findOne({
+    where: { id },
+    relations: ['etudiants'],
+  });
+
+  if (!tuteur) {
+    throw new NotFoundException(`Tuteur avec l'ID=${id} introuvable`);
+  }
+
+  return tuteur.etudiants;
+}
+
 }
