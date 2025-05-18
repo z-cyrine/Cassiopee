@@ -1,0 +1,42 @@
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #0077b6;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background-color: #0096c7;
+  border-color: #0096c7;
+}
+
+.btn-primary:hover {
+  background-color: #0077b6;
+  border-color: #0077b6;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.form-control {
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+select.form-control {
+  appearance: none;
+  background-color: white;
+  line-height: 1.5;
+  height: 42px;
+  padding: 8px 10px;
+}

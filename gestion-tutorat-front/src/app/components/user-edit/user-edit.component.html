@@ -1,0 +1,59 @@
+<div class="container mt-4">
+  <h2 class="form-title">Modifier l'Utilisateur</h2>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <!-- Nom -->
+    <div class="mb-3">
+      <label class="form-label">Nom</label>
+      <input type="text" class="form-control" formControlName="name"
+        [ngClass]="{'is-invalid': submitted && f['name'].errors}" />
+      <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+        <div *ngIf="f['name'].errors['required']">Ce champ est requis</div>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" formControlName="email"
+        [ngClass]="{'is-invalid': submitted && f['email'].errors}" />
+      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+        <div *ngIf="f['email'].errors['required']">Ce champ est requis</div>
+        <div *ngIf="f['email'].errors['email']">Email invalide</div>
+      </div>
+    </div>
+
+    <!-- Password (optional) -->
+<div class="mb-3">
+  <label class="form-label">Mot de passe</label>
+  <input
+    type="password"
+    class="form-control"
+    formControlName="password"
+    placeholder="Laisser vide pour ne pas changer"
+    autocomplete="new-password"
+  />
+</div>
+
+
+    <!-- Rôle -->
+    <div class="mb-3">
+      <label class="form-label">Rôle</label>
+      <select class="form-control" formControlName="role"
+        [ngClass]="{'is-invalid': submitted && f['role'].errors}">
+        <option value="">-- Sélectionner --</option>
+        <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+      </select>
+      <div *ngIf="submitted && f['role'].errors" class="invalid-feedback">
+        <div *ngIf="f['role'].errors['required']">Ce champ est requis</div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button class="btn btn-primary" type="submit">Mettre à jour l'Utilisateur</button>
+  </form>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }}
+  </div>
+</div>
