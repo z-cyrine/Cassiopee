@@ -66,4 +66,12 @@ export class TuteurService {
     return this.http.get<any[]>(`${this.baseUrl}/${tuteurId}/etudiants`);
   }
 
+  searchTuteurs(nom?: string, prenom?: string): Observable<Tuteur[]> {
+  const queryParams = [];
+  if (nom) queryParams.push(`nom=${encodeURIComponent(nom)}`);
+  if (prenom) queryParams.push(`prenom=${encodeURIComponent(prenom)}`);
+  const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+  return this.http.get<Tuteur[]>(`${this.baseUrl}/search${queryString}`);
+}
+
 }

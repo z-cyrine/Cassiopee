@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Like, QueryFailedError, Repository } from 'typeorm';
 import { Etudiant } from './etudiant.entity';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
@@ -129,5 +129,27 @@ async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
     console.log(`- Etudiants avec majeure inexistante : ${majeureInexistante}`);
     console.log(`- Etudiants avec majeure sans département : ${majeureSansDept}`);
   }
+
+  async searchByName(nom?: string, prenom?: string): Promise<Etudiant[]> {
+  if (!nom && !prenom) {
+    throw new NotFoundException('Veuillez fournir au moins un champ de recherche : nom ou prénom.');
+  }
+
+  const whereConditions: any = {};
+  if (nom) whereConditions.nom = Like(`%${nom}%`);
+  if (prenom) whereConditions.prenom = Like(`%${prenom}%`);
+
+  const found = await this.etudiantRepository.find({
+    where: whereConditions,
+    relations: ['tuteur', 'majeure'],
+  });
+
+  if (!found.length) {
+    throw new NotFoundException(`Aucun étudiant trouvé avec les critères fournis.`);
+  }
+
+  return found;
+}
+
 
 }

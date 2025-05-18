@@ -7,6 +7,7 @@ import {
   Param,
   Body,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { MajorsService } from './majeures.service';
 import { CreateMajeureDto } from './dto/create-majeure.dto';
@@ -21,6 +22,11 @@ export class MajorsController {
   getDistinctMajors() {
     return this.majorsService.getDistinctMajors();
   }
+
+    @Get('search')
+searchMajors(@Query('code') code?: string, @Query('groupe') groupe?: string) {
+  return this.majorsService.searchByCodeOrGroupe(code, groupe);
+}
 
   // GET /majeures/departments
   @Get('departments')

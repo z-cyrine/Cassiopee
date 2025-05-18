@@ -80,4 +80,28 @@ async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
   return tuteur.etudiants;
 }
 
+
+async searchByName(nom?: string, prenom?: string): Promise<Tuteur[]> {
+  const query = this.tuteurRepository
+    .createQueryBuilder('tuteur')
+    .leftJoinAndSelect('tuteur.etudiants', 'etudiant');
+
+  if (nom) {
+    query.andWhere('tuteur.nom LIKE :nom', { nom: `%${nom}%` });
+  }
+
+  if (prenom) {
+    query.andWhere('tuteur.prenom LIKE :prenom', { prenom: `%${prenom}%` });
+  }
+
+  const result = await query.getMany();
+
+  if (result.length === 0) {
+    throw new NotFoundException('Aucun tuteur ne correspond à la recherche.');
+  }
+
+  return result;
+}
+
+
 }
