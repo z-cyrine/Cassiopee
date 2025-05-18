@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-majeure-read',
@@ -13,7 +14,6 @@ import { CommonModule } from '@angular/common';
 export class MajeureReadComponent implements OnInit {
   majeure: any;
   id: number | null = null;
-  apiUrl = 'http://localhost:3000'; // ✅ Adresse API hardcodée
 
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +26,7 @@ export class MajeureReadComponent implements OnInit {
     this.id = idParam ? parseInt(idParam, 10) : null;
 
     if (this.id !== null) {
-      this.http.get(`${this.apiUrl}/majeures/${this.id}`).subscribe({
+      this.http.get(`${environment.apiUrl}/majeures/${this.id}`).subscribe({
         next: data => {
           this.majeure = data;
         },
@@ -39,7 +39,7 @@ export class MajeureReadComponent implements OnInit {
 
   onDeleteMajeure(): void {
     if (this.id !== null && confirm('Confirmez-vous la suppression de cette majeure ?')) {
-      this.http.delete(`${this.apiUrl}/majeures/${this.id}`).subscribe({
+      this.http.delete(`${environment.apiUrl}/majeures/${this.id}`).subscribe({
         next: () => {
           alert('Majeure supprimée avec succès.');
           this.router.navigate(['/reporting']);

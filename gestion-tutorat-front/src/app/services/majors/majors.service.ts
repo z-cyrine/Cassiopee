@@ -48,4 +48,12 @@ export class MajorsService {
   getAllMajors(): Observable<Majeure[]> {
     return this.http.get<Majeure[]>(this.baseUrl);
   }
+
+searchMajors(code?: string, groupe?: string): Observable<Majeure[]> {
+    let queryParams = [];
+    if (code) queryParams.push(`code=${encodeURIComponent(code)}`);
+    if (groupe) queryParams.push(`groupe=${encodeURIComponent(groupe)}`);
+    const queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+    return this.http.get<Majeure[]>(`${this.baseUrl}/search${queryString}`);
+  }
 }

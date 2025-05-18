@@ -1,21 +1,107 @@
+<!-- affiche-majeures.component.html -->
 <h2 class="majeures-title">Liste des majeures</h2>
-<div class="table-responsive-majeures">
-  <table class="majeures-table">
-    <tr>
-      <th class="stickyHeader"></th>
-      <th *ngFor="let maj of pagedMajeures" class="stickyHeader">
-        {{ maj.groupe }}
-        <button type="button" class="icon-btn edit" (click)="onEditMajeure(maj.id)" title="Éditer">
+
+<!-- 🔍 Search Bar -->
+<div class="actions-container">
+  <div class="actions-text">Recherche de majeure</div>
+  <div class="actions-controls search-majeures">
+    <input
+      type="text"
+      placeholder="Groupe"
+      [(ngModel)]="searchGroupe"
+      (ngModelChange)="searchGroupe = searchGroupe.trim()"
+      class="search-input"
+    />
+    <input
+      type="text"
+      placeholder="Code classe"
+      [(ngModel)]="searchCode"
+      (ngModelChange)="searchCode = searchCode.trim()"
+      class="search-input"
+    />
+    <button (click)="onSearch()" class="search-btn primary">Rechercher</button>
+    <button (click)="onClearSearch()" class="search-btn secondary">Réinitialiser</button>
+  </div>
+</div>
+
+<!-- 🔍 Search Results -->
+<div *ngIf="searchMode">
+  <div *ngIf="searchResults.length > 0; else noResultMsg" class="majors-card-list">
+    <div *ngFor="let maj of searchResults" class="majors-card">
+      <div class="majors-card-header">
+        <a [routerLink]="['/majeures', maj.id]" class="majors-title-link">
+          {{ maj.groupe }}
+        </a>
+        <div class="majors-card-actions">
+          <button class="icon-btn edit" (click)="onEditMajeure(maj.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="icon-btn delete" (click)="onDeleteMajeure(maj.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="majors-card-body">
+        <div *ngFor="let prop of propertyLabels" class="majors-property">
+          <strong>{{ prop.label }}:</strong> {{ maj[prop.key] || '—' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResultMsg>
+    <div class="text-center mt-4 text-muted">
+      Aucune majeure trouvée.
+    </div>
+  </ng-template>
+</div>
+
+<!-- 📋 Card List -->
+<div *ngIf="!searchMode" class="majors-card-list">
+  <div *ngFor="let maj of pagedMajeures" class="majors-card">
+    <div class="majors-card-header">
+      <a [routerLink]="['/majeures', maj.id]" class="majors-title-link">
+         {{ maj.groupe }}
+      </a>
+      <div class="majors-card-actions">
+        <button class="icon-btn edit" (click)="onEditMajeure(maj.id)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button type="button" class="icon-btn delete" (click)="onDeleteMajeure(maj.id)" title="Supprimer">
+        <button class="icon-btn delete" (click)="onDeleteMajeure(maj.id)">
           <mat-icon>delete</mat-icon>
         </button>
-      </th>
-    </tr>
-    <tr *ngFor="let prop of propertyLabels">
-      <th>{{ prop.label }}</th>
-      <td *ngFor="let maj of pagedMajeures">{{ maj[prop.key] }}</td>
-    </tr>
-  </table>
-</div> 
+      </div>
+    </div>
+    <div class="majors-card-body">
+      <div *ngFor="let prop of propertyLabels" class="majors-property">
+        <strong>{{ prop.label }}:</strong> {{ maj[prop.key] || '—' }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 📄 Pagination -->
+<div class="pagination-controls" *ngIf="!searchMode && pageCount > 1">
+  <button (click)="prevPage()" [disabled]="page === 1" class="pagination-btn">
+    <i class="fas fa-chevron-left"></i> Précédent
+  </button>
+  <div class="pagination-numbers">
+    <button *ngIf="page > 2 && visiblePages[0] !== 1" (click)="goToPage(1)" class="pagination-number">1</button>
+    <span *ngIf="page > 3 && visiblePages[0] !== 1" class="pagination-ellipsis">...</span>
+
+    <button *ngFor="let pageNum of visiblePages"
+            (click)="goToPage(pageNum)"
+            [class.active]="pageNum === page"
+            class="pagination-number">
+      {{ pageNum }}
+    </button>
+
+    <span *ngIf="page < pageCount - 2 && visiblePages[visiblePages.length-1] !== pageCount" class="pagination-ellipsis">...</span>
+    <button *ngIf="page < pageCount - 1 && visiblePages[visiblePages.length-1] !== pageCount" (click)="goToPage(pageCount)" class="pagination-number">
+      {{ pageCount }}
+    </button>
+  </div>
+  <button (click)="nextPage()" [disabled]="page === pageCount" class="pagination-btn">
+    Suivant <i class="fas fa-chevron-right"></i>
+  </button>
+</div>

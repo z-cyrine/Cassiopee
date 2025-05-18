@@ -17,16 +17,18 @@ import { UpdateMajeureDto } from './dto/update-majeure.dto';
 export class MajorsController {
   constructor(private readonly majorsService: MajorsService) {}
 
-  // GET /majeures/distinct
+  
+     @Get('search')
+searchMajors(@Query('code') code?: string, @Query('groupe') groupe?: string) {
+  return this.majorsService.searchByCodeOrGroupe(code, groupe);
+}
+// GET /majeures/distinct
   @Get('distinct')
   getDistinctMajors() {
     return this.majorsService.getDistinctMajors();
   }
 
-    @Get('search')
-searchMajors(@Query('code') code?: string, @Query('groupe') groupe?: string) {
-  return this.majorsService.searchByCodeOrGroupe(code, groupe);
-}
+ 
 
   // GET /majeures/departments
   @Get('departments')
