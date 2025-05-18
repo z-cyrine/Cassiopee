@@ -10,7 +10,26 @@ export class MajorsService {
     @InjectRepository(Majeures)
     private readonly majorsRepository: Repository<Majeures>,
   ) {}
+  async searchByCodeOrGroupe(code?: string, groupe?: string): Promise<Majeures[]> {
+  const query = this.majorsRepository
+    .createQueryBuilder('majeure');
 
+  if (code) {
+    query.andWhere('majeure.code LIKE :code', { code: `%${code}%` });
+  }
+
+  if (groupe) {
+    query.andWhere('majeure.groupe LIKE :groupe', { groupe: `%${groupe}%` });
+  }
+
+  const result = await query.getMany();
+
+  if (result.length === 0) {
+    throw new NotFoundException('Aucune majeure ne correspond à la recherche.');
+  }
+
+  return result;
+}
   // Returns distinct majors based on the 'code' field, along with the 'groupe'
   async getDistinctMajors(): Promise<{ code: string; groupe: string }[]> {
     const result = await this.majorsRepository
@@ -70,26 +89,7 @@ export class MajorsService {
     return result.map(r => r.code);
   }
 
-  async searchByCodeOrGroupe(code?: string, groupe?: string): Promise<Majeures[]> {
-  const query = this.majorsRepository
-    .createQueryBuilder('majeure');
 
-  if (code) {
-    query.andWhere('majeure.code LIKE :code', { code: `%${code}%` });
-  }
-
-  if (groupe) {
-    query.andWhere('majeure.groupe LIKE :groupe', { groupe: `%${groupe}%` });
-  }
-
-  const result = await query.getMany();
-
-  if (result.length === 0) {
-    throw new NotFoundException('Aucune majeure ne correspond à la recherche.');
-  }
-
-  return result;
-}
 
 
 

@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router , RouterLink} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { MajorsService } from '../../services/majors/majors.service';
+import { FormsModule } from '@angular/forms';               // ✅ Add this
 
 @Component({
   selector: 'app-affiche-majeures',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink], 
   templateUrl: './affiche-majeures.component.html',
   styleUrls: ['./affiche-majeures.component.css'],
 })
@@ -24,11 +26,17 @@ export class AfficheMajeuresComponent implements OnInit {
 
   // Pagination
   page = 1;
-  limit = 20;
+  limit = 9;
   total = 0;
   pageCount = 1;
   loading = false;
   maxVisiblePages = 5;
+
+  searchCode: string = '';
+searchGroupe: string = '';
+searchMode: boolean = false;
+searchResults: any[] = [];
+
 
   propertyLabels = [
     { key: 'groupe', label: 'majeure/groupe' },
@@ -42,7 +50,9 @@ export class AfficheMajeuresComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private majorsService: MajorsService
+
   ) {}
 
   ngOnInit(): void {
@@ -72,36 +82,45 @@ export class AfficheMajeuresComponent implements OnInit {
     this.pagedMajeures = this.majeures.slice(start, end);
   }
 
-  get visiblePages(): number[] {
-    const pages: number[] = [];
-    const start = Math.max(1, this.page - Math.floor(this.maxVisiblePages / 2));
-    const end = Math.min(this.pageCount, start + this.maxVisiblePages - 1);
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-    return pages;
+ get visiblePages(): number[] {
+  const pages: number[] = [];
+  const halfVisible = Math.floor(this.maxVisiblePages / 2);
+  
+  let start = Math.max(1, this.page - halfVisible);
+  let end = Math.min(this.pageCount, start + this.maxVisiblePages - 1);
+
+  if (end - start + 1 < this.maxVisiblePages) {
+    start = Math.max(1, end - this.maxVisiblePages + 1);
   }
 
-  goToPage(pageNumber: number): void {
-    if (pageNumber >= 1 && pageNumber <= this.pageCount && pageNumber !== this.page) {
-      this.page = pageNumber;
-      this.updatePagedMajeures();
-    }
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
   }
 
-  nextPage() {
-    if (this.page < this.pageCount) {
-      this.page++;
-      this.updatePagedMajeures();
-    }
-  }
+  return pages;
+}
 
-  prevPage() {
-    if (this.page > 1) {
-      this.page--;
-      this.updatePagedMajeures();
-    }
+goToPage(pageNumber: number): void {
+  if (pageNumber >= 1 && pageNumber <= this.pageCount && pageNumber !== this.page) {
+    this.page = pageNumber;
+    this.updatePagedMajeures();
   }
+}
+
+nextPage(): void {
+  if (this.page < this.pageCount) {
+    this.page++;
+    this.updatePagedMajeures();
+  }
+}
+
+prevPage(): void {
+  if (this.page > 1) {
+    this.page--;
+    this.updatePagedMajeures();
+  }
+}
+
 
   onDeleteMajeure(majeureId: number): void {
     if (majeureId !== null && confirm("Confirmez-vous la suppression de cette majeure ?")) {
@@ -122,4 +141,36 @@ export class AfficheMajeuresComponent implements OnInit {
   onEditMajeure(majeureKey: string): void {
     this.router.navigate(['/majeures/edit', majeureKey]);
   }
+
+  onSearch(): void {
+  if (!this.searchCode && !this.searchGroupe) {
+    alert('Veuillez entrer un code ou un groupe pour la recherche.');
+    return;
+  }
+
+  this.loading = true;
+  this.searchMode = true;
+
+  this.majorsService.searchMajors(this.searchCode, this.searchGroupe).subscribe({
+    next: (results) => {
+      this.searchResults = results;
+      this.loading = false;
+    },
+    error: (err) => {
+      console.error('Erreur lors de la recherche:', err);
+      this.loading = false;
+      this.searchResults = [];
+    }
+  });
+}
+
+onClearSearch(): void {
+  this.searchCode = '';
+  this.searchGroupe = '';
+  this.searchMode = false;
+  this.searchResults = [];
+  this.loadMajeures();
+}
+
+
 } 
