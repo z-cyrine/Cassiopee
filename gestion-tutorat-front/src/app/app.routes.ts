@@ -19,7 +19,7 @@ export const appRoutes: Routes = [
   // Utilisateurs
   { path: 'utilisateurs/all', loadComponent: () => import('./components/affiche-utilisateurs/affiche-utilisateurs.component').then(m => m.AfficheUtilisateursComponent) },
   { path: 'utilisateurs/create', loadComponent: () => import('./components/user-create/user-create.component').then(m => m.UserCreateComponent) },
-  //{ path: 'utilisateurs/:id', loadComponent: () => import('./components/user-read/user-read.component').then(m => m.UserReadComponent) },
+  { path: 'profil', loadComponent: () => import('./components/user-profile/user-profile.component').then(m => m.UserProfileComponent) },
   { path: 'utilisateurs/edit/:id', loadComponent: () => import('./components/user-edit/user-edit.component').then(m => m.UserEditComponent) },
 
   // Créations
