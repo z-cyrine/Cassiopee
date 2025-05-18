@@ -45,9 +45,9 @@
     "INSCRIPTION": "Sign Up",
     "IMPORT": "Import Files",
     "LISTES": "Lists",
-    "LISTE_ETUDIANTS": "Students List",
-    "LISTE_TUTEURS": "Tutors List",
-    "LISTE_MAJEURES": "Majors List",
+    "LISTE_ETUDIANTS": "List of Students",
+    "LISTE_TUTEURS": "List of Tutors",
+    "LISTE_MAJEURES": "List of Majors",
     "AUTO_AFFECT": "Auto Assignment",
     "AFFECT_MANUELLE": "Manual Assignment",
     "REPORTING": "Reporting",
@@ -125,7 +125,7 @@
     "NB_TUTORAT_AFFECTE": "Nb Tutoring Assigned"
   },
   "MAJORS": {
-    "LIST_TITLE": "Majors List",
+    "LIST_TITLE": "List of Majors",
     "ID": "Id",
     "NAME": "Major Name",
     "DESCRIPTION": "Description",
@@ -235,8 +235,8 @@
     "LOGS": "Logs"
   },
   "AFFECT_MANUELLE": {
-    "STUDENTS_LIST": "Students List",
-    "TUTORS_LIST": "Tutors List",
+    "STUDENTS_LIST": "List of Students",
+    "TUTORS_LIST": "List of Tutors",
     "NO_STUDENT_FILTER": "No student matches the applied filters.",
     "NO_TUTOR_FILTER": "No tutor matches the applied filters.",
     "AFFECT_STUDENT": "Assign student",
