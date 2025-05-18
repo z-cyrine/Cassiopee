@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-affiche-utilisateurs',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, MatIconModule],
+  imports: [CommonModule, FormsModule,  MatIconModule],
   templateUrl: './affiche-utilisateurs.component.html',
   styleUrls: ['./affiche-utilisateurs.component.css']
 })

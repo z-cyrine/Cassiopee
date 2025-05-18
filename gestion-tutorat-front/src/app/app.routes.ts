@@ -18,9 +18,9 @@ export const appRoutes: Routes = [
 
   // Utilisateurs
   { path: 'utilisateurs/all', loadComponent: () => import('./components/affiche-utilisateurs/affiche-utilisateurs.component').then(m => m.AfficheUtilisateursComponent) },
- // { path: 'utilisateurs/create', loadComponent: () => import('./components/user-create/user-create.component').then(m => m.UserCreateComponent) },
+  { path: 'utilisateurs/create', loadComponent: () => import('./components/user-create/user-create.component').then(m => m.UserCreateComponent) },
   //{ path: 'utilisateurs/:id', loadComponent: () => import('./components/user-read/user-read.component').then(m => m.UserReadComponent) },
-  //{ path: 'utilisateurs/edit/:id', loadComponent: () => import('./components/user-edit/user-edit.component').then(m => m.UserEditComponent) },
+  { path: 'utilisateurs/edit/:id', loadComponent: () => import('./components/user-edit/user-edit.component').then(m => m.UserEditComponent) },
 
   // Créations
   { path: 'etudiant-create', loadComponent: () => import('./components/etudiant-create/etudiant-create.component').then(m => m.EtudiantCreateComponent) },
