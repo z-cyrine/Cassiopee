@@ -1,44 +1,25 @@
 <div class="actions-container">
-<<<<<<< HEAD
   <div class="actions-text">{{ 'TUTORS.SEARCH_TITLE' | translate }}</div>
   <div class="actions-controls">
     <input
       type="text"
       placeholder="{{ 'COMMON.LASTNAME' | translate }}"
-=======
-  <div class="actions-text">Recherche de tuteur</div>
-  <div class="actions-controls">
-    <input
-      type="text"
-      placeholder="Nom"
->>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
       [(ngModel)]="searchNom"
       class="form-control"
       style="width: 140px; padding: 5px 8px; font-size: 14px;"
     />
     <input
       type="text"
-<<<<<<< HEAD
       placeholder="{{ 'COMMON.FIRSTNAME' | translate }}"
-=======
-      placeholder="Prénom"
->>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
       [(ngModel)]="searchPrenom"
       class="form-control"
       style="width: 140px; padding: 5px 8px; font-size: 14px;"
     />
     <button (click)="onSearch()" class="btn btn-primary" style="background: #00abc7; border: none;">
-<<<<<<< HEAD
       {{ 'COMMON.SEARCH' | translate }}
     </button>
     <button (click)="onClearSearch()" class="btn btn-secondary" style="background: #9b59b6; border: none;">
       {{ 'COMMON.RESET' | translate }}
-=======
-      Rechercher
-    </button>
-    <button (click)="onClearSearch()" class="btn btn-secondary" style="background: #9b59b6; border: none;">
-      Réinitialiser
->>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
     </button>
   </div>
 </div>
@@ -55,11 +36,7 @@
 
   <ng-template #noResultMsg>
     <div class="text-center mt-4 text-muted">
-<<<<<<< HEAD
       {{ 'TUTORS.NO_TUTOR_FOUND' | translate }}
-=======
-      Aucun tuteur trouvé.
->>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
     </div>
   </ng-template>
 </div>
