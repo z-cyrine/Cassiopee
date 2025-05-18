@@ -2,15 +2,13 @@
     <!-- Students Section -->
     <div class="left-column border">
       <div class="cards-container">
-        <h2>Liste des Étudiants</h2>
+        <h2>{{ 'AFFECT_MANUELLE.STUDENTS_LIST' | translate }}</h2>
         <app-filtre-etudiants [students]="students" (onFilter)="applyFilters($event)"></app-filtre-etudiants>
 
         <!--PAGINATION-->
         <div class="pagination-wrapper" *ngIf="pagedStudents.length !== 0">
         <div class="pagination-controls" >
-          <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="pagination-btn">
-            Précédent
-          </button>
+          <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="pagination-btn">{{ 'COMMON.PREVIOUS' | translate }}</button>
         
           <div class="pagination-numbers">
             <button *ngIf="currentPage > 2" (click)="goToPage(1)" class="pagination-number">1</button>
@@ -29,15 +27,11 @@
             </button>
           </div>
         
-          <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">
-            Suivant
-          </button>
+          <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">{{ 'COMMON.NEXT' | translate }}</button>
         </div>    
         </div>  
         <!--FIN PAGINATION-->
-        <div *ngIf="pagedStudents.length === 0" class="no-results">
-            Aucun étudiant ne correspond aux filtres appliqués.
-          </div>
+        <div *ngIf="pagedStudents.length === 0" class="no-results">{{ 'AFFECT_MANUELLE.NO_STUDENT_FILTER' | translate }}</div>
         <div *ngFor="let student of pagedStudents" class="student-card"> 
           <div class="card">
             <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
@@ -45,21 +39,17 @@
               <mat-card-title>    
                 <h5 class="card-title text-start">
                   <a [routerLink]="['/etudiants', student.id]">{{ student.prenom }} {{ student.nom }} </a>
-                <span [ngClass]="{
-                  'badge': true, 
-                  'badge-success': student.affecte, 
-                  'badge-danger': !student.affecte 
-                }">
-                  {{ student.affecte ? 'Affecté' : 'Non Affecté' }}
+                <span class="badge" [ngClass]="student.affecte ? 'badge-success' : 'badge-danger'">
+                  {{ student.affecte ? ('STUDENTS.ASSIGNED' | translate) : ('STUDENTS.NOT_ASSIGNED_M' | translate) }}
                 </span>
                 </h5>
               </mat-card-title>
               <mat-card-actions>
                 <ng-container matColumnDef="actions">
-                    <button type="button" [routerLink]="['/etudiants/edit', student.id]" class="icon-btn edit" *ngIf="showEdit" title="Éditer">
+                    <button type="button" [routerLink]="['/etudiants/edit', student.id]" class="icon-btn edit" *ngIf="showEdit" title="{{ 'COMMON.EDIT' | translate }}">
                       <mat-icon>edit</mat-icon>
                     </button>
-                    <button type="button" class="icon-btn delete" (click)="onDeleteEtudiant(student.id)" title="Supprimer">
+                    <button type="button" class="icon-btn delete" (click)="onDeleteEtudiant(student.id)" title="{{ 'COMMON.DELETE' | translate }}">
                       <mat-icon>delete</mat-icon>
                     </button>
                 </ng-container>
@@ -67,27 +57,27 @@
             </mat-card-header>
             <mat-card-content>
               <div class="student-details">
-                <span><strong>Email:</strong> {{ student.emailEcole || 'Non spécifié'}}, </span>
-                <span><strong>Origine:</strong> {{ student.origine || 'Non spécifié'}}, </span>
-                <span><strong>École:</strong> {{ student.ecole || 'Non spécifiée'}}, </span>
-                <span><strong>Code Classe:</strong> {{ student.codeClasse || 'Non spécifié'}}, </span>
-                <span><strong>Nom Groupe:</strong> {{ student.nomGroupe || 'Non spécifié'}}, </span>
-                <span><strong>Langue Majeure:</strong> {{ student.langueMajeure || 'Non spécifiée'}}, </span>
-                <span><strong>Ini/Alt:</strong> {{ student.iniAlt || 'Non spécifié'}}, </span>
-                <span><strong>Entreprise:</strong> {{ student.entreprise || 'Non spécifiée'}}, </span>
-                <span><strong>Fonction Apprenti:</strong> {{ student.fonctionApprenti || 'Non spécifiée'}}, </span>
-                <span><strong>Langue:</strong> {{ student.langue || 'Non spécifiée'}}, </span>
-                <span><strong>Commentaire Affectation:</strong> {{ student.commentaireAffectation || 'Non spécifié'}}, </span>
-                <span><strong>Département Rattachement:</strong> {{ student.departementRattachement || 'Non assigné' }}, </span>
-                <span><strong>Affecté:</strong> {{ student.affecte ? 'Oui' : 'Non' }}, </span>
+                <span><strong>{{ 'STUDENTS.SCHOOL_EMAIL' | translate }}:</strong> {{ student.emailEcole || ('COMMON.NOT_SPECIFIED' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.ORIGIN' | translate }}:</strong> {{ student.origine || ('COMMON.NOT_SPECIFIED' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.SCHOOL' | translate }}:</strong> {{ student.ecole || ('COMMON.NOT_SPECIFIED_F' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.CLASS_CODE' | translate }}:</strong> {{ student.codeClasse || ('COMMON.NOT_SPECIFIED' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.GROUP_NAME' | translate }}:</strong> {{ student.nomGroupe || ('COMMON.NOT_SPECIFIED' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.MAJOR_LANGUAGE' | translate }}:</strong> {{ student.langueMajeure || ('COMMON.NOT_SPECIFIED_F' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.INI_ALT' | translate }}:</strong> {{ student.iniAlt || ('COMMON.NOT_SPECIFIED' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.COMPANY' | translate }}:</strong> {{ student.entreprise || ('COMMON.NOT_SPECIFIED_F' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.APPRENTICE_FUNCTION' | translate }}:</strong> {{ student.fonctionApprenti || ('COMMON.NOT_SPECIFIED_F' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.LANGUAGE' | translate }}:</strong> {{ student.langue || ('COMMON.NOT_SPECIFIED_F' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.ASSIGNMENT_COMMENT' | translate }}:</strong> {{ student.commentaireAffectation || ('COMMON.NOT_SPECIFIED' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.DEPARTMENT_ATTACHMENT' | translate }}:</strong> {{ student.departementRattachement || ('STUDENTS.NOT_ASSIGNED' | translate) }}, </span>
+                <span><strong>{{ 'STUDENTS.ASSIGNED' | translate }}:</strong> {{ student.affecte ? ('STUDENTS.YES' | translate) : ('STUDENTS.NO' | translate) }}, </span>
                 <span *ngIf="student.tuteur; else nonAssigne">
-                  <strong>Tuteur:</strong>
+                  <strong>{{ 'STUDENTS.TUTOR' | translate }}:</strong>
                   <a [routerLink]="['/tuteurs', student.tuteur.id]">
                     {{ student.tuteur.prenom }} {{ student.tuteur.nom }}
                   </a>
                 </span>
                 <ng-template #nonAssigne>
-                  <span><strong>Tuteur:</strong> Non assigné</span>
+                  <span><strong>{{ 'STUDENTS.TUTOR' | translate }}:</strong> {{ 'STUDENTS.NOT_ASSIGNED' | translate }}</span>
                 </ng-template>
 
               </div>
@@ -106,14 +96,12 @@
     <!-- Tutors Section -->
     <div class="right-column border">
       <div class="cards-container">
-        <h2>Liste des Tuteurs</h2>
+        <h2>{{ 'AFFECT_MANUELLE.TUTORS_LIST' | translate }}</h2>
         <app-filtre-tuteur (onFilter)="applyTutorFilters($event)"></app-filtre-tuteur>
         <!-- PAGINATION TUTEURS -->
           <div class="pagination-wrapper">
             <div class="pagination-controls" *ngIf="totalPagesTuteur > 1">
-              <button (click)="goToPreviousPageTuteur()" [disabled]="currentPageTuteur === 1" class="pagination-btn">
-                Précédent
-              </button>
+              <button (click)="goToPreviousPageTuteur()" [disabled]="currentPageTuteur === 1" class="pagination-btn">{{ 'COMMON.PREVIOUS' | translate }}</button>
 
               <div class="pagination-numbers">
                 <button *ngIf="currentPageTuteur > 2" (click)="goToPageTuteur(1)" class="pagination-number">1</button>
@@ -132,15 +120,11 @@
                 </button>
               </div>
 
-              <button (click)="goToNextPageTuteur()" [disabled]="currentPageTuteur === totalPagesTuteur" class="pagination-btn">
-                Suivant
-              </button>
+              <button (click)="goToNextPageTuteur()" [disabled]="currentPageTuteur === totalPagesTuteur" class="pagination-btn">{{ 'COMMON.NEXT' | translate }}</button>
             </div>
           </div>
         <!-- FIN PAGINATION TUTEURS -->
-        <div *ngIf="pagedTuteurs.length === 0" class="no-results">
-            Aucun tuteur ne correspond aux filtres appliqués.
-          </div>
+        <div *ngIf="pagedTuteurs.length === 0" class="no-results">{{ 'AFFECT_MANUELLE.NO_TUTOR_FILTER' | translate }}</div>
         <mat-card *ngFor="let tutor of pagedTuteurs" class="tutor-card">
           <div class="card">
           <mat-card-header>
@@ -148,33 +132,33 @@
               <div> 
                 <a [routerLink]="['/tuteurs', tutor.id]">{{ tutor.prenom }} {{ tutor.nom }} </a>
                 <span [ngClass]="tutor.soldeTutoratRestant > 0 ? 'badge badge-success' : 'badge badge-danger'">
-                  {{ tutor.soldeTutoratRestant > 0 ? 'Peut tutorer d\'autres étudiants' : 'Ne peut plus tutorer des étudiants' }}
+                  {{ tutor.soldeTutoratRestant > 0 ? ('AFFECT_MANUELLE.CAN_TUTOR' | translate) : ('AFFECT_MANUELLE.CANNOT_TUTOR' | translate) }}
                 </span>
                             
               </div>
             </h5>
             </mat-card-title>
             <mat-card-actions>
-              <button type="button" [routerLink]="['/tuteurs/edit', tutor.id]" class="icon-btn edit" *ngIf="showEdit" title="Éditer">
+              <button type="button" [routerLink]="['/tuteurs/edit', tutor.id]" class="icon-btn edit" *ngIf="showEdit" title="{{ 'COMMON.EDIT' | translate }}">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button type="button" (click)="onDeleteTuteur(tutor.id)" class="icon-btn delete" title="Supprimer">
+              <button type="button" (click)="onDeleteTuteur(tutor.id)" class="icon-btn delete" title="{{ 'COMMON.DELETE' | translate }}">
                 <mat-icon>delete</mat-icon>
               </button>
             </mat-card-actions>
           </mat-card-header>
           <mat-card-content>
             <div>
-              <span><strong>Email:</strong> {{ tutor.email }}, </span>
-              <span><strong>Département:</strong> {{ tutor.departement }}, </span>
-              <span><strong>Langue de Tutorat:</strong> {{ tutor.langueTutorat || 'Non assigné' }}, </span>
-              <span><strong>Profil:</strong> {{ tutor.profil }}, </span>
-              <span><strong>Statut:</strong> {{ tutor.statut }}, </span>
-              <span><strong>Solde Alt:</strong> {{ tutor.soldeAlt }}, </span>
-              <span><strong>Solde Ini:</strong> {{ tutor.soldeIni }}, </span>
-              <span><strong>Solde Tutorat Restant:</strong> {{ tutor.soldeTutoratRestant }}, </span>
-              <span><strong>Total Étudiants Par:</strong> {{ tutor.totalEtudiantsPar }}, </span>
-              <span><strong>Nombre de Tutorats Affectés:</strong> {{ tutor.nbTutoratAffecte }}</span>
+              <span><strong>{{ 'TUTORS.EMAIL' | translate }}:</strong> {{ tutor.email }}, </span>
+              <span><strong>{{ 'COMMON.DEPARTMENT' | translate }}:</strong> {{ tutor.departement }}, </span>
+              <span><strong>{{ 'TUTORS.LANGUE_TUTORAT' | translate }}:</strong> {{ tutor.langueTutorat || ('TUTORS.NOT_ASSIGNED' | translate) }}, </span>
+              <span><strong>{{ 'TUTORS.PROFIL' | translate }}:</strong> {{ tutor.profil }}, </span>
+              <span><strong>{{ 'COMMON.STATUS' | translate }}:</strong> {{ tutor.statut }}, </span>
+              <span><strong>{{ 'TUTORS.SOLDE_ALT' | translate }}:</strong> {{ tutor.soldeAlt }}, </span>
+              <span><strong>{{ 'TUTORS.SOLDE_INI' | translate }}:</strong> {{ tutor.soldeIni }}, </span>
+              <span><strong>{{ 'TUTORS.SOLDE_TUTORAT_RESTANT' | translate }}:</strong> {{ tutor.soldeTutoratRestant }}, </span>
+              <span><strong>{{ 'TUTORS.TOTAL_ETUDIANTS_PAR' | translate }}:</strong> {{ tutor.totalEtudiantsPar }}, </span>
+              <span><strong>{{ 'TUTORS.NB_TUTORAT_AFFECTE' | translate }}:</strong> {{ tutor.nbTutoratAffecte }}</span>
             </div>
           </mat-card-content>
 

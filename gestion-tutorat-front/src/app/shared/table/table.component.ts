@@ -4,11 +4,12 @@ import { MatTableModule } from '@angular/material/table'; // Required for mat-ta
 import { MatButtonModule } from '@angular/material/button'; // Required for buttons
 import { MatInputModule } from '@angular/material/input'; // Required for inputs
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatInputModule, MatIconModule], // Add necessary modules
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatInputModule, MatIconModule, TranslateModule], 
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })

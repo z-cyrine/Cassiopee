@@ -1,15 +1,15 @@
-<h2 mat-dialog-title>Affectation de l'étudiant {{data.name}} {{data.prenom}}</h2>
+<h2 mat-dialog-title>{{ 'AFFECT_MANUELLE.AFFECT_STUDENT' | translate }} {{data.name}} {{data.prenom}}</h2>
 
 <mat-dialog-content>
   <div  style="display: flex; flex-direction: column; align-items: center; text-align: center;">
     
     <form class="example-form">
-      <p>Saisir le nom du tuteur</p>
+      <p>{{ 'AFFECT_MANUELLE.ENTER_TUTOR_LASTNAME' | translate }}</p>
       <mat-form-field class="example-full-width">
-        <mat-label>Nom du tuteur</mat-label>
+        <mat-label>{{ 'TUTORS.LASTNAME' | translate }}</mat-label>
         <input type="text"
-              placeholder="Saisir un nom"
-              aria-label="Nom du tuteur"
+              placeholder="{{ 'AFFECT_MANUELLE.ENTER_LASTNAME' | translate }}"
+              [attr.aria-label]="'TUTORS.LASTNAME' | translate"
               matInput
               [formControl]="myControl"
               [matAutocomplete]="auto">
@@ -20,12 +20,12 @@
           
         </mat-autocomplete>
       </mat-form-field>
-      <p>Saisir le prénom du tuteur</p>
+      <p>{{ 'AFFECT_MANUELLE.ENTER_TUTOR_FIRSTNAME' | translate }}</p>
       <mat-form-field class="example-full-width">
-        <mat-label>Prénom du tuteur</mat-label>
+        <mat-label>{{ 'TUTORS.FIRSTNAME' | translate }}</mat-label>
         <input type="text"
-              placeholder="Saisir un prénom"
-              aria-label="Prénom du tuteur"
+              placeholder="{{ 'AFFECT_MANUELLE.ENTER_FIRSTNAME' | translate }}"
+              [attr.aria-label]="'TUTORS.FIRSTNAME' | translate"
               matInput
               [formControl]="prenomControl"
               [matAutocomplete]="prenomAuto">
@@ -41,7 +41,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Annuler</button>
-  <button mat-button (click)="affecter()">Affecter</button>
-  <button mat-button (click)="resetChamps()">Réinitialiser</button>
+  <button mat-button (click)="onNoClick()">{{ 'COMMON.CANCEL' | translate }}</button>
+  <button mat-button (click)="affecter()">{{ 'AFFECT_MANUELLE.AFFECT' | translate }}</button>
+  <button mat-button (click)="resetChamps()">{{ 'COMMON.RESET' | translate }}</button>
 </mat-dialog-actions>

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ReportingService } from '../services/reporting/reporting.service';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reporting',
@@ -16,7 +17,8 @@ import * as FileSaver from 'file-saver';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   providers: [ReportingService]
 })

@@ -1,58 +1,67 @@
 <div class="container mt-5">
     <div class="card shadow-lg">
       <div class="card-header bg-primary text-white text-center">
-        <h4 class="card-title mb-0">Importer des Fichiers</h4>
+        <h4 class="card-title mb-0">{{ 'IMPORT.TITLE' | translate }}</h4>
       </div>
       <div class="card-body">
         <form (submit)="onSubmit($event)" class="needs-validation" novalidate>
           <!-- Section pour PAR TUTORAT -->
           <div class="mb-4">
-            <label for="file1" class="form-label fw-bold">Fichier PAR TUTORAT :</label>
+            <label for="file1" class="form-label fw-bold">{{ 'IMPORT.PAR_TUTORAT_FILE' | translate }} :</label>
             <input
               type="file"
               id="file1"
               class="form-control"
               (change)="onFileSelected($event, 'parTutorat')"
             />
-            <small *ngIf="parTutoratFile" class="text-muted mt-1 d-block">
-              <i class="bi bi-file-earmark-text"></i> Fichier sélectionné : 
+            <small *ngIf="parTutoratFile; else noParTutoratFile" class="text-muted mt-1 d-block">
+              <i class="bi bi-file-earmark-text"></i> {{ 'IMPORT.SELECTED_FILE' | translate }} :
               <strong>{{ parTutoratFile.name }}</strong>
             </small>
+            <ng-template #noParTutoratFile>
+              <span>{{ 'IMPORT.NO_FILE_CHOSEN' | translate }}</span>
+            </ng-template>
           </div>
   
           <!-- Section pour TUTORATS -->
           <div class="mb-4">
-            <label for="file2" class="form-label fw-bold">Fichier TUTORATS :</label>
+            <label for="file2" class="form-label fw-bold">{{ 'IMPORT.TUTORATS_FILE_LABEL' | translate }} :</label>
             <input
               type="file"
               id="file2"
               class="form-control"
               (change)="onFileSelected($event, 'tutorats')"
             />
-            <small *ngIf="tutoratsFile" class="text-muted mt-1 d-block">
-              <i class="bi bi-file-earmark-text"></i> Fichier sélectionné : 
+            <small *ngIf="tutoratsFile; else noTutoratsFile" class="text-muted mt-1 d-block">
+              <i class="bi bi-file-earmark-text"></i> {{ 'IMPORT.SELECTED_FILE' | translate }} :
               <strong>{{ tutoratsFile.name }}</strong>
             </small>
+            <ng-template #noTutoratsFile>
+              <span>{{ 'IMPORT.NO_FILE_CHOSEN' | translate }}</span>
+            </ng-template>
           </div>
 
           <!-- Section pour MAJEURES -->
         <div class="mb-4">
-          <label for="file3" class="form-label fw-bold">Fichier DES MAJEURES :</label>
+          <label for="file3" class="form-label fw-bold">{{ 'IMPORT.MAJORS_FILE_LABEL' | translate }} :</label>
           <input
             type="file"
             id="file3"
             class="form-control"
             (change)="onFileSelected($event, 'majors')"
           />
-          <small *ngIf="majorsFile" class="text-muted mt-1 d-block">
-            <i class="bi bi-file-earmark-text"></i> Fichier sélectionné :
+          <small *ngIf="majorsFile; else noMajorsFile" class="text-muted mt-1 d-block">
+            <i class="bi bi-file-earmark-text"></i> {{ 'IMPORT.SELECTED_FILE' | translate }} :
             <strong>{{ majorsFile.name }}</strong>
           </small>
+          <ng-template #noMajorsFile>
+            <span>{{ 'IMPORT.NO_FILE_CHOSEN' | translate }}</span>
+          </ng-template>
         </div>
   
           <!-- Bouton d'import -->
           <button type="submit" class="btn btn-success w-100 py-2">
-            <i class="bi bi-upload"></i> Importer les Fichiers
+            <i class="bi bi-upload"></i> {{ 'IMPORT.IMPORT_BUTTON' | translate }}
           </button>
         </form>
       </div>
@@ -61,13 +70,13 @@
       <div class="danger-zone my-4 p-3">
         <h5 class="danger-title mb-3">
           <i class="bi bi-exclamation-triangle-fill"></i>
-          Zone d'administration avancée
+          {{ 'IMPORT.ADMIN_ZONE' | translate }}
         </h5>
         <p class="danger-text mb-3">
-          <strong>Attention :</strong> Cette action supprimera <u>toutes</u> les données de la base. Elle est irréversible.
+          <strong>{{ 'IMPORT.ADMIN_WARNING' | translate }}</strong>
         </p>
         <button type="button" class="btn btn-danger w-100 py-2" (click)="openResetConfirmation()">
-          <i class="bi bi-trash"></i> Réinitialiser la base de données
+          <i class="bi bi-trash"></i> {{ 'IMPORT.RESET_BUTTON' | translate }}
         </button>
         <!-- Message d'alerte pour la réinitialisation -->
         <div *ngIf="resetMessage" class="alert alert-danger text-center mt-3" role="alert">

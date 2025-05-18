@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-affiche-etudiants',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule, CommonModule, MatIconModule, RouterLink],
+  imports: [CommonModule, FormsModule, MatTableModule, CommonModule, MatIconModule, RouterLink, TranslateModule],
   templateUrl: './affiche-etudiants.component.html',
   styleUrls: ['./affiche-etudiants.component.css'],
 })

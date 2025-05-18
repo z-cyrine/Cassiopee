@@ -1,25 +1,25 @@
 <div class="actions-container">
-  <div class="actions-text">Recherche de tuteur</div>
+  <div class="actions-text">{{ 'TUTORS.SEARCH_TITLE' | translate }}</div>
   <div class="actions-controls">
     <input
       type="text"
-      placeholder="Nom"
+      placeholder="{{ 'COMMON.LASTNAME' | translate }}"
       [(ngModel)]="searchNom"
       class="form-control"
       style="width: 140px; padding: 5px 8px; font-size: 14px;"
     />
     <input
       type="text"
-      placeholder="Prénom"
+      placeholder="{{ 'COMMON.FIRSTNAME' | translate }}"
       [(ngModel)]="searchPrenom"
       class="form-control"
       style="width: 140px; padding: 5px 8px; font-size: 14px;"
     />
     <button (click)="onSearch()" class="btn btn-primary" style="background: #00abc7; border: none;">
-      Rechercher
+      {{ 'COMMON.SEARCH' | translate }}
     </button>
     <button (click)="onClearSearch()" class="btn btn-secondary" style="background: #9b59b6; border: none;">
-      Réinitialiser
+      {{ 'COMMON.RESET' | translate }}
     </button>
   </div>
 </div>
@@ -36,7 +36,7 @@
 
   <ng-template #noResultMsg>
     <div class="text-center mt-4 text-muted">
-      Aucun tuteur trouvé.
+      {{ 'TUTORS.NO_TUTOR_FOUND' | translate }}
     </div>
   </ng-template>
 </div>
@@ -47,90 +47,90 @@
   <div class="table-scroll-wrapper">
     <table mat-table [dataSource]="pagedTuteurs" class="mat-elevation-z8">
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef class="stickyID">Id</th>
+        <th mat-header-cell *matHeaderCellDef class="stickyID">{{ 'TUTORS.ID' | translate }}</th>
         <td mat-cell *matCellDef="let element" class="stickyID">
           <ng-container *ngIf="element.id != null; else notId">
             {{ element.id }}
           </ng-container>
-          <ng-template #notId><span class="text-muted">Non assigné</span></ng-template>
+          <ng-template #notId><span class="text-muted">{{ 'TUTORS.NOT_ASSIGNED' | translate }}</span></ng-template>
         </td>
       </ng-container>
       
       <ng-container matColumnDef="nom">
-        <th mat-header-cell *matHeaderCellDef>Nom</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.LASTNAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.nom; else notNom">
             <a [routerLink]="['/tuteurs', element.id]">{{ element.nom }}</a>
           </ng-container>
-          <ng-template #notNom><span class="text-muted">Non spécifié</span></ng-template>
+          <ng-template #notNom><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
       
       <ng-container matColumnDef="prenom">
-        <th mat-header-cell *matHeaderCellDef>Prénom</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.FIRSTNAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.prenom; else notPrenom">
             <a [routerLink]="['/tuteurs', element.id]">{{ element.prenom }}</a>
           </ng-container>
-          <ng-template #notPrenom><span class="text-muted">Non spécifié</span></ng-template>
+          <ng-template #notPrenom><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
       
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.EMAIL' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.email; else notEmail">
             {{ element.email }}
           </ng-container>
-          <ng-template #notEmail><span class="text-muted">Non spécifié</span></ng-template>
+          <ng-template #notEmail><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="departement">
-        <th mat-header-cell *matHeaderCellDef>Département</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.DEPARTMENT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.departement; else notDepartement">
             {{ element.departement }}
           </ng-container>
-          <ng-template #notDepartement><span class="text-muted">Non spécifié</span></ng-template>
+          <ng-template #notDepartement><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="langueTutorat">
-        <th mat-header-cell *matHeaderCellDef>Langue de tutorat</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.LANGUE_TUTORAT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.langueTutorat && element.langueTutorat.length > 0; else notLangue">
             {{ element.langueTutorat.join(', ') }}
           </ng-container>
-          <ng-template #notLangue><span class="text-muted">Non spécifié</span></ng-template>
+          <ng-template #notLangue><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="profil">
-        <th mat-header-cell *matHeaderCellDef>Profil</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.PROFIL' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.profil; else notProfil">
             {{ element.profil }}
           </ng-container>
-          <ng-template #notProfil><span class="text-muted">Non spécifié</span></ng-template>
+          <ng-template #notProfil><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="statut">
-        <th mat-header-cell *matHeaderCellDef>Statut</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.STATUS' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.statut; else notStatut">
             {{ element.statut }}
           </ng-container>
-          <ng-template #notStatut><span class="text-muted">Non spécifié</span></ng-template>
+          <ng-template #notStatut><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="estEligiblePourTutorat">
-        <th mat-header-cell *matHeaderCellDef>Éligible Tutorat</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.ELIGIBLE_TUTORAT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.estEligiblePourTutorat !== undefined">
-            {{ element.estEligiblePourTutorat ? 'Oui' : 'Non' }}
+            {{ element.estEligiblePourTutorat ? ('STUDENTS.YES' | translate) : ('STUDENTS.NO' | translate) }}
           </ng-container>
           <ng-container *ngIf="element.estEligiblePourTutorat === undefined">
             <span class="text-muted">Non spécifié</span>
@@ -139,7 +139,7 @@
       </ng-container>
 
       <ng-container matColumnDef="colonne2">
-        <th mat-header-cell *matHeaderCellDef>Colonne 2</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.COLONNE2' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.colonne2; else notCol2">
             {{ element.colonne2 }}
@@ -149,7 +149,7 @@
       </ng-container>
 
       <ng-container matColumnDef="infoStatut">
-        <th mat-header-cell *matHeaderCellDef>Info Statut</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.INFO_STATUT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.infoStatut; else notInfoStatut">
             {{ element.infoStatut }}
@@ -159,7 +159,7 @@
       </ng-container>
 
       <ng-container matColumnDef="parTutoratAlt">
-        <th mat-header-cell *matHeaderCellDef>Par Tutorat Alt</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.PAR_TUTORAT_ALT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.parTutoratAlt !== undefined">
             {{ element.parTutoratAlt }}
@@ -170,7 +170,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="tutoratAltAff">
-        <th mat-header-cell *matHeaderCellDef>Tutorat Alt Aff</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.TUTORAT_ALT_AFF' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.tutoratAltAff !== undefined">
             {{ element.tutoratAltAff }}
@@ -181,7 +181,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="soldeAlt">
-        <th mat-header-cell *matHeaderCellDef>Solde Alt</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.SOLDE_ALT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.soldeAlt !== undefined">
             {{ element.soldeAlt }}
@@ -192,7 +192,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="parTutoratIni">
-        <th mat-header-cell *matHeaderCellDef>Par Tutorat Ini</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.PAR_TUTORAT_INI' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.parTutoratIni !== undefined">
             {{ element.parTutoratIni }}
@@ -203,7 +203,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="tutoratIniAff">
-        <th mat-header-cell *matHeaderCellDef>Tutorat Ini Aff</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.TUTORAT_INI_AFF' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.tutoratIniAff !== undefined">
             {{ element.tutoratIniAff }}
@@ -214,7 +214,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="soldeIni">
-        <th mat-header-cell *matHeaderCellDef>Solde Ini</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.SOLDE_INI' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.soldeIni !== undefined">
             {{ element.soldeIni }}
@@ -225,7 +225,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="totalEtudiantsPar">
-        <th mat-header-cell *matHeaderCellDef>Total Étudiants Par</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.TOTAL_ETUDIANTS_PAR' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.totalEtudiantsPar !== undefined">
             {{ element.totalEtudiantsPar }}
@@ -236,7 +236,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="nbTutoratAffecte">
-        <th mat-header-cell *matHeaderCellDef>Nb Tutorat Affecté</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.NB_TUTORAT_AFFECTE' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.nbTutoratAffecte !== undefined">
             {{ element.nbTutoratAffecte }}
@@ -247,37 +247,37 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="soldeTutoratRestant">
-        <th mat-header-cell *matHeaderCellDef>Solde Tutorat Restant</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.SOLDE_TUTORAT_RESTANT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.soldeTutoratRestant !== undefined">
             {{ element.soldeTutoratRestant }}
           </ng-container>
           <ng-container *ngIf="element.soldeTutoratRestant === undefined">
-            <span class="text-muted">Non spécifié</span>
+            <span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span>
           </ng-container>
         </td>
       </ng-container>
       <ng-container matColumnDef="matieres">
-        <th mat-header-cell *matHeaderCellDef>Matières</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.MATIERES' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.matieres && element.matieres.length > 0; else notMatieres">
             {{ element.matieres.join(', ') }}
           </ng-container>
-          <ng-template #notMatieres><span class="text-muted">Non spécifiées</span></ng-template>
+          <ng-template #notMatieres><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED_F' | translate }}</span></ng-template>
         </td>
       </ng-container>
       <ng-container matColumnDef="domainesExpertise">
-        <th mat-header-cell *matHeaderCellDef>Domaines Expertise</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.DOMAINE_EXPERTISE' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.domainesExpertise && element.domainesExpertise.length > 0; else notDomaines">
             {{ element.domainesExpertise.join(', ') }}
           </ng-container>
-          <ng-template #notDomaines><span class="text-muted">Non spécifiés</span></ng-template>
+          <ng-template #notDomaines><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="actions" *ngIf="showEdit || showDelete">
-        <th mat-header-cell *matHeaderCellDef class="sticky">Actions</th>
+        <th mat-header-cell *matHeaderCellDef class="sticky">{{ 'TUTORS.ACTIONS' | translate }}</th>
         <td mat-cell *matCellDef="let element" class="sticky">
           <button type="button" [routerLink]="['/tuteurs/edit', element.id]" class="icon-btn edit" *ngIf="showEdit" title="Éditer">
             <mat-icon>edit</mat-icon>

@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-affiche-tuteurs',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink],
+  imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink, TranslateModule],
   templateUrl: './affiche-tuteurs.component.html',
   styleUrls: ['./affiche-tuteurs.component.css'],
 })

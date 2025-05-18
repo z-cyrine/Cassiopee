@@ -1,5 +1,5 @@
 <div class="filter-wrapper">
-  <button class="menu-button" (click)="togglePanel($event)">Filtrer les tuteurs</button>
+  <button class="menu-button" (click)="togglePanel($event)">{{ 'AFFECT_MANUELLE.FILTER_TUTORS' | translate }}</button>
 
   <div class="floating-panel" *ngIf="panelVisible" (click)="$event.stopPropagation()">
     <form (ngSubmit)="applyFilters()">
@@ -10,12 +10,12 @@
           <label class="checkbox-container">
             <input type="checkbox" [(ngModel)]="showNom" name="showNom">
             <span class="checkmark"></span>
-            Nom et prénom
+            {{ 'COMMON.LASTNAME' | translate }} & {{ 'COMMON.FIRSTNAME' | translate }}
           </label>
           <div *ngIf="showNom">
-            <label>Nom :</label>
+            <label>{{ 'COMMON.LASTNAME' | translate }} :</label>
             <input class="form-control" [(ngModel)]="nomFilter" name="nom" type="text">
-            <label>Prénom :</label>
+            <label>{{ 'COMMON.FIRSTNAME' | translate }} :</label>
             <input class="form-control" [(ngModel)]="prenomFilter" name="prenom" type="text">
           </div>
         </div>
@@ -25,13 +25,13 @@
           <label class="checkbox-container">
             <input type="checkbox" [(ngModel)]="showProfil" name="showProfil">
             <span class="checkmark"></span>
-            Profil
+            {{ 'TUTORS.PROFIL' | translate }}
           </label>
           <div *ngIf="showProfil">
             <select class="form-select" [(ngModel)]="selectedProfil" name="profil">
-              <option value="Tous">Tous</option>
+              <option value="Tous">{{ 'COMMON.ALL' | translate }}</option>
               <option *ngFor="let profil of profils" [value]="profil">
-                {{ profil === '' ? 'Non spécifié' : profil }}
+                {{ profil === '' ? ('COMMON.NOT_SPECIFIED' | translate) : profil }}
               </option>
             </select>
           </div>
@@ -42,11 +42,11 @@
           <label class="checkbox-container">
             <input type="checkbox" [(ngModel)]="showDepartement" name="showDepartement">
             <span class="checkmark"></span>
-            Département
+            {{ 'COMMON.DEPARTMENT' | translate }}
           </label>
           <div *ngIf="showDepartement">
             <select class="form-select" [(ngModel)]="selectedDepartement" name="departement">
-              <option value="Tous">Tous</option>
+              <option value="Tous">{{ 'COMMON.ALL' | translate }}</option>
               <option *ngFor="let dep of departements" [value]="dep">{{ dep }}</option>
             </select>
           </div>
@@ -57,7 +57,7 @@
           <label class="checkbox-container">
             <input type="checkbox" [(ngModel)]="showSoldeRestant" name="showSoldeRestant">
             <span class="checkmark"></span>
-            Solde tutorat restant ≥
+            {{ 'TUTORS.SOLDE_TUTORAT_RESTANT' | translate }} ≥
           </label>
           <div *ngIf="showSoldeRestant">
             <input class="form-control" [(ngModel)]="minSoldeRestant" name="soldeRestant" type="number" min="0">
@@ -69,7 +69,7 @@
           <label class="checkbox-container">
             <input type="checkbox" [(ngModel)]="showNbAffectes" name="showNbAffectes">
             <span class="checkmark"></span>
-            Nb tutorats affectés ≥
+            {{ 'TUTORS.NB_TUTORAT_AFFECTE' | translate }} ≥
           </label>
           <div *ngIf="showNbAffectes">
             <input class="form-control" [(ngModel)]="minNbAffectes" name="nbAffectes" type="number" min="0">
@@ -78,8 +78,8 @@
 
         <!-- Actions -->
         <div class="filter-actions">
-          <button type="submit" class="btn btn-outline-primary btn-sm">Appliquer</button>
-          <button type="button" class="btn btn-outline-dark btn-sm" (click)="reinitialiser()">Réinitialiser</button>
+          <button type="submit" class="btn btn-outline-primary btn-sm">{{ 'COMMON.SEARCH' | translate }}</button>
+          <button type="button" class="btn btn-outline-dark btn-sm" (click)="reinitialiser()">{{ 'COMMON.RESET' | translate }}</button>
         </div>
 
       </div>

@@ -1,82 +1,80 @@
 <div class="container">
   <div class="card create-card">
     <div class="card-header">
-      <h2>Ajouter une Majeure</h2>
+      <h2>{{ 'CREATE.ADD_MAJOR_TITLE' | translate }}</h2>
     </div>
     <div class="card-body">
       <form [formGroup]="majeureForm" (ngSubmit)="onSubmit()">
 
         <!-- Code -->
         <div class="form-group">
-          <label>Code</label>
-          <input type="text" formControlName="code" class="form-control" placeholder="Code de la majeure" />
+          <label>{{ 'CREATE.CODE' | translate }}</label>
+          <input type="text" formControlName="code" class="form-control" placeholder="{{ 'CREATE.CODE' | translate }}" />
         </div>
 
         <!-- Groupe -->
         <div class="form-group">
-          <label>Nom Groupe</label>
-          <input type="text" formControlName="groupe" class="form-control" placeholder="Nom du groupe" />
+          <label>{{ 'CREATE.GROUP_NAME' | translate }}</label>
+          <input type="text" formControlName="groupe" class="form-control" placeholder="{{ 'CREATE.GROUP_NAME' | translate }}" />
         </div>
 
         <!-- Département -->
         <div class="form-group">
-          <label>Département</label>
-          <input type="text" formControlName="dept" class="form-control" placeholder="Département" />
+          <label>{{ 'CREATE.DEPARTMENT' | translate }}</label>
+          <input type="text" formControlName="dept" class="form-control" placeholder="{{ 'CREATE.DEPARTMENT' | translate }}" />
         </div>
 
         <!-- Responsable -->
         <div class="form-group">
-          <label>Responsable</label>
-          <input type="text" formControlName="responsible" class="form-control" placeholder="Responsable" />
+          <label>{{ 'CREATE.RESPONSIBLE' | translate }}</label>
+          <input type="text" formControlName="responsible" class="form-control" placeholder="{{ 'CREATE.RESPONSIBLE' | translate }}" />
         </div>
 
         <!-- Langue -->
         <div class="form-group">
-          <label>Langue</label>
+          <label>{{ 'CREATE.LANGUAGE' | translate }}</label>
           <select formControlName="langue" class="form-select">
-            <option value="">-- Choisir une langue --</option>
-            <option value="FR">Français</option>
-            <option value="EN">Anglais</option>
-            <option value="FR,EN">Français & Anglais</option>
+            <option value="">{{ 'CREATE.CHOOSE_LANGUAGE' | translate }}</option>
+            <option value="FR">{{ 'CREATE.FRENCH' | translate }}</option>
+            <option value="EN">{{ 'CREATE.ENGLISH' | translate }}</option>
+            <option value="FR,EN">{{ 'CREATE.FRENCH_ENGLISH' | translate }}</option>
           </select>
         </div>
 
         <!-- INI / ALT (dropdown) -->
         <div class="form-group">
-          <label>INI / ALT</label>
+          <label>{{ 'CREATE.INI_ALT' | translate }}</label>
           <select
             formControlName="iniAlt"
             class="form-select"
             [ngClass]="{ 'is-invalid': submitted && majeureForm.get('iniAlt')?.invalid }">
-            <option value="">-- Choisir --</option>
+            <option value="">{{ 'CREATE.CHOOSE' | translate }}</option>
             <option value="INI">INI</option>
             <option value="ALT">ALT</option>
           </select>
-          <div *ngIf="submitted && majeureForm.get('iniAlt')?.invalid" class="invalid-feedback">
-            Veuillez choisir une valeur.
-          </div>
+          <div *ngIf="submitted && majeureForm.get('iniAlt')?.invalid" class="invalid-feedback">{{ 'CREATE.VALUE_REQUIRED' | translate }}</div>
         </div>
 
         <!-- Programme -->
         <div class="form-group">
-          <label>Programme</label>
-          <input type="text" formControlName="programme" class="form-control" placeholder="Programme" />
+          <label>{{ 'CREATE.PROGRAM' | translate }}</label>
+          <input type="text" formControlName="programme" class="form-control" placeholder="{{ 'CREATE.PROGRAM' | translate }}" />
         </div>
 
         <!-- Submit Button -->
         <div class="text-center">
-          <button type="submit" class="btn btn-submit">Créer la Majeure</button>
+          <button type="submit" class="btn btn-submit">{{ 'CREATE.SUBMIT_MAJOR' | translate }}</button>
         </div>
       </form>
 
       <!-- Success Alert -->
       <div *ngIf="successMessage" class="alert alert-success success-alert mt-3 text-center">
-        {{ successMessage }}
+        {{ 'CREATE.SUCCESS_MAJOR' | translate }}
       </div>
 
       <!-- Error Alert -->
       <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
-        {{ errorMessage }}
+        {{ 'CREATE.ERROR' | translate }}
       </div>
     </div>
   </div>

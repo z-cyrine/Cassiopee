@@ -19,58 +19,59 @@
       <ul class="navbar-nav ms-auto">
         <!-- Connexion -->
         <li class="nav-item">
-          <a routerLink="/authentification" routerLinkActive="active" class="nav-link">Connexion</a>
+          <a routerLink="/authentification" routerLinkActive="active" class="nav-link">{{ 'NAV.CONNEXION' | translate }}</a>
         </li>
 
         <!-- Création de compte -->
         <li class="nav-item">
-          <a routerLink="/inscription" routerLinkActive="active" class="nav-link">Inscription</a>
+          <a routerLink="/inscription" routerLinkActive="active" class="nav-link">{{ 'NAV.INSCRIPTION' | translate }}</a>
         </li>
 
         <!-- Importation -->
         <li class="nav-item">
-          <a routerLink="/import" routerLinkActive="active" class="nav-link">Importer Fichiers</a>
+          <a routerLink="/import" routerLinkActive="active" class="nav-link">{{ 'NAV.IMPORT' | translate }}</a>
         </li>
 
         <!-- Listes Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="listesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Listes
+            {{ 'NAV.LISTES' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="listesDropdown">
-            <li><a class="dropdown-item" routerLink="/etudiants/all">Liste Étudiants</a></li>
-            <li><a class="dropdown-item" routerLink="/tuteurs/all">Liste Tuteurs</a></li>
-            <li><a class="dropdown-item" routerLink="/majeures/all">Liste Majeures</a></li>
+            <li><a class="dropdown-item" routerLink="/etudiants/all">{{ 'NAV.LISTE_ETUDIANTS' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/tuteurs/all">{{ 'NAV.LISTE_TUTEURS' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/majeures/all">{{ 'NAV.LISTE_MAJEURES' | translate }}</a></li>
           </ul>
         </li>
 
         <!-- Auto-Affectation -->
         <li class="nav-item">
-          <a routerLink="/auto-affectation" routerLinkActive="active" class="nav-link">Auto-Affectation</a>
+          <a routerLink="/auto-affectation" routerLinkActive="active" class="nav-link">{{ 'NAV.AUTO_AFFECT' | translate }}</a>
         </li>
 
         <!-- Affectation Manuelle -->
         <li class="nav-item">
-          <a routerLink="/affectation-manuelle" routerLinkActive="active" class="nav-link">Affectation-Manuelle</a>
+          <a routerLink="/affectation-manuelle" routerLinkActive="active" class="nav-link">{{ 'NAV.AFFECT_MANUELLE' | translate }}</a>
         </li>
 
         <!-- Reporting -->
         <li class="nav-item">
-          <a routerLink="/reporting" routerLinkActive="active" class="nav-link">Reporting</a>
+          <a routerLink="/reporting" routerLinkActive="active" class="nav-link">{{ 'NAV.REPORTING' | translate }}</a>
         </li>
 
         <!-- Ajouter Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="ajouterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Ajouter
+            {{ 'NAV.AJOUTER' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ajouterDropdown">
-            <li><a class="dropdown-item" routerLink="/etudiant-create">Ajouter Étudiant</a></li>
-            <li><a class="dropdown-item" routerLink="/tuteur-create">Ajouter Tuteur</a></li>
-            <li><a class="dropdown-item" routerLink="/majeure-create">Ajouter Majeure</a></li>
+            <li><a class="dropdown-item" routerLink="/etudiant-create">{{ 'NAV.AJOUTER_ETUDIANT' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/tuteur-create">{{ 'NAV.AJOUTER_TUTEUR' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/majeure-create">{{ 'NAV.AJOUTER_MAJEURE' | translate }}</a></li>
           </ul>
         </li>
       </ul>
+      <app-language-selector class="ms-3"></app-language-selector>
     </div>
   </div>
 </nav>

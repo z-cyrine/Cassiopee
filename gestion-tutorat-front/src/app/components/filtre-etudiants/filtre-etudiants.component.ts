@@ -11,11 +11,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-filtre-etudiants',
-  imports: [MatButtonToggleModule, MatExpansionModule, CommonModule, FormsModule, MatMenuModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule],
+  imports: [MatButtonToggleModule, MatExpansionModule, CommonModule, FormsModule, MatMenuModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule, TranslateModule],
   templateUrl: './filtre-etudiants.component.html',
   styleUrl: './filtre-etudiants.component.css'
 })

@@ -2,11 +2,12 @@ import { Component, inject, Input, model, signal, EventEmitter, Output } from '@
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Tuteur } from '../../../services/tuteur/tuteur.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-affecter',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './affecter.component.html',
   styleUrl: './affecter.component.css'
 })

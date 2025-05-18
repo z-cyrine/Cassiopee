@@ -18,11 +18,13 @@ import { environment } from '../../../environments/environment';
 import { MatIconModule } from '@angular/material/icon';
 import { ReportingService } from '../../services/reporting/reporting.service';
 import { FiltreTuteurComponent } from '../../filtre-tuteur/filtre-tuteur.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-affectation-manuelle',
-  imports: [MatIconModule, MatTableModule, CommonModule, MatCardModule, FormsModule, MatExpansionModule, MatButtonToggleModule, FiltreEtudiantsComponent, AffecterComponent, RouterModule, FiltreTuteurComponent],
+  imports: [MatIconModule, MatTableModule, CommonModule, MatCardModule, FormsModule, MatExpansionModule, MatButtonToggleModule, FiltreEtudiantsComponent, AffecterComponent, RouterModule, FiltreTuteurComponent, TranslateModule
+  ],
   templateUrl: './affectation-manuelle.component.html',
   styleUrls: ['./affectation-manuelle.component.css']
 })

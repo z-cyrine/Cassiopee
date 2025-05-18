@@ -11,13 +11,14 @@ import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MajorsService, Majeure } from '../../services/majors/majors.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-majeure-create',
   templateUrl: './majeure-create.component.html',
   styleUrls: ['./majeure-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule, TranslateModule],
 })
 export class MajeureCreateComponent implements OnInit, OnDestroy {
   majeureForm!: FormGroup;

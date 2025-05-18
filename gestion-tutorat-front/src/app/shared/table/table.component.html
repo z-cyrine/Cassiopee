@@ -4,7 +4,7 @@
 
         <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
           <th mat-header-cell *matHeaderCellDef [ngClass]="{'logs-col': column.columnDef === 'logs'}">
-            {{ column.header }}
+            {{ column.header | translate }}
             <ng-container *ngIf="column.columnDef === 'logs'">
               <button (click)="toggleLogsCol()" class="logs-eye-btn" title="Afficher/Masquer les logs">
                 <mat-icon>{{ showLogsCol ? 'visibility_off' : 'visibility' }}</mat-icon>

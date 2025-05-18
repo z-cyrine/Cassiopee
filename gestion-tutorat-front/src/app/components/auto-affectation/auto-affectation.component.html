@@ -2,40 +2,40 @@
 <div class="container">
   <div class="equivalence-card">
     <span class="equivalence-icon"><i class="bi bi-arrow-left-right"></i></span>
-    <label for="equivalence" class="equivalence-label">Équivalence :</label>
+    <label for="equivalence" class="equivalence-label">{{ 'AUTO_AFFECT.EQUIVALENCE' | translate }}</label>
     <input type="number" id="equivalence" [(ngModel)]="equivalence" min="1" class="equivalence-input" />
-    <span class="equivalence-help">Nombre de INI équivalents à 1 ALT (ex: 2 signifie 2 INI = 1 ALT)</span>
+    <span class="equivalence-help">{{ 'AUTO_AFFECT.EQUIVALENCE_HELP' | translate }}</span>
   </div>
 
   <div class="result-title d-flex align-items-center justify-content-between">
-    <span>Résultat de l'affectation automatique</span>
-    <span *ngIf="lastUpdated" style="font-size:1rem;font-weight:500;">Dernier calcul : {{ formatDate(lastUpdated) }}</span>
+    <span>{{ 'AUTO_AFFECT.RESULT_TITLE' | translate }}</span>
+    <span *ngIf="lastUpdated" style="font-size:1rem;font-weight:500;">{{ 'AUTO_AFFECT.LAST_CALC' | translate }} {{ formatDate(lastUpdated) }}</span>
   </div>
 
   <div class="d-flex align-items-center mb-3 justify-content-center">
     <button class="btn btn-outline-danger btn-sm me-2" (click)="resetAffectation()">
-      <i class="bi bi-x-circle"></i> Réinitialiser
+      <i class="bi bi-x-circle"></i> {{ 'AUTO_AFFECT.RESET' | translate }}
     </button>
     <button class="btn btn-primary btn-sm" (click)="loadAffectation()">
-      <i class="bi bi-arrow-repeat"></i> Re/lancer l'affectation
+      <i class="bi bi-arrow-repeat"></i> {{ 'AUTO_AFFECT.RELAUNCH' | translate }}
     </button>
   </div>
 
-  <div *ngIf="loading">Chargement...</div>
+  <div *ngIf="loading">{{ 'AUTO_AFFECT.LOADING' | translate }}</div>
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
   <!-- Affichage du résumé sous forme de cartes -->
   <div *ngIf="result" class="summary-cards">
     <div class="summary-card">
-      <span>Total étudiants traités</span><br>
+      <span>{{ 'AUTO_AFFECT.TOTAL_STUDENTS' | translate }}</span><br>
       <span class="summary-value" style="color:#7b5fc9;">{{ result.total }}</span>
     </div>
     <div class="summary-card">
-      <span>Étudiants affectés automatiquement</span><br>
+      <span>{{ 'AUTO_AFFECT.ASSIGNED_AUTO' | translate }}</span><br>
       <span class="summary-value" style="color:#27ae60;">{{ result.assigned }}</span>
     </div>
     <div class="summary-card">
-      <span>Étudiants à traiter manuellement</span><br>
+      <span>{{ 'AUTO_AFFECT.TO_ASSIGN_MANUALLY' | translate }}</span><br>
       <span class="summary-value" style="color:#e67e22;">{{ result.total - result.assigned }}</span>
     </div>
   </div>

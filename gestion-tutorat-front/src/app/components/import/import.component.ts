@@ -5,13 +5,14 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-import',
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.css'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
 })
 export class ImportComponent implements OnDestroy {
   parTutoratFile: File | null = null;
@@ -23,7 +24,7 @@ export class ImportComponent implements OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(private http: HttpClient, private dialog: MatDialog, private translate: TranslateService) {}
 
   onFileSelected(event: Event, fileType: string): void {
     const input = event.target as HTMLInputElement;
@@ -42,7 +43,7 @@ export class ImportComponent implements OnDestroy {
     event.preventDefault();
   
     if (!this.parTutoratFile && !this.tutoratsFile && !this.majorsFile) {
-      this.importMessage = 'Veuillez sélectionner au moins un fichier.';
+      this.importMessage = this.translate.instant('IMPORT.ALERT_SELECT_FILE');
       return;
     }
   
@@ -55,12 +56,12 @@ export class ImportComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.importMessage = res && res.message ? res.message : 'Fichier(s) importé(s) avec succès !';
+          this.importMessage = res && res.message ? res.message : this.translate.instant('IMPORT.ALERT_IMPORT_SUCCESS');
           this.resetForm();
         },
         error: (err) => {
           console.error('Erreur lors de l\'importation des fichiers :', err);
-          this.importMessage = 'Une erreur est survenue lors de l\'importation.';
+          this.importMessage = this.translate.instant('IMPORT.ALERT_IMPORT_ERROR');
         },
       });
   }
@@ -90,7 +91,7 @@ export class ImportComponent implements OnDestroy {
                 : (res && res.message ? res.message : JSON.stringify(res));
             },
             error: (err) => {
-              this.resetMessage = err.error?.message || 'Erreur lors de la réinitialisation de la base de données.';
+              this.resetMessage = err.error?.message || this.translate.instant('IMPORT.ALERT_RESET_ERROR');
             }
           });
       }

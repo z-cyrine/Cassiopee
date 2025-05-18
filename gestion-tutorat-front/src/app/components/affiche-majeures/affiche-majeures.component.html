@@ -1,26 +1,26 @@
 <!-- affiche-majeures.component.html -->
-<h2 class="majeures-title">Liste des majeures</h2>
+<h2 class="majeures-title">{{ 'MAJORS.LIST_TITLE' | translate }}</h2>
 
 <!-- 🔍 Search Bar -->
 <div class="actions-container">
-  <div class="actions-text">Recherche de majeure</div>
+  <div class="actions-text">{{ 'MAJORS.SEARCH_TITLE' | translate }}</div>
   <div class="actions-controls search-majeures">
     <input
       type="text"
-      placeholder="Groupe"
+      placeholder="{{ 'MAJORS.GROUP' | translate }}"
       [(ngModel)]="searchGroupe"
       (ngModelChange)="searchGroupe = searchGroupe.trim()"
       class="search-input"
     />
     <input
       type="text"
-      placeholder="Code classe"
+      placeholder="{{ 'MAJORS.CLASS_CODE' | translate }}"
       [(ngModel)]="searchCode"
       (ngModelChange)="searchCode = searchCode.trim()"
       class="search-input"
     />
-    <button (click)="onSearch()" class="search-btn primary">Rechercher</button>
-    <button (click)="onClearSearch()" class="search-btn secondary">Réinitialiser</button>
+    <button (click)="onSearch()" class="search-btn primary">{{ 'COMMON.SEARCH' | translate }}</button>
+    <button (click)="onClearSearch()" class="search-btn secondary">{{ 'COMMON.RESET' | translate }}</button>
   </div>
 </div>
 
@@ -43,7 +43,7 @@
       </div>
       <div class="majors-card-body">
         <div *ngFor="let prop of propertyLabels" class="majors-property">
-          <strong>{{ prop.label }}:</strong> {{ maj[prop.key] || '—' }}
+          <strong>{{ prop.label | translate }}:</strong> {{ maj[prop.key] || '—' }}
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
 
   <ng-template #noResultMsg>
     <div class="text-center mt-4 text-muted">
-      Aucune majeure trouvée.
+      {{ 'MAJORS.NO_MAJOR_FOUND' | translate }}
     </div>
   </ng-template>
 </div>
@@ -74,7 +74,7 @@
     </div>
     <div class="majors-card-body">
       <div *ngFor="let prop of propertyLabels" class="majors-property">
-        <strong>{{ prop.label }}:</strong> {{ maj[prop.key] || '—' }}
+        <strong>{{ prop.label | translate }}:</strong> {{ maj[prop.key] || '—' }}
       </div>
     </div>
   </div>

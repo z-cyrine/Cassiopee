@@ -6,12 +6,13 @@ import { Router , RouterLink} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { MajorsService } from '../../services/majors/majors.service';
-import { FormsModule } from '@angular/forms';               // ✅ Add this
+import { FormsModule } from '@angular/forms';               
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-affiche-majeures',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink], 
+  imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink, TranslateModule], 
   templateUrl: './affiche-majeures.component.html',
   styleUrls: ['./affiche-majeures.component.css'],
 })
@@ -39,13 +40,13 @@ searchResults: any[] = [];
 
 
   propertyLabels = [
-    { key: 'groupe', label: 'majeure/groupe' },
-    { key: 'dept', label: 'departement' },
-    { key: 'responsible', label: 'responsable' },
-    { key: 'langue', label: 'langue enseignée' },
-    { key: 'iniAlt', label: 'INI/ALT' },
-    { key: 'programme', label: 'programme' },
-    { key: 'code', label: 'code classe' }
+    { key: 'groupe', label: 'MAJORS.MAJOR_GROUP' },
+    { key: 'dept', label: 'MAJORS.DEPARTMENT' },
+    { key: 'responsible', label: 'MAJORS.RESPONSIBLE' },
+    { key: 'langue', label: 'MAJORS.LANGUAGE_TAUGHT' },
+    { key: 'iniAlt', label: 'MAJORS.INI_ALT' },
+    { key: 'programme', label: 'MAJORS.PROGRAM' },
+    { key: 'code', label: 'MAJORS.CODE_CLASS' }
   ];
 
   constructor(

@@ -5,13 +5,14 @@ import { Router, RouterModule } from '@angular/router';
 import { EtudiantService, Etudiant } from '../../services/etudiant/etudiant.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-etudiant-create',
   templateUrl: './etudiant-create.component.html',
   styleUrls: ['./etudiant-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
 })
 export class EtudiantCreateComponent implements OnInit, OnDestroy {
   etudiantForm!: FormGroup;

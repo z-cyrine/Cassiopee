@@ -5,13 +5,14 @@ import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-tuteur-create',
   templateUrl: './tuteur-create.component.html',
   styleUrls: ['./tuteur-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
 })
 export class TuteurCreateComponent implements OnInit, OnDestroy {
   tuteurForm!: FormGroup;
