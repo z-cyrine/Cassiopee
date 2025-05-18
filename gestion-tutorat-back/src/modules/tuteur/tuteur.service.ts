@@ -67,44 +67,6 @@ async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
     return result.map(r => r.profil);
   }
 
-<<<<<<< HEAD
-  // Récupération des étudiants par tuteur
-  async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
-    const tuteur = await this.tuteurRepository.findOne({
-      where: { id },
-      relations: ['etudiants'],
-    });
-
-    if (!tuteur) {
-      throw new NotFoundException(`Tuteur avec l'ID=${id} introuvable`);
-    }
-
-    return tuteur.etudiants;
-  }
-
-  // Recherche par nom/prénom
-  async searchByName(nom?: string, prenom?: string): Promise<Tuteur[]> {
-    const query = this.tuteurRepository
-      .createQueryBuilder('tuteur')
-      .leftJoinAndSelect('tuteur.etudiants', 'etudiant');
-
-    if (nom) {
-      query.andWhere('tuteur.nom LIKE :nom', { nom: `%${nom}%` });
-    }
-
-    if (prenom) {
-      query.andWhere('tuteur.prenom LIKE :prenom', { prenom: `%${prenom}%` });
-    }
-
-    const result = await query.getMany();
-
-    if (result.length === 0) {
-      throw new NotFoundException('Aucun tuteur ne correspond à la recherche.');
-    }
-
-    return result;
-  }
-=======
   // tuteur.service.ts
 async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
   const tuteur = await this.tuteurRepository.findOne({
@@ -143,5 +105,4 @@ async searchByName(nom?: string, prenom?: string): Promise<Tuteur[]> {
 }
 
 
->>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
 }

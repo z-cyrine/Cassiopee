@@ -12,11 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-etudiant-create',
   templateUrl: './etudiant-create.component.html',
   styleUrls: ['./etudiant-create.component.css'],
-<<<<<<< HEAD
   imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
-=======
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
->>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
 })
 export class EtudiantCreateComponent implements OnInit, OnDestroy {
   etudiantForm!: FormGroup;

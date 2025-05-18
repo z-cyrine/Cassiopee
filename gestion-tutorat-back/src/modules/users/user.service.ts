@@ -47,10 +47,6 @@ export class UserService {
     return this.repo.save(user);
   }
 
-<<<<<<< HEAD
-
-
-=======
 async findAll(): Promise<User[]> {
   return this.repo.find();
 }
@@ -76,5 +72,4 @@ async searchByEmail(email: string): Promise<User[]> {
     where: { email: ILike(`%${email}%`) }, // Case-insensitive LIKE
   });
 }
->>>>>>> e1284a246fe886b4f5191b44523b1ef192d80ea5
 }
