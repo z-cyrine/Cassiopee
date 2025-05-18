@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User, UserRole } from './user.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { createUserDto } from './dto/createUser.dto';
 
@@ -47,6 +47,29 @@ export class UserService {
     return this.repo.save(user);
   }
 
+async findAll(): Promise<User[]> {
+  return this.repo.find();
+}
 
+async findById(id: number): Promise<User> {
+  const user = await this.repo.findOneBy({ id });
+  if (!user) throw new Error('Utilisateur non trouvé');
+  return user;
+}
 
+async updateUser(id: number, updates: Partial<User>): Promise<User> {
+  const user = await this.findById(id);
+  Object.assign(user, updates);
+  return this.repo.save(user);
+}
+
+async deleteUser(id: number): Promise<void> {
+  await this.repo.delete(id);
+}
+
+async searchByEmail(email: string): Promise<User[]> {
+  return this.repo.find({
+    where: { email: ILike(`%${email}%`) }, // Case-insensitive LIKE
+  });
+}
 }

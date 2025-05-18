@@ -16,6 +16,12 @@ export const appRoutes: Routes = [
   { path: 'authentification', loadComponent: () => import('./components/auth/auth.component').then(m => m.AuthComponent) },
   { path: 'inscription', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
 
+  // Utilisateurs
+  { path: 'utilisateurs/all', loadComponent: () => import('./components/affiche-utilisateurs/affiche-utilisateurs.component').then(m => m.AfficheUtilisateursComponent) },
+ // { path: 'utilisateurs/create', loadComponent: () => import('./components/user-create/user-create.component').then(m => m.UserCreateComponent) },
+  //{ path: 'utilisateurs/:id', loadComponent: () => import('./components/user-read/user-read.component').then(m => m.UserReadComponent) },
+  //{ path: 'utilisateurs/edit/:id', loadComponent: () => import('./components/user-edit/user-edit.component').then(m => m.UserEditComponent) },
+
   // Créations
   { path: 'etudiant-create', loadComponent: () => import('./components/etudiant-create/etudiant-create.component').then(m => m.EtudiantCreateComponent) },
   { path: 'tuteur-create', loadComponent: () => import('./components/tuteur-create/tuteur-create.component').then(m => m.TuteurCreateComponent) },

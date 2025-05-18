@@ -1,0 +1,212 @@
+/* Title */
+.majeures-title {
+  text-align: center;
+  color: #0077b6;
+  margin: 2rem 0 1.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Search bar container */
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f1f0f0;
+  padding: 12px 16px;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  flex-wrap: wrap;
+}
+
+.actions-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.actions-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Inputs */
+.search-input {
+  width: 140px;
+  padding: 5px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Buttons */
+.search-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+.search-btn.primary {
+  background-color: #00abc7;
+}
+
+.search-btn.secondary {
+  background-color: #9b59b6;
+}
+
+/* Card list */
+.majors-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.majors-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.majors-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.majors-title-link {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #7d3bb8;
+  text-decoration: underline;
+}
+
+.majors-card-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* Properties inside cards */
+.majors-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.majors-property {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Action buttons */
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  margin-right: 4px;
+  border-radius: 4px;
+  font-size: 1.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.icon-btn.edit mat-icon {
+  color: #00abc7;
+}
+
+.icon-btn.delete mat-icon {
+  color: #9b59b6;
+}
+
+.icon-btn.edit:hover {
+  background: #008fa3;
+}
+
+.icon-btn.delete:hover {
+  background: #7d3bb8;
+}
+
+.icon-btn.edit:hover mat-icon,
+.icon-btn.delete:hover mat-icon {
+  color: #fff;
+}
+
+/* Pagination */
+.pagination-controls {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination-number {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  color: #333;
+  min-width: 2.5rem;
+  text-align: center;
+}
+
+.pagination-number:hover:not(.active) {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.pagination-number.active {
+  background: linear-gradient(135deg, #00abc7, #9b59b6);
+  color: white;
+  border-color: transparent;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  color: #333;
+  min-width: 2.5rem;
+  text-align: center;
+  outline: none;
+}
+
+.pagination-btn:disabled {
+  background: #f5f5f5;
+  color: #bbb;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+}
