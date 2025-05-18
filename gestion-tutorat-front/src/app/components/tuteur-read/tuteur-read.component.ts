@@ -14,6 +14,8 @@ import { environment } from '../../../environments/environment';
 export class TuteurReadComponent implements OnInit {
   tuteur: any;
   tuteurId: number | null = null;
+  modeLectureSeul = false; // Mettre à true si on veut cacher les boutons (par ex. pour un tuteur connecté)
+
 
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +24,8 @@ export class TuteurReadComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+      this.modeLectureSeul = true;
+
     const idParam = this.route.snapshot.paramMap.get('id');
     this.tuteurId = idParam ? parseInt(idParam, 10) : null;
     if (this.tuteurId !== null) {

@@ -64,7 +64,7 @@
       </div>
 
       <!-- Action buttons -->
-      <div class="action-buttons mt-4">
+      <div class="action-buttons mt-4"  *ngIf="!modeLectureSeul">
         <!-- Redirect to the student edit page -->
         <a [routerLink]="['/etudiants/edit', etudiant.id]" class="btn edit-btn">
           <i class="bi bi-pencil-square"></i> Éditer

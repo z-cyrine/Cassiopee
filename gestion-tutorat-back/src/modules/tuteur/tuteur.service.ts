@@ -4,6 +4,7 @@ import { QueryFailedError, Repository } from 'typeorm';
 import { Tuteur } from './tuteur.entity';
 import { CreateTuteurDto } from './dto/create-tuteur.dto';
 import { UpdateTuteurDto } from './dto/update-tuteur.dto';
+import { Etudiant } from '../etudiant/etudiant.entity';
 
 @Injectable()
 export class TuteurService {
@@ -13,17 +14,17 @@ export class TuteurService {
   ) {}
 
   // CREATE
-async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
-  try {
-    const tuteur = this.tuteurRepository.create(createTuteurDto);
-    return await this.tuteurRepository.save(tuteur);
-  } catch (err) {
-    if (err instanceof QueryFailedError && (err as any).code === 'ER_DUP_ENTRY') {
-      throw new ConflictException({ duplicate: true, message: 'Cet e-mail est déjà utilisé.' });
+  async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
+    try {
+      const tuteur = this.tuteurRepository.create(createTuteurDto);
+      return await this.tuteurRepository.save(tuteur);
+    } catch (err) {
+      if (err instanceof QueryFailedError && (err as any).code === 'ER_DUP_ENTRY') {
+        throw new ConflictException({ duplicate: true, message: 'Cet e-mail est déjà utilisé.' });
+      }
+      throw new InternalServerErrorException('Erreur interne');
     }
-    throw new InternalServerErrorException('Erreur interne');
   }
-}
 
   // READ ALL
   async findAll(): Promise<Tuteur[]> {
@@ -55,6 +56,7 @@ async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
     await this.tuteurRepository.remove(tuteur);
   }
 
+  // Profil distincts (local)
   async getDistinctProfils(): Promise<string[]> {
     const result = await this.tuteurRepository
       .createQueryBuilder('tuteur')
@@ -63,5 +65,19 @@ async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
       .getRawMany();
 
     return result.map(r => r.profil);
+  }
+
+  // Récupération des étudiants par tuteur (distant)
+  async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
+    const tuteur = await this.tuteurRepository.findOne({
+      where: { id },
+      relations: ['etudiants'],
+    });
+
+    if (!tuteur) {
+      throw new NotFoundException(`Tuteur avec l'ID=${id} introuvable`);
+    }
+
+    return tuteur.etudiants;
   }
 }
