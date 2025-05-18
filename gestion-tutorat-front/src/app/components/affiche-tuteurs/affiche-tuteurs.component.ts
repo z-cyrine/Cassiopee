@@ -48,22 +48,22 @@ export class AfficheTuteursComponent implements OnInit {
     this.loading = true;
     this.tuteurService.getTuteurs().subscribe({
       next: (response) => {
-        this.tuteurs = response.map(tuteur => ({
+        this.tuteurs = response.map((tuteur: any) => ({
           ...tuteur,
           langueTutorat: Array.isArray(tuteur.langueTutorat)
             ? tuteur.langueTutorat
             : (typeof tuteur.langueTutorat === 'string' && tuteur.langueTutorat.trim() !== ''
-                ? tuteur.langueTutorat.split(',').map((s: string) => s.trim())
+                ? (tuteur.langueTutorat as string).split(',').map((s: string) => s.trim())
                 : []),
           matieres: Array.isArray(tuteur.matieres)
             ? tuteur.matieres
             : (typeof tuteur.matieres === 'string' && tuteur.matieres.trim() !== ''
-                ? tuteur.matieres.split(',').map((s: string) => s.trim())
+                ? (tuteur.matieres as string).split(',').map((s: string) => s.trim())
                 : []),
           domainesExpertise: Array.isArray(tuteur.domainesExpertise)
             ? tuteur.domainesExpertise
             : (typeof tuteur.domainesExpertise === 'string' && tuteur.domainesExpertise.trim() !== ''
-                ? tuteur.domainesExpertise.split(',').map((s: string) => s.trim())
+                ? (tuteur.domainesExpertise as string).split(',').map((s: string) => s.trim())
                 : []),
           infoStatut: tuteur.infoStatut || tuteur.info_statut || tuteur.infostatut || '',
         }));
