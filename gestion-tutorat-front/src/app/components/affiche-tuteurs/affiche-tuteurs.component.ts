@@ -142,4 +142,40 @@ export class AfficheTuteursComponent implements OnInit {
         });
     }
   }
+
+  searchNom: string = '';
+searchPrenom: string = '';
+searchResults: any[] = [];
+searchMode: boolean = false;
+
+onSearch(): void {
+  if (!this.searchNom.trim() && !this.searchPrenom.trim()) {
+    alert('Veuillez saisir un nom ou un prénom.');
+    return;
+  }
+
+  this.loading = true;
+  this.tuteurService.searchTuteurs(this.searchNom, this.searchPrenom).subscribe({
+    next: (results: any[]) => {
+      this.searchResults = results;
+      this.searchMode = true;
+      this.loading = false;
+    },
+    error: (err: any) => {
+      console.error('Erreur lors de la recherche :', err);
+      this.searchResults = [];
+      this.searchMode = true;
+      this.loading = false;
+    }
+  });
+}
+
+onClearSearch(): void {
+  this.searchNom = '';
+  this.searchPrenom = '';
+  this.searchResults = [];
+  this.searchMode = false;
+  this.loadTuteurs();
+}
+
 } 

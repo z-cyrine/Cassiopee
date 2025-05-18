@@ -56,7 +56,7 @@ export class TuteurService {
     await this.tuteurRepository.remove(tuteur);
   }
 
-  // Profil distincts (local)
+  // Profil distincts
   async getDistinctProfils(): Promise<string[]> {
     const result = await this.tuteurRepository
       .createQueryBuilder('tuteur')
@@ -67,7 +67,7 @@ export class TuteurService {
     return result.map(r => r.profil);
   }
 
-  // Récupération des étudiants par tuteur (distant)
+  // Récupération des étudiants par tuteur
   async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
     const tuteur = await this.tuteurRepository.findOne({
       where: { id },
@@ -79,5 +79,28 @@ export class TuteurService {
     }
 
     return tuteur.etudiants;
+  }
+
+  // Recherche par nom/prénom
+  async searchByName(nom?: string, prenom?: string): Promise<Tuteur[]> {
+    const query = this.tuteurRepository
+      .createQueryBuilder('tuteur')
+      .leftJoinAndSelect('tuteur.etudiants', 'etudiant');
+
+    if (nom) {
+      query.andWhere('tuteur.nom LIKE :nom', { nom: `%${nom}%` });
+    }
+
+    if (prenom) {
+      query.andWhere('tuteur.prenom LIKE :prenom', { prenom: `%${prenom}%` });
+    }
+
+    const result = await query.getMany();
+
+    if (result.length === 0) {
+      throw new NotFoundException('Aucun tuteur ne correspond à la recherche.');
+    }
+
+    return result;
   }
 }

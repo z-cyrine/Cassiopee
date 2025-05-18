@@ -18,7 +18,14 @@ import {
   @Controller('etudiant')
   export class EtudiantController {
     constructor(private readonly etudiantService: EtudiantService) {}
-  
+  @Get('search')
+async searchByName(
+  @Query('nom') nom?: string,
+  @Query('prenom') prenom?: string,
+): Promise<Etudiant[]> {
+  return this.etudiantService.searchByName(nom, prenom);
+}
+
     @Get('all')
     findAllNotPaginated() {
       return this.etudiantService.findAll();
@@ -84,5 +91,7 @@ import {
       await this.etudiantService.diagnostiquerEtudiantsSansMajeure();
       return { success: true };
     }
+
+    
   }
   

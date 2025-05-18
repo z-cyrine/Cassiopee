@@ -32,6 +32,15 @@ export class EtudiantService {
 
   constructor(private http: HttpClient) {}
 
+  searchStudents(nom?: string, prenom?: string): Observable<Etudiant[]> {
+  const params: any = {};
+  if (nom) params.nom = nom;
+  if (prenom) params.prenom = prenom;
+
+  return this.http.get<Etudiant[]>(`${this.baseUrl}/search`, { params });
+}
+
+
   createEtudiant(data: Etudiant): Observable<Etudiant> {
     return this.http.post<Etudiant>(this.baseUrl, data);
   }

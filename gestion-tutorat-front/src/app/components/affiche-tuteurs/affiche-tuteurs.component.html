@@ -1,3 +1,48 @@
+<div class="actions-container">
+  <div class="actions-text">Recherche de tuteur</div>
+  <div class="actions-controls">
+    <input
+      type="text"
+      placeholder="Nom"
+      [(ngModel)]="searchNom"
+      class="form-control"
+      style="width: 140px; padding: 5px 8px; font-size: 14px;"
+    />
+    <input
+      type="text"
+      placeholder="Prénom"
+      [(ngModel)]="searchPrenom"
+      class="form-control"
+      style="width: 140px; padding: 5px 8px; font-size: 14px;"
+    />
+    <button (click)="onSearch()" class="btn btn-primary" style="background: #00abc7; border: none;">
+      Rechercher
+    </button>
+    <button (click)="onClearSearch()" class="btn btn-secondary" style="background: #9b59b6; border: none;">
+      Réinitialiser
+    </button>
+  </div>
+</div>
+
+<!-- Résultats de la recherche -->
+<div *ngIf="searchMode">
+  <div *ngIf="searchResults.length > 0; else noResultMsg" style="margin-top: 1.5rem;">
+    <div *ngFor="let etu of searchResults" style="margin: 0.5rem 0;">
+      <a [routerLink]="['/etudiants', etu.id]" style="color: #7d3bb8; font-weight: bold; text-decoration: underline;">
+        {{ etu.nom }} {{ etu.prenom }}
+      </a>
+    </div>
+  </div>
+
+  <ng-template #noResultMsg>
+    <div class="text-center mt-4 text-muted">
+      Aucun tuteur trouvé.
+    </div>
+  </ng-template>
+</div>
+
+<!-- Affichage paginé normal -->
+<div *ngIf="!searchMode">
 <div style="margin: 1%; margin-right: 2%">
   <div class="table-scroll-wrapper">
     <table mat-table [dataSource]="pagedTuteurs" class="mat-elevation-z8">
@@ -279,3 +324,5 @@
   
   <span *ngIf="loading" class="loading-indicator">Chargement...</span>
 </div> 
+
+</div>
