@@ -20,6 +20,11 @@ export class TuteurController {
     return this.tuteurService.findAll();
   }
 
+  @Get('profils')
+  getDistinctProfils() {
+    return this.tuteurService.getDistinctProfils();
+  }
+
   // READ ONE
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number): Promise<Tuteur> {

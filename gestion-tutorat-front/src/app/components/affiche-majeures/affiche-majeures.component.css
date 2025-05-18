@@ -1,0 +1,85 @@
+.majeures-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.majeures-table th, .majeures-table td {
+  border: 1px solid #ececec;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 1rem;
+}
+.majeures-table th {
+  position: sticky;
+  top: 0;
+  background: #f5f7fa;
+  z-index: 2;
+  font-weight: 600;
+}
+.majeures-table tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+.majeures-table tr:nth-child(odd) td {
+  background-color: #ffffff;
+}
+
+.table-responsive-majeures, .table-responsive, .table-scrollable {
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.table-responsive-majeures .majeures-table {
+  min-width: max-content;
+  width: auto;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  margin-right: 4px;
+  border-radius: 4px;
+  font-size: 1.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.icon-btn.edit mat-icon {
+  color: #00abc7;
+}
+.icon-btn.delete mat-icon {
+  color: #9b59b6;
+}
+.icon-btn.edit:hover {
+  background: #008fa3;
+}
+.icon-btn.delete:hover {
+  background: #7d3bb8;
+}
+.icon-btn.edit:hover mat-icon,
+.icon-btn.delete:hover mat-icon {
+  color: #fff;
+}
+
+.majeures-title {
+  text-align: center;
+  color: #0077b6;
+  margin: 2rem 0 1.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f5f7fa;
+  border-bottom: 2px solid #e0e0e0;
+} 

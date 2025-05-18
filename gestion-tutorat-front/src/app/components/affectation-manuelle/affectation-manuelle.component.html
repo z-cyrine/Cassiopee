@@ -5,9 +5,9 @@
         <h2>Liste des Étudiants</h2>
         <app-filtre-etudiants [students]="students" (onFilter)="applyFilters($event)"></app-filtre-etudiants>
 
-        <!--PAGINATION 2-->
-        <div class="pagination-wrapper">
-        <div class="pagination-controls" *ngIf="totalPages > 1">
+        <!--PAGINATION-->
+        <div class="pagination-wrapper" *ngIf="pagedStudents.length !== 0">
+        <div class="pagination-controls" >
           <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="pagination-btn">
             Précédent
           </button>
@@ -34,9 +34,11 @@
           </button>
         </div>    
         </div>  
-        <!--FIN PAGINATION 2-->
-        
-        <div *ngFor="let student of filteredStudents" class="student-card">
+        <!--FIN PAGINATION-->
+        <div *ngIf="pagedStudents.length === 0" class="no-results">
+            Aucun étudiant ne correspond aux filtres appliqués.
+          </div>
+        <div *ngFor="let student of pagedStudents" class="student-card"> 
           <div class="card">
             <mat-card-header style="display: flex; justify-content: space-between; align-items: left;">
               
@@ -65,20 +67,28 @@
             </mat-card-header>
             <mat-card-content>
               <div class="student-details">
-                <span><strong>Email:</strong> {{ student.emailEcole }}, </span>
-                <span><strong>Origine:</strong> {{ student.origine }}, </span>
-                <span><strong>École:</strong> {{ student.ecole }}, </span>
-                <span><strong>Code Classe:</strong> {{ student.codeClasse }}, </span>
-                <span><strong>Nom Groupe:</strong> {{ student.nomGroupe }}, </span>
-                <span><strong>Langue Majeure:</strong> {{ student.langueMajeure }}, </span>
-                <span><strong>Ini/Alt:</strong> {{ student.iniAlt }}, </span>
-                <span><strong>Entreprise:</strong> {{ student.entreprise }}, </span>
-                <span><strong>Fonction Apprenti:</strong> {{ student.fonctionApprenti }}, </span>
-                <span><strong>Langue:</strong> {{ student.langue }}, </span>
-                <span><strong>Commentaire Affectation:</strong> {{ student.commentaireAffectation }}, </span>
-                <span><strong>Département Rattachement:</strong> {{ student.departementRattachement }}, </span>
+                <span><strong>Email:</strong> {{ student.emailEcole || 'Non spécifié'}}, </span>
+                <span><strong>Origine:</strong> {{ student.origine || 'Non spécifié'}}, </span>
+                <span><strong>École:</strong> {{ student.ecole || 'Non spécifiée'}}, </span>
+                <span><strong>Code Classe:</strong> {{ student.codeClasse || 'Non spécifié'}}, </span>
+                <span><strong>Nom Groupe:</strong> {{ student.nomGroupe || 'Non spécifié'}}, </span>
+                <span><strong>Langue Majeure:</strong> {{ student.langueMajeure || 'Non spécifiée'}}, </span>
+                <span><strong>Ini/Alt:</strong> {{ student.iniAlt || 'Non spécifié'}}, </span>
+                <span><strong>Entreprise:</strong> {{ student.entreprise || 'Non spécifiée'}}, </span>
+                <span><strong>Fonction Apprenti:</strong> {{ student.fonctionApprenti || 'Non spécifiée'}}, </span>
+                <span><strong>Langue:</strong> {{ student.langue || 'Non spécifiée'}}, </span>
+                <span><strong>Commentaire Affectation:</strong> {{ student.commentaireAffectation || 'Non spécifié'}}, </span>
+                <span><strong>Département Rattachement:</strong> {{ student.departementRattachement || 'Non assigné' }}, </span>
                 <span><strong>Affecté:</strong> {{ student.affecte ? 'Oui' : 'Non' }}, </span>
-                <span><strong>Tuteur:</strong> {{ student.tuteur?.prenom }} {{ student.tuteur?.nom || 'Non assigné' }}, </span>
+                <span *ngIf="student.tuteur; else nonAssigne">
+                  <strong>Tuteur:</strong>
+                  <a [routerLink]="['/tuteurs', student.tuteur.id]">
+                    {{ student.tuteur.prenom }} {{ student.tuteur.nom }}
+                  </a>
+                </span>
+                <ng-template #nonAssigne>
+                  <span><strong>Tuteur:</strong> Non assigné</span>
+                </ng-template>
 
               </div>
             </mat-card-content>
@@ -97,6 +107,7 @@
     <div class="right-column border">
       <div class="cards-container">
         <h2>Liste des Tuteurs</h2>
+        <app-filtre-tuteur (onFilter)="applyTutorFilters($event)"></app-filtre-tuteur>
         <!-- PAGINATION TUTEURS -->
           <div class="pagination-wrapper">
             <div class="pagination-controls" *ngIf="totalPagesTuteur > 1">
@@ -127,7 +138,9 @@
             </div>
           </div>
         <!-- FIN PAGINATION TUTEURS -->
-        <!--<mat-card *ngFor="let tutor of tuteurs" class="tutor-card" style="background-color: #075cb100;">-->
+        <div *ngIf="pagedTuteurs.length === 0" class="no-results">
+            Aucun tuteur ne correspond aux filtres appliqués.
+          </div>
         <mat-card *ngFor="let tutor of pagedTuteurs" class="tutor-card">
           <div class="card">
           <mat-card-header>

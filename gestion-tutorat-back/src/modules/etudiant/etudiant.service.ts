@@ -61,4 +61,29 @@ async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
     await this.etudiantRepository.remove(etudiant);
   }
 
+  async findAllPaginated(page: number = 1, limit: number = 20): Promise<{ data: Etudiant[]; total: number; page: number; pageCount: number }> {
+    const [result, total] = await this.etudiantRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      relations: ['tuteur'],
+      order: { id: 'ASC' }
+    });
+    return {
+      data: result,
+      total,
+      page,
+      pageCount: Math.ceil(total / limit)
+    };
+  }
+
+  async getDistinctCodeClasses(): Promise<string[]> {
+    const result = await this.etudiantRepository
+      .createQueryBuilder('etudiant')
+      .select('DISTINCT etudiant.codeClasse', 'codeClasse')
+      .where('etudiant.codeClasse IS NOT NULL')
+      .getRawMany();
+
+    return result.map(r => r.codeClasse);
+  }
+
 }

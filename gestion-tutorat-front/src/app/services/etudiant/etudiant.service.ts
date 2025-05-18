@@ -53,4 +53,9 @@ export class EtudiantService {
     return this.http.put<Etudiant>(`${this.baseUrl}/${id}`, etudiant);
   }
 
+  getAllStudents() {
+  return this.http.get<Etudiant[]>(`${this.baseUrl}/all`);
+}
+
+
 }

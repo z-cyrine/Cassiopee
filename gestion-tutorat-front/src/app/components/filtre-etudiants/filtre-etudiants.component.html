@@ -1,64 +1,79 @@
-<mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
-    <mat-expansion-panel-header>
-      <mat-panel-description>
-        Filtrer les étudiants
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+<!-- BOUTON POUR AFFICHER LE FILTRE -->
+<div class="filter-wrapper">
+  <button class="menu-button" (click)="toggleFilter($event)">Filtrer les étudiants</button>
+
+  <!-- PANNEAU FLOTTANT -->
+  <div class="floating-panel" *ngIf="testVisible" (click)="$event.stopPropagation()">
     <form (ngSubmit)="applyFilters()">
       <div class="filter-section">
-  
-      <!-- filtre par affectation -->
-      <div class="filter">
-          <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="flexSwitchCheckAffectation" [(ngModel)]="showAffectation" name="showAffectation">
-              <label class="form-check-label" for="flexSwitchCheckAffectation">Selon l'affectation</label>
-          </div>
-  
+
+        <!-- AFFECTATION -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showAffectation" name="showAffectation">
+            <span class="checkmark"></span>
+            Affectation
+          </label>
           <div *ngIf="showAffectation">
-              <label for="affectation">Choisir l'affectation :</label>
-              <select id="affectation" class="form-select" [(ngModel)]="selectedAffectation" name="affectation">
-              <option *ngFor="let affectation of affectations" [value]="affectation">
-                  {{ affectation }}
-              </option>
-              </select>
+            <label>Choisir l'affectation :</label>
+            <select class="form-select" [(ngModel)]="selectedAffectation" name="affectation">
+              <option *ngFor="let affectation of affectations" [value]="affectation">{{ affectation }}</option>
+            </select>
           </div>
-      </div>
-      
-      <!-- filtre par nom -->
-      <div class="filter">
-          <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="flexSwitchCheckNom" [(ngModel)]="showNom" name="showNom">
-              <label class="form-check-label" for="flexSwitchCheckNom">Selon le nom et prénom</label>
-          </div>
-          <div *ngIf="showNom">
-              <label for="nom">Saisir le nom de l'étudiant :</label>
-              <input id="nom" class="form-control" [(ngModel)]="nameFilter" name="nameFilter" type="text">
-              <label for="prenom">Saisir le prénom de l'étudiant :</label>
-              <input id="prenom" class="form-control" [(ngModel)]="nameFilter" name="prenom" type="text">
-          </div>
-      </div>
-  
-      <!-- filtre par département d'attachement -->
-      <div class="filter">
-          <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="flexSwitchCheckDep" [(ngModel)]="showdep" name="showDepartement">
-              <label class="form-check-label" for="flexSwitchCheckDep">Selon le code de la classe</label>
-          </div>
-          <div *ngIf="showdep">
-              <label for="dep">Choisir le code de la classe :</label>
-              <select id="dep" class="form-select" [(ngModel)]="selecteddep" name="départementfilter">
-              <option *ngFor="let dep of deps" [value]="dep">
-                  {{ dep }}
-              </option>
-              </select>
-          </div>
-      </div>
-  
-        <div class="filter-actions" style="display: flex; justify-content: space-between; align-items: center;">
-            <button type="submit" class="btn btn-outline-primary btn-sm" >Appliquer les filtres</button>
-            <button type="button" class="btn btn-outline-dark btn-sm" (click)="reinitialiser()">Réinitialiser</button>
         </div>
+
+        <!-- NOM & PRÉNOM -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showNom" name="showNom">
+            <span class="checkmark"></span>
+            Nom et Prénom
+          </label>
+          <div *ngIf="showNom">
+            <label>Nom :</label>
+            <input class="form-control" [(ngModel)]="lastNameFilter" name="lastName" type="text">
+            <label>Prénom :</label>
+            <input class="form-control" [(ngModel)]="firstNameFilter" name="firstName" type="text">
+          </div>
+        </div>
+
+        <!-- CODE CLASSE -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showdep" name="showdep">
+            <span class="checkmark"></span>
+            Code de la classe
+          </label>
+          <div *ngIf="showdep">
+            <label>Code :</label>
+            <select class="form-select" [(ngModel)]="selecteddep" name="codeClasse">
+              <option *ngFor="let dep of codes" [value]="dep">{{ dep }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- DÉPARTEMENT -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showdepartement" name="showdepartement">
+            <span class="checkmark"></span>
+            Département de rattachement
+          </label>
+          <div *ngIf="showdepartement">
+            <label>Département :</label>
+            <select class="form-select" [(ngModel)]="selecteddepartement" name="departement">
+              <option *ngFor="let dep of departements" [value]="dep">{{ dep }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="filter-actions">
+          <button type="submit" class="btn btn-outline-primary btn-sm">Appliquer</button>
+          <button type="button" class="btn btn-outline-dark btn-sm" (click)="reinitialiser()">Réinitialiser</button>
+        </div>
+
       </div>
     </form>
-  </mat-expansion-panel>
-  
+  </div>
+</div>

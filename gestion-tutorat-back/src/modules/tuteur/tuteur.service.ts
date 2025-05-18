@@ -56,6 +56,16 @@ async create(createTuteurDto: CreateTuteurDto): Promise<Tuteur> {
     await this.tuteurRepository.remove(tuteur);
   }
 
+  async getDistinctProfils(): Promise<string[]> {
+    const result = await this.tuteurRepository
+      .createQueryBuilder('tuteur')
+      .select('DISTINCT tuteur.profil', 'profil')
+      .where('tuteur.profil IS NOT NULL')
+      .getRawMany();
+
+    return result.map(r => r.profil);
+  }
+
   // tuteur.service.ts
 async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
   const tuteur = await this.tuteurRepository.findOne({

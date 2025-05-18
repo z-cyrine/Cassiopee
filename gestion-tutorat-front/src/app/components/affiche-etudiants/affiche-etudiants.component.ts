@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { EtudiantService } from '../../services/etudiant/etudiant.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -31,6 +31,8 @@ export class AfficheEtudiantsComponent implements OnInit {
   pageCount = 1;
   loading = false;
   maxVisiblePages = 5;
+
+  showFloatingHeader = false;
 
   constructor(private etudiantService: EtudiantService, private router: Router, private http: HttpClient) {}
 
@@ -127,5 +129,13 @@ export class AfficheEtudiantsComponent implements OnInit {
           });
       }
     }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const table = document.querySelector('table.mat-elevation-z8');
+    if (!table) return;
+    const rect = table.getBoundingClientRect();
+    this.showFloatingHeader = rect.top < 60 && rect.bottom > 60;
+  }
 
 }

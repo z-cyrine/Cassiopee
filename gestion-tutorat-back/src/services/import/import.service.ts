@@ -147,7 +147,9 @@ export class ImportService {
       estEligiblePourTutorat: this.excelParserService.parseEligibleTutorat(row['Peut faire des tutorats ?']),
       statut: this.excelParserService.cleanForAffectation(row['Statut PERM/VAC']),
       colonne2: this.excelParserService.cleanForAffectation(row['Colonne2']),
-      infoStatut: this.excelParserService.cleanForAffectation(row['Info Statut']),
+      infoStatut: this.excelParserService.cleanForAffectation(
+        row['Info Statut'] || row['Info Statut '] || row['infoStatut'] || row['info_statut'] || row['infostatut']
+      ),
       langueTutorat: this.excelParserService.parseLangueTutorat(row['Langue Tutorat']),
       profil: this.excelParserService.cleanForAffectation(row['Profil']),
       parTutoratAlt: this.excelParserService.toNumber(row['#PAR Tutorat ALT']),

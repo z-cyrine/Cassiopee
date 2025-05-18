@@ -1,11 +1,105 @@
-mat-expansion-panel {
-    max-width: 500px; /* Adjust the width as per your preference */
-    margin: 0 auto; 
-    margin-top: 1%;
-    background-color: white;
-  }
+.filter-wrapper {
+  position: relative;
+  display: inline-block;
+}
 
-  .filter{
-    background-color: rgba(233, 232, 232, 0.142);
-    margin-bottom: 15px;
-  }
+.menu-button {
+  background-color: white;
+  color: #9966cc;
+  border: 2px solid #9966cc;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight:500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+  background-color: #9966cc;
+  color: white;
+}
+
+.floating-panel {
+  position: absolute;
+  top: 40px;
+  right: 0; /* changé de 'left: 0' à 'right: 0' pour éviter de déborder à gauche */
+  z-index: 1100; /* plus élevé pour passer au-dessus des cartes */
+  background: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  border-radius: 8px;
+  width: 350px;
+}
+
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter {
+  background-color: #f9f9f9;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  user-select: none;
+  color: #333;
+}
+
+.checkbox-container input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkbox-container .checkmark {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border: 2px solid #9966cc;
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+}
+
+.checkbox-container input[type="checkbox"]:checked ~ .checkmark {
+  background-color: #9966cc;
+  border-color: #9966cc;
+}
+
+.checkbox-container .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input[type="checkbox"]:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
