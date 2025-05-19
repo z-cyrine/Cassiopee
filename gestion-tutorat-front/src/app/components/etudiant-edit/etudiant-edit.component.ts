@@ -6,13 +6,19 @@ import { EtudiantService, Etudiant } from '../../services/etudiant/etudiant.serv
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormatNamePipe } from '../../pipes/format-name/format-name.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-etudiant-edit',
   templateUrl: './etudiant-edit.component.html',
   styleUrls: ['./etudiant-edit.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule
+  ]
 })
 export class EtudiantEditComponent implements OnInit, OnDestroy {
   etudiantForm!: FormGroup;
@@ -20,6 +26,7 @@ export class EtudiantEditComponent implements OnInit, OnDestroy {
   successMessage = '';
   etudiantId: number | null = null;
   private destroy$ = new Subject<void>();
+  private formatNamePipe = new FormatNamePipe();
 
   constructor(
     private fb: FormBuilder,
@@ -105,6 +112,17 @@ export class EtudiantEditComponent implements OnInit, OnDestroy {
           console.error('Erreur lors de la mise à jour de l’étudiant', err);
         }
       });
+  }
+
+  formatName(value: string): string {
+    return this.formatNamePipe.transform(value);
+  }
+
+  onNameBlur(fieldName: 'nom' | 'prenom'): void {
+    const control = this.etudiantForm.get(fieldName);
+    if (control) {
+      control.setValue(this.formatName(control.value));
+    }
   }
 
   ngOnDestroy(): void {

@@ -6,13 +6,19 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormatNamePipe } from '../../pipes/format-name/format-name.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-tuteur-create',
   templateUrl: './tuteur-create.component.html',
   styleUrls: ['./tuteur-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule
+  ],
 })
 export class TuteurCreateComponent implements OnInit, OnDestroy {
   tuteurForm!: FormGroup;
@@ -21,6 +27,7 @@ export class TuteurCreateComponent implements OnInit, OnDestroy {
   errorMessage = '';
 
   private destroy$ = new Subject<void>();
+  private formatNamePipe = new FormatNamePipe();
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +63,17 @@ export class TuteurCreateComponent implements OnInit, OnDestroy {
 
   get f() {
     return this.tuteurForm.controls;
+  }
+
+  formatName(value: string): string {
+    return this.formatNamePipe.transform(value);
+  }
+
+  onNameBlur(fieldName: 'nom' | 'prenom'): void {
+    const control = this.tuteurForm.get(fieldName);
+    if (control) {
+      control.setValue(this.formatName(control.value));
+    }
   }
 
   onSubmit(): void {

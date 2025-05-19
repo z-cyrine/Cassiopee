@@ -72,7 +72,7 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.LASTNAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.nom; else notNom">
-            <a [routerLink]="['/etudiants', element.id]">{{ element.nom }}</a>
+            <a [routerLink]="['/etudiants', element.id]">{{ element.nom | formatName }}</a>
           </ng-container>
           <ng-template #notNom><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
@@ -82,7 +82,7 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.FIRSTNAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.prenom; else notPrenom">
-            <a [routerLink]="['/etudiants', element.id]">{{ element.prenom }}</a>
+            <a [routerLink]="['/etudiants', element.id]">{{ element.prenom | formatName }}</a>
           </ng-container>
           <ng-template #notPrenom><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>

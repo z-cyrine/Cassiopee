@@ -48,7 +48,8 @@
           type="text" 
           class="form-control" 
           formControlName="prenom" 
-          [ngClass]="{'is-invalid': submitted && f['prenom'].errors}" />
+          [ngClass]="{'is-invalid': submitted && f['prenom'].errors}"
+          (blur)="onNameBlur('prenom')" />
         <div *ngIf="submitted && f['prenom'].errors" class="invalid-feedback">
           <div *ngIf="f['prenom'].errors['required']">{{ 'EDIT_STUDENT.REQUIRED' | translate }}</div>
         </div>
@@ -61,7 +62,8 @@
           type="text" 
           class="form-control" 
           formControlName="nom" 
-          [ngClass]="{'is-invalid': submitted && f['nom'].errors}" />
+          [ngClass]="{'is-invalid': submitted && f['nom'].errors}"
+          (blur)="onNameBlur('nom')" />
         <div *ngIf="submitted && f['nom'].errors" class="invalid-feedback">
           <div *ngIf="f['nom'].errors['required']">{{ 'EDIT_STUDENT.REQUIRED' | translate }}</div>
         </div>

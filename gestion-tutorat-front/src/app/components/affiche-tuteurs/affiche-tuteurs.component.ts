@@ -8,11 +8,20 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormatNamePipe } from '../../pipes/format-name/format-name.pipe';
 
 @Component({
   selector: 'app-affiche-tuteurs',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink, TranslateModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    MatTableModule, 
+    MatIconModule, 
+    RouterLink, 
+    TranslateModule,
+    FormatNamePipe
+  ],
   templateUrl: './affiche-tuteurs.component.html',
   styleUrls: ['./affiche-tuteurs.component.css'],
 })

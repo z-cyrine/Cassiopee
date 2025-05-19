@@ -4,22 +4,28 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-tuteur-edit',
   templateUrl: './tuteur-edit.component.html',
   styleUrls: ['./tuteur-edit.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule
+  ],
 })
 export class TuteurEditComponent implements OnInit, OnDestroy {
   tuteurForm!: FormGroup;
   submitted = false;
   tuteurId!: number;
   private destroy$ = new Subject<void>();
+  private formatNamePipe: any;
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +38,7 @@ export class TuteurEditComponent implements OnInit, OnDestroy {
   /* --------------------------- Init -------------------------------- */
   /* ---------------------------------------------------------------- */
   ngOnInit(): void {
-    /* id contenu dans l’URL  /tuteurs/edit/:id */
+    /* id contenu dans l'URL  /tuteurs/edit/:id */
     this.tuteurId = Number(this.route.snapshot.paramMap.get('id'));
 
     /* construction du formulaire réactif */
@@ -72,7 +78,7 @@ export class TuteurEditComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data: Tuteur) => {
-          /* passages array -> string séparé par virgules pour l’input texte */
+          /* passages array -> string séparé par virgules pour l'input texte */
           const patched = {
             ...data,
             langueTutorat: Array.isArray(data.langueTutorat)
@@ -135,6 +141,21 @@ export class TuteurEditComponent implements OnInit, OnDestroy {
       : Array.isArray(source)
       ? source
       : [];
+  }
+
+  async formatName(value: string): Promise<string> {
+    if (!this.formatNamePipe) {
+      const { FormatNamePipe } = await import('../../pipes/format-name/format-name.pipe');
+      this.formatNamePipe = new FormatNamePipe();
+    }
+    return this.formatNamePipe.transform(value);
+  }
+
+  async onNameBlur(fieldName: 'nom' | 'prenom') {
+    const control = this.tuteurForm.get(fieldName);
+    if (control) {
+      control.setValue(await this.formatName(control.value));
+    }
   }
 
   /* ---------------------------------------------------------------- */
