@@ -27,14 +27,18 @@
 
 
         <!-- Connexion -->
-        <li class="nav-item">
+        <!--<li class="nav-item">
           <a routerLink="/authentification" routerLinkActive="active" class="nav-link">{{ 'NAV.CONNEXION' | translate }}</a>
-        </li>
+        </li>-->
+        <a [href]="casLoginUrl" class="nav-link">
+          {{ 'NAV.CONNEXION' | translate }}
+        </a>
+
 
         <!-- Création de compte -->
-        <li class="nav-item">
+        <!--<li class="nav-item">
           <a routerLink="/inscription" routerLinkActive="active" class="nav-link">{{ 'NAV.INSCRIPTION' | translate }}</a>
-        </li>
+        </li>-->
 
         <!-- Importation -->
         <li class="nav-item">
