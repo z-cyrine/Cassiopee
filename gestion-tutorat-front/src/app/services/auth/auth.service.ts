@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
@@ -17,7 +17,7 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private readonly CAS_URL = 'https://cas7d.imtbs-tsp.eu/cas';
-  private readonly SERVICE_URL = 'https://localhost:8080';
+  private readonly SERVICE_URL = window.location.origin + '/auth/callback';
 
   constructor(
     private http: HttpClient,
@@ -29,7 +29,7 @@ export class AuthService {
   private checkAuth(): void {
     const ticket = new URLSearchParams(window.location.search).get('ticket');
     if (ticket) {
-      this.validateTicket(ticket);
+      // Laissez le composant callback gérer la validation
     } else {
       const user = sessionStorage.getItem('currentUser');
       if (user) {
@@ -38,21 +38,17 @@ export class AuthService {
     }
   }
 
-  private validateTicket(ticket: string): void {
-    this.http.get<any>(`${environment.apiUrl}/auth/validate-ticket`, {
-      params: { ticket, service: this.SERVICE_URL }
-    }).subscribe({
-      next: (response) => {
-        if (response.user) {
+  public validateTicket(ticket: string, service: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/auth/validate`, {
+      params: { ticket, service }
+    }).pipe(
+      tap(response => {
+        if (response.user && response.token) {
           this.setCurrentUser(response.user);
-          this.router.navigate(['/']);
+          localStorage.setItem('jwt', response.token);
         }
-      },
-      error: (error) => {
-        console.error('Erreur de validation du ticket:', error);
-        this.router.navigate(['/']);
-      }
-    });
+      })
+    );
   }
 
   private setCurrentUser(user: User): void {

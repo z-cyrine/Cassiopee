@@ -1,44 +1,55 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
+import { AuthCallbackComponent } from './components/auth-callback/auth-callback.component';
 
 export const appRoutes: Routes = [
-  // Page d'accueil (par défaut)
-  { path: '', loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent) },
+  { path: 'auth/callback', component: AuthCallbackComponent },
+  { 
+    path: 'login',
+    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    children: [
+      // Page d'accueil (par défaut)
+      { path: '', loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent) },
 
-  // Routes principales
-  { path: 'import', loadComponent: () => import('./components/import/import.component').then(m => m.ImportComponent) },
-  { path: 'etudiants/all', loadComponent: () => import('./components/affiche-etudiants/affiche-etudiants.component').then(m => m.AfficheEtudiantsComponent) },
-  { path: 'auto-affectation', loadComponent: () => import('./components/auto-affectation/auto-affectation.component').then(m => m.AutoAffectationComponent) },
-  { path: 'reporting', loadComponent: () => import('./reporting/reporting.component').then(m => m.ReportingComponent) },
-  { path: 'affectation-manuelle', loadComponent: () => import('./components/affectation-manuelle/affectation-manuelle.component').then(m => m.AffectationManuelleComponent) },
-  { path: 'tuteur-dashboard', loadComponent: () => import('./components/tuteur-dashboard/tuteur-dashboard.component').then(m => m.TuteurDashboardComponent) },
-  { path: 'tuteurs/all', loadComponent: () => import('./components/affiche-tuteurs/affiche-tuteurs.component').then(m => m.AfficheTuteursComponent) },
-  { path: 'majeures/all', loadComponent: () => import('./components/affiche-majeures/affiche-majeures.component').then(m => m.AfficheMajeuresComponent) },
-  { path: 'authentification', loadComponent: () => import('./components/auth/auth.component').then(m => m.AuthComponent) },
-  { path: 'tuteur-dashboard', loadComponent: () => import('./components/tuteur-dashboard/tuteur-dashboard.component').then(m => m.TuteurDashboardComponent) },
-  { path: 'register', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
-  { path: 'inscription', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
+      // Routes principales
+      { path: 'import', loadComponent: () => import('./components/import/import.component').then(m => m.ImportComponent) },
+      { path: 'etudiants/all', loadComponent: () => import('./components/affiche-etudiants/affiche-etudiants.component').then(m => m.AfficheEtudiantsComponent) },
+      { path: 'auto-affectation', loadComponent: () => import('./components/auto-affectation/auto-affectation.component').then(m => m.AutoAffectationComponent) },
+      { path: 'reporting', loadComponent: () => import('./reporting/reporting.component').then(m => m.ReportingComponent) },
+      { path: 'affectation-manuelle', loadComponent: () => import('./components/affectation-manuelle/affectation-manuelle.component').then(m => m.AffectationManuelleComponent) },
+      { path: 'tuteur-dashboard', loadComponent: () => import('./components/tuteur-dashboard/tuteur-dashboard.component').then(m => m.TuteurDashboardComponent) },
+      { path: 'tuteurs/all', loadComponent: () => import('./components/affiche-tuteurs/affiche-tuteurs.component').then(m => m.AfficheTuteursComponent) },
+      { path: 'majeures/all', loadComponent: () => import('./components/affiche-majeures/affiche-majeures.component').then(m => m.AfficheMajeuresComponent) },
+      { path: 'authentification', loadComponent: () => import('./components/auth/auth.component').then(m => m.AuthComponent) },
+      { path: 'tuteur-dashboard', loadComponent: () => import('./components/tuteur-dashboard/tuteur-dashboard.component').then(m => m.TuteurDashboardComponent) },
+      { path: 'register', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
+      { path: 'inscription', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
 
-  // Utilisateurs
-  { path: 'utilisateurs/all', loadComponent: () => import('./components/affiche-utilisateurs/affiche-utilisateurs.component').then(m => m.AfficheUtilisateursComponent) },
-  { path: 'utilisateurs/create', loadComponent: () => import('./components/user-create/user-create.component').then(m => m.UserCreateComponent) },
-  { path: 'profil', loadComponent: () => import('./components/user-profile/user-profile.component').then(m => m.UserProfileComponent) },
-  { path: 'utilisateurs/edit/:id', loadComponent: () => import('./components/user-edit/user-edit.component').then(m => m.UserEditComponent) },
+      // Utilisateurs
+      { path: 'utilisateurs/all', loadComponent: () => import('./components/affiche-utilisateurs/affiche-utilisateurs.component').then(m => m.AfficheUtilisateursComponent) },
+      { path: 'utilisateurs/create', loadComponent: () => import('./components/user-create/user-create.component').then(m => m.UserCreateComponent) },
+      { path: 'profil', loadComponent: () => import('./components/user-profile/user-profile.component').then(m => m.UserProfileComponent) },
+      { path: 'utilisateurs/edit/:id', loadComponent: () => import('./components/user-edit/user-edit.component').then(m => m.UserEditComponent) },
 
-  // Créations
-  { path: 'etudiant-create', loadComponent: () => import('./components/etudiant-create/etudiant-create.component').then(m => m.EtudiantCreateComponent) },
-  { path: 'tuteur-create', loadComponent: () => import('./components/tuteur-create/tuteur-create.component').then(m => m.TuteurCreateComponent) },
-  { path: 'majeure-create', loadComponent: () => import('./components/majeure-create/majeure-create.component').then(m => m.MajeureCreateComponent) },
+      // Créations
+      { path: 'etudiant-create', loadComponent: () => import('./components/etudiant-create/etudiant-create.component').then(m => m.EtudiantCreateComponent) },
+      { path: 'tuteur-create', loadComponent: () => import('./components/tuteur-create/tuteur-create.component').then(m => m.TuteurCreateComponent) },
+      { path: 'majeure-create', loadComponent: () => import('./components/majeure-create/majeure-create.component').then(m => m.MajeureCreateComponent) },
 
-  // Détails
-  { path: 'etudiants/:id', loadComponent: () => import('./components/etudiant-read/etudiant-read.component').then(m => m.EtudiantReadComponent) },
-  { path: 'tuteurs/:id', loadComponent: () => import('./components/tuteur-read/tuteur-read.component').then(m => m.TuteurReadComponent) },
-  { path: 'majeures/:id', loadComponent: () => import('./components/majeure-read/majeure-read.component').then(m => m.MajeureReadComponent) },
+      // Détails
+      { path: 'etudiants/:id', loadComponent: () => import('./components/etudiant-read/etudiant-read.component').then(m => m.EtudiantReadComponent) },
+      { path: 'tuteurs/:id', loadComponent: () => import('./components/tuteur-read/tuteur-read.component').then(m => m.TuteurReadComponent) },
+      { path: 'majeures/:id', loadComponent: () => import('./components/majeure-read/majeure-read.component').then(m => m.MajeureReadComponent) },
 
-  // Éditions
-  { path: 'etudiants/edit/:id', loadComponent: () => import('./components/etudiant-edit/etudiant-edit.component').then(m => m.EtudiantEditComponent) },
-  { path: 'tuteurs/edit/:id', loadComponent: () => import('./components/tuteur-edit/tuteur-edit.component').then(m => m.TuteurEditComponent) },
-  { path: 'majeures/edit/:id', loadComponent: () => import('./components/majeure-edit/majeure-edit.component').then(m => m.MajeureEditComponent) },
-
-  // Fallback
+      // Éditions
+      { path: 'etudiants/edit/:id', loadComponent: () => import('./components/etudiant-edit/etudiant-edit.component').then(m => m.EtudiantEditComponent) },
+      { path: 'tuteurs/edit/:id', loadComponent: () => import('./components/tuteur-edit/tuteur-edit.component').then(m => m.TuteurEditComponent) },
+      { path: 'majeures/edit/:id', loadComponent: () => import('./components/majeure-edit/majeure-edit.component').then(m => m.MajeureEditComponent) },
+    ]
+  },
   { path: '**', redirectTo: '' }
 ];

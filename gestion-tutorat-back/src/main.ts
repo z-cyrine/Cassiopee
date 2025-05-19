@@ -38,8 +38,8 @@ app.use((req, res, next) => {
   // Ajout du filtre d'exception global
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  await app.listen(8080);
-  console.log(`🚀 Application NestJS en HTTPS sur https://localhost:8080`);
+  await app.listen(3000);
+  console.log(`🚀 Application NestJS en HTTPS sur https://localhost:3000`);
 
 }
 bootstrap();
