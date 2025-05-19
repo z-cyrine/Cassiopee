@@ -24,7 +24,7 @@ export class CasController {
       console.log('✅ Utilisateur connecté via CAS :', user);
       const token = this.jwtService.sign({
         sub: user.username,
-        email: user.email,
+        email: user.mail,
         name: user.displayName
       });
 
