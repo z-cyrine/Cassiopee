@@ -7,6 +7,7 @@ import { ErrorInterceptor } from './services/error.interceptor';
 import { ImportComponent } from './components/import/import.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -20,4 +21,5 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class AppComponent {
   title = 'gestion-tutorat-front';
+  casLoginUrl = `${environment.apiUrl}/cas/login`;
 }
