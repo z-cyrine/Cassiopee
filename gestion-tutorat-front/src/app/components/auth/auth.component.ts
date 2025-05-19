@@ -42,6 +42,8 @@ export class AuthComponent {
     this.http.post(`${environment.apiUrl}/auth/login`, { email, password }).subscribe({
       next: (res: any) => {
         localStorage.setItem('token', res.accessToken);
+        console.log("login successful");
+        // console.log('token: ', res.accessToken);
         this.router.navigate(['/']);
       },
       error: (err) => {

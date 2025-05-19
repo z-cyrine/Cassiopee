@@ -29,6 +29,7 @@ import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from './modules/auth/auth.module';
+import { CasModule } from './cas_ilef/cas.module';
 
 @Module({
 imports: [
@@ -52,7 +53,8 @@ ReportingModule,
 ResetModule,
 AffectationManuelleModule,
 UsersModule,
-AuthModule
+AuthModule,
+CasModule
 ],
 controllers: [
 AppController,
