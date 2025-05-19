@@ -24,7 +24,8 @@
     "ALL": "All",
     "VALIDATE": "Validate",
     "EXPORT_EXCEL": "Export to Excel",
-    "NOT_AVAILABLE": "N/A"
+    "NOT_AVAILABLE": "N/A",
+    "CANCEL": "Cancel"
   },
   "AUTH": {
     "LOGIN_TITLE": "Login",
@@ -181,7 +182,9 @@
     "CHOOSE_FILE": "Choose a file",
     "NO_FILE_CHOSEN": "No file chosen",
     "TUTORATS_FILE_LABEL": "TUTORATS File",
-    "MAJORS_FILE_LABEL": "MAJORS File"
+    "MAJORS_FILE_LABEL": "MAJORS File",
+    "CONFIRM_RESET_MESSAGE": "Do you confirm the reset of the database? This action is irreversible."
+
   },
   "CREATE": {
     "ADD_STUDENT_TITLE": "Add a Student",

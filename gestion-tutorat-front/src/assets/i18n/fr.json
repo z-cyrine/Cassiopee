@@ -24,7 +24,8 @@
     "ALL": "Tous",
     "VALIDATE": "Valider",
     "EXPORT_EXCEL": "Exporter en Excel",
-    "NOT_AVAILABLE": "N/A"
+    "NOT_AVAILABLE": "N/A",
+    "CANCEL": "Annuler"
   },
   "AUTH": {
     "LOGIN_TITLE": "Connexion",
@@ -183,7 +184,9 @@
     "CHOOSE_FILE": "Choisir un fichier",
     "NO_FILE_CHOSEN": "Aucun fichier choisi",
     "TUTORATS_FILE_LABEL": "Fichier TUTORATS",
-    "MAJORS_FILE_LABEL": "Fichier MAJEURES"
+    "MAJORS_FILE_LABEL": "Fichier MAJEURES",
+    "CONFIRM_RESET_MESSAGE": "Confirmez-vous la réinitialisation de la base de données ? Cette action est irréversible."
+
   },
   "CREATE": {
     "ADD_STUDENT_TITLE": "Ajouter un Étudiant",

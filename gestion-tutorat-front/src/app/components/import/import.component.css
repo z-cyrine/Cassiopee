@@ -10,10 +10,6 @@
   transition: transform 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
 .card-header {
   background: linear-gradient(90deg, #07b5d9 0%, #7b5fc9 100%);
   padding: 1.5rem;
@@ -42,7 +38,6 @@
   padding: 0.8rem;
   transition: all 0.3s ease;
 }
-
 .form-control:focus {
   border-color: #3498db;
   box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
@@ -56,7 +51,6 @@
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
 }
-
 .btn-success:hover {
   background: linear-gradient(90deg, #a084e8 0%, #7b5fc9 100%);
   transform: translateY(-2px);
@@ -69,37 +63,20 @@
   background-color: #e8f4f8;
   color: #2c3e50;
   font-weight: 500;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .text-muted {
-  color: #6c757d !important;
+  color: #6c757d  ;
 }
 
 .bi {
   margin-right: 0.5rem;
 }
 
-/* Animation pour les messages d'alerte */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.alert {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Style pour les inputs de type file */
 input[type="file"] {
   cursor: pointer;
 }
-
 input[type="file"]::-webkit-file-upload-button {
   background: #3498db;
   color: white;
@@ -109,7 +86,6 @@ input[type="file"]::-webkit-file-upload-button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-
 input[type="file"]::-webkit-file-upload-button:hover {
   background: #2980b9;
 }
@@ -127,13 +103,10 @@ input[type="file"]::-webkit-file-upload-button:hover {
   margin-left: auto;
   margin-right: auto;
 }
-
-.danger-title {
-  color: #dc3545;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+@media (max-width: 600px) {
+  .danger-zone {
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+  }
 }
 
 .danger-text {
@@ -161,19 +134,16 @@ input[type="file"]::-webkit-file-upload-button:hover {
   justify-content: center;
   gap: 0.7rem;
 }
-
 .btn-danger .bi-trash {
   font-size: 1.3rem;
   transition: transform 0.3s cubic-bezier(.4,2,.6,1);
   display: inline-block;
 }
-
 .btn-danger:hover, .btn-danger:focus {
   background: linear-gradient(90deg, #ffb3b3 0%, #ff5e5e 100%);
   transform: scale(1.03) translateY(-2px);
   box-shadow: 0 6px 24px rgba(220,53,69,0.18);
 }
-
 .btn-danger:hover .bi-trash {
   transform: rotate(-15deg) scale(1.2);
   animation: shake-trash 0.5s;
@@ -187,9 +157,58 @@ input[type="file"]::-webkit-file-upload-button:hover {
   80% { transform: rotate(5deg) scale(1.1); }
   100% { transform: rotate(-15deg) scale(1.2); }
 }
-
-@media (max-width: 600px) {
-  .danger-zone {
-    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.snack-success {
+  background: #222  ;
+  color: #fff  ;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.snack-error {
+  background: #c0392b  ;
+  color: #fff  ;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.dark-dialog .mat-dialog-container {
+  background: #18191c  ;
+  color: #fff  ;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+.dark-dialog .dialog-title {
+  color: #fff  ;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+.dark-dialog .warning-text {
+  color: #ffb3b3  ;
+  font-weight: 600;
+  font-size: 1.08rem;
+}
+.dark-dialog .dialog-actions button {
+  background: #23242a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  margin-left: 0.5rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+.dark-dialog .dialog-actions button:hover {
+  background: #7b5fc9;
+  color: #fff;
+  border-color: #7b5fc9;
 }
