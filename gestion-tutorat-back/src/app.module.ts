@@ -29,7 +29,7 @@ import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from './modules/auth/auth.module';
-import { CasModule } from './cas_ilef/cas.module';
+import { CasModule } from './cas/cas.module';
 
 @Module({
 imports: [

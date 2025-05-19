@@ -30,8 +30,7 @@ export class AuthComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-    // this.casLoginUrl = `https://cas7d.imtbs-tsp.eu/cas/login?service=${encodeURIComponent(environment.apiUrl)}`;
-    this.casLoginUrl = `${environment.apiUrl}/auth/cas/login`;
+    this.casLoginUrl = `${environment.apiUrl}/cas/login`;
 
   }
 
