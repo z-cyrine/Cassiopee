@@ -7,6 +7,7 @@ import {
   Param,
   Body,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { MajorsService } from './majeures.service';
 import { CreateMajeureDto } from './dto/create-majeure.dto';
@@ -16,11 +17,18 @@ import { UpdateMajeureDto } from './dto/update-majeure.dto';
 export class MajorsController {
   constructor(private readonly majorsService: MajorsService) {}
 
-  // GET /majeures/distinct
+  
+     @Get('search')
+searchMajors(@Query('code') code?: string, @Query('groupe') groupe?: string) {
+  return this.majorsService.searchByCodeOrGroupe(code, groupe);
+}
+// GET /majeures/distinct
   @Get('distinct')
   getDistinctMajors() {
     return this.majorsService.getDistinctMajors();
   }
+
+ 
 
   // GET /majeures/departments
   @Get('departments')
@@ -31,6 +39,11 @@ export class MajorsController {
    @Get()
   findAll() {
     return this.majorsService.findAll();
+  }
+  
+  @Get('code-classes')
+  getDistinctCodeClasses() {
+    return this.majorsService.getDistinctCodeClasses();
   }
 
   @Get(':id')
@@ -52,4 +65,7 @@ export class MajorsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.majorsService.remove(id);
   }
+
+
+
 }

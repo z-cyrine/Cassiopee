@@ -1,0 +1,127 @@
+/* 1) Page wrapper avec gradient agréable */
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  background: linear-gradient(
+    135deg,
+    #002b45 0%,
+    #005c7c 50%,
+    #b42978 100%
+  );
+}
+
+/* 2) Carte de profil */
+.profile-card {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+/* 3) En-tête */
+.card-header {
+  display: flex;
+  align-items: center;
+  background: #002b45;
+  padding: 16px 24px;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  background: #9b59b6;
+  color: #fff;
+  font-size: 32px;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+.header-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.btn-edit {
+  background: #b42978;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-edit:hover {
+  background: #931c67;
+}
+
+/* 4) Corps des détails */
+.card-body {
+  padding: 24px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 600;
+  color: #b42978;
+}
+
+.value {
+  color: #333333;
+}
+
+/* 5) Badge */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.badge.admin {
+  background: #b42978;
+}
+
+.badge.prof {
+  background: #0077b6;
+}
+
+.badge.consultation {
+  background: #cccccc;
+  color: #333333;
+}

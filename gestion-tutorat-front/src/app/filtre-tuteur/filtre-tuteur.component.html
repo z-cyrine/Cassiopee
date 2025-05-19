@@ -1,0 +1,88 @@
+<div class="filter-wrapper">
+  <button class="menu-button" (click)="togglePanel($event)">{{ 'AFFECT_MANUELLE.FILTER_TUTORS' | translate }}</button>
+
+  <div class="floating-panel" *ngIf="panelVisible" (click)="$event.stopPropagation()">
+    <form (ngSubmit)="applyFilters()">
+      <div class="filter-section">
+
+        <!-- Nom & Prénom -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showNom" name="showNom">
+            <span class="checkmark"></span>
+            {{ 'COMMON.LASTNAME' | translate }} & {{ 'COMMON.FIRSTNAME' | translate }}
+          </label>
+          <div *ngIf="showNom">
+            <label>{{ 'COMMON.LASTNAME' | translate }} :</label>
+            <input class="form-control" [(ngModel)]="nomFilter" name="nom" type="text">
+            <label>{{ 'COMMON.FIRSTNAME' | translate }} :</label>
+            <input class="form-control" [(ngModel)]="prenomFilter" name="prenom" type="text">
+          </div>
+        </div>
+
+        <!-- Profil -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showProfil" name="showProfil">
+            <span class="checkmark"></span>
+            {{ 'TUTORS.PROFIL' | translate }}
+          </label>
+          <div *ngIf="showProfil">
+            <select class="form-select" [(ngModel)]="selectedProfil" name="profil">
+              <option value="Tous">{{ 'COMMON.ALL' | translate }}</option>
+              <option *ngFor="let profil of profils" [value]="profil">
+                {{ profil === '' ? ('COMMON.NOT_SPECIFIED' | translate) : profil }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Département -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showDepartement" name="showDepartement">
+            <span class="checkmark"></span>
+            {{ 'COMMON.DEPARTMENT' | translate }}
+          </label>
+          <div *ngIf="showDepartement">
+            <select class="form-select" [(ngModel)]="selectedDepartement" name="departement">
+              <option value="Tous">{{ 'COMMON.ALL' | translate }}</option>
+              <option *ngFor="let dep of departements" [value]="dep">{{ dep }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Solde Tutorat Restant -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showSoldeRestant" name="showSoldeRestant">
+            <span class="checkmark"></span>
+            {{ 'TUTORS.SOLDE_TUTORAT_RESTANT' | translate }} ≥
+          </label>
+          <div *ngIf="showSoldeRestant">
+            <input class="form-control" [(ngModel)]="minSoldeRestant" name="soldeRestant" type="number" min="0">
+          </div>
+        </div>
+
+        <!-- Nb Tutorats Affectés -->
+        <div class="filter">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showNbAffectes" name="showNbAffectes">
+            <span class="checkmark"></span>
+            {{ 'TUTORS.NB_TUTORAT_AFFECTE' | translate }} ≥
+          </label>
+          <div *ngIf="showNbAffectes">
+            <input class="form-control" [(ngModel)]="minNbAffectes" name="nbAffectes" type="number" min="0">
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="filter-actions">
+          <button type="submit" class="btn btn-outline-primary btn-sm">{{ 'COMMON.SEARCH' | translate }}</button>
+          <button type="button" class="btn btn-outline-dark btn-sm" (click)="reinitialiser()">{{ 'COMMON.RESET' | translate }}</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>

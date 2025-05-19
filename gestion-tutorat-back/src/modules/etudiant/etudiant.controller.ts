@@ -8,6 +8,7 @@ import {
     Delete,
     ParseIntPipe,
     Query,
+    DefaultValuePipe,
   } from '@nestjs/common';
   import { EtudiantService } from './etudiant.service';
   import { CreateEtudiantDto } from './dto/create-etudiant.dto';
@@ -17,7 +18,19 @@ import {
   @Controller('etudiant')
   export class EtudiantController {
     constructor(private readonly etudiantService: EtudiantService) {}
-  
+  @Get('search')
+async searchByName(
+  @Query('nom') nom?: string,
+  @Query('prenom') prenom?: string,
+): Promise<Etudiant[]> {
+  return this.etudiantService.searchByName(nom, prenom);
+}
+
+    @Get('all')
+    findAllNotPaginated() {
+      return this.etudiantService.findAll();
+    }
+
     // CREATE
     @Post()
     create(@Body() createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
@@ -32,7 +45,6 @@ import {
     ) {
       return this.etudiantService.findAllPaginated(Number(page), Number(limit));
     }
-  
     // READ ONE
     @Get(':id')
     findOne(@Param('id', ParseIntPipe) id: number): Promise<Etudiant> {
@@ -53,5 +65,33 @@ import {
     remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
       return this.etudiantService.remove(id);
     }
+
+    @Put(':id/freeze')
+    freeze(@Param('id', ParseIntPipe) id: number): Promise<Etudiant> {
+      return this.etudiantService.update(id, { frozen: true });
+    }
+
+    @Put(':id/unfreeze')
+    unfreeze(@Param('id', ParseIntPipe) id: number): Promise<Etudiant> {
+      return this.etudiantService.update(id, { frozen: false });
+    }
+
+    @Put('batch/freeze')
+    batchFreeze(@Body() ids: number[]): Promise<Etudiant[]> {
+      return this.etudiantService.batchUpdate(ids, { frozen: true });
+    }
+
+    @Put('batch/unfreeze')
+    batchUnfreeze(@Body() ids: number[]): Promise<Etudiant[]> {
+      return this.etudiantService.batchUpdate(ids, { frozen: false });
+    }
+
+    @Get('diagnostic-majeures')
+    async diagnosticMajeures() {
+      await this.etudiantService.diagnostiquerEtudiantsSansMajeure();
+      return { success: true };
+    }
+
+    
   }
   

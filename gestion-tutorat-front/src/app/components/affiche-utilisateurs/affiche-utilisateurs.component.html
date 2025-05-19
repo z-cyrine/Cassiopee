@@ -1,0 +1,103 @@
+<h2 class="majeures-title">Liste des utilisateurs</h2>
+
+<!-- 🔍 Search Bar -->
+<div class="actions-container">
+  <div class="actions-text">Recherche utilisateur</div>
+  <div class="actions-controls search-majeures">
+    <input
+      type="text"
+      placeholder="Email"
+      [(ngModel)]="searchEmail"
+      (ngModelChange)="searchEmail = searchEmail.trim()"
+      class="search-input"
+    />
+
+    <select [(ngModel)]="selectedRole" class="search-input">
+      <option value="">Tous les rôles</option>
+      <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+    </select>
+
+    <button (click)="onSearch()" class="search-btn primary">Rechercher</button>
+    <button (click)="onClearSearch()" class="search-btn secondary">Réinitialiser</button>
+  </div>
+</div>
+
+<!-- 🔍 Search Results -->
+<div *ngIf="searchMode">
+  <div *ngIf="searchResults.length > 0; else noResultMsg" class="majors-card-list">
+    <div *ngFor="let user of searchResults" class="majors-card">
+      <div class="majors-card-header">
+        <span class="majors-title-link">{{ user.name }}</span>
+        <div class="majors-card-actions">
+          <button class="icon-btn edit" (click)="onEditUser(user.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="icon-btn delete" (click)="onDeleteUser(user.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="majors-card-body">
+        <div class="majors-property"><strong>Email:</strong> {{ user.email }}</div>
+        <div class="majors-property"><strong>Rôle:</strong> {{ user.role }}</div>
+        <div class="majors-property"><strong>Ajouté le:</strong> {{ user.createdAt | date: 'short' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResultMsg>
+    <div class="text-center mt-4 text-muted">Aucun utilisateur trouvé.</div>
+  </ng-template>
+</div>
+
+<!-- 📄 Normal View with Pagination -->
+<div *ngIf="!searchMode">
+  <div class="majors-card-list">
+    <div *ngFor="let user of pagedUsers" class="majors-card">
+      <div class="majors-card-header">
+        <span class="majors-title-link">{{ user.name }}</span>
+        <div class="majors-card-actions">
+          <button class="icon-btn edit" (click)="onEditUser(user.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="icon-btn delete" (click)="onDeleteUser(user.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="majors-card-body">
+        <div class="majors-property"><strong>Email:</strong> {{ user.email }}</div>
+        <div class="majors-property"><strong>Rôle:</strong> {{ user.role }}</div>
+        <div class="majors-property"><strong>Ajouté le:</strong> {{ user.createdAt | date: 'short' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ◄► Pagination -->
+  <div class="pagination-controls">
+    <button (click)="prevPage()" [disabled]="page === 1 || loading" class="pagination-btn">
+      <i class="fas fa-chevron-left"></i> Précédent
+    </button>
+
+    <div class="pagination-numbers">
+      <button *ngIf="page > 2 && visiblePages[0] !== 1" (click)="goToPage(1)" class="pagination-number">1</button>
+      <span *ngIf="page > 3 && visiblePages[0] !== 1" class="pagination-ellipsis">...</span>
+
+      <button *ngFor="let pageNum of visiblePages"
+              (click)="goToPage(pageNum)"
+              [class.active]="pageNum === page"
+              class="pagination-number">
+        {{ pageNum }}
+      </button>
+
+      <span *ngIf="page < pageCount - 2 && visiblePages[visiblePages.length-1] !== pageCount" class="pagination-ellipsis">...</span>
+      <button *ngIf="page < pageCount - 1 && visiblePages[visiblePages.length-1] !== pageCount" (click)="goToPage(pageCount)" class="pagination-number">
+        {{ pageCount }}
+      </button>
+    </div>
+
+    <button (click)="nextPage()" [disabled]="page === pageCount || loading" class="pagination-btn">
+      Suivant <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

@@ -3,6 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Majeure {
   id?: number;
@@ -19,7 +20,7 @@ export interface Majeure {
   providedIn: 'root'
 })
 export class MajorsService {
-  private baseUrl = 'http://localhost:3000/majeures';
+  private baseUrl = `${environment.apiUrl}/majeures`;
 
   constructor(private http: HttpClient) {}
 
@@ -46,5 +47,13 @@ export class MajorsService {
   // LIST ALL (optional for future)
   getAllMajors(): Observable<Majeure[]> {
     return this.http.get<Majeure[]>(this.baseUrl);
+  }
+
+searchMajors(code?: string, groupe?: string): Observable<Majeure[]> {
+    let queryParams = [];
+    if (code) queryParams.push(`code=${encodeURIComponent(code)}`);
+    if (groupe) queryParams.push(`groupe=${encodeURIComponent(groupe)}`);
+    const queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+    return this.http.get<Majeure[]>(`${this.baseUrl}/search${queryString}`);
   }
 }

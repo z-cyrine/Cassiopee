@@ -45,4 +45,10 @@ export class ImportController {
     
     return { message: 'Fichier(s) importé(s) avec succès' };
   }
+
+  @Post('corriger-majeures-etudiants')
+  async corrigerMajeuresEtudiants() {
+    await this.importService.corrigerEtudiantsSansMajeure();
+    return { success: true };
+  }
 }

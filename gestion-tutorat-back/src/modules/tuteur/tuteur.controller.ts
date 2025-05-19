@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { TuteurService } from './tuteur.service';
 import { CreateTuteurDto } from './dto/create-tuteur.dto';
 import { UpdateTuteurDto } from './dto/update-tuteur.dto';
@@ -7,6 +7,14 @@ import { Tuteur } from './tuteur.entity';
 @Controller('tuteur')
 export class TuteurController {
   constructor(private readonly tuteurService: TuteurService) {}
+
+  @Get('search')
+search(
+  @Query('nom') nom?: string,
+  @Query('prenom') prenom?: string
+): Promise<Tuteur[]> {
+  return this.tuteurService.searchByName(nom, prenom);
+}
 
   // CREATE
   @Post()
@@ -18,6 +26,11 @@ export class TuteurController {
   @Get()
   findAll(): Promise<Tuteur[]> {
     return this.tuteurService.findAll();
+  }
+
+  @Get('profils')
+  getDistinctProfils() {
+    return this.tuteurService.getDistinctProfils();
   }
 
   // READ ONE
@@ -40,4 +53,11 @@ export class TuteurController {
   remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.tuteurService.remove(id);
   }
+
+  // tuteur.controller.ts
+@Get(':id/etudiants')
+async getEtudiants(@Param('id') id: number) {
+  return this.tuteurService.getEtudiantsForTuteur(+id);
+}
+
 }

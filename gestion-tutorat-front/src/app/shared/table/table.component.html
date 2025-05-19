@@ -4,7 +4,7 @@
 
         <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
           <th mat-header-cell *matHeaderCellDef [ngClass]="{'logs-col': column.columnDef === 'logs'}">
-            {{ column.header }}
+            {{ column.header | translate }}
             <ng-container *ngIf="column.columnDef === 'logs'">
               <button (click)="toggleLogsCol()" class="logs-eye-btn" title="Afficher/Masquer les logs">
                 <mat-icon>{{ showLogsCol ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -26,7 +26,18 @@
               </ng-container>
             </ng-container>
             <ng-template #defaultCell>
-              {{ column.cell(element) }}
+              <ng-container *ngIf="column.columnDef === 'frozen'; else defaultCell">
+                <button class="btn btn-sm"
+                        [class.btn-outline-secondary]="!element.frozen"
+                        [class.btn-secondary]="element.frozen"
+                        (click)="onToggleFrozen(element); $event.stopPropagation()">
+                  <i class="bi" [class.bi-lock]="element.frozen" [class.bi-unlock]="!element.frozen"></i>
+                  {{ element.frozen ? 'Figé' : 'Non figé' }}
+                </button>
+              </ng-container>
+              <ng-template #defaultCell>
+                {{ column.cell(element) }}
+              </ng-template>
             </ng-template>
           </td>
         </ng-container>
@@ -45,7 +56,7 @@
         
       
         <tr mat-header-row *matHeaderRowDef="columnDefinitions"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnDefinitions"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnDefinitions" (click)="onRowClick(row)"></tr>
       </table>
   </div>
 </div>

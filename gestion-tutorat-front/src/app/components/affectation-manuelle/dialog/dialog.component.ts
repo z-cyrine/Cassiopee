@@ -14,6 +14,7 @@ import {AsyncPipe} from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Output, EventEmitter } from '@angular/core';
 import { Tuteur } from '../../../services/tuteur/tuteur.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 export interface DialogData {
   name: string;
@@ -34,7 +35,8 @@ export interface DialogData {
     ReactiveFormsModule,
     MatAutocompleteModule,
     AsyncPipe,
-    CommonModule
+    CommonModule,
+    TranslateModule
   ],
 })
 export class DialogComponent implements OnInit {

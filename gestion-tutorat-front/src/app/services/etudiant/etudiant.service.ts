@@ -32,6 +32,15 @@ export class EtudiantService {
 
   constructor(private http: HttpClient) {}
 
+  searchStudents(nom?: string, prenom?: string): Observable<Etudiant[]> {
+  const params: any = {};
+  if (nom) params.nom = nom;
+  if (prenom) params.prenom = prenom;
+
+  return this.http.get<Etudiant[]>(`${this.baseUrl}/search`, { params });
+}
+
+
   createEtudiant(data: Etudiant): Observable<Etudiant> {
     return this.http.post<Etudiant>(this.baseUrl, data);
   }
@@ -52,5 +61,21 @@ export class EtudiantService {
   update(id: number, etudiant: Etudiant): Observable<Etudiant> {
     return this.http.put<Etudiant>(`${this.baseUrl}/${id}`, etudiant);
   }
+
+  getAllStudents() {
+  return this.http.get<Etudiant[]>(`${this.baseUrl}/all`);
+}
+
+toggleFrozen(etudiantId: number, action: 'freeze' | 'unfreeze') {
+  return this.http.put(`${this.baseUrl}/${etudiantId}/${action}`, {});
+}
+
+batchFreeze(ids: number[]) {
+  return this.http.put(`${this.baseUrl}/batch/freeze`, ids);
+}
+
+batchUnfreeze(ids: number[]) {
+  return this.http.put(`${this.baseUrl}/batch/unfreeze`, ids);
+}
 
 }

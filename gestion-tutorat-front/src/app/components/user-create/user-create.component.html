@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="card create-card">
+    <div class="card-header">
+      <h2>Créer un Utilisateur</h2>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <!-- Nom -->
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" class="form-control" formControlName="name"
+            [ngClass]="{ 'is-invalid': submitted && f['name'].invalid }" />
+          <div *ngIf="submitted && f['name'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" formControlName="email"
+            [ngClass]="{ 'is-invalid': submitted && f['email'].invalid }" />
+          <div *ngIf="submitted && f['email'].invalid" class="invalid-feedback">
+            <span *ngIf="f['email'].errors?.['required']">Champ obligatoire.</span>
+            <span *ngIf="f['email'].errors?.['email']">Format e-mail invalide.</span>
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" class="form-control" formControlName="password"
+            [ngClass]="{ 'is-invalid': submitted && f['password'].invalid }" />
+          <div *ngIf="submitted && f['password'].invalid" class="invalid-feedback">
+            <span *ngIf="f['password'].errors?.['required']">Champ obligatoire.</span>
+            <span *ngIf="f['password'].errors?.['minlength']">Minimum 6 caractères.</span>
+          </div>
+        </div>
+
+        <!-- Rôle -->
+        <div class="form-group">
+          <label>Rôle</label>
+          <select class="form-control" formControlName="role"
+            [ngClass]="{ 'is-invalid': submitted && f['role'].invalid }">
+            <option value="">-- Sélectionner --</option>
+            <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+          </select>
+          <div *ngIf="submitted && f['role'].invalid" class="invalid-feedback">
+            Champ obligatoire.
+          </div>
+        </div>
+
+        <!-- Bouton soumission -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-submit">Créer l'Utilisateur</button>
+        </div>
+      </form>
+
+      <!-- Messages -->
+      <div *ngIf="successMessage" class="alert alert-success success-alert mt-3 text-center">
+        {{ successMessage }}
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>

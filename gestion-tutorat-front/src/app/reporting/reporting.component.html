@@ -2,7 +2,7 @@
   <!-- Filter Form Card -->
   <div class="reporting-card">
     <div class="reporting-header">
-      <h2>Filtres Dynamiques de Reporting</h2>
+      <h2>{{ 'REPORTING.DYNAMIC_FILTERS' | translate }}</h2>
     </div>
     <div class="reporting-body">
       <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
@@ -10,12 +10,12 @@
         <!-- Filtrer par Majeure -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="majorFilter" (change)="toggleMajor()" />
-          <label class="form-check-label">Filtrer par Majeure</label>
+          <label class="form-check-label">{{ 'REPORTING.FILTER_BY_MAJOR' | translate }}</label>
         </div>
         <div *ngIf="filterForm.get('majorFilter')?.value" class="mb-3 ms-4">
-          <label for="major" class="form-label">Nom de la Majeure (Groupe)&nbsp;:</label>
+          <label for="major" class="form-label">{{ 'REPORTING.MAJOR_NAME' | translate }} :</label>
           <select formControlName="major" id="major" class="form-select">
-            <option value="">-- Choisir une Majeure --</option>
+            <option value="">{{ 'REPORTING.CHOOSE_MAJOR' | translate }}</option>
             <option *ngFor="let m of majors" [value]="m.groupe">{{ m.groupe }}</option>
           </select>
         </div>
@@ -23,12 +23,12 @@
         <!-- Filtrer par Département -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="departmentFilter" (change)="toggleDepartment()" />
-          <label class="form-check-label">Filtrer par Département</label>
+          <label class="form-check-label">{{ 'REPORTING.FILTER_BY_DEPARTMENT' | translate }}</label>
         </div>
         <div *ngIf="filterForm.get('departmentFilter')?.value" class="mb-3 ms-4">
-          <label for="department" class="form-label">Sélectionner un Département&nbsp;:</label>
+          <label for="department" class="form-label">{{ 'REPORTING.SELECT_DEPARTMENT' | translate }} :</label>
           <select formControlName="department" id="department" class="form-select">
-            <option value="">-- Choisir un Département --</option>
+            <option value="">{{ 'REPORTING.CHOOSE_DEPARTMENT' | translate }}</option>
             <option *ngFor="let d of departments" [value]="d">{{ d }}</option>
           </select>
         </div>
@@ -36,48 +36,48 @@
         <!-- Filtrer par Langue -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="languageFilter" />
-          <label class="form-check-label">Filtrer par Langue</label>
+          <label class="form-check-label">{{ 'REPORTING.FILTER_BY_LANGUAGE' | translate }}</label>
         </div>
         <div *ngIf="filterForm.get('languageFilter')?.value" class="mb-3 ms-4">
-          <label for="language" class="form-label">Sélectionner une Langue&nbsp;:</label>
+          <label for="language" class="form-label">{{ 'REPORTING.SELECT_LANGUAGE' | translate }} :</label>
           <select formControlName="language" id="language" class="form-select">
-            <option value="">-- Choisir une Langue --</option>
-            <option value="FR">Français</option>
-            <option value="EN">Anglais</option>
-            <option value="EN/FR">Anglais & Français</option>
+            <option value="">{{ 'REPORTING.CHOOSE_LANGUAGE' | translate }}</option>
+            <option value="FR">{{ 'COMMON.FRENCH' | translate }}</option>
+            <option value="EN">{{ 'COMMON.ENGLISH' | translate }}</option>
+            <option value="EN/FR">{{ 'REPORTING.ENGLISH_AND_FRENCH' | translate }}</option>
           </select>
         </div>
 
         <!-- Filtrer par Nom de Tuteur -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="tutorFilter" />
-          <label class="form-check-label">Filtrer par Nom du Tuteur</label>
+          <label class="form-check-label">{{ 'REPORTING.FILTER_BY_TUTOR_NAME' | translate }}</label>
         </div>
         <div *ngIf="filterForm.get('tutorFilter')?.value" class="mb-3 ms-4">
-          <input type="text" formControlName="tutorName" class="form-control" placeholder="Saisir le nom du tuteur" />
+          <input type="text" formControlName="tutorName" class="form-control" [placeholder]="'REPORTING.ENTER_TUTOR_NAME' | translate" />
         </div>
 
         <!-- Filtrer par Nom Étudiant -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="studentFilter" />
-          <label class="form-check-label">Filtrer par Nom de l'Étudiant</label>
+          <label class="form-check-label">{{ 'REPORTING.FILTER_BY_STUDENT_NAME' | translate }}</label>
         </div>
         <div *ngIf="filterForm.get('studentFilter')?.value" class="mb-3 ms-4">
-          <input type="text" formControlName="studentName" class="form-control" placeholder="Saisir le nom de l'étudiant" />
+          <input type="text" formControlName="studentName" class="form-control" [placeholder]="'REPORTING.ENTER_STUDENT_NAME' | translate" />
         </div>
 
         <!-- Filtrer par Statut -->
         <div class="form-check mb-2">
           <input type="checkbox" class="form-check-input" formControlName="statusFilter" />
-          <label class="form-check-label">Filtrer par Statut d'Affectation</label>
+          <label class="form-check-label">{{ 'REPORTING.FILTER_BY_STATUS' | translate }}</label>
         </div>
         <div *ngIf="filterForm.get('statusFilter')?.value" class="mb-3 ms-4">
-          <label for="status" class="form-label">Sélectionner un Statut&nbsp;:</label>
+          <label for="status" class="form-label">{{ 'REPORTING.SELECT_STATUS' | translate }} :</label>
           <select formControlName="status" id="status" class="form-select">
-            <option value="">-- Choisir un Statut --</option>
-            <option value="AFFECTES">Affecté</option>
-            <option value="NON_AFFECTES">Non Affecté</option>
-            <option value="ALL">Tous</option>
+            <option value="">{{ 'REPORTING.CHOOSE_STATUS' | translate }}</option>
+            <option value="AFFECTES">{{ 'REPORTING.AFFECTED' | translate }}</option>
+            <option value="NON_AFFECTES">{{ 'REPORTING.NOT_AFFECTED' | translate }}</option>
+            <option value="ALL">{{ 'COMMON.ALL' | translate }}</option>
           </select>
         </div>
 
@@ -95,9 +95,9 @@
 
         <!-- Boutons Valider + Exporter -->
         <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary">Valider</button>
+          <button type="submit" class="btn btn-primary">{{ 'COMMON.VALIDATE' | translate }}</button>
           <button type="button" class="btn btn-success" *ngIf="filteredData.length > 0" (click)="exportToExcel()">
-            Exporter en Excel
+            {{ 'COMMON.EXPORT_EXCEL' | translate }}
           </button>
         </div>
       </form>
@@ -107,18 +107,18 @@
   <!-- Résultats -->
   <div class="reporting-card mt-4" *ngIf="filteredData && filteredData.length > 0">
     <div class="reporting-header">
-      <h3>Résultats du Filtre</h3>
+      <h3>{{ 'REPORTING.FILTER_RESULTS' | translate }}</h3>
     </div>
     <div class="reporting-body">
       <table class="table table-striped results-table">
         <thead>
           <tr>
-            <th>Étudiant</th>
-            <th>Tuteur</th>
-            <th>Majeure</th>
-            <th>Département</th>
-            <th>Langue</th>
-            <th>Statut</th>
+            <th>{{ 'COMMON.STUDENT' | translate }}</th>
+            <th>{{ 'COMMON.TUTOR' | translate }}</th>
+            <th>{{ 'COMMON.MAJOR' | translate }}</th>
+            <th>{{ 'COMMON.DEPARTMENT' | translate }}</th>
+            <th>{{ 'COMMON.LANGUAGE' | translate }}</th>
+            <th>{{ 'COMMON.STATUS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -132,7 +132,7 @@
                   {{ item.tuteur.prenom }} {{ item.tuteur.nom }}
                 </a>
               </ng-container>
-              <ng-template #noTutor><span>Aucun Tuteur</span></ng-template>
+              <ng-template #noTutor><span>{{ 'REPORTING.NO_TUTOR' | translate }}</span></ng-template>
             </td>
             <td>
               <ng-container *ngIf="item.majeure; else noMajor">
@@ -142,22 +142,22 @@
                   {{ item.majeure.groupe }}
                 </a>
               </ng-container>
-              <ng-template #noMajor><span>Aucune Majeure</span></ng-template>
+              <ng-template #noMajor><span>{{ 'REPORTING.NO_MAJOR' | translate }}</span></ng-template>
             </td>
             <td>
               <ng-container *ngIf="item.majeure?.dept; else noDept">
                 {{ item.majeure.dept }}
               </ng-container>
-              <ng-template #noDept><span>Aucun Département</span></ng-template>
+              <ng-template #noDept><span>{{ 'REPORTING.NO_DEPARTMENT' | translate }}</span></ng-template>
             </td>
-            <td>{{ item.langue || 'N/A' }}</td>
-            <td>{{ item.affecte ? 'Affecté' : 'Non Affecté' }}</td>
+            <td>{{ item.langue || ('COMMON.NOT_AVAILABLE' | translate) }}</td>
+            <td>{{ item.affecte ? ('REPORTING.AFFECTED' | translate) : ('REPORTING.NOT_AFFECTED' | translate) }}</td>
           </tr>
         </tbody>
       </table>
       <div class="pagination-controls" *ngIf="pageCount > 1">
         <button (click)="prevPage()" [disabled]="page === 1" class="pagination-btn">
-          <i class="fas fa-chevron-left"></i> Précédent
+          <i class="fas fa-chevron-left"></i> {{ 'COMMON.PREVIOUS' | translate }}
         </button>
         <div class="pagination-numbers">
           <button *ngIf="page > 2" (click)="goToPage(1)" class="pagination-number">1</button>
@@ -174,7 +174,7 @@
           </button>
         </div>
         <button (click)="nextPage()" [disabled]="page === pageCount" class="pagination-btn">
-          Suivant <i class="fas fa-chevron-right"></i>
+          {{ 'COMMON.NEXT' | translate }} <i class="fas fa-chevron-right"></i>
         </button>
       </div>
     </div>
@@ -182,6 +182,6 @@
 
   <!-- No results message -->
   <div class="alert alert-warning mt-4" *ngIf="hasSubmitted && filteredData.length === 0">
-    Aucun résultat trouvé pour les filtres sélectionnés.
+    {{ 'REPORTING.NO_RESULTS' | translate }}
   </div>
 </div>

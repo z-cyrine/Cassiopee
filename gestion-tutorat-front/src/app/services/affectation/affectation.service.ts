@@ -21,4 +21,16 @@ export class AffectationService {
   runAffectation(equivalence: number): Observable<AffectationResult> {
     return this.http.post<AffectationResult>(`${this.baseUrl}/auto-affectation`, {equivalence });
   }
+
+  getEtatAffectation(): Observable<AffectationResult> {
+    return this.http.get<AffectationResult>(`${this.baseUrl}/auto-affectation/etat-actuel`);
+  }
+
+  resetAffectation(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auto-affectation/reset`, {});
+  }
+
+  toggleFrozen(etudiantId: number, action: 'freeze' | 'unfreeze') {
+    return this.http.put(`${this.baseUrl}/etudiant/${etudiantId}/${action}`, {});
+  }
 }

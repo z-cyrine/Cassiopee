@@ -4,23 +4,31 @@ import { CommonModule } from '@angular/common';
 import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-tuteur-create',
   templateUrl: './tuteur-create.component.html',
   styleUrls: ['./tuteur-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
 })
 export class TuteurCreateComponent implements OnInit, OnDestroy {
   tuteurForm!: FormGroup;
   submitted = false;
   successMessage = '';
+  errorMessage = '';
+
   private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private tuteurService: TuteurService) {}
+  constructor(
+    private fb: FormBuilder,
+    private tuteurService: TuteurService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.tuteurForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
@@ -30,7 +38,6 @@ export class TuteurCreateComponent implements OnInit, OnDestroy {
       statut: ['', Validators.required],
       colonne2: [''],
       infoStatut: [''],
-      // We use a string input which will be converted into an array (comma separated)
       langueTutorat: [''],
       profil: ['', Validators.required],
       parTutoratAlt: [0, Validators.min(0)],
@@ -42,7 +49,6 @@ export class TuteurCreateComponent implements OnInit, OnDestroy {
       totalEtudiantsPar: [0, Validators.min(0)],
       nbTutoratAffecte: [0, Validators.min(0)],
       soldeTutoratRestant: [0, Validators.min(0)],
-      // Similarly for the array fields
       matieres: [''],
       domainesExpertise: ['']
     });
@@ -52,25 +58,23 @@ export class TuteurCreateComponent implements OnInit, OnDestroy {
     return this.tuteurForm.controls;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
+    this.successMessage = '';
+    this.errorMessage = '';
 
-    if (this.tuteurForm.invalid) {
-      return;
-    }
+    if (this.tuteurForm.invalid) return;
 
-    // Clone the form value
     const formValue = { ...this.tuteurForm.value };
 
-    // Convert comma-separated string fields into arrays.
     formValue.langueTutorat = formValue.langueTutorat
-      ? formValue.langueTutorat.split(',').map((s: string) => s.trim()).filter((s: string) => s)
+      ? formValue.langueTutorat.split(',').map((s: string) => s.trim()).filter(Boolean)
       : [];
     formValue.matieres = formValue.matieres
-      ? formValue.matieres.split(',').map((s: string) => s.trim()).filter((s: string) => s)
+      ? formValue.matieres.split(',').map((s: string) => s.trim()).filter(Boolean)
       : [];
     formValue.domainesExpertise = formValue.domainesExpertise
-      ? formValue.domainesExpertise.split(',').map((s: string) => s.trim()).filter((s: string) => s)
+      ? formValue.domainesExpertise.split(',').map((s: string) => s.trim()).filter(Boolean)
       : [];
 
     const newTuteur: Tuteur = formValue;
@@ -78,13 +82,29 @@ export class TuteurCreateComponent implements OnInit, OnDestroy {
     this.tuteurService.createTuteur(newTuteur)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => {
+        next: (created: Tuteur) => {
           this.successMessage = 'Tuteur créé avec succès !';
-          this.tuteurForm.reset();
-          this.submitted = false;
+          setTimeout(() => this.router.navigate(['/tuteurs', created.id]), 1000);
         },
         error: (err) => {
-          console.error('Erreur lors de la création du tuteur', err);
+          console.error('Erreur lors de la création', err);
+          console.log('Raw err.error:', err?.error);
+
+          try {
+            const backend = err?.error;
+            const nestedMessage = backend?.message;
+
+            if (nestedMessage?.duplicate) {
+              this.errorMessage = nestedMessage.message || 'Cet e-mail est déjà utilisé.';
+            } else if (typeof nestedMessage === 'string') {
+              this.errorMessage = nestedMessage;
+            } else {
+              this.errorMessage = JSON.stringify(nestedMessage || backend || err);
+            }
+          } catch (e) {
+            console.error('Parsing failed:', e);
+            this.errorMessage = 'Erreur inattendue lors de la création.';
+          }
         }
       });
   }

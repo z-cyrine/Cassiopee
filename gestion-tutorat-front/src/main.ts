@@ -11,6 +11,18 @@ import { AfficheEtudiantsComponent } from './app/components/affiche-etudiants/af
 import { ImportComponent } from './app/components/import/import.component';
 import { AutoAffectationComponent } from './app/components/auto-affectation/auto-affectation.component';
 import { AffectationManuelleComponent } from './app/components/affectation-manuelle/affectation-manuelle.component';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+registerLocaleData(localeFr, 'fr-FR');
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 const routes: Routes = [
   { path: '', redirectTo: 'etudiants/all', pathMatch: 'full' },
@@ -19,12 +31,10 @@ const routes: Routes = [
   { path: 'auto-affectation', component: AutoAffectationComponent },
   { path: 'affectation-manuelle', component: AffectationManuelleComponent },
   { path: '**', redirectTo: 'etudiants/all' },
-
 ];
 
 bootstrapApplication(AppComponent, {
   providers: [
-    
     provideHttpClient(),
     provideRouter(appRoutes), // Provide the routes
     importProvidersFrom(BrowserAnimationsModule),
@@ -35,7 +45,16 @@ bootstrapApplication(AppComponent, {
     })),
     provideAnimationsAsync(),
     provideRouter(routes),
-    provideAnimationsAsync(),
-    provideRouter(routes) 
+    importProvidersFrom(
+      HttpClientModule,
+      TranslateModule.forRoot({
+        defaultLanguage: 'fr',
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+        }
+      })
+    )
   ],
 }).catch((err) => console.error(err));

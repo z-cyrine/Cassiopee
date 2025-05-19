@@ -1,0 +1,247 @@
+.actions-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1f0f0;
+    padding: 12px 16px;
+    margin-top: 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.actions-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.actions-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Pagination Styles */
+.pagination-controls {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.pagination-numbers {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pagination-number {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    color: #333;
+    min-width: 2.5rem;
+    text-align: center;
+}
+
+.pagination-number:hover:not(.active) {
+    background: #f5f5f5;
+    border-color: #ccc;
+}
+
+.pagination-number.active {
+    background: linear-gradient(135deg, #00abc7, #9b59b6);
+    color: white;
+    border-color: transparent;
+}
+
+.loading-indicator {
+    color: #666;
+    font-style: italic;
+    margin-left: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pagination-numbers {
+        gap: 0.25rem;
+    }
+
+    .pagination-number {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* tableau  */
+/* Sticky Actions Column */
+.sticky {
+    position: sticky;
+    right: 0;
+    /* Ensure the column sticks to the right */
+    background: white;
+    /* Set background color to prevent overlapping */
+    z-index: 1;
+    /* Ensure the column stays above other rows when scrolling */
+    border-left: 1px solid #ddd;
+    /* Add a border for separation */
+    white-space: nowrap;
+}
+
+.stickyID {
+    position: sticky;
+    left: 0;
+    background: white;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+/* Conteneur centré et marges */
+.table-container {
+    max-width: 98vw;
+    margin: 1.5rem auto;
+    padding: 0 1vw;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+th,
+td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid #ececec;
+    font-size: 1rem;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+/* Table Header Styling */
+th {
+    background: #f5f7fa;
+    color: #2d2d2d;
+    font-weight: 600;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+/* Add alternating row colors */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+    /* Light gray for even rows */
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+    /* White for odd rows */
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: #f0f6ff;
+}
+
+/* scroll du tableau */
+.table-scroll-wrapper {
+    width: 100%;
+    overflow-x: scroll;
+    /* 🔁 forcé */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: auto;
+    scrollbar-color: #ccc #f5f5f5;
+    /* Pour Firefox */
+    scrollbar-width: thin;
+    /* Pour Firefox */
+}
+
+/* non assigné style  */
+.text-muted {
+    color: rgba(136, 136, 136, 0.8) !important;
+    font-style: italic;
+}
+
+/* Style des boutons d'action */
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin: 0 2px;
+}
+
+.icon-btn.edit {
+    color: #2196F3;
+}
+
+.icon-btn.delete {
+    color: #f44336;
+}
+
+.icon-btn:hover {
+    opacity: 0.8;
+}
+
+/* Style des liens */
+a {
+    color: #7d3bb8;
+    text-decoration: underline;
+}
+
+.pagination-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    color: #333;
+    min-width: 2.5rem;
+    text-align: center;
+    outline: none;
+}
+
+.pagination-btn:disabled {
+    background: #f5f5f5;
+    color: #bbb;
+    border-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+.pagination-btn:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #00abc7;
+}
+
+.pagination-number:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #00abc7;
+}
+
+.icon-btn.edit mat-icon {
+    color: #00abc7 !important;
+}
+
+.icon-btn.delete mat-icon {
+    color: #9b59b6 !important;
+}

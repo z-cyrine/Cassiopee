@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Etudiant } from '../etudiant/etudiant.service';
 
 export interface Tuteur {
   id?: number;
@@ -33,11 +34,10 @@ export interface Tuteur {
 })
 export class TuteurService {
   private baseUrl = `${environment.apiUrl}/tuteur`;
-  private apiUrl = 'http://localhost:3000/tuteur/all'; 
-  private affectationUrl = 'http://localhost:3000/affectation-manuelle';
-  
+  private affectationUrl = `${environment.apiUrl}/affectation-manuelle`; // Uniformiser avec baseUrl
+
   constructor(private http: HttpClient) {}
-  
+
   createTuteur(tuteur: Tuteur): Observable<Tuteur> {
     return this.http.post<Tuteur>(this.baseUrl, tuteur);
   }
@@ -45,19 +45,33 @@ export class TuteurService {
   findOne(id: number): Observable<Tuteur> {
     return this.http.get<Tuteur>(`${this.baseUrl}/${id}`);
   }
-  
+
   update(id: number, tuteur: Tuteur): Observable<Tuteur> {
     return this.http.put<Tuteur>(`${this.baseUrl}/${id}`, tuteur);
   }
-  
-  getTuteurs(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+
+  getTuteurs(): Observable<Tuteur[]> {
+    return this.http.get<Tuteur[]>(this.baseUrl);
   }
 
-      affecterEtudiant(etudiantId: number, tuteurId: number): Observable<any> {
-        return this.http.post(this.affectationUrl, {
-          etudiantId,
-          tuteurId
-        });
-      }
+  affecterEtudiant(etudiantId: number, tuteurId: number): Observable<any> {
+    return this.http.post(this.affectationUrl, {
+      etudiantId,
+      tuteurId
+    });
+  }
+
+    /** Récupérer les étudiants affectés à un tuteur */
+  getTuteurEtudiants(tuteurId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${tuteurId}/etudiants`);
+  }
+
+  searchTuteurs(nom?: string, prenom?: string): Observable<Tuteur[]> {
+  const queryParams = [];
+  if (nom) queryParams.push(`nom=${encodeURIComponent(nom)}`);
+  if (prenom) queryParams.push(`prenom=${encodeURIComponent(prenom)}`);
+  const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+  return this.http.get<Tuteur[]>(`${this.baseUrl}/search${queryString}`);
+}
+
 }

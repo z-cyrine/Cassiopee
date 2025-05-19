@@ -6,11 +6,14 @@ import { AffectationResult, AffectationService } from '../../services/affectatio
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-auto-affectation',
   standalone: true,
-  imports: [CommonModule, TableComponent, FormsModule],
+  imports: [CommonModule, TableComponent, FormsModule, TranslateModule],
   templateUrl: './auto-affectation.component.html',
   styleUrls: ['./auto-affectation.component.css']
 })
@@ -29,10 +32,20 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
   pageCount = 1;
   pagedData: any[] = [];
 
-  constructor(private affectationService: AffectationService) {}
+  lastUpdated: Date | null = null;
+  isCache: boolean = true;
+  stats: any = null;
+  showLogModal = false;
+  logModalContent = '';
+
+  constructor(private affectationService: AffectationService, private translate: TranslateService) {
+    this.translate.onLangChange.subscribe(() => {
+      this.setupColumns();
+    });
+  }
 
   ngOnInit(): void {
-    this.loadAffectation();
+    this.loadEtatAffectation();
   }
 
   ngOnDestroy(): void {
@@ -46,7 +59,8 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
     this.affectationService.runAffectation(this.equivalence)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res: AffectationResult) => {
+        next: (res: AffectationResult & { lastUpdated?: string | Date, stats?: any }) => {
+          console.log('Données reçues (auto):', res.details);
           this.result = res;
           this.data = res.details;
           this.page = 1;
@@ -54,10 +68,40 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
           this.updatePagedData();
           this.setupColumns();
           this.loading = false;
+          this.lastUpdated = res.lastUpdated ? new Date(res.lastUpdated) : null;
+          this.stats = res.stats || null;
+          this.isCache = false;
         },
         error: (err) => {
           console.error(err);
           this.error = "Erreur lors de l'affectation";
+          this.loading = false;
+        }
+      });
+  }
+
+  loadEtatAffectation(): void {
+    this.loading = true;
+    this.error = null;
+    this.affectationService.getEtatAffectation()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: AffectationResult & { lastUpdated?: string | Date, stats?: any }) => {
+          console.log('Données reçues (état):', res.details);
+          this.result = res;
+          this.data = res.details;
+          this.page = 1;
+          this.pageCount = Math.ceil(this.data.length / this.limit) || 1;
+          this.updatePagedData();
+          this.setupColumns();
+          this.loading = false;
+          this.lastUpdated = res.lastUpdated ? new Date(res.lastUpdated) : null;
+          this.stats = res.stats || null;
+          this.isCache = true;
+        },
+        error: (err) => {
+          console.error(err);
+          this.error = "Erreur lors de la récupération de l'état";
           this.loading = false;
         }
       });
@@ -104,21 +148,61 @@ export class AutoAffectationComponent implements OnInit, OnDestroy {
 
   setupColumns(): void {
     this.columns = [
-      { columnDef: 'etudiantId', header: 'ID', cell: (e: any) => String(e.etudiantId || '') },
-      { columnDef: 'nom', header: 'Nom Étudiant', cell: (e: any) => e.nom || '' },
-      { columnDef: 'prenom', header: 'Prénom Étudiant', cell: (e: any) => e.prenom || '' },
-      { columnDef: 'emailEcole', header: 'Email École', cell: (e: any) => e.emailEcole || '' },
-      { columnDef: 'codeClasse', header: 'Code Classe', cell: (e: any) => e.codeClasse || '' },
-      { columnDef: 'nomGroupe', header: 'Nom Groupe', cell: (e: any) => e.nomGroupe || '' },
-      { columnDef: 'langue', header: 'Langue Tutorat', cell: (e: any) => e.langue || '' },
-      { columnDef: 'iniAlt', header: 'Type', cell: (e: any) => e.iniAlt || '' },
-      // Colonnes d'infos du tuteur
-      { columnDef: 'tutorNom', header: 'Tutor Nom', cell: (e: any) => e.tutorNom || '' },
-      { columnDef: 'tutorPrenom', header: 'Tutor Prénom', cell: (e: any) => e.tutorPrenom || '' },
-      { columnDef: 'tutorDept', header: 'Tutor Département', cell: (e: any) => e.tutorDept || '' },
-      // Logs d'affectation
-      { columnDef: 'assigned', header: 'Affectation', cell: (e: any) => e.assigned ? 'Assigné' : 'À traiter manuellement'},
-      { columnDef: 'logs', header: 'Logs', cell: (e: any) => e.logs ? e.logs.join(' | ') : '' },
+      { columnDef: 'etudiantId', header: 'STUDENTS.ID', cell: (e: any) => String(e.etudiantId || '') },
+      { columnDef: 'nom', header: 'COMMON.LASTNAME', cell: (e: any) => e.nom || '' },
+      { columnDef: 'prenom', header: 'COMMON.FIRSTNAME', cell: (e: any) => e.prenom || '' },
+      { columnDef: 'emailEcole', header: 'STUDENTS.SCHOOL_EMAIL', cell: (e: any) => e.emailEcole || '' },
+      { columnDef: 'codeClasse', header: 'STUDENTS.CLASS_CODE', cell: (e: any) => e.codeClasse || '' },
+      { columnDef: 'nomGroupe', header: 'STUDENTS.GROUP_NAME', cell: (e: any) => e.nomGroupe || '' },
+      { columnDef: 'langue', header: 'TUTORS.LANGUE_TUTORAT', cell: (e: any) => e.langue || '' },
+      { columnDef: 'iniAlt', header: 'STUDENTS.INI_ALT', cell: (e: any) => e.iniAlt || '' },
+      { columnDef: 'tutorNom', header: 'TUTORS.LASTNAME', cell: (e: any) => e.tutorNom || '' },
+      { columnDef: 'tutorPrenom', header: 'TUTORS.FIRSTNAME', cell: (e: any) => e.tutorPrenom || '' },
+      { columnDef: 'tutorDept', header: 'TUTORS.DEPARTMENT', cell: (e: any) => e.tutorDept || '' },
+      { columnDef: 'assigned', header: 'STUDENTS.ASSIGNED', cell: (e: any) => e.assigned ? this.translate.instant('STUDENTS.YES') : this.translate.instant('STUDENTS.NO') },
+      { columnDef: 'logs', header: 'AUTO_AFFECT.LOGS', cell: (e: any) => Array.isArray(e.logs) ? e.logs.join(' | ') : (e.logs || '') },
     ];
+  }
+
+  resetAffectation(): void {
+    if (confirm('Voulez-vous vraiment réinitialiser toutes les affectations ?')) {
+      this.loading = true;
+      this.affectationService.resetAffectation().subscribe({
+        next: () => {
+          this.loadEtatAffectation();
+        },
+        error: (err) => {
+          this.error = "Erreur lors de la réinitialisation";
+          this.loading = false;
+        }
+      });
+    }
+  }
+
+  openLogModal(logs: string) {
+    this.logModalContent = logs;
+    this.showLogModal = true;
+  }
+  closeLogModal() {
+    this.showLogModal = false;
+    this.logModalContent = '';
+  }
+
+  formatDate(date: Date | null): string {
+    return date ? formatDate(date, 'dd/MM/yyyy HH:mm:ss', 'fr-FR') : '';
+  }
+
+  toggleFrozenEtudiant(etudiant: any): void {
+    const action = etudiant.frozen ? 'unfreeze' : 'freeze';
+    this.affectationService.toggleFrozen(etudiant.etudiantId, action).subscribe({
+      next: () => {
+        etudiant.frozen = !etudiant.frozen;
+        this.loadEtatAffectation();
+      },
+      error: (err: any) => {
+        console.error('Erreur lors du changement de statut figé:', err);
+        this.error = "Erreur lors du changement de statut figé";
+      }
+    });
   }
 }
