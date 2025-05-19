@@ -2,11 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 import { parseStringPromise } from 'xml2js';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Injectable()
 export class CasService {
-  private casBaseUrl = 'https://cas7d.imtbs-tsp.eu/cas';
-  private serviceUrl = 'https://ea0d-157-159-39-64.ngrok-free.app/auth/cas/callback';
+  private casBaseUrl = process.env.CAS_BASE_URL;
+  private serviceUrl = process.env.CAS_SERVICE_URL;
 
   constructor(private readonly httpService: HttpService) {}
 

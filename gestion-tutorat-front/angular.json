@@ -74,7 +74,7 @@
               "sslKey": "ssl/key.pem",
               "sslCert": "ssl/cert.pem",
               "host": "localhost",
-              "port": 4200
+              "port": 443
             }
           },
           "defaultConfiguration": "development"
