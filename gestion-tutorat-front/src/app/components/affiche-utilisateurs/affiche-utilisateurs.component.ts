@@ -6,11 +6,13 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { UserService, User } from '../../services/user/user.service';
 import { MatIconModule } from '@angular/material/icon';
+import { NgIf } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-affiche-utilisateurs',
   standalone: true,
-  imports: [CommonModule, FormsModule,  MatIconModule],
+  imports: [CommonModule, FormsModule,  MatIconModule, NgIf, TranslateModule],
   templateUrl: './affiche-utilisateurs.component.html',
   styleUrls: ['./affiche-utilisateurs.component.css']
 })

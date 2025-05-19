@@ -6,13 +6,14 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { TuteurService, Tuteur } from '../../services/tuteur/tuteur.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-tuteur-edit',
   templateUrl: './tuteur-edit.component.html',
   styleUrls: ['./tuteur-edit.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
 })
 export class TuteurEditComponent implements OnInit, OnDestroy {
   tuteurForm!: FormGroup;

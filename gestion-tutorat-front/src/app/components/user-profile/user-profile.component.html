@@ -4,27 +4,27 @@
     <div class="card-header">
       <div class="avatar">{{ user?.name?.charAt(0)?.toUpperCase() }}</div>
       <div class="header-info">
-        <h2 class="title">Mon Profil</h2>
-        <button class="btn-edit" (click)="editProfile()">Modifier</button>
+        <h2 class="title">{{ 'PROFILE.TITLE' | translate }}</h2>
+        <button class="btn-edit" (click)="editProfile()">{{ 'PROFILE.EDIT' | translate }}</button>
       </div>
     </div>
 
     <!-- Détails -->
     <div class="card-body">
       <div class="detail-item">
-        <span class="label">Nom</span>
+        <span class="label">{{ 'PROFILE.NAME' | translate }}</span>
         <span class="value">{{ user?.name }}</span>
       </div>
       <div class="detail-item">
-        <span class="label">Email</span>
+        <span class="label">{{ 'PROFILE.EMAIL' | translate }}</span>
         <span class="value">{{ user?.email }}</span>
       </div>
       <div class="detail-item">
-        <span class="label">Rôle</span>
-        <span class="badge" [ngClass]="user?.role">{{ user?.role }}</span>
+        <span class="label">{{ 'PROFILE.ROLE' | translate }}</span>
+        <span class="badge" [ngClass]="user?.role">{{ 'USER_LIST.ROLE_' + (user?.role | uppercase) | translate }}</span>
       </div>
       <div class="detail-item">
-        <span class="label">Membre depuis</span>
+        <span class="label">{{ 'PROFILE.MEMBER_SINCE' | translate }}</span>
         <span class="value">{{ user?.createdAt | date:'longDate' }}</span>
       </div>
       

@@ -1,56 +1,55 @@
 <div class="container mt-4">
-  <h2 class="form-title">Modifier l'Utilisateur</h2>
+  <h2 class="form-title">{{ 'USER_EDIT.TITLE' | translate }}</h2>
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <!-- Nom -->
     <div class="mb-3">
-      <label class="form-label">Nom</label>
+      <label class="form-label">{{ 'USER_EDIT.NAME' | translate }}</label>
       <input type="text" class="form-control" formControlName="name"
         [ngClass]="{'is-invalid': submitted && f['name'].errors}" />
       <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-        <div *ngIf="f['name'].errors['required']">Ce champ est requis</div>
+        <div *ngIf="f['name'].errors['required']">{{ 'USER_EDIT.REQUIRED' | translate }}</div>
       </div>
     </div>
 
     <!-- Email -->
     <div class="mb-3">
-      <label class="form-label">Email</label>
+      <label class="form-label">{{ 'USER_EDIT.EMAIL' | translate }}</label>
       <input type="email" class="form-control" formControlName="email"
         [ngClass]="{'is-invalid': submitted && f['email'].errors}" />
       <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-        <div *ngIf="f['email'].errors['required']">Ce champ est requis</div>
-        <div *ngIf="f['email'].errors['email']">Email invalide</div>
+        <div *ngIf="f['email'].errors['required']">{{ 'USER_EDIT.REQUIRED' | translate }}</div>
+        <div *ngIf="f['email'].errors['email']">{{ 'USER_EDIT.INVALID_EMAIL' | translate }}</div>
       </div>
     </div>
 
     <!-- Password (optional) -->
-<div class="mb-3">
-  <label class="form-label">Mot de passe</label>
-  <input
-    type="password"
-    class="form-control"
-    formControlName="password"
-    placeholder="Laisser vide pour ne pas changer"
-    autocomplete="new-password"
-  />
-</div>
-
+    <div class="mb-3">
+      <label class="form-label">{{ 'USER_EDIT.PASSWORD' | translate }}</label>
+      <input
+        type="password"
+        class="form-control"
+        formControlName="password"
+        [placeholder]="'USER_EDIT.PASSWORD_PLACEHOLDER' | translate"
+        autocomplete="new-password"
+      />
+    </div>
 
     <!-- Rôle -->
     <div class="mb-3">
-      <label class="form-label">Rôle</label>
+      <label class="form-label">{{ 'USER_EDIT.ROLE' | translate }}</label>
       <select class="form-control" formControlName="role"
         [ngClass]="{'is-invalid': submitted && f['role'].errors}">
-        <option value="">-- Sélectionner --</option>
-        <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+        <option value="">{{ 'USER_EDIT.SELECT_OPTION' | translate }}</option>
+        <option *ngFor="let r of roles" [value]="r">{{ 'USER_LIST.ROLE_' + (r | uppercase) | translate }}</option>
       </select>
       <div *ngIf="submitted && f['role'].errors" class="invalid-feedback">
-        <div *ngIf="f['role'].errors['required']">Ce champ est requis</div>
+        <div *ngIf="f['role'].errors['required']">{{ 'USER_EDIT.REQUIRED' | translate }}</div>
       </div>
     </div>
 
     <!-- Submit -->
-    <button class="btn btn-primary" type="submit">Mettre à jour l'Utilisateur</button>
+    <button class="btn btn-primary" type="submit">{{ 'USER_EDIT.SUBMIT' | translate }}</button>
   </form>
 
   <div *ngIf="successMessage" class="alert alert-success mt-3">

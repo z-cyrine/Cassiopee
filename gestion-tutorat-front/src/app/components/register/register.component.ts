@@ -3,14 +3,15 @@ import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, NgClass, TranslateModule],
 })
 export class RegisterComponent {
   registerForm: FormGroup;
@@ -21,7 +22,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -37,7 +39,7 @@ export class RegisterComponent {
     const { email, name, password, confirmPassword } = this.registerForm.value;
 
     if (password !== confirmPassword) {
-      this.errorMessage = 'Les mots de passe ne correspondent pas.';
+      this.errorMessage = this.translate.instant('AUTH.PASSWORDS_DONT_MATCH');
       return;
     }
 
@@ -49,8 +51,12 @@ export class RegisterComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.errorMessage = err.error?.message || 'Erreur lors de la création du compte';
+        this.errorMessage = this.translate.instant('AUTH.REGISTER_ERROR');
       }
     });
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }

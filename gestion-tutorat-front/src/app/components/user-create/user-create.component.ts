@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { UserService } from '../../services/user/user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-create',
@@ -18,6 +19,7 @@ import { UserService } from '../../services/user/user.service';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    TranslateModule,
   ],
 })
 export class UserCreateComponent implements OnInit, OnDestroy {

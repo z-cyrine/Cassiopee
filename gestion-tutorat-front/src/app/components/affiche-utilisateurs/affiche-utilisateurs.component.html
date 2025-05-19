@@ -1,24 +1,24 @@
-<h2 class="majeures-title">Liste des utilisateurs</h2>
+<h2 class="majeures-title">{{ 'USER_LIST.TITLE' | translate }}</h2>
 
 <!-- 🔍 Search Bar -->
 <div class="actions-container">
-  <div class="actions-text">Recherche utilisateur</div>
+  <div class="actions-text">{{ 'USER_LIST.SEARCH_TITLE' | translate }}</div>
   <div class="actions-controls search-majeures">
     <input
       type="text"
-      placeholder="Email"
+      [placeholder]="'USER_LIST.EMAIL' | translate"
       [(ngModel)]="searchEmail"
       (ngModelChange)="searchEmail = searchEmail.trim()"
       class="search-input"
     />
 
     <select [(ngModel)]="selectedRole" class="search-input">
-      <option value="">Tous les rôles</option>
-      <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+      <option value="">{{ 'USER_LIST.ALL_ROLES' | translate }}</option>
+      <option *ngFor="let r of roles" [value]="r">{{ 'USER_LIST.ROLE_' + (r | uppercase) | translate }}</option>
     </select>
 
-    <button (click)="onSearch()" class="search-btn primary">Rechercher</button>
-    <button (click)="onClearSearch()" class="search-btn secondary">Réinitialiser</button>
+    <button (click)="onSearch()" class="search-btn primary">{{ 'USER_LIST.SEARCH_BTN' | translate }}</button>
+    <button (click)="onClearSearch()" class="search-btn secondary">{{ 'USER_LIST.RESET_BTN' | translate }}</button>
   </div>
 </div>
 
@@ -38,15 +38,15 @@
         </div>
       </div>
       <div class="majors-card-body">
-        <div class="majors-property"><strong>Email:</strong> {{ user.email }}</div>
-        <div class="majors-property"><strong>Rôle:</strong> {{ user.role }}</div>
-        <div class="majors-property"><strong>Ajouté le:</strong> {{ user.createdAt | date: 'short' }}</div>
+        <div class="majors-property"><strong>{{ 'USER_LIST.EMAIL' | translate }}:</strong> {{ user.email }}</div>
+        <div class="majors-property"><strong>{{ 'USER_LIST.ROLE' | translate }}:</strong> {{ 'USER_LIST.ROLE_' + (user.role | uppercase) | translate }}</div>
+        <div class="majors-property"><strong>{{ 'USER_LIST.ADDED_ON' | translate }}:</strong> {{ user.createdAt | date: 'short' }}</div>
       </div>
     </div>
   </div>
 
   <ng-template #noResultMsg>
-    <div class="text-center mt-4 text-muted">Aucun utilisateur trouvé.</div>
+    <div class="text-center mt-4 text-muted">{{ 'USER_LIST.NO_USER_FOUND' | translate }}</div>
   </ng-template>
 </div>
 
@@ -66,9 +66,9 @@
         </div>
       </div>
       <div class="majors-card-body">
-        <div class="majors-property"><strong>Email:</strong> {{ user.email }}</div>
-        <div class="majors-property"><strong>Rôle:</strong> {{ user.role }}</div>
-        <div class="majors-property"><strong>Ajouté le:</strong> {{ user.createdAt | date: 'short' }}</div>
+        <div class="majors-property"><strong>{{ 'USER_LIST.EMAIL' | translate }}:</strong> {{ user.email }}</div>
+        <div class="majors-property"><strong>{{ 'USER_LIST.ROLE' | translate }}:</strong> {{ 'USER_LIST.ROLE_' + (user.role | uppercase) | translate }}</div>
+        <div class="majors-property"><strong>{{ 'USER_LIST.ADDED_ON' | translate }}:</strong> {{ user.createdAt | date: 'short' }}</div>
       </div>
     </div>
   </div>
@@ -76,7 +76,7 @@
   <!-- ◄► Pagination -->
   <div class="pagination-controls">
     <button (click)="prevPage()" [disabled]="page === 1 || loading" class="pagination-btn">
-      <i class="fas fa-chevron-left"></i> Précédent
+      <i class="fas fa-chevron-left"></i> {{ 'USER_LIST.PREVIOUS' | translate }}
     </button>
 
     <div class="pagination-numbers">
@@ -97,7 +97,7 @@
     </div>
 
     <button (click)="nextPage()" [disabled]="page === pageCount || loading" class="pagination-btn">
-      Suivant <i class="fas fa-chevron-right"></i>
+      {{ 'USER_LIST.NEXT' | translate }} <i class="fas fa-chevron-right"></i>
     </button>
   </div>
 </div>

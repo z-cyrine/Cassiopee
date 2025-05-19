@@ -1,55 +1,55 @@
 <div class="container mt-4">
-  <h2 class="form-title">Modifier la Majeure</h2>
+  <h2 class="form-title">{{ 'EDIT_MAJOR.TITLE' | translate }}</h2>
   <form [formGroup]="majeureForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
-      <label class="form-label">Code</label>
+      <label class="form-label">{{ 'EDIT_MAJOR.CODE' | translate }}</label>
       <input type="text" class="form-control" formControlName="code" [ngClass]="{ 'is-invalid': submitted && f['code'].errors }" />
-      <div *ngIf="submitted && f['code'].errors" class="invalid-feedback">Ce champ est requis</div>
+      <div *ngIf="submitted && f['code'].errors" class="invalid-feedback">{{ 'EDIT_MAJOR.REQUIRED' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Nom Groupe</label>
+      <label class="form-label">{{ 'EDIT_MAJOR.GROUP_NAME' | translate }}</label>
       <input type="text" class="form-control" formControlName="groupe" [ngClass]="{ 'is-invalid': submitted && f['groupe'].errors }" />
-      <div *ngIf="submitted && f['groupe'].errors" class="invalid-feedback">Ce champ est requis</div>
+      <div *ngIf="submitted && f['groupe'].errors" class="invalid-feedback">{{ 'EDIT_MAJOR.REQUIRED' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Département</label>
+      <label class="form-label">{{ 'EDIT_MAJOR.DEPARTMENT' | translate }}</label>
       <input type="text" class="form-control" formControlName="dept" [ngClass]="{ 'is-invalid': submitted && f['dept'].errors }" />
-      <div *ngIf="submitted && f['dept'].errors" class="invalid-feedback">Ce champ est requis</div>
+      <div *ngIf="submitted && f['dept'].errors" class="invalid-feedback">{{ 'EDIT_MAJOR.REQUIRED' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Responsable</label>
+      <label class="form-label">{{ 'EDIT_MAJOR.RESPONSIBLE' | translate }}</label>
       <input type="text" class="form-control" formControlName="responsible" [ngClass]="{ 'is-invalid': submitted && f['responsible'].errors }" />
-      <div *ngIf="submitted && f['responsible'].errors" class="invalid-feedback">Ce champ est requis</div>
+      <div *ngIf="submitted && f['responsible'].errors" class="invalid-feedback">{{ 'EDIT_MAJOR.REQUIRED' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Langue</label>
+      <label class="form-label">{{ 'EDIT_MAJOR.LANGUAGE' | translate }}</label>
       <select class="form-select" formControlName="langue" [ngClass]="{ 'is-invalid': submitted && f['langue'].errors }">
-        <option value="">-- Choisir --</option>
-        <option value="FR">Français</option>
-        <option value="EN">Anglais</option>
-        <option value="FR,EN">Français & Anglais</option>
+        <option value="">{{ 'EDIT_MAJOR.SELECT_OPTION' | translate }}</option>
+        <option value="FR">{{ 'EDIT_MAJOR.FRENCH' | translate }}</option>
+        <option value="EN">{{ 'EDIT_MAJOR.ENGLISH' | translate }}</option>
+        <option value="FR,EN">{{ 'EDIT_MAJOR.FRENCH_ENGLISH' | translate }}</option>
       </select>
-      <div *ngIf="submitted && f['langue'].errors" class="invalid-feedback">Ce champ est requis</div>
+      <div *ngIf="submitted && f['langue'].errors" class="invalid-feedback">{{ 'EDIT_MAJOR.REQUIRED' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">INI / ALT</label>
+      <label class="form-label">{{ 'EDIT_MAJOR.INI_ALT' | translate }}</label>
       <input type="text" class="form-control" formControlName="iniAlt" [ngClass]="{ 'is-invalid': submitted && f['iniAlt'].errors }" />
-      <div *ngIf="submitted && f['iniAlt'].errors" class="invalid-feedback">Ce champ est requis</div>
+      <div *ngIf="submitted && f['iniAlt'].errors" class="invalid-feedback">{{ 'EDIT_MAJOR.REQUIRED' | translate }}</div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Programme</label>
+      <label class="form-label">{{ 'EDIT_MAJOR.PROGRAM' | translate }}</label>
       <input type="text" class="form-control" formControlName="programme" [ngClass]="{ 'is-invalid': submitted && f['programme'].errors }" />
-      <div *ngIf="submitted && f['programme'].errors" class="invalid-feedback">Ce champ est requis</div>
+      <div *ngIf="submitted && f['programme'].errors" class="invalid-feedback">{{ 'EDIT_MAJOR.REQUIRED' | translate }}</div>
     </div>
 
     <!-- Only update button remains -->
-    <button class="btn btn-primary" type="submit">Mettre à jour la Majeure</button>
+    <button class="btn btn-primary" type="submit">{{ 'EDIT_MAJOR.SUBMIT' | translate }}</button>
   </form>
 
   <div *ngIf="successMessage" class="alert alert-success mt-3">

@@ -22,8 +22,8 @@
       <ul class="navbar-nav ms-auto">
 
         <li class="nav-item">
-  <a routerLink="/profil" routerLinkActive="active" class="nav-link">Mon Profil</a>
-</li>
+          <a routerLink="/profil" routerLinkActive="active" class="nav-link">{{ 'NAV.PROFILE' | translate }}</a>
+        </li>
 
 
         <!-- Connexion -->
@@ -47,10 +47,10 @@
             {{ 'NAV.LISTES' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="listesDropdown">
-            <li><a class="dropdown-item" routerLink="/etudiants/all">Liste Étudiants</a></li>
-            <li><a class="dropdown-item" routerLink="/tuteurs/all">Liste Tuteurs</a></li>
-            <li><a class="dropdown-item" routerLink="/majeures/all">Liste Majeures</a></li>
-            <li><a class="dropdown-item" routerLink="/utilisateurs/all">Liste Utilisateurs</a></li> <!-- ✅ NEW -->
+            <li><a class="dropdown-item" routerLink="/etudiants/all">{{ 'NAV.LISTE_ETUDIANTS' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/tuteurs/all">{{ 'NAV.LISTE_TUTEURS' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/majeures/all">{{ 'NAV.LISTE_MAJEURES' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/utilisateurs/all">{{ 'NAV.LISTE_UTILISATEURS' | translate }}</a></li>
           </ul>
         </li>
 
@@ -78,7 +78,7 @@
             <li><a class="dropdown-item" routerLink="/etudiant-create">{{ 'NAV.AJOUTER_ETUDIANT' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/tuteur-create">{{ 'NAV.AJOUTER_TUTEUR' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/majeure-create">{{ 'NAV.AJOUTER_MAJEURE' | translate }}</a></li>
-            <li><a class="dropdown-item" routerLink="/utilisateurs/create">Ajouter Utilisateur</a></li> <!-- ✅ NEW -->
+            <li><a class="dropdown-item" routerLink="/utilisateurs/create">{{ 'NAV.AJOUTER_UTILISATEUR' | translate }}</a></li>
           </ul>
         </li>
 
