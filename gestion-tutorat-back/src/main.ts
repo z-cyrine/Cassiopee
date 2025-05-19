@@ -21,7 +21,7 @@ async function bootstrap() {
   // Utilisation explicite de cors
   app.use(
     cors({
-      origin: [ 'https://localhost:4200', 'http://localhost:4200' ], 
+      origin: [ 'https://localhost:4200', 'http://localhost:4200' , 'https://localhost:443', 'https://localhost'], 
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       credentials: true, 
     }),
