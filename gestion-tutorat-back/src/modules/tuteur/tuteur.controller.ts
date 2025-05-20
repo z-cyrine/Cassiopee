@@ -100,4 +100,10 @@ search(
     return this.tuteurService.getEtudiantsForTuteurByNomPrenom(nom, prenom);
   }
 
+  @Get('by-email/:email')
+  async findByEmail(@Param('email') email: string) {
+    return this.tuteurService.findByEmail(email);
+  }
+
+
 }

@@ -12,7 +12,7 @@ export const appRoutes: Routes = [
   { path: 'auto-affectation',  canActivate: [RoleGuard(['admin'])], loadComponent: () => import('./components/auto-affectation/auto-affectation.component').then(m => m.AutoAffectationComponent) },
   { path: 'reporting', canActivate: [RoleGuard(['admin', 'consultation'])], loadComponent: () => import('./reporting/reporting.component').then(m => m.ReportingComponent) },
   { path: 'affectation-manuelle',  canActivate: [RoleGuard(['admin'])], loadComponent: () => import('./components/affectation-manuelle/affectation-manuelle.component').then(m => m.AffectationManuelleComponent) },
-  { path: 'tuteur-dashboard', loadComponent: () => import('./components/tuteur-dashboard/tuteur-dashboard.component').then(m => m.TuteurDashboardComponent) },
+  { path: 'tuteur-dashboard', canActivate: [AuthGuard],loadComponent: () => import('./components/tuteur-dashboard/tuteur-dashboard.component').then(m => m.TuteurDashboardComponent) },
   { path: 'tuteurs/all', canActivate: [RoleGuard(['admin', 'consultation'])], loadComponent: () => import('./components/affiche-tuteurs/affiche-tuteurs.component').then(m => m.AfficheTuteursComponent) },
   { path: 'majeures/all', canActivate: [RoleGuard(['admin', 'consultation'])],loadComponent: () => import('./components/affiche-majeures/affiche-majeures.component').then(m => m.AfficheMajeuresComponent) },
   // { path: 'authentification', loadComponent: () => import('./components/auth/auth.component').then(m => m.AuthComponent) },

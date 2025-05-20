@@ -80,7 +80,7 @@
 
         <!-- VOIR ETUDIANTS -->
         <li class="nav-item" *ngIf="isAuthenticated && role === 'prof'">
-          <a (click)="getDashboard()" routerLinkActive="active" class="nav-link">{{ 'NAV.DASHBOARD' | translate }}</a>
+          <a routerLink="/tuteur-dashboard" routerLinkActive="active" class="nav-link">{{ 'NAV.DASHBOARD' | translate }}</a>
         </li>
 
         <!-- Ajouter Dropdown -->
