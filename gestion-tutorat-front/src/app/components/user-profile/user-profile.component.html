@@ -5,6 +5,13 @@
       <div class="avatar">{{ user?.name?.charAt(0)?.toUpperCase() }}</div>
     </div>
 
+    <!-- Bouton de déconnexion -->
+    <div class="text-center mt-4">
+      <button class="btn btn-purple" (click)="logout()">
+        {{ 'NAV.DECONNEXION' | translate }}
+      </button>
+    </div>
+
     <!-- Détails -->
     <div class="card-body">
       <div class="detail-item">

@@ -7,6 +7,8 @@ import { takeUntil } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core';
 import { TuteurService } from '../../services/tuteur/tuteur.service';
 import { Etudiant } from '../../services/etudiant/etudiant.service';
+import { AuthService } from '../../services/gestion-acces/auth-service.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,7 +22,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   etudiants: Etudiant[] = [];
   private destroy$ = new Subject<void>();
 
-  constructor(private userService: UserService, private tuteurService: TuteurService, private router: Router) {}
+  casLogoutUrl = `${environment.CAS_BASE_URL}/logout`;
+
+  constructor(private userService: UserService, private tuteurService: TuteurService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     // Récupérer l'utilisateur authentifié depuis le localStorage
@@ -55,4 +59,13 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.router.navigate(['/tuteur', this.user.id, 'etudiants']);
     }
   }
+
+  logout() {
+  console.log('Logging out...');
+  this.authService.logout();
+  console.log('logged out');
+  console.log("token:", this.authService.getToken());
+  window.location.href = this.casLogoutUrl;
+}
+
 }

@@ -29,11 +29,6 @@ export class AppComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  // ngOnInit() {
-  //   this.role = this.authService.getUserRole();
-  //   this.isAuthenticated = this.authService.isAuthenticated();
-  // }
-
   ngOnInit() {
     this.authService.authStatus$.subscribe(() => {
       this.role = this.authService.getUserRole();
@@ -45,7 +40,6 @@ export class AppComponent {
   }
   
   casLoginUrl = `${environment.apiUrl}/cas/login`;
-  // casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
   casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
 
   onLogout() {
