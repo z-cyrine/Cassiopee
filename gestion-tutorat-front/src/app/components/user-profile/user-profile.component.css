@@ -128,3 +128,19 @@
   background: #fff3e0;
   color: #f57c00;
 }
+
+/* DECONNEXION */
+.btn-purple {
+  background: #b42978;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-purple:hover {
+  background: #931c67;
+}
