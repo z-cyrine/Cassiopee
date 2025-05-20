@@ -1,4 +1,3 @@
-// src/users/user.entity.ts
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 

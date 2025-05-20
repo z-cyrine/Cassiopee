@@ -16,3 +16,10 @@
   color: #005073;
   font-weight: 600;
 }
+
+.cas-snackbar {
+  background-color: #f44336 !important; /* rouge */
+  color: #fff !important;
+  font-weight: 500;
+  font-size: 15px;
+}

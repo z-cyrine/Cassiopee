@@ -12,7 +12,7 @@ import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'], // Corrected styleUrls to plural
+  styleUrls: ['./app.component.css'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, LanguageSelectorComponent, TranslateModule],
   providers: [
@@ -22,4 +22,6 @@ import { environment } from '../environments/environment';
 export class AppComponent {
   title = 'gestion-tutorat-front';
   casLoginUrl = `${environment.apiUrl}/cas/login`;
+  // casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
+  casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
 }

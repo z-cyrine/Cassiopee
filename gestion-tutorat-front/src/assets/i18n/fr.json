@@ -75,7 +75,8 @@
     "AJOUTER_MAJEURE": "Ajouter Majeure",
     "LISTE_UTILISATEURS": "Liste Utilisateurs",
     "AJOUTER_UTILISATEUR": "Ajouter Utilisateur",
-    "PROFILE": "Mon Profil"
+    "PROFILE": "Mon Profil",
+    "DECONNEXION": "Déconnexion"
   },
   "HOME": {
     "WELCOME": "Bienvenue sur la plateforme de gestion du tutorat"

@@ -75,7 +75,8 @@
     "AJOUTER_MAJEURE": "Add Major",
     "LISTE_UTILISATEURS": "List of Users",
     "AJOUTER_UTILISATEUR": "Add User",
-    "PROFILE": "My profile"
+    "PROFILE": "My profile",
+    "DECONNEXION": "Logout"
   },
   "HOME": {
     "WELCOME": "Welcome to the tutoring management platform"

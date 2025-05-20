@@ -19,26 +19,6 @@ export class UserService {
     return this.repo.save(user);
   }
 
-
-    
-  // créer un utilisateur avec mot de passe hashé
-  // async createUser(email: string, plainPassword: string, name: string) {
-  //   const existing = await this.repo.findOneBy({ email });
-    
-  //   if (existing) throw new Error('Email already in use');
-
-  //   const saltRounds = 10;
-  //   const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
-
-  //   const newUser = this.repo.create({
-  //     email,
-  //     password: hashedPassword,
-  //     name,
-  //   });
-
-  //   return this.repo.save(newUser);
-  // }
-  // user.service.ts
   async createUser(data: createUserDto): Promise<User> {
     const existing = await this.repo.findOneBy({ email: data.email });
     if (existing) throw new Error('Email already in use');
@@ -73,6 +53,9 @@ export class UserService {
     });
   }
 
-  
+  async findByUsername(username: string): Promise<User | undefined> {
+    return this.repo.findOne({ where: { username } });
+  }
+
 
 }

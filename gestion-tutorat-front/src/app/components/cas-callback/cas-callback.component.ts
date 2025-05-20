@@ -29,7 +29,7 @@ export class CasCallbackComponent {
             },
             error: (err) => {
               console.error('❌ Erreur validation CAS', err);
-              this.router.navigate(['/login']);
+              this.router.navigate(['/home'], { queryParams: { error: 'unauthorized' } });
             }
           });
       }

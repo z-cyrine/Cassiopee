@@ -2,18 +2,19 @@ import { Module } from '@nestjs/common';
 import { CasService } from './cas.service';
 import { CasController } from './cas.controller';
 import { HttpModule } from '@nestjs/axios';
-import { JwtModule } from '@nestjs/jwt';
-
-import { JWT_SECRET } from 'src/modules/auth/config/jwt-secrets';
+import { UserService } from 'src/modules/users/user.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/modules/users/user.entity';
+import { AuthModule } from 'src/modules/auth/auth.module';
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
-    }),
-    HttpModule],
+    AuthModule, // ✅ maintenant tu as le JwtModule et JwtService
+    HttpModule,
+    TypeOrmModule.forFeature([User]),
+  ],
   controllers: [CasController],
-  providers: [CasService],
+  providers: [CasService, UserService],
 })
 export class CasModule {}
+
