@@ -159,12 +159,12 @@
     "GROUP": "Group",
     "CLASS_CODE": "Class code",
     "NO_MAJOR_FOUND": "No major found.",
-    "MAJOR_GROUP": "major/group",
-    "DEPARTMENT": "department",
-    "LANGUAGE_TAUGHT": "language taught",
+    "MAJOR_GROUP": "Major/group",
+    "DEPARTMENT": "Department",
+    "LANGUAGE_TAUGHT": "Language taught",
     "INI_ALT": "INI/ALT",
-    "PROGRAM": "program",
-    "CODE_CLASS": "class code"
+    "PROGRAM": "Program",
+    "CODE_CLASS": "Class code"
   },
   "IMPORT": {
     "TITLE": "Import Files",
