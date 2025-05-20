@@ -56,16 +56,6 @@
         </td>
       </ng-container>
       
-      <ng-container matColumnDef="nom">
-        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.LASTNAME' | translate }}</th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element.nom; else notNom">
-            <a [routerLink]="['/tuteurs', element.id]">{{ element.nom | formatName }}</a>
-          </ng-container>
-          <ng-template #notNom><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
-        </td>
-      </ng-container>
-      
       <ng-container matColumnDef="prenom">
         <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.FIRSTNAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
@@ -73,6 +63,16 @@
             <a [routerLink]="['/tuteurs', element.id]">{{ element.prenom | formatName }}</a>
           </ng-container>
           <ng-template #notPrenom><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="nom">
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.LASTNAME' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.nom; else notNom">
+            <a [routerLink]="['/tuteurs', element.id]">{{ element.nom | formatName }}</a>
+          </ng-container>
+          <ng-template #notNom><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
       
