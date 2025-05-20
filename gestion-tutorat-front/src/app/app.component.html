@@ -35,7 +35,7 @@
         </a>
 
         <!-- Déonnexion -->
-        <a [href]="casLogoutUrl" class="nav-link">
+        <a (click)="onLogout()" class="nav-link" style="cursor:pointer;">
           {{ 'NAV.DECONNEXION' | translate }}
         </a>
 
@@ -96,18 +96,5 @@
     </div>
   </div>
 </nav>
-
-<!-- TEST ROLES -->
-<li *ngIf="role === 'admin'">
-  <a routerLink="/admin">Espace Admin</a>
-</li>
-
-<li *ngIf="role === 'prof'">
-  <a routerLink="/tutorat">Espace Tuteur</a>
-</li>
-
-<li *ngIf="role === 'consultation'">
-  <a routerLink="/stats">Consultation</a>
-</li>
 
 <router-outlet></router-outlet>

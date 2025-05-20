@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -24,7 +24,7 @@ export class AppComponent {
   title = 'gestion-tutorat-front';
 
   role: string | null = null;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.role = this.authService.getUserRole();
@@ -33,4 +33,10 @@ export class AppComponent {
   casLoginUrl = `${environment.apiUrl}/cas/login`;
   // casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
   casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
+
+  onLogout() {
+    this.authService.logout();
+    localStorage.clear();
+    window.location.href = this.casLogoutUrl;
+  }
 }
