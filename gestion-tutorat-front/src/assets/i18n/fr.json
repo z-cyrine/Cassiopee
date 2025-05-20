@@ -321,7 +321,8 @@
     "NAME": "Nom",
     "EMAIL": "Email",
     "ROLE": "Rôle",
-    "MEMBER_SINCE": "Membre depuis"
+    "MEMBER_SINCE": "Membre depuis",
+    "VIEW_TUTORED_STUDENTS": "Voir les étudiants tutorés"
   },
   "USER_EDIT": {
     "TITLE": "Modifier l'Utilisateur",
