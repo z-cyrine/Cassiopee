@@ -83,4 +83,21 @@ search(
     return this.tuteurService.getEtudiantsForTuteur(+id);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('admin', 'consultation', 'prof')
+  @Get('etudiants')
+  async getEtudiantsByNomPrenom(
+    @Query('nom') nom: string,
+    @Query('prenom') prenom: string,
+    @Request() req
+  ) {
+    // Si c'est un prof, vérifier que c'est bien son nom et prénom
+    if (req.user.role === 'prof') {
+      if (req.user.name !== nom || req.user.prenom !== prenom) {
+        throw new ForbiddenException('Vous ne pouvez consulter que vos propres étudiants.');
+      }
+    }
+    return this.tuteurService.getEtudiantsForTuteurByNomPrenom(nom, prenom);
+  }
+
 }

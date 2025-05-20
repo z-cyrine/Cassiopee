@@ -81,6 +81,18 @@ async getEtudiantsForTuteur(id: number): Promise<Etudiant[]> {
   return tuteur.etudiants;
 }
 
+async getEtudiantsForTuteurByNomPrenom(nom: string, prenom: string): Promise<Etudiant[]> {
+  const tuteur = await this.tuteurRepository.findOne({
+    where: { nom, prenom },
+    relations: ['etudiants'],
+  });
+
+  if (!tuteur) {
+    throw new NotFoundException(`Tuteur avec le nom=${nom} et prénom=${prenom} introuvable`);
+  }
+
+  return tuteur.etudiants;
+}
 
 async searchByName(nom?: string, prenom?: string): Promise<Tuteur[]> {
   const query = this.tuteurRepository
@@ -103,6 +115,5 @@ async searchByName(nom?: string, prenom?: string): Promise<Tuteur[]> {
 
   return result;
 }
-
 
 }
