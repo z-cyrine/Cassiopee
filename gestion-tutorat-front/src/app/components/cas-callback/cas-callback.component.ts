@@ -22,9 +22,10 @@ export class CasCallbackComponent {
       if (ticket) {
         this.http.get(`${environment.apiUrl}/cas/validate?ticket=${ticket}`)
           .subscribe({
-            next: (user: any) => {
-              console.log('✔️ Utilisateur connecté :', user);
-              localStorage.setItem('user', JSON.stringify(user));
+            next: (res: any) => {
+              console.log('✔️ Utilisateur connecté :', res);
+              localStorage.setItem('token', res.token);
+              localStorage.setItem('user', JSON.stringify(res.user));
               this.router.navigate(['/home']);
             },
             error: (err) => {
