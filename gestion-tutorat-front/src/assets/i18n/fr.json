@@ -188,7 +188,6 @@
     "TUTORATS_FILE_LABEL": "Fichier TUTORATS",
     "MAJORS_FILE_LABEL": "Fichier MAJEURES",
     "CONFIRM_RESET_MESSAGE": "Confirmez-vous la réinitialisation de la base de données ? Cette action est irréversible."
-
   },
   "CREATE": {
     "ADD_STUDENT_TITLE": "Ajouter un Étudiant",
@@ -224,6 +223,8 @@
     "COL2": "Colonne 2 (facultatif)",
     "INFO_STATUS": "Info Statut (facultatif)",
     "TUTOR_LANGUAGES": "Langue Tutorats (séparez par des virgules)",
+    "FRENCH": "Français",
+    "ENGLISH": "Anglais",
     "FRENCH_ENGLISH": "Français & Anglais",
     "CHOOSE_LANGUAGE": "-- Choisir une langue --",
     "CHOOSE": "-- Choisir --",

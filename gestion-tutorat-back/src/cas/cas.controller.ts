@@ -49,6 +49,8 @@ export class CasController {
         username: userInDb.username,
         name: userInDb.name,
         role: userInDb.role,
+        email: userInDb.email,
+        createdAt: userInDb.createdAt,
       }
     };
   }

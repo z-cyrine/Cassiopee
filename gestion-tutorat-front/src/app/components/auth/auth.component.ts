@@ -44,6 +44,15 @@ export class AuthComponent {
     this.http.post(`${environment.apiUrl}/auth/login`, { email, password }).subscribe({
       next: (res: any) => {
         localStorage.setItem('token', res.accessToken);
+        // Stocker l'utilisateur authentifié pour le profil
+        const user = {
+          id: res.userId,
+          name: res.username,
+          email: res.email,
+          role: res.role,
+          createdAt: res.createdAt,
+        };
+        localStorage.setItem('user', JSON.stringify(user));
         console.log("login successful");
         this.router.navigate(['/']);
       },

@@ -20,13 +20,13 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    const userId = 1; // TODO: replace with real user ID once auth is implemented
-    this.userService.getUserById(userId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (data) => this.user = data,
-        error: (err) => console.error('Erreur chargement profil', err)
-      });
+    // Récupérer l'utilisateur authentifié depuis le localStorage
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      this.user = JSON.parse(userStr);
+    } else {
+      this.user = null;
+    }
   }
 
   ngOnDestroy(): void {
