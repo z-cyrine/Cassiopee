@@ -3,14 +3,14 @@
     <!-- En-tête -->
     <div class="card-header">
       <div class="avatar">{{ user?.name?.charAt(0)?.toUpperCase() }}</div>
-
-          <!-- Bouton de déconnexion -->
-    <div class="text-center mt-4">
-      <button class="btn btn-purple" (click)="logout()">
-        {{ 'NAV.DECONNEXION' | translate }}
-      </button>
+      <div class="header-info">
+        <div class="title">{{ user?.name }}</div>
+        <button class="btn btn-purple" (click)="logout()">
+          {{ 'NAV.DECONNEXION' | translate }}
+        </button>
+      </div>
     </div>
-    </div>
+    
 
     <!-- Détails -->
     <div class="card-body">
