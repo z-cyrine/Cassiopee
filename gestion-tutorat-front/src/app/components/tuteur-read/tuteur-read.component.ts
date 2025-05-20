@@ -48,6 +48,10 @@ export class TuteurReadComponent implements OnInit {
     }
   }
 
+  goToList(): void {
+    this.router.navigate(['/tuteurs/all']);
+  }
+
   onDeleteTuteur(): void {
     if (this.tuteurId !== null && confirm("Confirmez-vous la suppression de ce tuteur ?")) {
       this.http.delete(`${environment.apiUrl}/tuteur/${this.tuteurId}`)

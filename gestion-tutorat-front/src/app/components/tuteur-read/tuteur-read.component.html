@@ -38,16 +38,17 @@
         <span class="value">{{ tuteur?.statut }}</span>
       </div>
       <div class="action-buttons mt-4">
-  <a [routerLink]="['/tuteurs/edit', tuteur.id]" class="btn edit-btn">
-    <i class="bi bi-pencil-square"></i> Éditer
-  </a>
-
-  <button class="btn delete-btn" (click)="onDeleteTuteur()" *ngIf="!modeLectureSeul">
-    <i class="bi bi-trash-fill"></i> Supprimer
-  </button>
-</div>
-
+        <a [routerLink]="['/tuteurs/edit', tuteur.id]" class="btn edit-btn">
+          <i class="bi bi-pencil-square"></i> Éditer
+        </a>
       
+        <button class="btn btn-secondary" (click)="goToList()">
+          <i class="bi bi-arrow-left"></i> Retour à la liste
+        </button>
+      
+      </div>
+
+
     </div>
   </div>
 </div>

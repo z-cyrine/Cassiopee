@@ -125,6 +125,10 @@ export class EtudiantEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  goToList() {
+    this.router.navigate(['/etudiants']);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

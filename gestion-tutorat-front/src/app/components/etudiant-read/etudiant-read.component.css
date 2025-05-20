@@ -48,8 +48,14 @@
   
   /* Action buttons at the bottom */
   .action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     margin-top: 20px;
-    text-align: right;
+  }
+  
+  .action-buttons .btn-secondary {
+    margin-right: auto;
   }
   
   .edit-btn, .delete-btn {
@@ -79,13 +85,50 @@
     background-color: #c0392b;
   }
   
-  /* Link styling for any internal links */
-  a {
-    text-decoration: none;
-    color: #007bff;
+  
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 20px;
   }
   
-  a:hover {
-    text-decoration: underline;
+  .edit-btn {
+    background-color: #00abc7;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .edit-btn:hover {
+    background-color: #0095a3;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
+  .edit-btn i,
+  .btn-secondary i {
+    font-size: 1rem;
   }
   

@@ -64,16 +64,16 @@
       </div>
 
       <!-- Action buttons -->
-      <div class="action-buttons mt-4"  *ngIf="!modeLectureSeul">
-        <!-- Redirect to the student edit page -->
+      
+      <div class="action-buttons mt-4">
         <a [routerLink]="['/etudiants/edit', etudiant.id]" class="btn edit-btn">
           <i class="bi bi-pencil-square"></i> Éditer
         </a>
-        <button class="btn delete-btn" (click)="onDeleteEtudiant()">
-          <i class="bi bi-trash-fill"></i> Supprimer
+        <button class="btn btn-secondary" (click)="goToList()">
+          <i class="bi bi-arrow-left"></i> Retour à la liste
         </button>
       </div>
-      
+
     </div>
   </div>
 </div>
