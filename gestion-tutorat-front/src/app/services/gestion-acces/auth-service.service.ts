@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +28,6 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
-  }
-
-  setAuthenticated(value: boolean) {
-    this.authState.next(value);
   }
 
   logout() {
