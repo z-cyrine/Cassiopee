@@ -7,6 +7,7 @@ import { ExcelParserService } from './excel-parser/excel-parser.service';
 import { Tuteur } from 'src/modules/tuteur/tuteur.entity';
 import { Etudiant } from 'src/modules/etudiant/etudiant.entity';
 import { Majeures } from 'src/modules/majeures/majeures';
+import { UserImportService } from 'src/modules/users/user-import.service';
 
 @Injectable()
 export class ImportService {
@@ -20,6 +21,7 @@ export class ImportService {
     private readonly etudiantRepository: Repository<Etudiant>,
     @InjectRepository(Majeures)
     private readonly majeuresRepository: Repository<Majeures>,
+    private readonly userImportService: UserImportService,
   ) {}
 
   /*========================================================================
@@ -34,6 +36,10 @@ export class ImportService {
     const data = this.excelParserService.parseExcel(file.path);
     await this.clearTuteurs();
     await this.insertTuteurs(data);
+    
+    // Import des tuteurs éligibles dans la table User
+    const importStats = await this.userImportService.importEligibleTutors();
+    this.logger.log(`✅ Import des utilisateurs : ${importStats.created} créés, ${importStats.skipped} ignorés, ${importStats.errors.length} erreurs`);
 
     // Ensuite, supprimer le fichier
     fs.unlink(file.path, (err) => {

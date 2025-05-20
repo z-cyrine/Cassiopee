@@ -1,101 +1,87 @@
-<h2 class="majeures-title">{{ 'USER_LIST.TITLE' | translate }}</h2>
+<!-- Nouveau template avec tableau Material -->
 
-<!-- 🔍 Search Bar -->
-<div class="actions-container">
-  <div class="actions-text">{{ 'USER_LIST.SEARCH_TITLE' | translate }}</div>
-  <div class="actions-controls search-majeures">
-    <input
-      type="text"
-      [placeholder]="'USER_LIST.EMAIL' | translate"
-      [(ngModel)]="searchEmail"
-      (ngModelChange)="searchEmail = searchEmail.trim()"
-      class="search-input"
-    />
+<!-- En-tête avec titre et barre de recherche -->
+<div class="container-fluid">
+  <div class="header-section">
+    <h2 class="page-title">{{ 'USER_LIST.TITLE' | translate }}</h2>
+    
+    <!-- Barre de recherche et filtres -->
+    <div class="search-section">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>{{ 'USER_LIST.SEARCH_TITLE' | translate }}</mat-label>
+        <input matInput [(ngModel)]="searchEmail" (ngModelChange)="applyFilter()" placeholder="{{ 'USER_LIST.EMAIL' | translate }}">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
 
-    <select [(ngModel)]="selectedRole" class="search-input">
-      <option value="">{{ 'USER_LIST.ALL_ROLES' | translate }}</option>
-      <option *ngFor="let r of roles" [value]="r">{{ 'USER_LIST.ROLE_' + (r | uppercase) | translate }}</option>
-    </select>
-
-    <button (click)="onSearch()" class="search-btn primary">{{ 'USER_LIST.SEARCH_BTN' | translate }}</button>
-    <button (click)="onClearSearch()" class="search-btn secondary">{{ 'USER_LIST.RESET_BTN' | translate }}</button>
-  </div>
-</div>
-
-<!-- 🔍 Search Results -->
-<div *ngIf="searchMode">
-  <div *ngIf="searchResults.length > 0; else noResultMsg" class="majors-card-list">
-    <div *ngFor="let user of searchResults" class="majors-card">
-      <div class="majors-card-header">
-        <span class="majors-title-link">{{ user.name }}</span>
-        <div class="majors-card-actions">
-          <button class="icon-btn edit" (click)="onEditUser(user.id)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button class="icon-btn delete" (click)="onDeleteUser(user.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-      <div class="majors-card-body">
-        <div class="majors-property"><strong>{{ 'USER_LIST.EMAIL' | translate }}:</strong> {{ user.email }}</div>
-        <div class="majors-property"><strong>{{ 'USER_LIST.ROLE' | translate }}:</strong> {{ 'USER_LIST.ROLE_' + (user.role | uppercase) | translate }}</div>
-        <div class="majors-property"><strong>{{ 'USER_LIST.ADDED_ON' | translate }}:</strong> {{ user.createdAt | date: 'short' }}</div>
-      </div>
+      <mat-form-field appearance="outline" class="role-filter">
+        <mat-label>{{ 'USER_LIST.ROLE' | translate }}</mat-label>
+        <mat-select [(ngModel)]="selectedRole" (selectionChange)="applyFilter()">
+          <mat-option value="">{{ 'USER_LIST.ALL_ROLES' | translate }}</mat-option>
+          <mat-option *ngFor="let r of roles" [value]="r">
+            {{ 'USER_LIST.ROLE_' + (r | uppercase) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
 
-  <ng-template #noResultMsg>
-    <div class="text-center mt-4 text-muted">{{ 'USER_LIST.NO_USER_FOUND' | translate }}</div>
-  </ng-template>
-</div>
-
-<!-- 📄 Normal View with Pagination -->
-<div *ngIf="!searchMode">
-  <div class="majors-card-list">
-    <div *ngFor="let user of pagedUsers" class="majors-card">
-      <div class="majors-card-header">
-        <span class="majors-title-link">{{ user.name }}</span>
-        <div class="majors-card-actions">
-          <button class="icon-btn edit" (click)="onEditUser(user.id)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button class="icon-btn delete" (click)="onDeleteUser(user.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-      <div class="majors-card-body">
-        <div class="majors-property"><strong>{{ 'USER_LIST.EMAIL' | translate }}:</strong> {{ user.email }}</div>
-        <div class="majors-property"><strong>{{ 'USER_LIST.ROLE' | translate }}:</strong> {{ 'USER_LIST.ROLE_' + (user.role | uppercase) | translate }}</div>
-        <div class="majors-property"><strong>{{ 'USER_LIST.ADDED_ON' | translate }}:</strong> {{ user.createdAt | date: 'short' }}</div>
-      </div>
-    </div>
+  <!-- Tableau HTML classique -->
+  <div class="mat-elevation-z8 table-container">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>{{ 'USER_LIST.NAME' | translate }}</th>
+          <th>{{ 'USER_LIST.EMAIL' | translate }}</th>
+          <th>{{ 'USER_LIST.ROLE' | translate }}</th>
+          <th>{{ 'USER_LIST.ADDED_ON' | translate }}</th>
+          <th>{{ 'COMMON.ACTIONS' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of pagedUsers">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <span class="role-badge" [ngClass]="user.role">
+              {{ 'USER_LIST.ROLE_' + (user.role | uppercase) | translate }}
+            </span>
+          </td>
+          <td>{{ user.createdAt | date:'medium' }}</td>
+          <td>
+            <button mat-icon-button color="primary" (click)="onEditUser(user.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDeleteUser(user.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="pagedUsers.length === 0">
+          <td colspan="5" class="no-data-message">{{ 'USER_LIST.NO_USER_FOUND' | translate }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- ◄► Pagination -->
+  <!-- Pagination maison -->
   <div class="pagination-controls">
     <button (click)="prevPage()" [disabled]="page === 1 || loading" class="pagination-btn">
       <i class="fas fa-chevron-left"></i> {{ 'USER_LIST.PREVIOUS' | translate }}
     </button>
-
     <div class="pagination-numbers">
       <button *ngIf="page > 2 && visiblePages[0] !== 1" (click)="goToPage(1)" class="pagination-number">1</button>
       <span *ngIf="page > 3 && visiblePages[0] !== 1" class="pagination-ellipsis">...</span>
-
       <button *ngFor="let pageNum of visiblePages"
               (click)="goToPage(pageNum)"
               [class.active]="pageNum === page"
               class="pagination-number">
         {{ pageNum }}
       </button>
-
       <span *ngIf="page < pageCount - 2 && visiblePages[visiblePages.length-1] !== pageCount" class="pagination-ellipsis">...</span>
       <button *ngIf="page < pageCount - 1 && visiblePages[visiblePages.length-1] !== pageCount" (click)="goToPage(pageCount)" class="pagination-number">
         {{ pageCount }}
       </button>
     </div>
-
     <button (click)="nextPage()" [disabled]="page === pageCount || loading" class="pagination-btn">
       {{ 'USER_LIST.NEXT' | translate }} <i class="fas fa-chevron-right"></i>
     </button>

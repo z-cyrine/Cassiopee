@@ -25,7 +25,8 @@
     "VALIDATE": "Valider",
     "EXPORT_EXCEL": "Exporter en Excel",
     "NOT_AVAILABLE": "N/A",
-    "CANCEL": "Annuler"
+    "CANCEL": "Annuler",
+    "ACTIONS": "Actions"
   },
   "AUTH": {
     "LOGIN_TITLE": "Connexion",
@@ -298,7 +299,8 @@
     "NO_USER_FOUND": "Aucun utilisateur trouvé.",
     "ADDED_ON": "Ajouté le",
     "PREVIOUS": "Précédent",
-    "NEXT": "Suivant"
+    "NEXT": "Suivant",
+    "NAME": "Nom"
   },
   "USER_CREATE": {
     "TITLE": "Créer un Utilisateur",
