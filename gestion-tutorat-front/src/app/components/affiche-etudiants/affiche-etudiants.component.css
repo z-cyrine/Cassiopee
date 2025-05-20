@@ -261,16 +261,16 @@ td.logs-col, th.logs-col {
   outline: none;
 }
 .icon-btn.edit mat-icon {
-  color: #333;
+  color: #00abc7;
 }
 .icon-btn.delete mat-icon {
-  color: #333;
+  color: #9b59b6;
 }
 .icon-btn.edit:hover {
-  background: #333;
+  background: #008fa3;
 }
 .icon-btn.delete:hover {
-  background: #333;
+  background: #7d3bb8;
 }
 .icon-btn.edit:hover mat-icon,
 .icon-btn.delete:hover mat-icon {
