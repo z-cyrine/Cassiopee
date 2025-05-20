@@ -35,7 +35,7 @@ import { UserService, User } from '../../services/user/user.service';
     MatMenuModule,
     MatDialogModule,
     TranslateModule
-  ],
+    ],
   templateUrl: './affiche-utilisateurs.component.html',
   styleUrls: ['./affiche-utilisateurs.component.css']
 })
@@ -46,6 +46,7 @@ export class AfficheUtilisateursComponent implements OnInit {
   roles: string[] = ['admin', 'prof', 'consultation'];
   
   // Search and filter
+  searchName: string = '';
   searchEmail: string = '';
   selectedRole: string = '';
   
@@ -86,7 +87,7 @@ export class AfficheUtilisateursComponent implements OnInit {
 
   applyFilter(): void {
     this.loading = true;
-    this.userService.searchUsers(this.searchEmail, this.selectedRole)
+    this.userService.searchUsers(this.searchName, this.searchEmail, this.selectedRole)
       .subscribe({
         next: (users: User[]) => {
           this.users = users;
@@ -160,5 +161,18 @@ export class AfficheUtilisateursComponent implements OnInit {
         }
       });
     }
+  }
+
+  onClearSearch(): void {
+    this.searchName = '';
+    this.searchEmail = '';
+    this.selectedRole = '';
+    this.page = 1;
+    this.loadUsers();
+  }
+
+  onSearch(): void {
+    this.page = 1;
+    this.applyFilter();
   }
 }

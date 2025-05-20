@@ -11,9 +11,10 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('search')
-  async searchUsers(@Query('email') email: string) {
-    return this.userService.searchByEmail(email);
+  async searchUsers(@Query('name') name: string, @Query('email') email: string, @Query('role') role: string) {
+    return this.userService.advancedSearch({ name, email, role });
   }
+
   @Post()
   async create(@Body() dto: createUserDto): Promise<User> {
     try {

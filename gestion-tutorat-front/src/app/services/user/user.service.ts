@@ -20,11 +20,12 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  searchUsers(email: string = '', role: string = '', page: number = 1, limit: number = 10): Observable<any> {
+  searchUsers(name: string = '', email: string = '', role: string = '', page: number = 1, limit: number = 10): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
 
+    if (name) params = params.set('name', name);
     if (email) params = params.set('email', email);
     if (role) params = params.set('role', role);
 

@@ -3,25 +3,36 @@
 <!-- En-tête avec titre et barre de recherche -->
 <div class="container-fluid">
   <div class="header-section">
-    <h2 class="page-title">{{ 'USER_LIST.TITLE' | translate }}</h2>
     
-    <!-- Barre de recherche et filtres -->
-    <div class="search-section">
-      <mat-form-field appearance="outline" class="search-field">
-        <mat-label>{{ 'USER_LIST.SEARCH_TITLE' | translate }}</mat-label>
-        <input matInput [(ngModel)]="searchEmail" (ngModelChange)="applyFilter()" placeholder="{{ 'USER_LIST.EMAIL' | translate }}">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="role-filter">
-        <mat-label>{{ 'USER_LIST.ROLE' | translate }}</mat-label>
-        <mat-select [(ngModel)]="selectedRole" (selectionChange)="applyFilter()">
-          <mat-option value="">{{ 'USER_LIST.ALL_ROLES' | translate }}</mat-option>
-          <mat-option *ngFor="let r of roles" [value]="r">
-            {{ 'USER_LIST.ROLE_' + (r | uppercase) | translate }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <!-- Barre de recherche -->
+    <div class="actions-container">
+      <div class="actions-text">{{ 'USER_LIST.SEARCH_TITLE' | translate }}</div>
+      <div class="actions-controls">
+        <input
+          type="text"
+          placeholder="{{ 'USER_LIST.NAME' | translate }}"
+          [(ngModel)]="searchName"
+          class="form-control"
+          style="width: 140px; padding: 5px 8px; font-size: 14px;"
+        />
+        <input
+          type="text"
+          placeholder="{{ 'USER_LIST.EMAIL' | translate }}"
+          [(ngModel)]="searchEmail"
+          class="form-control"
+          style="width: 140px; padding: 5px 8px; font-size: 14px;"
+        />
+        <select [(ngModel)]="selectedRole" class="form-control" style="width: 140px;">
+          <option value="">{{ 'USER_LIST.ALL_ROLES' | translate }}</option>
+          <option *ngFor="let r of roles" [value]="r">{{ 'USER_LIST.ROLE_' + (r | uppercase) | translate }}</option>
+        </select>
+        <button (click)="onSearch()" class="icon-btn search" title="{{ 'COMMON.SEARCH' | translate }}">
+          <i class="bi bi-search"></i>
+        </button>
+        <button (click)="onClearSearch()" class="icon-btn reset" title="{{ 'COMMON.RESET' | translate }}">
+          <i class="bi bi-x-circle"></i>
+        </button>
+      </div>
     </div>
   </div>
 

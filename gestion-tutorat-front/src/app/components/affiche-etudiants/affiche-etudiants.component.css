@@ -250,30 +250,38 @@ td.logs-col, th.logs-col {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px 6px;
-  margin-right: 4px;
-  border-radius: 4px;
-  font-size: 1.2em;
+  padding: 7px 10px;
+  border-radius: 50%;
+  font-size: 1.25em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  margin-left: 4px;
+  outline: none;
 }
 .icon-btn.edit mat-icon {
-  color: #00abc7;
+  color: #333;
 }
 .icon-btn.delete mat-icon {
-  color: #9b59b6;
+  color: #333;
 }
 .icon-btn.edit:hover {
-  background: #008fa3;
+  background: #333;
 }
 .icon-btn.delete:hover {
-  background: #7d3bb8;
+  background: #333;
 }
 .icon-btn.edit:hover mat-icon,
 .icon-btn.delete:hover mat-icon {
   color: #fff;
+}
+.icon-btn:focus,
+.icon-btn:active,
+.icon-btn:hover {
+  background: #f0f0f0;
+  color: #222 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 /* scroll du tableau */
@@ -316,4 +324,9 @@ a {
   z-index: 2;
   background: #f5f7fa;
   border-bottom: 2px solid #e0e0e0;
+}
+
+.icon-btn.search,
+.icon-btn.reset {
+  color: #222 !important;
 }

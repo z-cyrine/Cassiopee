@@ -57,5 +57,12 @@ export class UserService {
     return this.repo.findOne({ where: { username } });
   }
 
+  async advancedSearch({ name, email, role }: { name?: string; email?: string; role?: string }): Promise<User[]> {
+    const where: any = {};
+    if (name) where.name = ILike(`%${name}%`);
+    if (email) where.email = ILike(`%${email}%`);
+    if (role) where.role = role;
+    return this.repo.find({ where });
+  }
 
 }
