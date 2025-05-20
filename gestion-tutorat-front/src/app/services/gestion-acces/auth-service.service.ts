@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  private authStatus = new BehaviorSubject<boolean>(this.hasToken());
+  authStatus$ = this.authStatus.asObservable();
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }
@@ -23,6 +32,12 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.updateAuthStatus();
+  }
+
+  updateAuthStatus() {
+    this.authStatus.next(this.hasToken());
   }
 
   getDecodedToken(): any | null {

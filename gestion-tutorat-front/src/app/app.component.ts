@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
 }) 
+
 export class AppComponent {
   title = 'gestion-tutorat-front';
 
@@ -29,9 +30,19 @@ export class AppComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  // ngOnInit() {
+  //   this.role = this.authService.getUserRole();
+  //   this.isAuthenticated = this.authService.isAuthenticated();
+  // }
+
   ngOnInit() {
-    this.role = this.authService.getUserRole();
-    this.isAuthenticated = this.authService.isAuthenticated();
+    this.authService.authStatus$.subscribe(() => {
+      this.role = this.authService.getUserRole();
+      this.isAuthenticated = this.authService.isAuthenticated();
+    });
+
+    // Appel initial
+    this.authService.updateAuthStatus();
   }
   
   casLoginUrl = `${environment.apiUrl}/cas/login`;

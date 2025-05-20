@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/gestion-acces/auth-service.service';
 
 @Component({
   selector: 'app-cas-callback',
@@ -13,7 +14,8 @@ export class CasCallbackComponent {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -26,7 +28,9 @@ export class CasCallbackComponent {
               console.log('✔️ Utilisateur connecté :', res);
               localStorage.setItem('token', res.token);
               localStorage.setItem('user', JSON.stringify(res.user));
-              this.router.navigate(['/home']);
+              localStorage.setItem('token', res.token);
+              this.authService.updateAuthStatus();
+              this.router.navigate(['/']);
             },
             error: (err) => {
               console.error('❌ Erreur validation CAS', err);
