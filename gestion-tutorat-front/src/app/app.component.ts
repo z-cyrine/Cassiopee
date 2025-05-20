@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -9,7 +9,6 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
 import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { AuthService } from './services/gestion-acces/auth-service.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -49,6 +48,12 @@ export class AppComponent {
   // casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
   casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
 
+  onLogout() {
+    this.authService.logout();
+    localStorage.clear();
+    window.location.href = this.casLogoutUrl;
+  }
+  
   getDashboard(){
     if (this.isAuthenticated) {
       const userStr = localStorage.getItem('user');
