@@ -16,7 +16,7 @@ export class AutoAffectationController {
     }
 
     @UseGuards(AuthGuard, RolesGuard)
-    @Roles('admin , consultation')
+    @Roles('admin', 'consultation')
     @Get('etat-actuel')
     async getEtatAffectation() {
       return await this.autoAffectationService.getEtatAffectation();

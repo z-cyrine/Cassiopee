@@ -10,11 +10,15 @@ import { Roles } from '../auth/jwt/decorator/roles.decorator';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('admin')
   @Get('search')
   async searchUsers(@Query('name') name: string, @Query('email') email: string, @Query('role') role: string) {
     return this.userService.advancedSearch({ name, email, role });
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('admin')
   @Post()
   async create(@Body() dto: createUserDto): Promise<User> {
     try {
@@ -31,16 +35,22 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('admin')
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<User> {
     return this.userService.findById(id);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('admin')
   @Put(':id')
   async update(@Param('id') id: number, @Body() data: Partial<User>): Promise<User> {
     return this.userService.updateUser(id, data);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('admin')
   @Delete(':id')
   async remove(@Param('id') id: number): Promise<void> {
     return this.userService.deleteUser(id);
