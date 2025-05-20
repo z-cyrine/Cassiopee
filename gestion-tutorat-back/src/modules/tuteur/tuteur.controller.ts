@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe, Query, UseGuards, ForbiddenException, Request } from '@nestjs/common';
 import { TuteurService } from './tuteur.service';
 import { CreateTuteurDto } from './dto/create-tuteur.dto';
 import { UpdateTuteurDto } from './dto/update-tuteur.dto';
@@ -75,7 +75,11 @@ search(
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('admin', 'consultation', 'prof')
   @Get(':id/etudiants')
-  async getEtudiants(@Param('id') id: number) {
+  async getEtudiants(@Param('id') id: number, @Request() req) {
+    // Si c'est un prof, il ne peut voir que ses propres étudiants
+    if (req.user.role === 'prof' && req.user.id !== Number(id)) {
+      throw new ForbiddenException('Vous ne pouvez consulter que vos propres étudiants.');
+    }
     return this.tuteurService.getEtudiantsForTuteur(+id);
   }
 
