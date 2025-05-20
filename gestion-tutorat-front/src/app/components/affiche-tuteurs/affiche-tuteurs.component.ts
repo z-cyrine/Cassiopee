@@ -82,32 +82,73 @@ export class AfficheTuteursComponent implements OnInit {
   }
 
 
+  // loadTuteurs() {
+  //   this.loading = true;
+  //   this.tuteurService.getTuteurs().subscribe({
+  //     next: (response) => {
+  //       this.tuteurs = response.map((tuteur: any) => ({
+  //         ...tuteur,
+  //         nom: tuteur.prenom,
+  //         prenom: tuteur.nom,
+  //         langueTutorat: Array.isArray(tuteur.langueTutorat)
+  //           ? tuteur.langueTutorat
+  //           : (typeof tuteur.langueTutorat === 'string' && tuteur.langueTutorat.trim() !== ''
+  //               ? (tuteur.langueTutorat as string).split(',').map((s: string) => s.trim())
+  //               : []),
+  //         matieres: Array.isArray(tuteur.matieres)
+  //           ? tuteur.matieres
+  //           : (typeof tuteur.matieres === 'string' && tuteur.matieres.trim() !== ''
+  //               ? (tuteur.matieres as string).split(',').map((s: string) => s.trim())
+  //               : []),
+  //         domainesExpertise: Array.isArray(tuteur.domainesExpertise)
+  //           ? tuteur.domainesExpertise
+  //           : (typeof tuteur.domainesExpertise === 'string' && tuteur.domainesExpertise.trim() !== ''
+  //               ? (tuteur.domainesExpertise as string).split(',').map((s: string) => s.trim())
+  //               : []),
+  //         infoStatut: tuteur.infoStatut || tuteur.info_statut || tuteur.infostatut || '',
+  //       }));
+  //       console.log('Premier tuteur reçu:', this.tuteurs[25]);
+  //       this.total = this.tuteurs.length;
+  //       this.pageCount = Math.ceil(this.total / this.limit);
+  //       this.updatePagedTuteurs();
+  //       this.loading = false;
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching tuteurs:', err);
+  //       this.loading = false;
+  //     },
+  //   });
+  // }
+
   loadTuteurs() {
     this.loading = true;
     this.tuteurService.getTuteurs().subscribe({
       next: (response) => {
-        this.tuteurs = response.map((tuteur: any) => ({
-          ...tuteur,
-          nom: tuteur.prenom,
-          prenom: tuteur.nom,
-          langueTutorat: Array.isArray(tuteur.langueTutorat)
-            ? tuteur.langueTutorat
-            : (typeof tuteur.langueTutorat === 'string' && tuteur.langueTutorat.trim() !== ''
-                ? (tuteur.langueTutorat as string).split(',').map((s: string) => s.trim())
-                : []),
-          matieres: Array.isArray(tuteur.matieres)
-            ? tuteur.matieres
-            : (typeof tuteur.matieres === 'string' && tuteur.matieres.trim() !== ''
-                ? (tuteur.matieres as string).split(',').map((s: string) => s.trim())
-                : []),
-          domainesExpertise: Array.isArray(tuteur.domainesExpertise)
-            ? tuteur.domainesExpertise
-            : (typeof tuteur.domainesExpertise === 'string' && tuteur.domainesExpertise.trim() !== ''
-                ? (tuteur.domainesExpertise as string).split(',').map((s: string) => s.trim())
-                : []),
-          infoStatut: tuteur.infoStatut || tuteur.info_statut || tuteur.infostatut || '',
-        }));
-        console.log('Premier tuteur reçu:', this.tuteurs[25]);
+        this.tuteurs = response
+          .filter((tuteur: any) => tuteur.estEligiblePourTutorat === true)
+          .map((tuteur: any) => ({
+            ...tuteur,
+            nom: tuteur.prenom,
+            prenom: tuteur.nom,
+            langueTutorat: Array.isArray(tuteur.langueTutorat)
+              ? tuteur.langueTutorat
+              : (typeof tuteur.langueTutorat === 'string' && tuteur.langueTutorat.trim() !== ''
+                  ? (tuteur.langueTutorat as string).split(',').map((s: string) => s.trim())
+                  : []),
+            matieres: Array.isArray(tuteur.matieres)
+              ? tuteur.matieres
+              : (typeof tuteur.matieres === 'string' && tuteur.matieres.trim() !== ''
+                  ? (tuteur.matieres as string).split(',').map((s: string) => s.trim())
+                  : []),
+            domainesExpertise: Array.isArray(tuteur.domainesExpertise)
+              ? tuteur.domainesExpertise
+              : (typeof tuteur.domainesExpertise === 'string' && tuteur.domainesExpertise.trim() !== ''
+                  ? (tuteur.domainesExpertise as string).split(',').map((s: string) => s.trim())
+                  : []),
+            infoStatut: tuteur.infoStatut || tuteur.info_statut || tuteur.infostatut || '',
+          }));
+
+        console.log('Premier tuteur reçu:', this.tuteurs[0]);
         this.total = this.tuteurs.length;
         this.pageCount = Math.ceil(this.total / this.limit);
         this.updatePagedTuteurs();

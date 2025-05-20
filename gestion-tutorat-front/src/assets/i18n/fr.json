@@ -117,7 +117,9 @@
     "STUDENTS": "étudiants",
     "LOADING": "Chargement...",
     "LASTNAME": "Nom",
-    "FIRSTNAME": "Prénom"
+    "FIRSTNAME": "Prénom",
+    "CODE":"Code Classe",
+    "CHOOSE_ASSIGNMENT":"Status D'affectation"
   },
   "TUTORS": {
     "SEARCH_TITLE": "Recherche de tuteur",

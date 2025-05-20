@@ -115,7 +115,9 @@
     "NEXT": "Next",
     "PAGES": "pages",
     "STUDENTS": "students",
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "CHOOSE_ASSIGNMENT":"Assignment Status",
+    "CODE":"Class Code"
   },
   "TUTORS": {
     "SEARCH_TITLE": "Tutor Search",
