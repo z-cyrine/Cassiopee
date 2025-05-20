@@ -337,7 +337,8 @@
     "NAME": "Name",
     "EMAIL": "Email",
     "ROLE": "Role",
-    "MEMBER_SINCE": "Member since"
+    "MEMBER_SINCE": "Member since",
+    "VIEW_TUTORED_STUDENTS": "View tutored students"
   },
   "USER_EDIT": {
     "TITLE": "Edit User",

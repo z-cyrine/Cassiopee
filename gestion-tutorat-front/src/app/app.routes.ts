@@ -42,6 +42,9 @@ export const appRoutes: Routes = [
   { path: 'tuteurs/edit/:id', loadComponent: () => import('./components/tuteur-edit/tuteur-edit.component').then(m => m.TuteurEditComponent) },
   { path: 'majeures/edit/:id', loadComponent: () => import('./components/majeure-edit/majeure-edit.component').then(m => m.MajeureEditComponent) },
 
+  // Tuteur et étudiants
+  { path: 'tuteur/:id/etudiants', loadComponent: () => import('./components/tuteur-etudiants/tuteur-etudiants.component').then(m => m.TuteurEtudiantsComponent) },
+
   // Fallback
   { path: '**', redirectTo: '' }
 ];

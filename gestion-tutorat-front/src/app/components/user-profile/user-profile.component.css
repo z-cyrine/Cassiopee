@@ -1,9 +1,10 @@
 .profile-page {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
   padding: 20px;
+  padding-top: 160px; 
   box-sizing: border-box;
   background: linear-gradient(
     135deg,
@@ -102,25 +103,28 @@
 }
 
 /* 5) Badge */
-.badge {
+.badge, .role-badge {
   display: inline-block;
-  padding: 4px 10px;
+  padding: 2px 10px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 0.85em;
   font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
   text-transform: uppercase;
-  color: #fff;
 }
 
-.badge.admin {
-  background: #b42978;
+.role-badge.admin, .badge.admin {
+  background: #e3f2fd;
+  color: #1976d2;
 }
 
-.badge.prof {
-  background: #0077b6;
+.role-badge.prof, .badge.prof {
+  background: #e8f5e9;
+  color: #2e7d32;
 }
 
-.badge.consultation {
-  background: #cccccc;
-  color: #333333;
+.role-badge.consultation, .badge.consultation {
+  background: #fff3e0;
+  color: #f57c00;
 }
