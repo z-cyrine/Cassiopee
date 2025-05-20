@@ -150,63 +150,291 @@
 
 /* Pagination */
 .pagination-controls {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 1.2rem;
+  padding: 0;
+  background: transparent;
+  min-height: 48px;
 }
 
 .pagination-numbers {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
   justify-content: center;
 }
 
+.pagination-number, .pagination-btn {
+  margin: 0;
+  vertical-align: middle;
+}
+
 .pagination-number {
-  padding: 0.5rem 1rem;
-  border: 1px solid #e0e0e0;
-  background: #fff;
-  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background: #f5f5f5;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
+  font-size: 0.95em;
   color: #333;
   min-width: 2.5rem;
   text-align: center;
+  transition: background 0.18s, color 0.18s;
+  font-weight: 500;
 }
 
 .pagination-number:hover:not(.active) {
-  background: #f5f5f5;
-  border-color: #ccc;
+  background: #e0e7ff;
+  color: #1976d2;
 }
 
 .pagination-number.active {
   background: linear-gradient(135deg, #00abc7, #9b59b6);
   color: white;
-  border-color: transparent;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
 
 .pagination-btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid #e0e0e0;
-  background: #fff;
-  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background: #e3f2fd;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
-  color: #333;
-  min-width: 2.5rem;
-  text-align: center;
-  outline: none;
+  font-size: 0.95em;
+  color: #1976d2;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s;
 }
 
 .pagination-btn:disabled {
   background: #f5f5f5;
   color: #bbb;
-  border-color: #e0e0e0;
   cursor: not-allowed;
 }
+
+.pagination-btn:hover:not(:disabled) {
+  background: #1976d2;
+  color: #fff;
+}
+
+.container-fluid {
+  padding: 20px;
+}
+
+.header-section {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.search-section {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 250px;
+}
+
+.role-filter {
+  width: 200px;
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+
+.users-table th {
+  background: #f7f8fa;
+  color: #222;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 2px solid #ececec;
+}
+
+.users-table td {
+  padding: 8px 8px;
+  font-size: 0.97em;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.users-table tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.users-table tr:hover {
+  background: #f0f6ff;
+  transition: background 0.2s;
+}
+
+.mat-mdc-header-cell {
+  background-color: #f5f5f5;
+  color: #333;
+  font-weight: 500;
+  padding: 16px;
+}
+
+.mat-mdc-cell {
+  padding: 16px;
+}
+
+.mat-mdc-row:hover {
+  background-color: #f8f9fa;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  text-transform: uppercase;
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.role-badge.admin {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.role-badge.prof {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.role-badge.consultation {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 24px;
+  color: #666;
+  font-style: italic;
+  font-size: 1.1em;
+}
+
+/* Style pour le menu d'actions */
+.mat-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text-warn {
+  color: #f44336;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .search-section {
+    flex-direction: column;
+  }
+
+  .search-field,
+  .role-filter {
+    width: 100%;
+  }
+
+  .mat-mdc-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Style pour le paginator */
+.mat-mdc-paginator {
+  border-top: 1px solid #eee;
+}
+
+/* Loading state */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .users-table th, .users-table td {
+    padding: 10px 6px;
+    font-size: 0.98em;
+  }
+  .pagination-number, .pagination-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.95em;
+  }
+}
+@media (max-width: 600px) {
+  .users-table th, .users-table td {
+    padding: 7px 2px;
+    font-size: 0.93em;
+  }
+  .pagination-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.users-table button[mat-icon-button] {
+  margin-right: 2px;
+  width: 32px;
+  height: 32px;
+}
+
+.users-table mat-icon {
+  font-size: 1em;
+}
+
+.users-table th:nth-child(1), .users-table td:nth-child(1) { width: 22%; min-width: 140px; max-width: 260px; }
+.users-table th:nth-child(2), .users-table td:nth-child(2) { width: 22%; min-width: 120px; max-width: 220px; }
+.users-table th:nth-child(3), .users-table td:nth-child(3) { width: 14%; min-width: 90px; max-width: 140px; text-align: center; }
+.users-table th:nth-child(4), .users-table td:nth-child(4) { width: 22%; min-width: 140px; max-width: 220px; }
+.users-table th:nth-child(5), .users-table td:nth-child(5) { width: 14%; min-width: 90px; max-width: 120px; text-align: center; }
+
+.users-table th, .users-table td { box-sizing: border-box; }
+
+/* Pour éviter le wrap des boutons d'action */
+.users-table td:last-child { white-space: nowrap; }

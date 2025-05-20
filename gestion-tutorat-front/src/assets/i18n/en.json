@@ -25,7 +25,8 @@
     "VALIDATE": "Validate",
     "EXPORT_EXCEL": "Export to Excel",
     "NOT_AVAILABLE": "N/A",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "ACTIONS": "Actions"
   },
   "AUTH": {
     "LOGIN_TITLE": "Login",
@@ -314,7 +315,8 @@
     "NO_USER_FOUND": "No user found.",
     "ADDED_ON": "Added on",
     "PREVIOUS": "Previous",
-    "NEXT": "Next"
+    "NEXT": "Next",
+    "NAME": "Name"
   },
   "USER_CREATE": {
     "TITLE": "Create User",
