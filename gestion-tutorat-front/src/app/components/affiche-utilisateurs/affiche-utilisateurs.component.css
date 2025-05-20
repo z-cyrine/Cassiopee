@@ -144,6 +144,27 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
+.icon-btn.edit mat-icon {
+  color: #00abc7; /* bleu clair */
+}
+
+.icon-btn.delete mat-icon {
+  color: #9b59b6; /* violet */
+}
+
+.icon-btn.edit:hover {
+  background: #008fa3;
+}
+
+.icon-btn.delete:hover {
+  background: #7d3bb8;
+}
+
+.icon-btn.edit:hover mat-icon,
+.icon-btn.delete:hover mat-icon {
+  color: #fff;
+}
+
 /* Pagination */
 .pagination-controls {
   margin-top: 0.5rem;

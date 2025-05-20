@@ -2,6 +2,9 @@
   <div class="profile-card">
     <div class="card-header">
       <div class="avatar">{{ user?.name?.charAt(0)?.toUpperCase() }}</div>
+      <div class="header-info">
+        <div class="title">{{ user?.name }}</div>
+      </div>
 
       <!-- Icône de déconnexion avec Angular Material -->
       <button mat-icon-button class="logout-icon" (click)="logout()" aria-label="Déconnexion" title="{{ 'NAV.DECONNEXION' | translate }}">
@@ -11,6 +14,7 @@
     </div>
 
 
+    
 
     <!-- Détails -->
     <div class="card-body">

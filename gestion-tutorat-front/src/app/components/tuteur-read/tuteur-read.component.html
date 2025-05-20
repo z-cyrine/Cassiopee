@@ -37,6 +37,12 @@
         <span class="label">Statut :</span>
         <span class="value">{{ tuteur?.statut }}</span>
       </div>
+      <div class="action-buttons mt-4">      
+        <button class="btn btn-secondary" (click)="goToList()">
+          <i class="bi bi-arrow-left"></i> Liste des tuteurs
+        </button>
+      
+      </div>
       <div class="action-buttons mt-4" *ngIf="!modeLectureSeul">
         <a [routerLink]="['/tuteurs/edit', tuteur.id]" class="btn edit-btn">
           <i class="bi bi-pencil-square"></i> Éditer
@@ -47,7 +53,7 @@
         </button>
       </div>
 
-      
+
     </div>
   </div>
 </div>

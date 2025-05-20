@@ -62,3 +62,72 @@
     text-decoration: underline;
   }
   
+
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 20px;
+  }
+  
+  /* Bouton Éditer */
+  .edit-btn {
+    background-color: #00abc7;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .edit-btn:hover {
+    background-color: #0095a3;
+  }
+  
+  /* Bouton Retour */
+  .btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
+  /* Bouton Supprimer */
+  .delete-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Icônes */
+  .edit-btn i,
+  .btn-secondary i,
+  .delete-btn i {
+    font-size: 1rem;
+  }
+  

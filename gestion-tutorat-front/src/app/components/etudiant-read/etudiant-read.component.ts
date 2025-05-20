@@ -36,7 +36,7 @@ export class EtudiantReadComponent implements OnInit {
             this.etudiant = data;
           },
           error: err => {
-            console.error('Erreur lors de la récupération de l’étudiant', err);
+            console.error("Erreur lors de la récupération de l'étudiant", err);
           }
         });
     }
@@ -71,5 +71,9 @@ export class EtudiantReadComponent implements OnInit {
           }
         });
     }
+  }
+
+  goToList(): void {
+    this.router.navigate(['/etudiants/all']);
   }
 }
