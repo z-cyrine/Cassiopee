@@ -23,6 +23,9 @@ export class UserImportService {
     const stats = { created: 0, skipped: 0, errors: [] };
 
     try {
+      // SUPPRIMER tous les users ayant le rôle 'prof' avant import
+      await this.userRepository.delete({ role: UserRole.PROF });
+
       // Récupérer tous les tuteurs éligibles
       const tuteurs = await this.tuteurRepository.find({
         where: { estEligiblePourTutorat: true }
