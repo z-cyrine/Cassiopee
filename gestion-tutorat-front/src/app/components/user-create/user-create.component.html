@@ -6,12 +6,32 @@
 
     <div class="card-body">
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <!-- Prénom -->
+        <div class="form-group">
+          <label>{{ 'USER_CREATE.FIRSTNAME' | translate }}</label>
+          <input type="text" class="form-control" formControlName="prenom"
+            [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }" />
+          <div *ngIf="submitted && f['prenom'].invalid" class="invalid-feedback">
+            {{ 'USER_CREATE.REQUIRED' | translate }}
+          </div>
+        </div>
+
         <!-- Nom -->
         <div class="form-group">
-          <label>{{ 'USER_CREATE.NAME' | translate }}</label>
-          <input type="text" class="form-control" formControlName="name"
-            [ngClass]="{ 'is-invalid': submitted && f['name'].invalid }" />
-          <div *ngIf="submitted && f['name'].invalid" class="invalid-feedback">
+          <label>{{ 'USER_CREATE.LASTNAME' | translate }}</label>
+          <input type="text" class="form-control" formControlName="nom"
+            [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }" />
+          <div *ngIf="submitted && f['nom'].invalid" class="invalid-feedback">
+            {{ 'USER_CREATE.REQUIRED' | translate }}
+          </div>
+        </div>
+
+        <!-- Display Name -->
+        <div class="form-group">
+          <label>{{ 'USER_CREATE.DISPLAY_NAME' | translate }}</label>
+          <input type="text" class="form-control" formControlName="displayName"
+            [ngClass]="{ 'is-invalid': submitted && f['displayName'].invalid }" />
+          <div *ngIf="submitted && f['displayName'].invalid" class="invalid-feedback">
             {{ 'USER_CREATE.REQUIRED' | translate }}
           </div>
         </div>
@@ -27,14 +47,14 @@
           </div>
         </div>
 
-        <!-- Mot de passe -->
+        <!-- Username -->
         <div class="form-group">
-          <label>{{ 'USER_CREATE.PASSWORD' | translate }}</label>
-          <input type="password" class="form-control" formControlName="password"
-            [ngClass]="{ 'is-invalid': submitted && f['password'].invalid }" />
-          <div *ngIf="submitted && f['password'].invalid" class="invalid-feedback">
-            <span *ngIf="f['password'].errors?.['required']">{{ 'USER_CREATE.REQUIRED' | translate }}</span>
-            <span *ngIf="f['password'].errors?.['minlength']">{{ 'USER_CREATE.MIN_LENGTH' | translate }}</span>
+          <label>{{ 'USER_CREATE.USERNAME' | translate }}</label>
+          <input type="text" class="form-control" formControlName="username" readonly
+            [ngClass]="{ 'is-invalid': submitted && f['username'].invalid }" />
+          <div *ngIf="submitted && f['username'].invalid" class="invalid-feedback">
+            <span *ngIf="f['username'].errors?.['required']">{{ 'USER_CREATE.REQUIRED' | translate }}</span>
+            <span *ngIf="f['username'].errors?.['minlength']">{{ 'USER_CREATE.MIN_LENGTH_USERNAME' | translate }}</span>
           </div>
         </div>
 

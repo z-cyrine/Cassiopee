@@ -228,7 +228,8 @@
     "FRENCH_ENGLISH": "Français & Anglais",
     "CHOOSE_LANGUAGE": "-- Choisir une langue --",
     "CHOOSE": "-- Choisir --",
-    "VALUE_REQUIRED": "Veuillez choisir une valeur."
+    "VALUE_REQUIRED": "Veuillez choisir une valeur.",
+    "MIN_LENGTH_USERNAME": "Minimum 3 caractères."
   },
   "AUTO_AFFECT": {
     "EQUIVALENCE": "Équivalence :",
@@ -313,7 +314,12 @@
     "REQUIRED": "Champ obligatoire.",
     "INVALID_EMAIL": "Format e-mail invalide.",
     "MIN_LENGTH": "Minimum 6 caractères.",
-    "SUBMIT": "Créer l'Utilisateur"
+    "SUBMIT": "Créer l'Utilisateur",
+    "USERNAME": "Nom d'utilisateur",
+    "MIN_LENGTH_USERNAME": "Minimum 3 caractères.",
+    "FIRSTNAME": "Prénom",
+    "LASTNAME": "Nom",
+    "DISPLAY_NAME": "Nom affiché"
   },
   "PROFILE": {
     "TITLE": "Mon Profil",

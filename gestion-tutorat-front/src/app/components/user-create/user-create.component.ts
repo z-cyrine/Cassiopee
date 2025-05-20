@@ -29,6 +29,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   errorMessage = '';
   roles = ['admin', 'prof', 'consultation'];
   private destroy$ = new Subject<void>();
+  private displayNameManuallyChanged = false;
 
   constructor(
     private fb: FormBuilder,
@@ -38,11 +39,49 @@ export class UserCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
-      name: ['', Validators.required],
+      prenom: ['', Validators.required],
+      nom: ['', Validators.required],
+      displayName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       role: ['', Validators.required],
     });
+
+    this.userForm.get('prenom')!.valueChanges.subscribe(() => {
+      this.updateUsername();
+      this.updateDisplayName();
+    });
+    this.userForm.get('nom')!.valueChanges.subscribe(() => {
+      this.updateUsername();
+      this.updateDisplayName();
+    });
+    this.userForm.get('displayName')!.valueChanges.subscribe((value) => {
+      // Si l'utilisateur modifie manuellement le displayName, on arrête la génération automatique
+      const prenom = this.userForm.get('prenom')!.value || '';
+      const nom = this.userForm.get('nom')!.value || '';
+      const autoValue = prenom && nom ? `${prenom} ${nom.toUpperCase()}` : '';
+      if (value !== autoValue) {
+        this.displayNameManuallyChanged = true;
+      } else {
+        this.displayNameManuallyChanged = false;
+      }
+    });
+  }
+
+  updateUsername() {
+    const prenom = this.userForm.get('prenom')!.value || '';
+    const nom = this.userForm.get('nom')!.value || '';
+    // username: première lettre du prénom + nom, tout attaché, en minuscules
+    const username = prenom && nom ? `${prenom[0]}${nom}`.replace(/\s/g, '').toLowerCase() : '';
+    this.userForm.get('username')!.setValue(username, { emitEvent: false });
+  }
+
+  updateDisplayName() {
+    if (this.displayNameManuallyChanged) return;
+    const prenom = this.userForm.get('prenom')!.value || '';
+    const nom = this.userForm.get('nom')!.value || '';
+    const displayName = prenom && nom ? `${prenom} ${nom.toUpperCase()}` : '';
+    this.userForm.get('displayName')!.setValue(displayName, { emitEvent: false });
   }
 
   get f() {
