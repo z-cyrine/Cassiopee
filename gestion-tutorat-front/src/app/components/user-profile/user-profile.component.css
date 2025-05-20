@@ -62,21 +62,6 @@
   font-weight: 600;
 }
 
-.btn-edit {
-  background: #b42978;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.btn-edit:hover {
-  background: #931c67;
-}
-
 /* 4) Corps des détails */
 .card-body {
   padding: 24px;
@@ -130,17 +115,44 @@
 }
 
 /* DECONNEXION */
-.btn-purple {
-  background: #b42978;
+.logout-icon {
+  margin-left: auto;
   color: #fff;
+  font-size: 1.25em;
+  cursor: pointer;
   border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px; 
+  outline: none;
+  background: none;
+  display: inline-flex;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+
+.logout-icon:hover {
+  background-color: #ffffff;
+  color: #b42978; /* ou #002b45, selon ton fond */
+}
+
+/* BOUTON VIEW ETUDIANTS */
+.btn.view-etudiants {
+  background-color: transparent;
+  border: 2px solid #b42978; /* couleur principale */
+  color: #b42978;
   padding: 10px 20px;
   border-radius: 8px;
   font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.3s ease;
 }
 
-.btn-purple:hover {
-  background: #931c67;
+.btn.view-etudiants:hover {
+  background-color: #b42978;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(180, 41, 120, 0.2);
 }

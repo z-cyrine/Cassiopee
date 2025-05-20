@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import { MajorsService } from '../../services/majors/majors.service';
 import { FormsModule } from '@angular/forms';               
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from '../../services/gestion-acces/auth-service.service';
 
 @Component({
   selector: 'app-affiche-majeures',
@@ -52,12 +53,37 @@ searchResults: any[] = [];
   constructor(
     private http: HttpClient,
     private router: Router,
-    private majorsService: MajorsService
+    private majorsService: MajorsService,
+    private authService: AuthService
 
   ) {}
 
+  role: string | null = null;
+  isAuthenticated = false;
+
+
   ngOnInit(): void {
     this.loadMajeures();
+
+    this.authService.authStatus$.subscribe(() => {
+      this.role = this.authService.getUserRole();
+      this.isAuthenticated = this.authService.isAuthenticated();
+
+      this.setEditDeleteVisibility();
+    });
+
+    this.authService.updateAuthStatus();
+
+  }
+
+  setEditDeleteVisibility(): void {
+    if (this.role === 'admin') {
+      this.showEdit = true;
+      this.showDelete = true;
+    } else {
+      this.showEdit = false;
+      this.showDelete = false;
+    }
   }
 
   loadMajeures() {

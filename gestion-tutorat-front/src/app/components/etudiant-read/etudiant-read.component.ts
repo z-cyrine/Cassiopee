@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/gestion-acces/auth-service.service';
 
 @Component({
   selector: 'app-etudiant-read',
@@ -14,13 +15,14 @@ import { environment } from '../../../environments/environment';
 export class EtudiantReadComponent implements OnInit {
   etudiant: any;
   etudiantId: number | null = null;
-  modeLectureSeul = false; // Mettre à true si on veut cacher les boutons (par ex. pour un tuteur connecté)
-
+  modeLectureSeul = false;
+  role: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +40,14 @@ export class EtudiantReadComponent implements OnInit {
           }
         });
     }
+
+    this.authService.authStatus$.subscribe(() => {
+      this.role = this.authService.getUserRole();
+      this.modeLectureSeul = this.role !== 'admin';
+    });
+
+    this.authService.updateAuthStatus();
+
   }
 
   onEditEtudiant(): void {

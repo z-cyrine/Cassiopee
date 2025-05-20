@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormatNamePipe } from '../../pipes/format-name/format-name.pipe';
+import { AuthService } from '../../services/gestion-acces/auth-service.service';
 
 @Component({
   selector: 'app-affiche-tuteurs',
@@ -26,6 +27,8 @@ import { FormatNamePipe } from '../../pipes/format-name/format-name.pipe';
   styleUrls: ['./affiche-tuteurs.component.css'],
 })
 export class AfficheTuteursComponent implements OnInit {
+  role: string | null = null;
+  isAuthenticated = false;
   tuteurs: any[] = [];
   pagedTuteurs: any[] = [];
   columns: string[] = [
@@ -47,12 +50,37 @@ export class AfficheTuteursComponent implements OnInit {
   constructor(
     private tuteurService: TuteurService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadTuteurs();
+
+    this.authService.authStatus$.subscribe(() => {
+      this.role = this.authService.getUserRole();
+      this.isAuthenticated = this.authService.isAuthenticated();
+      this.setColumnVisibility();
+    });
+
+    this.authService.updateAuthStatus();
+
   }
+
+  setColumnVisibility(): void {
+    if (this.role === 'admin') {
+      this.showEdit = true;
+      this.showDelete = true;
+      if (!this.columns.includes('actions')) {
+        this.columns.push('actions');
+      }
+    } else {
+      this.showEdit = false;
+      this.showDelete = false;
+      this.columns = this.columns.filter(col => col !== 'actions');
+    }
+  }
+
 
   loadTuteurs() {
     this.loading = true;

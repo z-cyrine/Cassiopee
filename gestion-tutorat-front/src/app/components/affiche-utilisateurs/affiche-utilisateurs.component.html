@@ -59,9 +59,9 @@
           </td>
           <td>{{ user.createdAt | date:'medium' }}</td>
           <td>
-            <<button mat-icon-button color="primary" (click)="onEditUser(user.id)">
+            <button mat-icon-button color="primary" (click)="onEditUser(user.id)">
               <mat-icon>edit</mat-icon>
-            </button>>
+            </button>
             <button mat-icon-button color="warn" (click)="onDeleteUser(user.id)">
               <mat-icon>delete</mat-icon>
             </button>

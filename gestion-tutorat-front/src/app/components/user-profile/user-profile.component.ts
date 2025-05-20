@@ -9,13 +9,14 @@ import { TuteurService } from '../../services/tuteur/tuteur.service';
 import { Etudiant } from '../../services/etudiant/etudiant.service';
 import { AuthService } from '../../services/gestion-acces/auth-service.service';
 import { environment } from '../../../environments/environment';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
-  imports: [CommonModule, RouterModule, TranslateModule],
+  imports: [CommonModule, RouterModule, TranslateModule, MatIconModule],
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User | null = null;

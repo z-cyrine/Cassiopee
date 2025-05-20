@@ -35,10 +35,10 @@
       <th class="stickyHeader"></th>
       <th *ngFor="let maj of (searchMode ? searchResults : majeures)" class="stickyHeader">
         {{ maj.groupe }}
-        <button type="button" class="icon-btn edit" (click)="onEditMajeure(maj.id)" title="Éditer">
+        <button type="button"  *ngIf="showEdit" class="icon-btn edit" (click)="onEditMajeure(maj.id)" title="Éditer">
           <mat-icon>edit</mat-icon>
         </button>
-        <button type="button" class="icon-btn delete" (click)="onDeleteMajeure(maj.id)" title="Supprimer">
+        <button type="button" *ngIf="showDelete" class="icon-btn delete" (click)="onDeleteMajeure(maj.id)" title="Supprimer">
           <mat-icon>delete</mat-icon>
         </button>
       </th>

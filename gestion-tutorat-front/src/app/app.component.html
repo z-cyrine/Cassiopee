@@ -54,7 +54,7 @@
             <li><a class="dropdown-item" routerLink="/etudiants/all">{{ 'NAV.LISTE_ETUDIANTS' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/tuteurs/all">{{ 'NAV.LISTE_TUTEURS' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/majeures/all">{{ 'NAV.LISTE_MAJEURES' | translate }}</a></li>
-            <li><a class="dropdown-item" routerLink="/utilisateurs/all">{{ 'NAV.LISTE_UTILISATEURS' | translate }}</a></li>
+            <li *ngIf="isAuthenticated && role === 'admin'"><a class="dropdown-item" routerLink="/utilisateurs/all">{{ 'NAV.LISTE_UTILISATEURS' | translate }}</a></li>
           </ul>
         </li>
 
@@ -69,7 +69,7 @@
         </li>
 
         <!-- Reporting -->
-        <li class="nav-item" *ngIf="isAuthenticated && role === 'admin'">
+        <li class="nav-item" *ngIf="isAuthenticated && role !== 'prof'">
           <a routerLink="/reporting" routerLinkActive="active" class="nav-link">{{ 'NAV.REPORTING' | translate }}</a>
         </li>
 
