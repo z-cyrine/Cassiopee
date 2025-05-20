@@ -8,7 +8,7 @@ import { ImportComponent } from './components/import/import.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
-import { AuthService } from './services/gestion-accès/auth-service.service';
+import { AuthService } from './services/gestion-acces/auth-service.service';
 
 @Component({
   selector: 'app-root',
@@ -24,10 +24,13 @@ export class AppComponent {
   title = 'gestion-tutorat-front';
 
   role: string | null = null;
+  isAuthenticated = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.role = this.authService.getUserRole();
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
   
   casLoginUrl = `${environment.apiUrl}/cas/login`;
@@ -38,5 +41,16 @@ export class AppComponent {
     this.authService.logout();
     localStorage.clear();
     window.location.href = this.casLogoutUrl;
+  }
+  
+  getDashboard(){
+    if (this.isAuthenticated) {
+      const userStr = localStorage.getItem('user');
+      if (userStr){
+      const user = JSON.parse(userStr);
+      this.router.navigate(['/tuteur-dashboard', user.id, 'etudiants']);
+      }
+    }
+
   }
 }

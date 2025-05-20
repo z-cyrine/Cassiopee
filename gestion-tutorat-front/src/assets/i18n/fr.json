@@ -77,7 +77,8 @@
     "LISTE_UTILISATEURS": "Liste Utilisateurs",
     "AJOUTER_UTILISATEUR": "Ajouter Utilisateur",
     "PROFILE": "Mon Profil",
-    "DECONNEXION": "Déconnexion"
+    "DECONNEXION": "Déconnexion",
+    "DASHBOARD": "Mon Tableau de Bord"
   },
   "HOME": {
     "WELCOME": "Bienvenue sur la plateforme de gestion du tutorat"
