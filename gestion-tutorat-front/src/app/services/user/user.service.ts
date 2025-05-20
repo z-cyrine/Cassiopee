@@ -40,7 +40,7 @@ export class UserService {
     return this.http.get<User>(`${this.baseUrl}/${id}`);
   }
 
-  createUser(userData: { email: string; name: string; password: string; role?: string }): Observable<User> {
+  createUser(userData: { email: string; name: string; username?: string; role?: string }): Observable<User> {
     return this.http.post<User>(this.baseUrl, userData);
   }
 

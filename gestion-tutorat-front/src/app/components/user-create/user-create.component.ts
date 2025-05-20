@@ -51,15 +51,18 @@ export class UserCreateComponent implements OnInit, OnDestroy {
       this.updateUsername();
       this.updateDisplayName();
     });
-    this.userForm.get('nom')!.valueChanges.subscribe(() => {
+    this.userForm.get('nom')!.valueChanges.subscribe((value) => {
+      // Forcer la majuscule sur le champ nom
+      if (value && value !== value.toUpperCase()) {
+        this.userForm.get('nom')!.setValue(value.toUpperCase(), { emitEvent: false });
+      }
       this.updateUsername();
       this.updateDisplayName();
     });
     this.userForm.get('displayName')!.valueChanges.subscribe((value) => {
-      // Si l'utilisateur modifie manuellement le displayName, on arrête la génération automatique
       const prenom = this.userForm.get('prenom')!.value || '';
       const nom = this.userForm.get('nom')!.value || '';
-      const autoValue = prenom && nom ? `${prenom} ${nom.toUpperCase()}` : '';
+      const autoValue = prenom && nom ? `${prenom} ${nom}` : '';
       if (value !== autoValue) {
         this.displayNameManuallyChanged = true;
       } else {
@@ -71,13 +74,11 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   updateUsername() {
     const prenom = this.userForm.get('prenom')!.value || '';
     const nom = this.userForm.get('nom')!.value || '';
-    // username: première lettre du prénom + nom, tout attaché, en minuscules
     const username = prenom && nom ? `${prenom[0]}${nom}`.replace(/\s/g, '').toLowerCase() : '';
     this.userForm.get('username')!.setValue(username, { emitEvent: false });
   }
 
   updateDisplayName() {
-    if (this.displayNameManuallyChanged) return;
     const prenom = this.userForm.get('prenom')!.value || '';
     const nom = this.userForm.get('nom')!.value || '';
     const displayName = prenom && nom ? `${prenom} ${nom.toUpperCase()}` : '';
@@ -95,7 +96,14 @@ export class UserCreateComponent implements OnInit, OnDestroy {
 
     if (this.userForm.invalid) return;
 
-    this.userService.createUser(this.userForm.value)
+    // On envoie uniquement name, email, username, role
+    const formValue = {
+      name: this.userForm.get('displayName')!.value,
+      email: this.userForm.get('email')!.value,
+      username: this.userForm.get('username')!.value,
+      role: this.userForm.get('role')!.value,
+    };
+    this.userService.createUser(formValue)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (createdUser) => {
