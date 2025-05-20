@@ -1,25 +1,30 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { JWT_SECRET } from '../config/jwt-secrets';
 
 @Injectable()
 export class AuthGuard implements CanActivate{
     constructor(private jwtService: JwtService) {}
 
-    async canActivate(context: ExecutionContext) {
-        const request = context.switchToHttp().getRequest();
-        const authorization = request.headers.authorization;
-        const token = authorization ? authorization.split(' ')[1] : null;
+    canActivate(context: ExecutionContext): boolean | Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const authHeader = request.headers['authorization'];
 
-        if (!token) {
-            throw new UnauthorizedException('Token not found');
-        }
+    console.log('🔐 Reçu dans le guard - Authorization :', authHeader);
 
-        try {
-            await this.jwtService.verifyAsync(token);
-            return true;
-        } catch (error) {
-            throw new UnauthorizedException('Invalid token');
-        }
-
+    if (!authHeader) {
+        throw new UnauthorizedException('Token not found');
     }
+
+    console.log('🧪 Clé utilisée pour SIGNER :', JWT_SECRET);
+    const token = authHeader.split(' ')[1];
+    return this.jwtService.verifyAsync(token, {
+            secret: JWT_SECRET
+        })
+        .then(() => true)
+        .catch(() => {
+        throw new UnauthorizedException('Invalid token');
+        });
+    }
+
 }

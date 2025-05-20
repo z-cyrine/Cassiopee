@@ -4,6 +4,7 @@ import { CasService } from './cas.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/modules/users/user.service';
 import * as dotenv from 'dotenv';
+import { JWT_SECRET } from 'src/modules/auth/jwt/config/jwt-secrets';
 
 dotenv.config(); 
 
@@ -28,19 +29,18 @@ export class CasController {
       throw new UnauthorizedException('Utilisateur non autorisé (username inconnu)');
     }
 
-    const token = this.jwtService.sign({
+    const payload = {
       sub: userInDb.id,
       username: userInDb.username,
       name: userInDb.name,
       role: userInDb.role,
       email: userInDb.email,
-      createdAt : userInDb.createdAt,
       id: userInDb.id
-    });
+    }
 
-    console.log('✅ Utilisateur connecté via CAS :', user);
-    console.log('✅ Utilisateur de la db :', userInDb);
-    console.log('✅ token :', token);
+    const token = this.jwtService.sign(payload, {
+      secret: JWT_SECRET
+    });
 
     return {
       token,
