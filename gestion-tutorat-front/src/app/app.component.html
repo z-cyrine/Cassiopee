@@ -79,7 +79,7 @@
         </li>
 
         <!-- Ajouter Dropdown -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="role === 'admin'">
           <a class="nav-link dropdown-toggle" href="#" id="ajouterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ 'NAV.AJOUTER' | translate }}
           </a>
@@ -96,5 +96,18 @@
     </div>
   </div>
 </nav>
+
+<!-- TEST ROLES -->
+<li *ngIf="role === 'admin'">
+  <a routerLink="/admin">Espace Admin</a>
+</li>
+
+<li *ngIf="role === 'prof'">
+  <a routerLink="/tutorat">Espace Tuteur</a>
+</li>
+
+<li *ngIf="role === 'consultation'">
+  <a routerLink="/stats">Consultation</a>
+</li>
 
 <router-outlet></router-outlet>

@@ -8,6 +8,7 @@ import { ImportComponent } from './components/import/import.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
+import { AuthService } from './services/gestion-accès/auth-service.service';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,14 @@ import { environment } from '../environments/environment';
 }) 
 export class AppComponent {
   title = 'gestion-tutorat-front';
+
+  role: string | null = null;
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.role = this.authService.getUserRole();
+  }
+  
   casLoginUrl = `${environment.apiUrl}/cas/login`;
   // casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
   casLogoutUrl = `${environment.CAS_BASE_URL}/logout?service=${encodeURIComponent(environment.FRONTEND_URL)}`;
