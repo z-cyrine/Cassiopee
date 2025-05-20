@@ -77,7 +77,8 @@
     "LISTE_UTILISATEURS": "List of Users",
     "AJOUTER_UTILISATEUR": "Add User",
     "PROFILE": "My profile",
-    "DECONNEXION": "Logout"
+    "DECONNEXION": "Logout",
+    "DASHBOARD": "My Dashboard"
   },
   "HOME": {
     "WELCOME": "Welcome to the tutoring management platform"

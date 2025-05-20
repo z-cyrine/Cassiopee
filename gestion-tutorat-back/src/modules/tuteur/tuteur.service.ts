@@ -116,4 +116,9 @@ async searchByName(nom?: string, prenom?: string): Promise<Tuteur[]> {
   return result;
 }
 
+  async findByEmail(email: string): Promise<Tuteur> {
+    return this.tuteurRepository.findOne({ where: { email } });
+  }
+
+
 }
