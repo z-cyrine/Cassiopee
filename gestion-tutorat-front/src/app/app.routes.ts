@@ -17,7 +17,7 @@ export const appRoutes: Routes = [
   { path: 'tuteur-dashboard', loadComponent: () => import('./components/tuteur-dashboard/tuteur-dashboard.component').then(m => m.TuteurDashboardComponent) },
   
   //Authentification
-  // { path: 'register', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
+  { path: 'register', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
   // { path: 'inscription', loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent) },
   { path: 'cas/callback', loadComponent: () => import('./components/cas-callback/cas-callback.component').then(m => m.CasCallbackComponent) },
 

@@ -42,6 +42,9 @@
         <a [routerLink]="['/majeures/edit', majeure.id]" class="btn edit-btn">
           <i class="bi bi-pencil-square"></i> Éditer
         </a>
+        <button class="btn btn-secondary" (click)="goToList()" style="margin-left: 0.5rem;">
+          <i class="bi bi-arrow-left"></i> Retour à la liste
+        </button>
       </div>
     </div>
   </div>

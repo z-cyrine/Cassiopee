@@ -51,4 +51,8 @@ export class MajeureReadComponent implements OnInit {
       });
     }
   }
+
+  goToList(): void {
+    this.router.navigate(['/majeures/all']);
+  }
 }

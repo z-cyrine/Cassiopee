@@ -60,6 +60,8 @@ export class AfficheTuteursComponent implements OnInit {
       next: (response) => {
         this.tuteurs = response.map((tuteur: any) => ({
           ...tuteur,
+          nom: tuteur.prenom,
+          prenom: tuteur.nom,
           langueTutorat: Array.isArray(tuteur.langueTutorat)
             ? tuteur.langueTutorat
             : (typeof tuteur.langueTutorat === 'string' && tuteur.langueTutorat.trim() !== ''
@@ -154,38 +156,41 @@ export class AfficheTuteursComponent implements OnInit {
   }
 
   searchNom: string = '';
-searchPrenom: string = '';
-searchResults: any[] = [];
-searchMode: boolean = false;
+  searchPrenom: string = '';
+  searchResults: any[] = [];
+  searchMode: boolean = false;
 
-onSearch(): void {
-  if (!this.searchNom.trim() && !this.searchPrenom.trim()) {
-    alert('Veuillez saisir un nom ou un prénom.');
-    return;
+  onSearch(): void {
+    if (!this.searchNom.trim() && !this.searchPrenom.trim()) {
+      alert('Veuillez saisir un nom ou un prénom.');
+      return;
+    }
+
+    this.loading = true;
+    this.tuteurService.searchTuteurs(this.searchNom, this.searchPrenom).subscribe({
+      next: (results: any[]) => {
+        this.searchResults = results.map((tuteur: any) => ({
+          ...tuteur,
+          nom: tuteur.prenom,
+          prenom: tuteur.nom,
+        }));
+        this.searchMode = true;
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.error('Erreur lors de la recherche :', err);
+        this.searchResults = [];
+        this.searchMode = true;
+        this.loading = false;
+      }
+    });
   }
 
-  this.loading = true;
-  this.tuteurService.searchTuteurs(this.searchNom, this.searchPrenom).subscribe({
-    next: (results: any[]) => {
-      this.searchResults = results;
-      this.searchMode = true;
-      this.loading = false;
-    },
-    error: (err: any) => {
-      console.error('Erreur lors de la recherche :', err);
-      this.searchResults = [];
-      this.searchMode = true;
-      this.loading = false;
-    }
-  });
-}
-
-onClearSearch(): void {
-  this.searchNom = '';
-  this.searchPrenom = '';
-  this.searchResults = [];
-  this.searchMode = false;
-  this.loadTuteurs();
-}
-
+  onClearSearch(): void {
+    this.searchNom = '';
+    this.searchPrenom = '';
+    this.searchResults = [];
+    this.searchMode = false;
+    this.loadTuteurs();
+  }
 } 

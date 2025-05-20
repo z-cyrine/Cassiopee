@@ -161,12 +161,12 @@
     "GROUP": "Groupe",
     "CLASS_CODE": "Code classe",
     "NO_MAJOR_FOUND": "Aucune majeure trouvée.",
-    "MAJOR_GROUP": "majeure/groupe",
-    "DEPARTMENT": "departement",
-    "LANGUAGE_TAUGHT": "langue enseignée",
+    "MAJOR_GROUP": "Majeure/Groupe",
+    "DEPARTMENT": "Departement",
+    "LANGUAGE_TAUGHT": "Langue enseignée",
     "INI_ALT": "INI/ALT",
-    "PROGRAM": "programme",
-    "CODE_CLASS": "code classe"
+    "PROGRAM": "Programme",
+    "CODE_CLASS": "Code classe"
   },
   "IMPORT": {
     "TITLE": "Importer des Fichiers",
