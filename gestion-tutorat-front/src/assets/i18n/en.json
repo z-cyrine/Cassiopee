@@ -59,7 +59,8 @@
     "DASHBOARD": "Dashboard",
     "TUTORS": "Tutors",
     "STUDENTS": "Students",
-    "REPORTS": "Reports"
+    "REPORTS": "Reports",
+    "LISTS": "Lists"
   },
   "NAV": {
     "CONNEXION": "Login",
