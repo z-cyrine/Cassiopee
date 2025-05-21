@@ -81,7 +81,18 @@
     "DASHBOARD": "Mon Tableau de Bord"
   },
   "HOME": {
-    "WELCOME": "Bienvenue sur la plateforme de gestion du tutorat"
+    "WELCOME": "Bienvenue sur la plateforme de gestion du tutorat",
+    "SUBTITLE": "Une solution complète pour gérer efficacement le tutorat à l'IMT Business School",
+    "MAIN_FEATURES": "Fonctionnalités principales",
+    "STUDENTS_DESC": "Consultez et gérez la liste complète des étudiants, leurs affectations et leurs informations personnelles.",
+    "TUTORS_DESC": "Accédez à la liste des tuteurs, leurs disponibilités et leurs affectations actuelles.",
+    "MAJORS_DESC": "Explorez les différentes majeures et leurs caractéristiques spécifiques.",
+    "AUTO_ASSIGN_DESC": "Utilisez notre algorithme intelligent pour affecter automatiquement les étudiants aux tuteurs.",
+    "MANUAL_ASSIGN_DESC": "Effectuez des affectations manuelles précises entre étudiants et tuteurs.",
+    "REPORTING_DESC": "Générez des rapports détaillés et des statistiques sur les affectations et le tutorat.",
+    "ACCESS_FEATURE": "Accéder",
+    "GET_STARTED": "Commencer",
+    "LOGIN_MESSAGE": "Connectez-vous pour accéder à toutes les fonctionnalités de la plateforme de gestion du tutorat."
   },
   "STUDENTS": {
     "SEARCH_TITLE": "Recherche d'étudiants",
