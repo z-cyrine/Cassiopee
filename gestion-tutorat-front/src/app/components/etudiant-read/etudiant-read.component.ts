@@ -74,6 +74,10 @@ export class EtudiantReadComponent implements OnInit {
   }
 
   goToList(): void {
+    if (this.role == 'prof') {
+      this.router.navigate(['/tuteur-dashboard']);
+    }
+    else{
     this.router.navigate(['/etudiants/all']);
-  }
+  }}
 }
