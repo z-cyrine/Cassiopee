@@ -73,7 +73,10 @@
           <a routerLink="/reporting" routerLinkActive="active" class="nav-link">{{ 'NAV.REPORTING' | translate }}</a>
         </li>
 
-  
+        <!-- VOIR ETUDIANTS -->
+        <li class="nav-item" *ngIf="isAuthenticated && role === 'prof'">
+          <a routerLink="/tuteur-dashboard" routerLinkActive="active" class="nav-link">{{ 'NAV.DASHBOARD' | translate }}</a>
+        </li>
 
         <!-- Ajouter Dropdown -->
         <li class="nav-item dropdown" *ngIf="role === 'admin'">
