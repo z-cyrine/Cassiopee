@@ -26,7 +26,9 @@
     "EXPORT_EXCEL": "Exporter en Excel",
     "NOT_AVAILABLE": "N/A",
     "CANCEL": "Annuler",
-    "ACTIONS": "Actions"
+    "ACTIONS": "Actions",
+    "VIEW": "Voir",
+    "DETAILS": "Détails"
   },
   "AUTH": {
     "LOGIN_TITLE": "Connexion",
@@ -57,7 +59,8 @@
     "DASHBOARD": "Tableau de bord",
     "TUTORS": "Tuteurs",
     "STUDENTS": "Étudiants",
-    "REPORTS": "Rapports"
+    "REPORTS": "Rapports",
+    "LISTS": "Listes" 
   },
   "NAV": {
     "CONNEXION": "Connexion",
