@@ -86,4 +86,11 @@ export class TuteurService {
     return this.http.get<Tuteur>(`${environment.apiUrl}/tuteur/by-email/${email}`);
   }
 
+  getTuteurByUserEmail(email: string): Observable<Tuteur> {
+  return this.http.get<Tuteur>(`${this.baseUrl}/by-user-email`, {
+    params: { email }
+  });
+}
+
+
 }

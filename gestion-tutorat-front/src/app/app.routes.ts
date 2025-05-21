@@ -3,9 +3,13 @@ import { RoleGuard } from './services/gestion-acces/guards/role.guard';
 import { AuthGuard } from './services/gestion-acces/guards/auth.guard';
 
 export const appRoutes: Routes = [
-  // Page d'accueil (par défaut)
-  { path: '', loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent) },
-
+  // Redirection dynamique selon le rôle
+  {
+    path: '',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    loadComponent: () => import('./components/redirector/redirector.component').then(m => m.RedirectorComponent)
+  },
   // Routes principales
   { path: 'import', canActivate: [RoleGuard(['admin'])], loadComponent: () => import('./components/import/import.component').then(m => m.ImportComponent) },
   { path: 'etudiants/all', canActivate: [RoleGuard(['admin', 'consultation'])], loadComponent: () => import('./components/affiche-etudiants/affiche-etudiants.component').then(m => m.AfficheEtudiantsComponent) },
@@ -34,7 +38,7 @@ export const appRoutes: Routes = [
 
   // Détails
   { path: 'etudiants/:id', canActivate: [AuthGuard], loadComponent: () => import('./components/etudiant-read/etudiant-read.component').then(m => m.EtudiantReadComponent) },
-  { path: 'tuteurs/:id', canActivate: [RoleGuard(['admin', 'consultation'])], loadComponent: () => import('./components/tuteur-read/tuteur-read.component').then(m => m.TuteurReadComponent) },
+  { path: 'tuteurs/:id', canActivate: [RoleGuard(['admin','prof', 'consultation'])], loadComponent: () => import('./components/tuteur-read/tuteur-read.component').then(m => m.TuteurReadComponent) },
   { path: 'majeures/:id', canActivate: [RoleGuard(['admin', 'consultation'])], loadComponent: () => import('./components/majeure-read/majeure-read.component').then(m => m.MajeureReadComponent) },
 
   // Éditions

@@ -1,0 +1,14 @@
+<div class="language-dropdown">
+  <button class="dropdown-toggle">
+    <img [src]="'assets/flags/' + currentLang + '.png'" alt="Flag" width="20" height="15" />
+    {{ currentLang.toUpperCase() }}
+  </button>
+  <div class="dropdown-menu">
+    <div class="dropdown-item" (click)="switchLanguage('fr')">
+      <img src="assets/flags/fr.png" width="20" height="15" /> Français
+    </div>
+    <div class="dropdown-item" (click)="switchLanguage('en')">
+      <img src="assets/flags/en.png" width="20" height="15" /> English
+    </div>
+  </div>
+</div>

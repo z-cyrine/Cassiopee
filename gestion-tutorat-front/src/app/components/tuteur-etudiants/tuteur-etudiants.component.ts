@@ -14,8 +14,8 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'app-tuteur-etudiants',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatTableModule, 
+    CommonModule,
+    MatTableModule,
     TranslateModule,
     MatIconModule,
     MatButtonModule,
@@ -28,77 +28,64 @@ import { MatCardModule } from '@angular/material/card';
 export class TuteurEtudiantsComponent implements OnInit {
   etudiants: Etudiant[] = [];
   displayedColumns: string[] = [
-    'id', 'nom', 'prenom', 'emailEcole', 'origine', 'ecole', 'codeClasse', 
+    'id', 'nom', 'prenom', 'emailEcole', 'origine', 'ecole', 'codeClasse',
     'nomGroupe', 'langueMajeure', 'iniAlt', 'entreprise', 'fonctionApprenti'
   ];
   tuteurId: number = 0;
-  tuteurNom: string = '';
-  tuteurPrenom: string = '';
   loading = false;
   errorMessage: string = '';
   currentUserRole: string = '';
-  currentUserId: number = 0;
+  currentUserEmail: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private tuteurService: TuteurService
   ) {
-    // Get current user info from localStorage
     const userStr = localStorage.getItem('user');
     if (userStr) {
       const user = JSON.parse(userStr);
       this.currentUserRole = user.role;
-      this.currentUserId = user.id;
-      this.tuteurNom = user.name;
-      this.tuteurPrenom = user.prenom;
+      this.currentUserEmail = user.email;
     }
   }
 
   ngOnInit(): void {
     this.tuteurId = Number(this.route.snapshot.paramMap.get('id'));
-    
-    // Check if user has permission to view these students
-    if (this.currentUserRole === 'prof' && this.currentUserId !== this.tuteurId) {
-      this.errorMessage = 'Vous ne pouvez consulter que vos propres étudiants.';
-      return;
-    }
-
     this.loading = true;
 
-    // Si c'est un prof, utiliser son nom et prénom
     if (this.currentUserRole === 'prof') {
-      this.tuteurService.getTuteurEtudiantsByNomPrenom(this.tuteurNom, this.tuteurPrenom).subscribe({
-        next: (etudiants) => {
-          this.etudiants = etudiants;
-          this.loading = false;
-          this.errorMessage = '';
-        },
-        error: (err) => {
-          this.etudiants = [];
-          this.loading = false;
-          if (err.status === 403) {
+      this.tuteurService.getTuteurByUserEmail(this.currentUserEmail).subscribe({
+        next: (tuteur) => {
+          if (tuteur.id !== this.tuteurId) {
             this.errorMessage = 'Vous ne pouvez consulter que vos propres étudiants.';
-          } else {
-            this.errorMessage = 'Erreur lors du chargement des étudiants.';
+            this.loading = false;
+            return;
           }
+          this.loadEtudiants(tuteur.id);
+        },
+        error: () => {
+          this.errorMessage = 'Impossible de récupérer le tuteur connecté.';
+          this.loading = false;
         }
       });
     } else {
-      // Pour les admins/consultation, utiliser l'ID
-      this.tuteurService.getTuteurEtudiants(this.tuteurId).subscribe({
-        next: (etudiants) => {
-          this.etudiants = etudiants;
-          this.loading = false;
-          this.errorMessage = '';
-        },
-        error: (err) => {
-          this.etudiants = [];
-          this.loading = false;
-          this.errorMessage = 'Erreur lors du chargement des étudiants.';
-        }
-      });
+      this.loadEtudiants(this.tuteurId);
     }
+  }
+
+  loadEtudiants(id: number): void {
+    this.tuteurService.getTuteurEtudiants(id).subscribe({
+      next: (etds) => {
+        this.etudiants = etds;
+        this.loading = false;
+        this.errorMessage = '';
+      },
+      error: () => {
+        this.errorMessage = 'Erreur lors du chargement des étudiants.';
+        this.loading = false;
+      }
+    });
   }
 
   goBack(): void {
@@ -108,4 +95,4 @@ export class TuteurEtudiantsComponent implements OnInit {
       this.router.navigate(['/tuteurs/all']);
     }
   }
-} 
+}

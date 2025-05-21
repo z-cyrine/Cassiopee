@@ -1,53 +1,59 @@
 <div class="container">
   <div class="dashboard-banner-imtbs">
-  <div class="welcome-title">
-    Bienvenue <strong>  {{ tuteur.nom.toUpperCase() }} {{ tuteur.prenom }}</strong>
-  </div>
+    <div class="welcome-title">
+      {{ 'DASHBOARD.WELCOME' | translate }} <strong>{{ tuteur.nom.toUpperCase() }} {{ tuteur.prenom }}</strong>
+    </div>
 
-  <div class="summary-stats">
-    <div class="stat-box">
-      <div class="stat-label">Département</div>
-      <div class="stat-value">{{ tuteur.departement }}</div>
+    <div class="summary-stats">
+      <div class="stat-box">
+        <div class="stat-label">{{ 'DASHBOARD.DEPARTMENT' | translate }}</div>
+        <div class="stat-value">{{ tuteur.departement }}</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">{{ 'DASHBOARD.TOTAL_PAR' | translate }}</div>
+        <div class="stat-value">{{ tuteur.totalEtudiantsPar }}</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">{{ 'DASHBOARD.ASSIGNED_TUTORINGS' | translate }}</div>
+        <div class="stat-value">{{ tuteur.nbTutoratAffecte }}</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">{{ 'DASHBOARD.REMAINING_CREDIT' | translate }}</div>
+        <div class="stat-value">{{ tuteur.soldeTutoratRestant }}</div>
+      </div>
     </div>
-    <div class="stat-box">
-      <div class="stat-label">Total Étudiants PAR</div>
-      <div class="stat-value">{{ tuteur.totalEtudiantsPar }}</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">Tutorats Affectés</div>
-      <div class="stat-value">{{ tuteur.nbTutoratAffecte }}</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">Solde Restant</div>
-      <div class="stat-value">{{ tuteur.soldeTutoratRestant }}</div>
+
+    <div class="dashboard-actions mt-3">
+      <button class="btn btn-white" (click)="voirMonProfil()">
+        {{ 'DASHBOARD.TUTOR_INFO' | translate }}
+      </button>
+      <button class="btn btn-white-outline" (click)="voirMonProfilUtilisateur()">
+        {{ 'DASHBOARD.USER_ACCOUNT' | translate }}
+      </button>
     </div>
   </div>
-
-  <div class="dashboard-actions mt-3">
-    <a [routerLink]="['/tuteurs', tuteur.id]" class="btn btn-white">Voir mon profil</a>
-    <a [routerLink]="['/tuteurs/edit', tuteur.id]" class="btn btn-white-outline">Modifier mes informations</a>
-  </div>
-</div>
-
 
   <div class="etudiants-section">
-    <h3>Étudiants affectés</h3>
+    <h3>{{ 'DASHBOARD.AFFECTED_STUDENTS' | translate }}</h3>
 
-    <div *ngIf="loading" class="loading-text">Chargement des étudiants...</div>
-    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-
-    <div *ngIf="!loading && etudiants.length === 0" class="alert alert-info">
-      Aucun étudiant n’est actuellement affecté.
+    <div *ngIf="loading" class="loading-text">
+      {{ 'DASHBOARD.LOADING_STUDENTS' | translate }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    <div *ngIf="!loading && !errorMessage && etudiants.length === 0" class="alert alert-info">
+      {{ 'DASHBOARD.NO_STUDENTS' | translate }}
     </div>
 
     <table *ngIf="etudiants.length > 0" class="table table-hover mt-3 custom-table">
       <thead>
         <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Email école</th>
-          <th>Classe</th>
-          <th>Détails</th>
+          <th>{{ 'COMMON.LASTNAME' | translate }}</th>
+          <th>{{ 'COMMON.FIRSTNAME' | translate }}</th>
+          <th>{{ 'STUDENTS.SCHOOL_EMAIL' | translate }}</th>
+          <th>{{ 'STUDENTS.CLASS_CODE' | translate }}</th>
+          <th>{{ 'COMMON.DETAILS' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -57,7 +63,9 @@
           <td>{{ etu.emailEcole }}</td>
           <td>{{ etu.codeClasse }}</td>
           <td>
-            <button class="btn btn-sm btn-outline-primary" (click)="voirDetailsEtudiant(etu.id!)">Voir</button>
+            <button class="btn btn-sm btn-outline-primary" (click)="voirDetailsEtudiant(etu.id!)">
+              {{ 'COMMON.VIEW' | translate }}
+            </button>
           </td>
         </tr>
       </tbody>

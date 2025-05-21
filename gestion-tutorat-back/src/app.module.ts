@@ -30,6 +30,7 @@ import { AuthService } from './modules/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from './modules/auth/auth.module';
 import { CasModule } from './cas/cas.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
 imports: [
@@ -54,7 +55,9 @@ ResetModule,
 AffectationManuelleModule,
 UsersModule,
 AuthModule,
-CasModule
+CasModule,
+ConfigModule.forRoot({ isGlobal: true }),
+
 ],
 controllers: [
 AppController,

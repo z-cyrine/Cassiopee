@@ -30,6 +30,7 @@ export class TuteurReadComponent implements OnInit {
       this.modeLectureSeul = true;
 
     const idParam = this.route.snapshot.paramMap.get('id');
+    console.log("Chargement des infos du tuteur ID:", idParam);
     this.tuteurId = idParam ? parseInt(idParam, 10) : null;
     if (this.tuteurId !== null) {
       this.http.get(`${environment.apiUrl}/tuteur/${this.tuteurId}`)

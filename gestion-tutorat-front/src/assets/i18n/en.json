@@ -427,5 +427,17 @@
     "PROGRAM": "Program",
     "REQUIRED": "This field is required",
     "SUBMIT": "Update Major"
-  }
+  },
+  "DASHBOARD": {
+  "WELCOME": "Welcome",
+  "DEPARTMENT": "Department",
+  "TOTAL_PAR": "Total PAR Students",
+  "ASSIGNED_TUTORINGS": "Assigned Tutorings",
+  "REMAINING_CREDIT": "Remaining Credit",
+  "TUTOR_INFO": "My Tutoring Information",
+  "USER_ACCOUNT": "My User Account",
+  "AFFECTED_STUDENTS": "Assigned Students",
+  "LOADING_STUDENTS": "Loading students...",
+  "NO_STUDENTS": "No students are currently assigned."
+}
 }

@@ -56,10 +56,22 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   goToTutees(): void {
-    if (this.user) {
-      this.router.navigate(['/tuteur', this.user.id, 'etudiants']);
+  if (!this.user?.email) return;
+
+  this.tuteurService.getTuteurByUserEmail(this.user.email).subscribe({
+    next: (tuteur) => {
+      if (tuteur?.id) {
+        this.router.navigate(['/tuteur', tuteur.id, 'etudiants']);
+      } else {
+        console.error('Tuteur introuvable pour cet utilisateur.');
+      }
+    },
+    error: (err) => {
+      console.error('Erreur lors de la récupération du tuteur', err);
     }
-  }
+  });
+}
+
 
   logout() {
   console.log('Logging out...');

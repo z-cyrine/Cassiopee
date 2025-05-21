@@ -410,5 +410,17 @@
     "PROGRAM": "Programme",
     "REQUIRED": "Ce champ est requis",
     "SUBMIT": "Mettre à jour la Majeure"
-  }
+  },
+  "DASHBOARD": {
+  "WELCOME": "Bienvenue",
+  "DEPARTMENT": "Département",
+  "TOTAL_PAR": "Total Étudiants PAR",
+  "ASSIGNED_TUTORINGS": "Tutorats Affectés",
+  "REMAINING_CREDIT": "Solde Restant",
+  "TUTOR_INFO": "Mes informations tutorat",
+  "USER_ACCOUNT": "Mon compte utilisateur",
+  "AFFECTED_STUDENTS": "Étudiants affectés",
+  "LOADING_STUDENTS": "Chargement des étudiants...",
+  "NO_STUDENTS": "Aucun étudiant n’est actuellement affecté."
+}
 }
