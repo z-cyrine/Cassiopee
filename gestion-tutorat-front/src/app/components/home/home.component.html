@@ -7,83 +7,141 @@
   </div>
 </div>
 
-<!-- Features Section -->
-<div class="features-section" *ngIf="isAuthenticated">
+<!-- Features Section (admin et consultation uniquement) -->
+<div class="features-section" *ngIf="isAuthenticated && (role === 'admin' || role === 'consultation')">
   <div class="container">
-    <h2 class="section-title">{{ 'HOME.MAIN_FEATURES' | translate }}</h2>
-    
+    <h2 class="section-title" *ngIf="role === 'admin'">{{ 'HOME.MAIN_FEATURES' | translate }}</h2>
+    <h2 class="section-title" *ngIf="role === 'consultation'">{{ 'HOME.LISTS' | translate }}</h2>
     <div class="features-grid">
-      <!-- Carte Étudiants -->
-      <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
-        <div class="feature-icon">
-          <i class="fas fa-user-graduate"></i>
+      <!-- Cartes pour admin -->
+      <ng-container *ngIf="role === 'admin'">
+        <!-- Carte Étudiants -->
+        <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+          <div class="feature-icon">
+            <i class="fas fa-user-graduate"></i>
+            <span class="feature-count">
+              <ng-container *ngIf="totalEtudiants !== null; else loading">{{ totalEtudiants }}</ng-container>
+              <ng-template #loading>-</ng-template>
+            </span>
+          </div>
+          <h3>{{ 'NAV.LISTE_ETUDIANTS' | translate }}</h3>
+          <p>{{ 'HOME.STUDENTS_DESC' | translate }}</p>
+          <a [routerLink]="['/etudiants/all']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
-        <h3>{{ 'NAV.LISTE_ETUDIANTS' | translate }}</h3>
-        <p>{{ 'HOME.STUDENTS_DESC' | translate }}</p>
-        <a [routerLink]="['/etudiants/all']" class="feature-link">
-          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <!-- Carte Tuteurs -->
-      <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
-        <div class="feature-icon">
-          <i class="fas fa-chalkboard-teacher"></i>
+        <!-- Carte Tuteurs -->
+        <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+          <div class="feature-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span class="feature-count">
+              <ng-container *ngIf="totalTuteurs !== null; else loading">{{ totalTuteurs }}</ng-container>
+              <ng-template #loading>-</ng-template>
+            </span>
+          </div>
+          <h3>{{ 'NAV.LISTE_TUTEURS' | translate }}</h3>
+          <p>{{ 'HOME.TUTORS_DESC' | translate }}</p>
+          <a [routerLink]="['/tuteurs/all']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
-        <h3>{{ 'NAV.LISTE_TUTEURS' | translate }}</h3>
-        <p>{{ 'HOME.TUTORS_DESC' | translate }}</p>
-        <a [routerLink]="['/tuteurs/all']" class="feature-link">
-          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <!-- Carte Majeures -->
-      <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
-        <div class="feature-icon">
-          <i class="fas fa-book"></i>
+        <!-- Carte Majeures -->
+        <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+          <div class="feature-icon">
+            <i class="fas fa-layer-group"></i>
+            <span class="feature-count">
+              <ng-container *ngIf="totalMajors !== null; else loading">{{ totalMajors }}</ng-container>
+              <ng-template #loading>-</ng-template>
+            </span>
+          </div>
+          <h3>{{ 'NAV.LISTE_MAJEURES' | translate }}</h3>
+          <p>{{ 'HOME.MAJORS_DESC' | translate }}</p>
+          <a [routerLink]="['/majeures/all']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
-        <h3>{{ 'NAV.LISTE_MAJEURES' | translate }}</h3>
-        <p>{{ 'HOME.MAJORS_DESC' | translate }}</p>
-        <a [routerLink]="['/majeures/all']" class="feature-link">
-          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <!-- Carte Auto-affectation -->
-      <div class="feature-card" *ngIf="hasRole(['admin'])">
-        <div class="feature-icon">
-          <i class="fas fa-magic"></i>
+        <!-- Carte Auto-affectation -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-magic"></i>
+          </div>
+          <h3>{{ 'NAV.AUTO_AFFECT' | translate }}</h3>
+          <p>{{ 'HOME.AUTO_ASSIGN_DESC' | translate }}</p>
+          <a [routerLink]="['/auto-affectation']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
-        <h3>{{ 'NAV.AUTO_AFFECT' | translate }}</h3>
-        <p>{{ 'HOME.AUTO_ASSIGN_DESC' | translate }}</p>
-        <a [routerLink]="['/auto-affectation']" class="feature-link">
-          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <!-- Carte Affectation Manuelle -->
-      <div class="feature-card" *ngIf="hasRole(['admin'])">
-        <div class="feature-icon">
-          <i class="fas fa-tasks"></i>
+        <!-- Carte Affectation Manuelle -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <h3>{{ 'NAV.AFFECT_MANUELLE' | translate }}</h3>
+          <p>{{ 'HOME.MANUAL_ASSIGN_DESC' | translate }}</p>
+          <a [routerLink]="['/affectation-manuelle']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
-        <h3>{{ 'NAV.AFFECT_MANUELLE' | translate }}</h3>
-        <p>{{ 'HOME.MANUAL_ASSIGN_DESC' | translate }}</p>
-        <a [routerLink]="['/affectation-manuelle']" class="feature-link">
-          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <!-- Carte Reporting -->
-      <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
-        <div class="feature-icon">
-          <i class="fas fa-chart-bar"></i>
+        <!-- Carte Reporting -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <h3>{{ 'NAV.REPORTING' | translate }}</h3>
+          <p>{{ 'HOME.REPORTING_DESC' | translate }}</p>
+          <a [routerLink]="['/reporting']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
-        <h3>{{ 'NAV.REPORTING' | translate }}</h3>
-        <p>{{ 'HOME.REPORTING_DESC' | translate }}</p>
-        <a [routerLink]="['/reporting']" class="feature-link">
-          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
+      </ng-container>
+      <!-- Cartes pour consultation (uniquement les listes) -->
+      <ng-container *ngIf="role === 'consultation'">
+        <!-- Carte Étudiants -->
+        <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+          <div class="feature-icon">
+            <i class="fas fa-user-graduate"></i>
+            <span class="feature-count">
+              <ng-container *ngIf="totalEtudiants !== null; else loading">{{ totalEtudiants }}</ng-container>
+              <ng-template #loading>-</ng-template>
+            </span>
+          </div>
+          <h3>{{ 'NAV.LISTE_ETUDIANTS' | translate }}</h3>
+          <p>{{ 'HOME.STUDENTS_DESC' | translate }}</p>
+          <a [routerLink]="['/etudiants/all']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <!-- Carte Tuteurs -->
+        <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+          <div class="feature-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span class="feature-count">
+              <ng-container *ngIf="totalTuteurs !== null; else loading">{{ totalTuteurs }}</ng-container>
+              <ng-template #loading>-</ng-template>
+            </span>
+          </div>
+          <h3>{{ 'NAV.LISTE_TUTEURS' | translate }}</h3>
+          <p>{{ 'HOME.TUTORS_DESC' | translate }}</p>
+          <a [routerLink]="['/tuteurs/all']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <!-- Carte Majeures -->
+        <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+          <div class="feature-icon">
+            <i class="fas fa-layer-group"></i>
+            <span class="feature-count">
+              <ng-container *ngIf="totalMajors !== null; else loading">{{ totalMajors }}</ng-container>
+              <ng-template #loading>-</ng-template>
+            </span>
+          </div>
+          <h3>{{ 'NAV.LISTE_MAJEURES' | translate }}</h3>
+          <p>{{ 'HOME.MAJORS_DESC' | translate }}</p>
+          <a [routerLink]="['/majeures/all']" class="feature-link">
+            {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

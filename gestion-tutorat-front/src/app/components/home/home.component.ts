@@ -5,6 +5,9 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/gestion-acces/auth-service.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { EtudiantService } from '../../services/etudiant/etudiant.service';
+import { TuteurService } from '../../services/tuteur/tuteur.service';
+import { MajorsService } from '../../services/majors/majors.service';
 
 @Component({
   selector: 'app-home',
@@ -21,10 +24,17 @@ export class HomeComponent implements OnInit {
   role: string | null = null;
   casLoginUrl = `${environment.apiUrl}/cas/login`;
 
+  totalEtudiants: number | null = null;
+  totalTuteurs: number | null = null;
+  totalMajors: number | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private etudiantService: EtudiantService,
+    private tuteurService: TuteurService,
+    private majorsService: MajorsService
   ) {}
 
   ngOnInit() {
@@ -40,6 +50,17 @@ export class HomeComponent implements OnInit {
           panelClass: ['cas-snackbar-error'],
         });
       }
+    });
+
+    // Récupérer les totaux
+    this.etudiantService.getAllStudents().subscribe(students => {
+      this.totalEtudiants = students.length;
+    });
+    this.tuteurService.getTuteurs().subscribe(tuteurs => {
+      this.totalTuteurs = tuteurs.filter(t => t.estEligiblePourTutorat).length;
+    });
+    this.majorsService.getAllMajors().subscribe(majors => {
+      this.totalMajors = majors.length;
     });
   }
 
