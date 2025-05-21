@@ -61,6 +61,8 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
   align-items: center;
   text-align: center;
 }
@@ -129,6 +131,7 @@
   align-items: center;
   gap: 0.5rem;
   transition: color 0.3s ease;
+  margin-top: auto;
 }
 
 .feature-link:hover {
