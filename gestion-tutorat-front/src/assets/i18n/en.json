@@ -26,7 +26,9 @@
     "EXPORT_EXCEL": "Export to Excel",
     "NOT_AVAILABLE": "N/A",
     "CANCEL": "Cancel",
-    "ACTIONS": "Actions"
+    "ACTIONS": "Actions",
+    "VIEW": "View",
+    "DETAILS": "Details"
   },
   "AUTH": {
     "LOGIN_TITLE": "Login",
@@ -81,18 +83,7 @@
     "DASHBOARD": "My Dashboard"
   },
   "HOME": {
-    "WELCOME": "Welcome to the Tutoring Management Platform",
-    "SUBTITLE": "A complete solution for efficient tutoring management at IMT Business School",
-    "MAIN_FEATURES": "Main Features",
-    "STUDENTS_DESC": "View and manage the complete list of students, their assignments, and personal information.",
-    "TUTORS_DESC": "Access the list of tutors, their availability, and current assignments.",
-    "MAJORS_DESC": "Explore different majors and their specific characteristics.",
-    "AUTO_ASSIGN_DESC": "Use our smart algorithm to automatically assign students to tutors.",
-    "MANUAL_ASSIGN_DESC": "Perform precise manual assignments between students and tutors.",
-    "REPORTING_DESC": "Generate detailed reports and statistics on assignments and tutoring.",
-    "ACCESS_FEATURE": "Access",
-    "GET_STARTED": "Get Started",
-    "LOGIN_MESSAGE": "Log in to access all features of the tutoring management platform."
+    "WELCOME": "Welcome to the tutoring management platform"
   },
   "STUDENTS": {
     "SEARCH_TITLE": "Student Search",
@@ -438,17 +429,5 @@
     "PROGRAM": "Program",
     "REQUIRED": "This field is required",
     "SUBMIT": "Update Major"
-  },
-  "DASHBOARD": {
-  "WELCOME": "Welcome",
-  "DEPARTMENT": "Department",
-  "TOTAL_PAR": "Total PAR Students",
-  "ASSIGNED_TUTORINGS": "Assigned Tutorings",
-  "REMAINING_CREDIT": "Remaining Credit",
-  "TUTOR_INFO": "My Tutoring Information",
-  "USER_ACCOUNT": "My User Account",
-  "AFFECTED_STUDENTS": "Assigned Students",
-  "LOADING_STUDENTS": "Loading students...",
-  "NO_STUDENTS": "No students are currently assigned."
-}
+  }
 }
