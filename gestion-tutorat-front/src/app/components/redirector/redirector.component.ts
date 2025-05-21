@@ -5,7 +5,7 @@ import { AuthService } from '../../services/gestion-acces/auth-service.service';
 @Component({
   standalone: true,
   selector: 'app-redirector',
-  template: '', // rien à afficher
+  template: '', 
 })
 export class RedirectorComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}

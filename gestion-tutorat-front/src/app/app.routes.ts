@@ -3,13 +3,9 @@ import { RoleGuard } from './services/gestion-acces/guards/role.guard';
 import { AuthGuard } from './services/gestion-acces/guards/auth.guard';
 
 export const appRoutes: Routes = [
-  // Redirection dynamique selon le rôle
-  {
-    path: '',
-    pathMatch: 'full',
-    canActivate: [AuthGuard],
-    loadComponent: () => import('./components/redirector/redirector.component').then(m => m.RedirectorComponent)
-  },
+  // Page d'accueil (par défaut)
+  { path: '', loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent) },
+
   // Routes principales
   { path: 'import', canActivate: [RoleGuard(['admin'])], loadComponent: () => import('./components/import/import.component').then(m => m.ImportComponent) },
   { path: 'etudiants/all', canActivate: [RoleGuard(['admin', 'consultation'])], loadComponent: () => import('./components/affiche-etudiants/affiche-etudiants.component').then(m => m.AfficheEtudiantsComponent) },
