@@ -84,7 +84,18 @@
     "DASHBOARD": "My Dashboard"
   },
   "HOME": {
-    "WELCOME": "Welcome to the tutoring management platform"
+    "WELCOME": "Welcome to the tutoring management platform",
+    "SUBTITLE": "A complete solution to efficiently manage tutoring at IMT Business School",
+    "MAIN_FEATURES": "Main Features",
+    "STUDENTS_DESC": "View and manage the complete list of students, their assignments, and personal information.",
+    "TUTORS_DESC": "Access the list of tutors, their availability, and current assignments.",
+    "MAJORS_DESC": "Explore the different majors and their specific characteristics.",
+    "AUTO_ASSIGN_DESC": "Use our smart algorithm to automatically assign students to tutors.",
+    "MANUAL_ASSIGN_DESC": "Perform precise manual assignments between students and tutors.",
+    "REPORTING_DESC": "Generate detailed reports and statistics on assignments and tutoring.",
+    "ACCESS_FEATURE": "Access",
+    "GET_STARTED": "Get Started",
+    "LOGIN_MESSAGE": "Log in to access all features of the tutoring management platform."
   },
   "STUDENTS": {
     "SEARCH_TITLE": "Student Search",
@@ -119,8 +130,8 @@
     "PAGES": "pages",
     "STUDENTS": "students",
     "LOADING": "Loading...",
-    "CHOOSE_ASSIGNMENT":"Assignment Status",
-    "CODE":"Class Code"
+    "CHOOSE_ASSIGNMENT": "Assignment Status",
+    "CODE": "Class Code"
   },
   "TUTORS": {
     "SEARCH_TITLE": "Tutor Search",
@@ -192,7 +203,6 @@
     "TUTORATS_FILE_LABEL": "TUTORATS File",
     "MAJORS_FILE_LABEL": "MAJORS File",
     "CONFIRM_RESET_MESSAGE": "Do you confirm the reset of the database? This action is irreversible."
-
   },
   "CREATE": {
     "ADD_STUDENT_TITLE": "Add a Student",
