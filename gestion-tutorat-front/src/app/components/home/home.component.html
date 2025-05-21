@@ -1,5 +1,102 @@
-<!-- contenu habituel -->
-<div class="home-container text-center">
-  <img src="assets/logo-imtbs.png" alt="Logo IMTBS" class="imtbs-logo" />
-  <h1 class="welcome-title">Bienvenue sur la plateforme de gestion du tutorat</h1>
+<!-- Hero Section -->
+<div class="hero-section">
+  <div class="hero-content">
+    <img src="assets/logo-imtbs.png" alt="Logo IMTBS" class="hero-logo" />
+    <h1 class="hero-title">{{ 'HOME.WELCOME' | translate }}</h1>
+    <p class="hero-subtitle">{{ 'HOME.SUBTITLE' | translate }}</p>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="features-section" *ngIf="isAuthenticated">
+  <div class="container">
+    <h2 class="section-title">{{ 'HOME.MAIN_FEATURES' | translate }}</h2>
+    
+    <div class="features-grid">
+      <!-- Carte Étudiants -->
+      <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+        <div class="feature-icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <h3>{{ 'NAV.LISTE_ETUDIANTS' | translate }}</h3>
+        <p>{{ 'HOME.STUDENTS_DESC' | translate }}</p>
+        <a [routerLink]="['/etudiants/all']" class="feature-link">
+          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte Tuteurs -->
+      <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+        <div class="feature-icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <h3>{{ 'NAV.LISTE_TUTEURS' | translate }}</h3>
+        <p>{{ 'HOME.TUTORS_DESC' | translate }}</p>
+        <a [routerLink]="['/tuteurs/all']" class="feature-link">
+          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte Majeures -->
+      <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+        <div class="feature-icon">
+          <i class="fas fa-book"></i>
+        </div>
+        <h3>{{ 'NAV.LISTE_MAJEURES' | translate }}</h3>
+        <p>{{ 'HOME.MAJORS_DESC' | translate }}</p>
+        <a [routerLink]="['/majeures/all']" class="feature-link">
+          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte Auto-affectation -->
+      <div class="feature-card" *ngIf="hasRole(['admin'])">
+        <div class="feature-icon">
+          <i class="fas fa-magic"></i>
+        </div>
+        <h3>{{ 'NAV.AUTO_AFFECT' | translate }}</h3>
+        <p>{{ 'HOME.AUTO_ASSIGN_DESC' | translate }}</p>
+        <a [routerLink]="['/auto-affectation']" class="feature-link">
+          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte Affectation Manuelle -->
+      <div class="feature-card" *ngIf="hasRole(['admin'])">
+        <div class="feature-icon">
+          <i class="fas fa-tasks"></i>
+        </div>
+        <h3>{{ 'NAV.AFFECT_MANUELLE' | translate }}</h3>
+        <p>{{ 'HOME.MANUAL_ASSIGN_DESC' | translate }}</p>
+        <a [routerLink]="['/affectation-manuelle']" class="feature-link">
+          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte Reporting -->
+      <div class="feature-card" *ngIf="hasRole(['admin', 'consultation'])">
+        <div class="feature-icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <h3>{{ 'NAV.REPORTING' | translate }}</h3>
+        <p>{{ 'HOME.REPORTING_DESC' | translate }}</p>
+        <a [routerLink]="['/reporting']" class="feature-link">
+          {{ 'HOME.ACCESS_FEATURE' | translate }} <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Login Section -->
+<div class="login-section" *ngIf="!isAuthenticated">
+  <div class="container">
+    <div class="login-card">
+      <h2>{{ 'HOME.GET_STARTED' | translate }}</h2>
+      <p>{{ 'HOME.LOGIN_MESSAGE' | translate }}</p>
+      <a [href]="casLoginUrl" class="btn btn-primary btn-lg">
+        <i class="fas fa-sign-in-alt"></i> {{ 'NAV.CONNEXION' | translate }}
+      </a>
+    </div>
+  </div>
 </div>
