@@ -91,7 +91,7 @@ h2, h3, h5 {
   margin-top: 20px;
 }
 .results-table thead {
-  background: linear-gradient(90deg, #07b5d9 0%, #7b5fc9 100%);
+  background: linear-gradient(135deg, #00abc7, #9b59b6);
   color: #fff;
 }
 .results-table th,
