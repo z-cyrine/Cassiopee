@@ -29,7 +29,7 @@
         <!-- Display Name -->
         <div class="form-group">
           <label>{{ 'USER_CREATE.DISPLAY_NAME' | translate }}</label>
-          <input type="text" class="form-control" formControlName="displayName"
+          <input type="text" class="form-control" formControlName="displayName" readonly
             [ngClass]="{ 'is-invalid': submitted && f['displayName'].invalid }" />
           <div *ngIf="submitted && f['displayName'].invalid" class="invalid-feedback">
             {{ 'USER_CREATE.REQUIRED' | translate }}
