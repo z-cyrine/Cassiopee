@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Etudiant } from '../etudiant/etudiant.service';
@@ -66,6 +66,14 @@ export class TuteurService {
     return this.http.get<any[]>(`${this.baseUrl}/${tuteurId}/etudiants`);
   }
 
+  /** Récupérer les étudiants affectés à un tuteur par son nom et prénom */
+  getTuteurEtudiantsByNomPrenom(nom: string, prenom: string): Observable<any[]> {
+    const params = new HttpParams()
+      .set('nom', nom)
+      .set('prenom', prenom);
+    return this.http.get<any[]>(`${this.baseUrl}/etudiants`, { params });
+  }
+
   searchTuteurs(nom?: string, prenom?: string): Observable<Tuteur[]> {
   const queryParams = [];
   if (nom) queryParams.push(`nom=${encodeURIComponent(nom)}`);
@@ -73,5 +81,9 @@ export class TuteurService {
   const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
   return this.http.get<Tuteur[]>(`${this.baseUrl}/search${queryString}`);
 }
+
+  getTuteurByEmail(email: string): Observable<Tuteur> {
+    return this.http.get<Tuteur>(`${environment.apiUrl}/tuteur/by-email/${email}`);
+  }
 
 }

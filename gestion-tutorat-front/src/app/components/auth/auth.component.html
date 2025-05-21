@@ -1,38 +1,46 @@
 <div class="container mt-5">
   <div class="card shadow-lg">
     <div class="card-header bg-primary text-white text-center">
-      <h4 class="card-title mb-0">Connexion</h4>
+      <h4 class="card-title mb-0">{{ 'AUTH.LOGIN_TITLE' | translate }}</h4>
     </div>
     <div class="card-body">
       <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
 
         <!-- Email -->
         <div class="mb-4">
-          <label for="email" class="form-label fw-bold">Adresse email :</label>
+          <label for="email" class="form-label fw-bold">{{ 'AUTH.EMAIL' | translate }} :</label>
           <input
             type="email"
             id="email"
             class="form-control"
             formControlName="email"
-            placeholder="nom@exemple.com"
+            [placeholder]="'AUTH.EMAIL' | translate"
             required
           />
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
+            <small *ngIf="loginForm.get('email')?.errors?.['required']">{{ 'AUTH.REQUIRED_FIELD' | translate }}</small>
+            <small *ngIf="loginForm.get('email')?.errors?.['email']">{{ 'AUTH.INVALID_EMAIL' | translate }}</small>
+          </div>
         </div>
 
         <!-- Mot de passe -->
         <div class="mb-4">
-          <label for="password" class="form-label fw-bold">Mot de passe :</label>
+          <label for="password" class="form-label fw-bold">{{ 'AUTH.PASSWORD' | translate }} :</label>
           <div class="input-group">
             <input
               [type]="showPassword ? 'text' : 'password'"
               id="password"
               class="form-control"
               formControlName="password"
+              [placeholder]="'AUTH.PASSWORD' | translate"
               [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
             />
-            <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()" tabindex="-1">
+            <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()" tabindex="-1" [title]="(showPassword ? 'AUTH.HIDE_PASSWORD' : 'AUTH.SHOW_PASSWORD') | translate">
               <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
             </button>
+          </div>
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+            <small>{{ 'AUTH.REQUIRED_FIELD' | translate }}</small>
           </div>
         </div>
 
@@ -47,25 +55,19 @@
           class="btn btn-purple w-100 py-2"
           [disabled]="loginForm.invalid || loading">
           <i class="bi bi-box-arrow-in-right"></i>
-          {{ loading ? 'Connexion ...' : 'Se connecter' }}
+          {{ loading ? ('AUTH.LOGIN_LOADING' | translate) : ('AUTH.LOGIN_BUTTON' | translate) }}
         </button>
 
         <!-- Lien CAS -->
         <div class="d-flex justify-content-center mt-3">
-          <a [href]="casLoginUrl" class="text-decoration-underline">Connexion avec CAS</a>
+          <a [href]="casLoginUrl" class="text-decoration-underline">{{ 'AUTH.LOGIN_WITH_CAS' | translate }}</a>
         </div>
 
-        
-
-
+        <div class="text-center mt-3 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+          <span>{{ 'AUTH.NO_ACCOUNT' | translate }}</span>
+          <a routerLink="/inscription">{{ 'AUTH.SIGN_UP' | translate }}</a>
+        </div>
       </form>
-      
-      <div class="text-center mt-3 d-flex justify-content-center align-items-center gap-2 flex-wrap">
-          <span>Vous n'avez pas de compte ?</span>
-          <a routerLink="/inscription">Inscrivez-vous</a>
-        </div>
     </div>
-
-
   </div>
 </div>

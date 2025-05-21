@@ -17,13 +17,31 @@ export class CasService {
     return `${this.casBaseUrl}?service=${encodeURIComponent(this.serviceUrl)}`;
   }
 
-  async validateTicket(ticket: string): Promise<string | null> {
+  async validateTicket(ticket: string): Promise<any> {
+    // console.log("hi validate");
     const validateUrl = `${this.casBaseUrl}/serviceValidate?ticket=${ticket}&service=${encodeURIComponent(this.serviceUrl)}`;
-
     const response = await lastValueFrom(this.httpService.get(validateUrl));
     const parsed = await parseStringPromise(response.data);
 
-    const user = parsed['cas:serviceResponse']?.['cas:authenticationSuccess']?.[0]?.['cas:user']?.[0];
-    return user || null;
+    const success = parsed['cas:serviceResponse']?.['cas:authenticationSuccess']?.[0];
+
+    if (!success) return null;
+
+    const user = success['cas:user']?.[0];
+    const attributes = success['cas:attributes']?.[0] || {};
+
+      // console.log('🔗 URL de validation CAS:', validateUrl);
+      // console.log('📨 Réponse brute CAS:', response.data);
+
+    return {
+      username: user,
+      email: attributes['cas:mail']?.[0],
+      displayName: attributes['cas:displayName']?.[0],
+      raw: parsed
+    };
+
+
+
   }
+
 }

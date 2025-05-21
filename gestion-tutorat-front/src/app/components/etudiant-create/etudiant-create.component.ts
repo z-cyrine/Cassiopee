@@ -6,13 +6,19 @@ import { EtudiantService, Etudiant } from '../../services/etudiant/etudiant.serv
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormatNamePipe } from '../../pipes/format-name/format-name.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-etudiant-create',
   templateUrl: './etudiant-create.component.html',
   styleUrls: ['./etudiant-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule
+  ],
 })
 export class EtudiantCreateComponent implements OnInit, OnDestroy {
   etudiantForm!: FormGroup;
@@ -22,6 +28,7 @@ export class EtudiantCreateComponent implements OnInit, OnDestroy {
   duplicateEmail = false;
 
   private destroy$ = new Subject<void>();
+  private formatNamePipe = new FormatNamePipe();
 
   constructor(
     private fb: FormBuilder,
@@ -53,6 +60,17 @@ export class EtudiantCreateComponent implements OnInit, OnDestroy {
   /** Accès pratique aux contrôles depuis le template */
   get f() {
     return this.etudiantForm.controls;
+  }
+
+  formatName(value: string): string {
+    return this.formatNamePipe.transform(value);
+  }
+
+  onNameBlur(fieldName: 'nom' | 'prenom'): void {
+    const control = this.etudiantForm.get(fieldName);
+    if (control) {
+      control.setValue(this.formatName(control.value));
+    }
   }
 
   onSubmit(): void {

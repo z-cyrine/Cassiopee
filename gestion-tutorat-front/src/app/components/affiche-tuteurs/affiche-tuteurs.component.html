@@ -15,11 +15,11 @@
       class="form-control"
       style="width: 140px; padding: 5px 8px; font-size: 14px;"
     />
-    <button (click)="onSearch()" class="btn btn-primary" style="background: #00abc7; border: none;">
-      {{ 'COMMON.SEARCH' | translate }}
+    <button (click)="onSearch()" class="icon-btn search" title="Rechercher">
+      <i class="bi bi-search"></i>
     </button>
-    <button (click)="onClearSearch()" class="btn btn-secondary" style="background: #9b59b6; border: none;">
-      {{ 'COMMON.RESET' | translate }}
+    <button (click)="onClearSearch()" class="icon-btn reset" title="Réinitialiser">
+      <i class="bi bi-x-circle"></i>
     </button>
   </div>
 </div>
@@ -56,23 +56,23 @@
         </td>
       </ng-container>
       
-      <ng-container matColumnDef="nom">
-        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.LASTNAME' | translate }}</th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element.nom; else notNom">
-            <a [routerLink]="['/tuteurs', element.id]">{{ element.nom }}</a>
-          </ng-container>
-          <ng-template #notNom><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
-        </td>
-      </ng-container>
-      
       <ng-container matColumnDef="prenom">
         <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.FIRSTNAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.prenom; else notPrenom">
-            <a [routerLink]="['/tuteurs', element.id]">{{ element.prenom }}</a>
+            <a [routerLink]="['/tuteurs', element.id]">{{ element.prenom | formatName }}</a>
           </ng-container>
           <ng-template #notPrenom><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="nom">
+        <th mat-header-cell *matHeaderCellDef>{{ 'TUTORS.LASTNAME' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.nom; else notNom">
+            <a [routerLink]="['/tuteurs', element.id]">{{ element.nom | formatName }}</a>
+          </ng-container>
+          <ng-template #notNom><span class="text-muted">{{ 'TUTORS.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
       </ng-container>
       

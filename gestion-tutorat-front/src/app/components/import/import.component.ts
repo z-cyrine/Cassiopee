@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-import',
@@ -24,7 +25,12 @@ export class ImportComponent implements OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(private http: HttpClient, private dialog: MatDialog, private translate: TranslateService) {}
+  constructor(
+    private http: HttpClient,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    private snackBar: MatSnackBar
+  ) {}
 
   onFileSelected(event: Event, fileType: string): void {
     const input = event.target as HTMLInputElement;
@@ -41,112 +47,80 @@ export class ImportComponent implements OnDestroy {
 
   onSubmit(event: Event): void {
     event.preventDefault();
-  
+
     if (!this.parTutoratFile && !this.tutoratsFile && !this.majorsFile) {
       this.importMessage = this.translate.instant('IMPORT.ALERT_SELECT_FILE');
       return;
     }
-  
+
     const formData = new FormData();
     if (this.parTutoratFile) formData.append('parTutorat', this.parTutoratFile);
     if (this.tutoratsFile) formData.append('tutorats', this.tutoratsFile);
-    if (this.majorsFile) { formData.append('majors', this.majorsFile); }
-    
+    if (this.majorsFile) formData.append('majors', this.majorsFile);
+
     this.http.post<{ message?: string }>(`${environment.apiUrl}/import/upload`, formData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.importMessage = res && res.message ? res.message : this.translate.instant('IMPORT.ALERT_IMPORT_SUCCESS');
+          const msg = res?.message || this.translate.instant('IMPORT.ALERT_IMPORT_SUCCESS');
+          this.snackBar.open(msg, 'Fermer', {
+            duration: 4000,
+            panelClass: ['snack-success']
+          });
           this.resetForm();
         },
         error: (err) => {
           console.error('Erreur lors de l\'importation des fichiers :', err);
-          this.importMessage = this.translate.instant('IMPORT.ALERT_IMPORT_ERROR');
+          this.snackBar.open(
+            this.translate.instant('IMPORT.ALERT_IMPORT_ERROR'),
+            'Fermer',
+            {
+              duration: 5000,
+              panelClass: ['snack-error']
+            }
+          );
         },
       });
   }
-  
 
   private resetForm(): void {
     this.parTutoratFile = null;
     this.tutoratsFile = null;
     this.majorsFile = null;
-
-    setTimeout(() => (this.importMessage = null), 5000);
+    this.importMessage = null;
   }
 
   openResetConfirmation(): void {
-    const dialogRef = this.dialog.open(ResetConfirmationDialog, {
-      width: '400px'
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.http.post<{ message: string }>(`${environment.apiUrl}/admin/reset-database`, {})
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: (res) => {
-              console.log('Réponse reset:', res);
-              this.resetMessage = typeof res === 'string'
-                ? res
-                : (res && res.message ? res.message : JSON.stringify(res));
-            },
-            error: (err) => {
-              this.resetMessage = err.error?.message || this.translate.instant('IMPORT.ALERT_RESET_ERROR');
-            }
-          });
-      }
-    });
+    const confirmed = window.confirm(
+      this.translate.instant('IMPORT.CONFIRM_RESET_MESSAGE') ||
+      'Confirmez-vous la réinitialisation de la base de données ? Cette action est irréversible.'
+    );
+    if (confirmed) {
+      this.http.post<{ message: string }>(`${environment.apiUrl}/admin/reset-database`, {})
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            this.snackBar.open(
+              res?.message || this.translate.instant('IMPORT.ALERT_RESET_SUCCESS'),
+              'Fermer',
+              { duration: 5000, panelClass: ['snack-success'] }
+            );
+            this.resetMessage = null;
+          },
+          error: (err) => {
+            this.snackBar.open(
+              err.error?.message || this.translate.instant('IMPORT.ALERT_RESET_ERROR'),
+              'Fermer',
+              { duration: 5000, panelClass: ['snack-error'] }
+            );
+            this.resetMessage = null;
+          }
+        });
+    }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
-}
-
-@Component({
-  selector: 'reset-confirmation-dialog',
-  template: `
-    <div class="dialog-container">
-      <h2 class="dialog-title">Confirmation de réinitialisation</h2>
-      <div class="dialog-content">
-        <p class="warning-text">
-          ⚠️ Attention : Cette action va supprimer toutes les données de la base de données.<br>
-          Cette action est irréversible !
-        </p>
-      </div>
-      <div class="dialog-actions">
-        <button mat-button (click)="onNoClick()">Annuler</button>
-        <button mat-raised-button color="warn" (click)="onConfirm()">
-          Réinitialiser
-        </button>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .dialog-container {
-      padding: 20px;
-    }
-    .dialog-title {
-      margin: 0 0 20px;
-      color: #333;
-    }
-    .dialog-content {
-      margin-bottom: 20px;
-    }
-    .warning-text {
-      color: #f44336;
-      margin-bottom: 20px;
-    }
-    .dialog-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-  `]
-})
-export class ResetConfirmationDialog {
-  constructor(public dialogRef: MatDialogRef<ResetConfirmationDialog>) {}
-  onNoClick(): void { this.dialogRef.close(); }
-  onConfirm(): void { this.dialogRef.close(true); }
 }

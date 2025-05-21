@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { UserService } from '../../services/user/user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-create',
@@ -18,6 +19,7 @@ import { UserService } from '../../services/user/user.service';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    TranslateModule,
   ],
 })
 export class UserCreateComponent implements OnInit, OnDestroy {
@@ -27,6 +29,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   errorMessage = '';
   roles = ['admin', 'prof', 'consultation'];
   private destroy$ = new Subject<void>();
+  private displayNameManuallyChanged = false;
 
   constructor(
     private fb: FormBuilder,
@@ -36,11 +39,50 @@ export class UserCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
-      name: ['', Validators.required],
+      prenom: ['', Validators.required],
+      nom: ['', Validators.required],
+      displayName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       role: ['', Validators.required],
     });
+
+    this.userForm.get('prenom')!.valueChanges.subscribe(() => {
+      this.updateUsername();
+      this.updateDisplayName();
+    });
+    this.userForm.get('nom')!.valueChanges.subscribe((value) => {
+      // Forcer la majuscule sur le champ nom
+      if (value && value !== value.toUpperCase()) {
+        this.userForm.get('nom')!.setValue(value.toUpperCase(), { emitEvent: false });
+      }
+      this.updateUsername();
+      this.updateDisplayName();
+    });
+    this.userForm.get('displayName')!.valueChanges.subscribe((value) => {
+      const prenom = this.userForm.get('prenom')!.value || '';
+      const nom = this.userForm.get('nom')!.value || '';
+      const autoValue = prenom && nom ? `${prenom} ${nom}` : '';
+      if (value !== autoValue) {
+        this.displayNameManuallyChanged = true;
+      } else {
+        this.displayNameManuallyChanged = false;
+      }
+    });
+  }
+
+  updateUsername() {
+    const prenom = this.userForm.get('prenom')!.value || '';
+    const nom = this.userForm.get('nom')!.value || '';
+    const username = prenom && nom ? `${prenom[0]}${nom}`.replace(/\s/g, '').toLowerCase() : '';
+    this.userForm.get('username')!.setValue(username, { emitEvent: false });
+  }
+
+  updateDisplayName() {
+    const prenom = this.userForm.get('prenom')!.value || '';
+    const nom = this.userForm.get('nom')!.value || '';
+    const displayName = prenom && nom ? `${prenom} ${nom.toUpperCase()}` : '';
+    this.userForm.get('displayName')!.setValue(displayName, { emitEvent: false });
   }
 
   get f() {
@@ -54,7 +96,14 @@ export class UserCreateComponent implements OnInit, OnDestroy {
 
     if (this.userForm.invalid) return;
 
-    this.userService.createUser(this.userForm.value)
+    // On envoie uniquement name, email, username, role
+    const formValue = {
+      name: this.userForm.get('displayName')!.value,
+      email: this.userForm.get('email')!.value,
+      username: this.userForm.get('username')!.value,
+      role: this.userForm.get('role')!.value,
+    };
+    this.userService.createUser(formValue)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (createdUser) => {

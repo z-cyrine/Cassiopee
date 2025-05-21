@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { createUserDto } from '../users/dto/createUser.dto';
 
 type SignInData = { userId: number; username:string; role: UserRole}
-type AuthResult = {accessToken:string; userId:number; username:string}
+type AuthResult = {accessToken:string; userId:number; username:string; email:string; createdAt:string; role:string}
 @Injectable()
 export class AuthService {
     constructor(private userService:UserService, private jwtService:JwtService){}
@@ -47,13 +47,21 @@ export class AuthService {
     }
 
     async signIn(user:SignInData): Promise<AuthResult>{
+        const userInDb = await this.userService.findById(user.userId);
         const tokenPayload = {
             sub: user.userId,
             username: user.username, 
         }
 
         const accessToken = await this.jwtService.signAsync(tokenPayload);
-        return {accessToken, username:user.username, userId:user.userId} ;
+        return {
+          accessToken,
+          username: user.username,
+          userId: user.userId,
+          email: userInDb.email,
+          createdAt: userInDb.createdAt ? userInDb.createdAt.toISOString() : '',
+          role: userInDb.role,
+        };
     }
 
     async register(data: createUserDto): Promise<{ message: string }> {

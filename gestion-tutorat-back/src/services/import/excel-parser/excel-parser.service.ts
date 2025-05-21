@@ -25,19 +25,15 @@ export class ExcelParserService {
   }
 
   /**
-   * Normalise une valeur en supprimant les espaces en début/fin, en mettant en majuscules,
-   * en retirant tous les espaces internes et en traitant les valeurs "N/A".
-   * Utilisée pour les clefs dans l’affectation.
+   * Nettoie une valeur en supprimant uniquement les espaces au début et à la fin.
    * @param value La valeur à nettoyer.
-   * @returns La valeur normalisée.
+   * @returns La valeur nettoyée.
    */
   cleanForAffectation(value: any): string {
     if (!value) return '';
-    let s = String(value).trim().toUpperCase();
-    s = s.replace(/\s+/g, ''); // supprime tous les espaces internes
-    return ['N/A', 'NAN', '-'].includes(s) ? '' : s;
+    return String(value).trim();
   }
-
+  
   /**
    * Convertit une liste de valeurs séparées par des virgules ou point-virgule en tableau.
    * @param value La valeur à parser.

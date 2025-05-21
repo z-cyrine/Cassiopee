@@ -5,13 +5,14 @@ import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UserService, User } from '../../services/user/user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-edit',
   standalone: true,
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
 })
 export class UserEditComponent implements OnInit, OnDestroy {
   userForm!: FormGroup;

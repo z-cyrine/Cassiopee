@@ -1,59 +1,79 @@
 <div class="container">
   <div class="card create-card">
     <div class="card-header">
-      <h2>Créer un Utilisateur</h2>
+      <h2>{{ 'USER_CREATE.TITLE' | translate }}</h2>
     </div>
 
     <div class="card-body">
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <!-- Prénom -->
+        <div class="form-group">
+          <label>{{ 'USER_CREATE.FIRSTNAME' | translate }}</label>
+          <input type="text" class="form-control" formControlName="prenom"
+            [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }" />
+          <div *ngIf="submitted && f['prenom'].invalid" class="invalid-feedback">
+            {{ 'USER_CREATE.REQUIRED' | translate }}
+          </div>
+        </div>
+
         <!-- Nom -->
         <div class="form-group">
-          <label>Nom</label>
-          <input type="text" class="form-control" formControlName="name"
-            [ngClass]="{ 'is-invalid': submitted && f['name'].invalid }" />
-          <div *ngIf="submitted && f['name'].invalid" class="invalid-feedback">
-            Champ obligatoire.
+          <label>{{ 'USER_CREATE.LASTNAME' | translate }}</label>
+          <input type="text" class="form-control" formControlName="nom"
+            [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }" />
+          <div *ngIf="submitted && f['nom'].invalid" class="invalid-feedback">
+            {{ 'USER_CREATE.REQUIRED' | translate }}
+          </div>
+        </div>
+
+        <!-- Display Name -->
+        <div class="form-group">
+          <label>{{ 'USER_CREATE.DISPLAY_NAME' | translate }}</label>
+          <input type="text" class="form-control" formControlName="displayName"
+            [ngClass]="{ 'is-invalid': submitted && f['displayName'].invalid }" />
+          <div *ngIf="submitted && f['displayName'].invalid" class="invalid-feedback">
+            {{ 'USER_CREATE.REQUIRED' | translate }}
           </div>
         </div>
 
         <!-- Email -->
         <div class="form-group">
-          <label>Email</label>
+          <label>{{ 'USER_CREATE.EMAIL' | translate }}</label>
           <input type="email" class="form-control" formControlName="email"
             [ngClass]="{ 'is-invalid': submitted && f['email'].invalid }" />
           <div *ngIf="submitted && f['email'].invalid" class="invalid-feedback">
-            <span *ngIf="f['email'].errors?.['required']">Champ obligatoire.</span>
-            <span *ngIf="f['email'].errors?.['email']">Format e-mail invalide.</span>
+            <span *ngIf="f['email'].errors?.['required']">{{ 'USER_CREATE.REQUIRED' | translate }}</span>
+            <span *ngIf="f['email'].errors?.['email']">{{ 'USER_CREATE.INVALID_EMAIL' | translate }}</span>
           </div>
         </div>
 
-        <!-- Mot de passe -->
+        <!-- Username -->
         <div class="form-group">
-          <label>Mot de passe</label>
-          <input type="password" class="form-control" formControlName="password"
-            [ngClass]="{ 'is-invalid': submitted && f['password'].invalid }" />
-          <div *ngIf="submitted && f['password'].invalid" class="invalid-feedback">
-            <span *ngIf="f['password'].errors?.['required']">Champ obligatoire.</span>
-            <span *ngIf="f['password'].errors?.['minlength']">Minimum 6 caractères.</span>
+          <label>{{ 'USER_CREATE.USERNAME' | translate }}</label>
+          <input type="text" class="form-control" formControlName="username" readonly
+            [ngClass]="{ 'is-invalid': submitted && f['username'].invalid }" />
+          <div *ngIf="submitted && f['username'].invalid" class="invalid-feedback">
+            <span *ngIf="f['username'].errors?.['required']">{{ 'USER_CREATE.REQUIRED' | translate }}</span>
+            <span *ngIf="f['username'].errors?.['minlength']">{{ 'USER_CREATE.MIN_LENGTH_USERNAME' | translate }}</span>
           </div>
         </div>
 
         <!-- Rôle -->
         <div class="form-group">
-          <label>Rôle</label>
+          <label>{{ 'USER_CREATE.ROLE' | translate }}</label>
           <select class="form-control" formControlName="role"
             [ngClass]="{ 'is-invalid': submitted && f['role'].invalid }">
-            <option value="">-- Sélectionner --</option>
-            <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+            <option value="">{{ 'USER_CREATE.SELECT_OPTION' | translate }}</option>
+            <option *ngFor="let r of roles" [value]="r">{{ 'USER_LIST.ROLE_' + (r | uppercase) | translate }}</option>
           </select>
           <div *ngIf="submitted && f['role'].invalid" class="invalid-feedback">
-            Champ obligatoire.
+            {{ 'USER_CREATE.REQUIRED' | translate }}
           </div>
         </div>
 
         <!-- Bouton soumission -->
         <div class="text-center">
-          <button type="submit" class="btn btn-submit">Créer l'Utilisateur</button>
+          <button type="submit" class="btn btn-submit">{{ 'USER_CREATE.SUBMIT' | translate }}</button>
         </div>
       </form>
 

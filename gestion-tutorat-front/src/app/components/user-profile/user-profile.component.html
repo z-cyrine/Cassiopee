@@ -1,33 +1,46 @@
 <div class="profile-page">
   <div class="profile-card">
-    <!-- En-tête -->
     <div class="card-header">
       <div class="avatar">{{ user?.name?.charAt(0)?.toUpperCase() }}</div>
       <div class="header-info">
-        <h2 class="title">Mon Profil</h2>
-        <button class="btn-edit" (click)="editProfile()">Modifier</button>
+        <div class="title">{{ user?.name }}</div>
       </div>
+
+      <!-- Icône de déconnexion avec Angular Material -->
+      <button mat-icon-button class="logout-icon" (click)="logout()" aria-label="Déconnexion" title="{{ 'NAV.DECONNEXION' | translate }}">
+        <mat-icon>logout</mat-icon>
+      </button>
+
     </div>
+
+
+    
 
     <!-- Détails -->
     <div class="card-body">
       <div class="detail-item">
-        <span class="label">Nom</span>
+        <span class="label">{{ 'PROFILE.NAME' | translate }}</span>
         <span class="value">{{ user?.name }}</span>
       </div>
       <div class="detail-item">
-        <span class="label">Email</span>
+        <span class="label">{{ 'PROFILE.EMAIL' | translate }}</span>
         <span class="value">{{ user?.email }}</span>
       </div>
       <div class="detail-item">
-        <span class="label">Rôle</span>
-        <span class="badge" [ngClass]="user?.role">{{ user?.role }}</span>
+        <span class="label">{{ 'PROFILE.ROLE' | translate }}</span>
+        <span class="badge" [ngClass]="user?.role">{{ 'USER_LIST.ROLE_' + (user?.role | uppercase) | translate }}</span>
       </div>
       <div class="detail-item">
-        <span class="label">Membre depuis</span>
+        <span class="label">{{ 'PROFILE.MEMBER_SINCE' | translate }}</span>
         <span class="value">{{ user?.createdAt | date:'longDate' }}</span>
       </div>
       
+      <!-- Bouton pour accéder à la liste des étudiants tutorés (visible uniquement pour les profs) -->
+      <div *ngIf="user?.role === 'prof'" class="text-center mt-4">
+        <button class="btn view-etudiants" (click)="goToTutees()">
+          {{ 'PROFILE.VIEW_TUTORED_STUDENTS' | translate }}
+        </button>
+      </div>
     </div>
   </div>
 </div>

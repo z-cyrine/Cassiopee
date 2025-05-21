@@ -8,15 +8,27 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormatNamePipe } from '../../pipes/format-name/format-name.pipe';
+import { AuthService } from '../../services/gestion-acces/auth-service.service';
 
 @Component({
   selector: 'app-affiche-tuteurs',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule, MatIconModule, RouterLink, TranslateModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    MatTableModule, 
+    MatIconModule, 
+    RouterLink, 
+    TranslateModule,
+    FormatNamePipe
+  ],
   templateUrl: './affiche-tuteurs.component.html',
   styleUrls: ['./affiche-tuteurs.component.css'],
 })
 export class AfficheTuteursComponent implements OnInit {
+  role: string | null = null;
+  isAuthenticated = false;
   tuteurs: any[] = [];
   pagedTuteurs: any[] = [];
   columns: string[] = [
@@ -38,37 +50,105 @@ export class AfficheTuteursComponent implements OnInit {
   constructor(
     private tuteurService: TuteurService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadTuteurs();
+
+    this.authService.authStatus$.subscribe(() => {
+      this.role = this.authService.getUserRole();
+      this.isAuthenticated = this.authService.isAuthenticated();
+      this.setColumnVisibility();
+    });
+
+    this.authService.updateAuthStatus();
+
   }
+
+  setColumnVisibility(): void {
+    if (this.role === 'admin') {
+      this.showEdit = true;
+      this.showDelete = true;
+      if (!this.columns.includes('actions')) {
+        this.columns.push('actions');
+      }
+    } else {
+      this.showEdit = false;
+      this.showDelete = false;
+      this.columns = this.columns.filter(col => col !== 'actions');
+    }
+  }
+
+
+  // loadTuteurs() {
+  //   this.loading = true;
+  //   this.tuteurService.getTuteurs().subscribe({
+  //     next: (response) => {
+  //       this.tuteurs = response.map((tuteur: any) => ({
+  //         ...tuteur,
+  //         nom: tuteur.prenom,
+  //         prenom: tuteur.nom,
+  //         langueTutorat: Array.isArray(tuteur.langueTutorat)
+  //           ? tuteur.langueTutorat
+  //           : (typeof tuteur.langueTutorat === 'string' && tuteur.langueTutorat.trim() !== ''
+  //               ? (tuteur.langueTutorat as string).split(',').map((s: string) => s.trim())
+  //               : []),
+  //         matieres: Array.isArray(tuteur.matieres)
+  //           ? tuteur.matieres
+  //           : (typeof tuteur.matieres === 'string' && tuteur.matieres.trim() !== ''
+  //               ? (tuteur.matieres as string).split(',').map((s: string) => s.trim())
+  //               : []),
+  //         domainesExpertise: Array.isArray(tuteur.domainesExpertise)
+  //           ? tuteur.domainesExpertise
+  //           : (typeof tuteur.domainesExpertise === 'string' && tuteur.domainesExpertise.trim() !== ''
+  //               ? (tuteur.domainesExpertise as string).split(',').map((s: string) => s.trim())
+  //               : []),
+  //         infoStatut: tuteur.infoStatut || tuteur.info_statut || tuteur.infostatut || '',
+  //       }));
+  //       console.log('Premier tuteur reçu:', this.tuteurs[25]);
+  //       this.total = this.tuteurs.length;
+  //       this.pageCount = Math.ceil(this.total / this.limit);
+  //       this.updatePagedTuteurs();
+  //       this.loading = false;
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching tuteurs:', err);
+  //       this.loading = false;
+  //     },
+  //   });
+  // }
 
   loadTuteurs() {
     this.loading = true;
     this.tuteurService.getTuteurs().subscribe({
       next: (response) => {
-        this.tuteurs = response.map((tuteur: any) => ({
-          ...tuteur,
-          langueTutorat: Array.isArray(tuteur.langueTutorat)
-            ? tuteur.langueTutorat
-            : (typeof tuteur.langueTutorat === 'string' && tuteur.langueTutorat.trim() !== ''
-                ? (tuteur.langueTutorat as string).split(',').map((s: string) => s.trim())
-                : []),
-          matieres: Array.isArray(tuteur.matieres)
-            ? tuteur.matieres
-            : (typeof tuteur.matieres === 'string' && tuteur.matieres.trim() !== ''
-                ? (tuteur.matieres as string).split(',').map((s: string) => s.trim())
-                : []),
-          domainesExpertise: Array.isArray(tuteur.domainesExpertise)
-            ? tuteur.domainesExpertise
-            : (typeof tuteur.domainesExpertise === 'string' && tuteur.domainesExpertise.trim() !== ''
-                ? (tuteur.domainesExpertise as string).split(',').map((s: string) => s.trim())
-                : []),
-          infoStatut: tuteur.infoStatut || tuteur.info_statut || tuteur.infostatut || '',
-        }));
-        console.log('Premier tuteur reçu:', this.tuteurs[25]);
+        this.tuteurs = response
+          .filter((tuteur: any) => tuteur.estEligiblePourTutorat === true)
+          .map((tuteur: any) => ({
+            ...tuteur,
+            nom: tuteur.prenom,
+            prenom: tuteur.nom,
+            langueTutorat: Array.isArray(tuteur.langueTutorat)
+              ? tuteur.langueTutorat
+              : (typeof tuteur.langueTutorat === 'string' && tuteur.langueTutorat.trim() !== ''
+                  ? (tuteur.langueTutorat as string).split(',').map((s: string) => s.trim())
+                  : []),
+            matieres: Array.isArray(tuteur.matieres)
+              ? tuteur.matieres
+              : (typeof tuteur.matieres === 'string' && tuteur.matieres.trim() !== ''
+                  ? (tuteur.matieres as string).split(',').map((s: string) => s.trim())
+                  : []),
+            domainesExpertise: Array.isArray(tuteur.domainesExpertise)
+              ? tuteur.domainesExpertise
+              : (typeof tuteur.domainesExpertise === 'string' && tuteur.domainesExpertise.trim() !== ''
+                  ? (tuteur.domainesExpertise as string).split(',').map((s: string) => s.trim())
+                  : []),
+            infoStatut: tuteur.infoStatut || tuteur.info_statut || tuteur.infostatut || '',
+          }));
+
+        console.log('Premier tuteur reçu:', this.tuteurs[0]);
         this.total = this.tuteurs.length;
         this.pageCount = Math.ceil(this.total / this.limit);
         this.updatePagedTuteurs();
@@ -145,38 +225,41 @@ export class AfficheTuteursComponent implements OnInit {
   }
 
   searchNom: string = '';
-searchPrenom: string = '';
-searchResults: any[] = [];
-searchMode: boolean = false;
+  searchPrenom: string = '';
+  searchResults: any[] = [];
+  searchMode: boolean = false;
 
-onSearch(): void {
-  if (!this.searchNom.trim() && !this.searchPrenom.trim()) {
-    alert('Veuillez saisir un nom ou un prénom.');
-    return;
+  onSearch(): void {
+    if (!this.searchNom.trim() && !this.searchPrenom.trim()) {
+      alert('Veuillez saisir un nom ou un prénom.');
+      return;
+    }
+
+    this.loading = true;
+    this.tuteurService.searchTuteurs(this.searchNom, this.searchPrenom).subscribe({
+      next: (results: any[]) => {
+        this.searchResults = results.map((tuteur: any) => ({
+          ...tuteur,
+          nom: tuteur.prenom,
+          prenom: tuteur.nom,
+        }));
+        this.searchMode = true;
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.error('Erreur lors de la recherche :', err);
+        this.searchResults = [];
+        this.searchMode = true;
+        this.loading = false;
+      }
+    });
   }
 
-  this.loading = true;
-  this.tuteurService.searchTuteurs(this.searchNom, this.searchPrenom).subscribe({
-    next: (results: any[]) => {
-      this.searchResults = results;
-      this.searchMode = true;
-      this.loading = false;
-    },
-    error: (err: any) => {
-      console.error('Erreur lors de la recherche :', err);
-      this.searchResults = [];
-      this.searchMode = true;
-      this.loading = false;
-    }
-  });
-}
-
-onClearSearch(): void {
-  this.searchNom = '';
-  this.searchPrenom = '';
-  this.searchResults = [];
-  this.searchMode = false;
-  this.loadTuteurs();
-}
-
+  onClearSearch(): void {
+    this.searchNom = '';
+    this.searchPrenom = '';
+    this.searchResults = [];
+    this.searchMode = false;
+    this.loadTuteurs();
+  }
 } 

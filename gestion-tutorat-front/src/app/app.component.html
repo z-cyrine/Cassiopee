@@ -21,56 +21,65 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
 
-        <li class="nav-item">
-  <a routerLink="/profil" routerLinkActive="active" class="nav-link">Mon Profil</a>
-</li>
+        <li class="nav-item" *ngIf="isAuthenticated">
+          <a routerLink="/profil" routerLinkActive="active" class="nav-link">{{ 'NAV.PROFILE' | translate }}</a>
+        </li>
 
 
         <!-- Connexion -->
-        <li class="nav-item">
+        <!--<li class="nav-item">
           <a routerLink="/authentification" routerLinkActive="active" class="nav-link">{{ 'NAV.CONNEXION' | translate }}</a>
-        </li>
+        </li>-->
+        <a [href]="casLoginUrl" class="nav-link" *ngIf="!isAuthenticated">
+          {{ 'NAV.CONNEXION' | translate }}
+        </a>
+
 
         <!-- Création de compte -->
-        <li class="nav-item">
+        <!--<li class="nav-item">
           <a routerLink="/inscription" routerLinkActive="active" class="nav-link">{{ 'NAV.INSCRIPTION' | translate }}</a>
-        </li>
+        </li>-->
 
         <!-- Importation -->
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAuthenticated && role === 'admin'">
           <a routerLink="/import" routerLinkActive="active" class="nav-link">{{ 'NAV.IMPORT' | translate }}</a>
         </li>
 
         <!-- Listes Dropdown -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="isAuthenticated && role !== 'prof'">
           <a class="nav-link dropdown-toggle" href="#" id="listesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ 'NAV.LISTES' | translate }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="listesDropdown">
-            <li><a class="dropdown-item" routerLink="/etudiants/all">Liste Étudiants</a></li>
-            <li><a class="dropdown-item" routerLink="/tuteurs/all">Liste Tuteurs</a></li>
-            <li><a class="dropdown-item" routerLink="/majeures/all">Liste Majeures</a></li>
-            <li><a class="dropdown-item" routerLink="/utilisateurs/all">Liste Utilisateurs</a></li> <!-- ✅ NEW -->
+            <li><a class="dropdown-item" routerLink="/etudiants/all">{{ 'NAV.LISTE_ETUDIANTS' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/tuteurs/all">{{ 'NAV.LISTE_TUTEURS' | translate }}</a></li>
+            <li><a class="dropdown-item" routerLink="/majeures/all">{{ 'NAV.LISTE_MAJEURES' | translate }}</a></li>
+            <li *ngIf="isAuthenticated && role === 'admin'"><a class="dropdown-item" routerLink="/utilisateurs/all">{{ 'NAV.LISTE_UTILISATEURS' | translate }}</a></li>
           </ul>
         </li>
 
         <!-- Auto-Affectation -->
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAuthenticated && role === 'admin'">
           <a routerLink="/auto-affectation" routerLinkActive="active" class="nav-link">{{ 'NAV.AUTO_AFFECT' | translate }}</a>
         </li>
 
         <!-- Affectation Manuelle -->
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAuthenticated && role === 'admin'">
           <a routerLink="/affectation-manuelle" routerLinkActive="active" class="nav-link">{{ 'NAV.AFFECT_MANUELLE' | translate }}</a>
         </li>
 
         <!-- Reporting -->
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAuthenticated && role !== 'prof'">
           <a routerLink="/reporting" routerLinkActive="active" class="nav-link">{{ 'NAV.REPORTING' | translate }}</a>
         </li>
 
+        <!-- VOIR ETUDIANTS -->
+        <li class="nav-item" *ngIf="isAuthenticated && role === 'prof'">
+          <a routerLink="/tuteur-dashboard" routerLinkActive="active" class="nav-link">{{ 'NAV.DASHBOARD' | translate }}</a>
+        </li>
+
         <!-- Ajouter Dropdown -->
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="role === 'admin'">
           <a class="nav-link dropdown-toggle" href="#" id="ajouterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ 'NAV.AJOUTER' | translate }}
           </a>
@@ -78,7 +87,7 @@
             <li><a class="dropdown-item" routerLink="/etudiant-create">{{ 'NAV.AJOUTER_ETUDIANT' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/tuteur-create">{{ 'NAV.AJOUTER_TUTEUR' | translate }}</a></li>
             <li><a class="dropdown-item" routerLink="/majeure-create">{{ 'NAV.AJOUTER_MAJEURE' | translate }}</a></li>
-            <li><a class="dropdown-item" routerLink="/utilisateurs/create">Ajouter Utilisateur</a></li> <!-- ✅ NEW -->
+            <li><a class="dropdown-item" routerLink="/utilisateurs/create">{{ 'NAV.AJOUTER_UTILISATEUR' | translate }}</a></li>
           </ul>
         </li>
 

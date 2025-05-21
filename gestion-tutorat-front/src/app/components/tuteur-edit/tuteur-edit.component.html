@@ -1,36 +1,38 @@
 <div class="container mt-4">
-  <h2>Modifier le Tuteur</h2>
+  <h2>{{ 'EDIT_TUTOR.TITLE' | translate }}</h2>
 
   <form [formGroup]="tuteurForm" (ngSubmit)="onSubmit()">
     <!-- Nom -->
     <div class="mb-3">
-      <label class="form-label">Nom</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.LASTNAME' | translate }}</label>
       <input
         type="text"
         class="form-control"
         formControlName="nom"
-        [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }" />
+        [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }"
+        (blur)="onNameBlur('nom')" />
       <div *ngIf="submitted && f['nom'].invalid" class="invalid-feedback">
-        Ce champ est requis
+        {{ 'EDIT_TUTOR.REQUIRED' | translate }}
       </div>
     </div>
 
     <!-- Prénom -->
     <div class="mb-3">
-      <label class="form-label">Prénom</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.FIRSTNAME' | translate }}</label>
       <input
         type="text"
         class="form-control"
         formControlName="prenom"
-        [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }" />
+        [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }"
+        (blur)="onNameBlur('prenom')" />
       <div *ngIf="submitted && f['prenom'].invalid" class="invalid-feedback">
-        Ce champ est requis
+        {{ 'EDIT_TUTOR.REQUIRED' | translate }}
       </div>
     </div>
 
     <!-- Email -->
     <div class="mb-3">
-      <label class="form-label">Email</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.EMAIL' | translate }}</label>
       <input
         type="email"
         class="form-control"
@@ -39,21 +41,21 @@
           'is-invalid': submitted && (f['email'].errors?.['required'] || f['email'].errors?.['email'])
         }" />
       <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-        <span *ngIf="f['email'].errors['required']">Ce champ est requis</span>
-        <span *ngIf="f['email'].errors['email']">Email invalide</span>
+        <span *ngIf="f['email'].errors['required']">{{ 'EDIT_TUTOR.REQUIRED' | translate }}</span>
+        <span *ngIf="f['email'].errors['email']">{{ 'EDIT_TUTOR.INVALID_EMAIL' | translate }}</span>
       </div>
     </div>
 
     <!-- Département -->
     <div class="mb-3">
-      <label class="form-label">Département</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.DEPARTMENT' | translate }}</label>
       <input
         type="text"
         class="form-control"
         formControlName="departement"
         [ngClass]="{ 'is-invalid': submitted && f['departement'].invalid }" />
       <div *ngIf="submitted && f['departement'].invalid" class="invalid-feedback">
-        Ce champ est requis
+        {{ 'EDIT_TUTOR.REQUIRED' | translate }}
       </div>
     </div>
 
@@ -65,120 +67,120 @@
         formControlName="estEligiblePourTutorat"
         id="eligibleCheck" />
       <label class="form-check-label" for="eligibleCheck">
-        Est Eligible pour Tutorat
+        {{ 'EDIT_TUTOR.ELIGIBLE' | translate }}
       </label>
     </div>
 
     <!-- Statut -->
     <div class="mb-3">
-      <label class="form-label">Statut</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.STATUS' | translate }}</label>
       <input
         type="text"
         class="form-control"
         formControlName="statut"
         [ngClass]="{ 'is-invalid': submitted && f['statut'].invalid }" />
       <div *ngIf="submitted && f['statut'].invalid" class="invalid-feedback">
-        Ce champ est requis
+        {{ 'EDIT_TUTOR.REQUIRED' | translate }}
       </div>
     </div>
 
     <!-- Colonne2 / InfoStatut -->
     <div class="mb-3">
-      <label class="form-label">Colonne 2</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.COL2' | translate }}</label>
       <input type="text" class="form-control" formControlName="colonne2" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Info Statut</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.INFO_STATUS' | translate }}</label>
       <input type="text" class="form-control" formControlName="infoStatut" />
     </div>
 
     <!-- Langues tutorat -->
     <div class="mb-3">
-      <label class="form-label">Langues Tutorats (séparées par des virgules)</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.TUTOR_LANGUAGES' | translate }}</label>
       <input type="text" class="form-control" formControlName="langueTutorat" />
     </div>
 
     <!-- Profil -->
     <div class="mb-3">
-      <label class="form-label">Profil</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.PROFILE' | translate }}</label>
       <input
         type="text"
         class="form-control"
         formControlName="profil"
         [ngClass]="{ 'is-invalid': submitted && f['profil'].invalid }" />
       <div *ngIf="submitted && f['profil'].invalid" class="invalid-feedback">
-        Ce champ est requis
+        {{ 'EDIT_TUTOR.REQUIRED' | translate }}
       </div>
     </div>
 
     <!-- Capacités / Soldes -->
     <div class="mb-3">
-      <label class="form-label">Par Tutorats Alt</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.PAR_TUTORAT_ALT' | translate }}</label>
       <input
         type="number"
         class="form-control"
         formControlName="parTutoratAlt"
         [ngClass]="{ 'is-invalid': submitted && f['parTutoratAlt'].invalid }" />
       <div *ngIf="submitted && f['parTutoratAlt'].invalid" class="invalid-feedback">
-        Valeur ≥ 0
+        {{ 'EDIT_TUTOR.MIN_VALUE' | translate }}
       </div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Tutorats Alt Affectés</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.TUTORAT_ALT_AFF' | translate }}</label>
       <input type="number" class="form-control" formControlName="tutoratAltAff" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Solde Alt</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.SOLDE_ALT' | translate }}</label>
       <input type="number" class="form-control" formControlName="soldeAlt" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Par Tutorats Ini</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.PAR_TUTORAT_INI' | translate }}</label>
       <input type="number" class="form-control" formControlName="parTutoratIni" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Tutorats Ini Affectés</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.TUTORAT_INI_AFF' | translate }}</label>
       <input type="number" class="form-control" formControlName="tutoratIniAff" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Solde Ini</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.SOLDE_INI' | translate }}</label>
       <input type="number" class="form-control" formControlName="soldeIni" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Total Étudiants Par</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.TOTAL_ETUDIANTS_PAR' | translate }}</label>
       <input type="number" class="form-control" formControlName="totalEtudiantsPar" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Nombre de Tutorats Affectés</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.NB_TUTORAT_AFFECTE' | translate }}</label>
       <input type="number" class="form-control" formControlName="nbTutoratAffecte" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Solde Tutorat Restant</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.SOLDE_TUTORAT_RESTANT' | translate }}</label>
       <input type="number" class="form-control" formControlName="soldeTutoratRestant" />
     </div>
 
     <!-- Matières / Domaines -->
     <div class="mb-3">
-      <label class="form-label">Matieres (séparées par des virgules)</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.MATIERES' | translate }}</label>
       <input type="text" class="form-control" formControlName="matieres" />
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Domaines Expertise (séparées par des virgules)</label>
+      <label class="form-label">{{ 'EDIT_TUTOR.DOMAINES_EXPERTISE' | translate }}</label>
       <input type="text" class="form-control" formControlName="domainesExpertise" />
     </div>
 
     <!-- Submit -->
     <button type="submit" class="btn btn-primary">
-      Mettre à jour le Tuteur
+      {{ 'EDIT_TUTOR.SUBMIT' | translate }}
     </button>
   </form>
 </div>

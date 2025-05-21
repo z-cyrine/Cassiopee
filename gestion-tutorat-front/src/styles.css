@@ -22,3 +22,39 @@ button {
   
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* --- Dark Dialog Angular Material --- */
+.dark-dialog .mat-dialog-container {
+  background: #18191c !important;
+  color: #fff !important;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+.dark-dialog .dialog-title {
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+.dark-dialog .warning-text {
+  color: #ffb3b3 !important;
+  font-weight: 600;
+  font-size: 1.08rem;
+}
+.dark-dialog .dialog-actions button {
+  background: #23242a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  margin-left: 0.5rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+.dark-dialog .dialog-actions button:hover {
+  background: #7b5fc9;
+  color: #fff;
+  border-color: #7b5fc9;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

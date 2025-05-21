@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/gestion-acces/auth-service.service';
 
 @Component({
   selector: 'app-tuteur-read',
@@ -14,13 +15,15 @@ import { environment } from '../../../environments/environment';
 export class TuteurReadComponent implements OnInit {
   tuteur: any;
   tuteurId: number | null = null;
-  modeLectureSeul = false; // Mettre à true si on veut cacher les boutons (par ex. pour un tuteur connecté)
+  modeLectureSeul = false;
+  role: string | null = null;
 
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +42,12 @@ export class TuteurReadComponent implements OnInit {
           }
         });
     }
+    this.authService.authStatus$.subscribe(() => {
+      this.role = this.authService.getUserRole();
+      this.modeLectureSeul = this.role !== 'admin';
+    });
+
+    this.authService.updateAuthStatus();
   }
 
   onEditTuteur(): void {
@@ -46,6 +55,10 @@ export class TuteurReadComponent implements OnInit {
       // Naviguer vers la page d'édition du tuteur (ajustez la route si nécessaire)
       this.router.navigate(['/tuteur-edit', this.tuteurId]);
     }
+  }
+
+  goToList(): void {
+    this.router.navigate(['/tuteurs/all']);
   }
 
   onDeleteTuteur(): void {

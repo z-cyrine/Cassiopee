@@ -15,11 +15,11 @@
       class="form-control"
       style="width: 140px; padding: 5px 8px; font-size: 14px;"
     />
-    <button (click)="onSearch()" class="btn btn-primary" style="background: #00abc7; border: none;">
-      {{ 'COMMON.SEARCH' | translate }}
+    <button (click)="onSearch()" class="icon-btn search" title="Rechercher">
+      <i class="bi bi-search"></i>
     </button>
-    <button (click)="onClearSearch()" class="btn btn-secondary" style="background: #9b59b6; border: none;">
-      {{ 'COMMON.RESET' | translate }}
+    <button (click)="onClearSearch()" class="icon-btn reset" title="Réinitialiser">
+      <i class="bi bi-x-circle"></i>
     </button>
   </div>
 </div>
@@ -47,8 +47,8 @@
 <div style="margin: 1%; margin-right: 2%">
   <div class="table-scroll-wrapper">
     <table mat-table [dataSource]="students" class="mat-elevation-z8">
-      <ng-container matColumnDef="figer">
-        <th mat-header-cell *matHeaderCellDef class="stickyHeader">{{ 'STUDENTS.FREEZE' | translate }}</th>
+      <ng-container matColumnDef="figer" >
+        <th mat-header-cell *matHeaderCellDef class="stickyHeader" >{{ 'STUDENTS.FREEZE' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <input type="checkbox"
                  [checked]="element.frozen"
@@ -72,7 +72,7 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.LASTNAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.nom; else notNom">
-            <a [routerLink]="['/etudiants', element.id]">{{ element.nom }}</a>
+            <a [routerLink]="['/etudiants', element.id]">{{ element.nom | formatName }}</a>
           </ng-container>
           <ng-template #notNom><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
@@ -82,7 +82,7 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.FIRSTNAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.prenom; else notPrenom">
-            <a [routerLink]="['/etudiants', element.id]">{{ element.prenom }}</a>
+            <a [routerLink]="['/etudiants', element.id]">{{ element.prenom | formatName }}</a>
           </ng-container>
           <ng-template #notPrenom><span class="text-muted">{{ 'COMMON.NOT_SPECIFIED' | translate }}</span></ng-template>
         </td>
@@ -243,7 +243,7 @@
         <th mat-header-cell *matHeaderCellDef class="stickyHeader">{{ 'STUDENTS.TUTOR' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.tuteur; else notAssigned">
-            {{ element.tuteur.nom }} {{ element.tuteur.prenom }}
+            <a href="/tuteurs/{{ element.tuteur.id }}">{{ element.tuteur.nom }} {{ element.tuteur.prenom }}</a>
           </ng-container>
           <ng-template #notAssigned>
             <span class="text-muted">{{ 'STUDENTS.NOT_ASSIGNED' | translate }}</span>

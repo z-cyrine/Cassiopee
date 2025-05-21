@@ -1,107 +1,56 @@
 <!-- affiche-majeures.component.html -->
-<h2 class="majeures-title">{{ 'MAJORS.LIST_TITLE' | translate }}</h2>
+<!--<h2 class="majeures-title">{{ 'MAJORS.LIST_TITLE' | translate }}</h2>-->
 
-<!-- 🔍 Search Bar -->
-<div class="actions-container">
-  <div class="actions-text">{{ 'MAJORS.SEARCH_TITLE' | translate }}</div>
-  <div class="actions-controls search-majeures">
+<!-- Barre de recherche harmonisée avec boutons icônes noirs -->
+<div class="full-width-search">
+  <div class="actions-text">Recherche de majeure</div>
+  <div class="actions-controls" style="margin-left: auto;">
     <input
       type="text"
       placeholder="{{ 'MAJORS.GROUP' | translate }}"
       [(ngModel)]="searchGroupe"
-      (ngModelChange)="searchGroupe = searchGroupe.trim()"
-      class="search-input"
+      class="form-control"
+      style="width: 140px; padding: 5px 8px; font-size: 14px;"
     />
     <input
       type="text"
       placeholder="{{ 'MAJORS.CLASS_CODE' | translate }}"
       [(ngModel)]="searchCode"
-      (ngModelChange)="searchCode = searchCode.trim()"
-      class="search-input"
+      class="form-control"
+      style="width: 140px; padding: 5px 8px; font-size: 14px;"
     />
-    <button (click)="onSearch()" class="search-btn primary">{{ 'COMMON.SEARCH' | translate }}</button>
-    <button (click)="onClearSearch()" class="search-btn secondary">{{ 'COMMON.RESET' | translate }}</button>
+    <button (click)="onSearch()" class="icon-btn search" title="Rechercher">
+      <i class="bi bi-search"></i>
+    </button>
+    <button (click)="onClearSearch()" class="icon-btn reset" title="Réinitialiser">
+      <i class="bi bi-x-circle"></i>
+    </button>
   </div>
 </div>
 
-<!-- 🔍 Search Results -->
-<div *ngIf="searchMode">
-  <div *ngIf="searchResults.length > 0; else noResultMsg" class="majors-card-list">
-    <div *ngFor="let maj of searchResults" class="majors-card">
-      <div class="majors-card-header">
-        <a [routerLink]="['/majeures', maj.id]" class="majors-title-link">
-          {{ maj.groupe }}
-        </a>
-        <div class="majors-card-actions">
-          <button class="icon-btn edit" (click)="onEditMajeure(maj.id)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button class="icon-btn delete" (click)="onDeleteMajeure(maj.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-      <div class="majors-card-body">
-        <div *ngFor="let prop of propertyLabels" class="majors-property">
-          <strong>{{ prop.label | translate }}:</strong> {{ maj[prop.key] || '—' }}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <ng-template #noResultMsg>
-    <div class="text-center mt-4 text-muted">
-      {{ 'MAJORS.NO_MAJOR_FOUND' | translate }}
-    </div>
-  </ng-template>
-</div>
-
-<!-- 📋 Card List -->
-<div *ngIf="!searchMode" class="majors-card-list">
-  <div *ngFor="let maj of pagedMajeures" class="majors-card">
-    <div class="majors-card-header">
-      <a [routerLink]="['/majeures', maj.id]" class="majors-title-link">
-         {{ maj.groupe }}
-      </a>
-      <div class="majors-card-actions">
-        <button class="icon-btn edit" (click)="onEditMajeure(maj.id)">
+<!-- Table responsive des majeures (affiche toujours le tableau, que ce soit en recherche ou non) -->
+<div class="table-responsive-majeures">
+  <table class="majeures-table">
+    <tr>
+      <th class="stickyHeader"></th>
+      <th *ngFor="let maj of (searchMode ? searchResults : majeures)" class="stickyHeader">
+        {{ maj.groupe }}
+        <button type="button"  *ngIf="showEdit" class="icon-btn edit" (click)="onEditMajeure(maj.id)" title="Éditer">
           <mat-icon>edit</mat-icon>
         </button>
-        <button class="icon-btn delete" (click)="onDeleteMajeure(maj.id)">
+        <button type="button" *ngIf="showDelete" class="icon-btn delete" (click)="onDeleteMajeure(maj.id)" title="Supprimer">
           <mat-icon>delete</mat-icon>
         </button>
-      </div>
-    </div>
-    <div class="majors-card-body">
-      <div *ngFor="let prop of propertyLabels" class="majors-property">
-        <strong>{{ prop.label | translate }}:</strong> {{ maj[prop.key] || '—' }}
-      </div>
-    </div>
-  </div>
+      </th>
+    </tr>
+    <tr *ngFor="let prop of propertyLabels">
+      <th>{{ prop.label | translate }}</th>
+      <td *ngFor="let maj of (searchMode ? searchResults : majeures)">{{ maj[prop.key] }}</td>
+    </tr>
+  </table>
 </div>
 
-<!-- 📄 Pagination -->
-<div class="pagination-controls" *ngIf="!searchMode && pageCount > 1">
-  <button (click)="prevPage()" [disabled]="page === 1" class="pagination-btn">
-    <i class="fas fa-chevron-left"></i> Précédent
-  </button>
-  <div class="pagination-numbers">
-    <button *ngIf="page > 2 && visiblePages[0] !== 1" (click)="goToPage(1)" class="pagination-number">1</button>
-    <span *ngIf="page > 3 && visiblePages[0] !== 1" class="pagination-ellipsis">...</span>
-
-    <button *ngFor="let pageNum of visiblePages"
-            (click)="goToPage(pageNum)"
-            [class.active]="pageNum === page"
-            class="pagination-number">
-      {{ pageNum }}
-    </button>
-
-    <span *ngIf="page < pageCount - 2 && visiblePages[visiblePages.length-1] !== pageCount" class="pagination-ellipsis">...</span>
-    <button *ngIf="page < pageCount - 1 && visiblePages[visiblePages.length-1] !== pageCount" (click)="goToPage(pageCount)" class="pagination-number">
-      {{ pageCount }}
-    </button>
-  </div>
-  <button (click)="nextPage()" [disabled]="page === pageCount" class="pagination-btn">
-    Suivant <i class="fas fa-chevron-right"></i>
-  </button>
+<!-- Message si aucune majeure trouvée -->
+<div *ngIf="(searchMode ? searchResults.length === 0 : majeures.length === 0)" class="text-center mt-4 text-muted">
+  {{ 'MAJORS.NO_MAJOR_FOUND' | translate }}
 </div>

@@ -38,7 +38,8 @@
         <div class="form-group">
           <label>{{ 'CREATE.FIRSTNAME' | translate }}</label>
           <input type="text" class="form-control" formControlName="prenom"
-                 [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }" />
+                 [ngClass]="{ 'is-invalid': submitted && f['prenom'].invalid }"
+                 (blur)="onNameBlur('prenom')" />
           <div *ngIf="submitted && f['prenom'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
         </div>
 
@@ -46,7 +47,8 @@
         <div class="form-group">
           <label>{{ 'CREATE.LASTNAME' | translate }}</label>
           <input type="text" class="form-control" formControlName="nom"
-                 [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }" />
+                 [ngClass]="{ 'is-invalid': submitted && f['nom'].invalid }"
+                 (blur)="onNameBlur('nom')" />
           <div *ngIf="submitted && f['nom'].invalid" class="invalid-feedback">{{ 'CREATE.REQUIRED' | translate }}</div>
         </div>
 

@@ -1,135 +1,99 @@
+/* Conteneur principal */
 .container {
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 3rem auto;
+  padding: 0 1rem;
 }
 
+/* Carte principale */
 .card {
   border: none;
   border-radius: 15px;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+  background-color: #fff;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
+/* En-tête de la carte */
 .card-header {
-  background: linear-gradient(90deg, #07b5d9 0%, #7b5fc9 100%);
-  padding: 1.5rem;
+  background: linear-gradient(90deg, #5dbfd1 0%, #9282d3 100%);
+  padding: 1.2rem 2rem;
+  text-align: center;
 }
 
 .card-title {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  color: #fff;
 }
 
+/* Corps de la carte */
 .card-body {
-  padding: 2rem;
-  background-color: #f8f9fa;
+  padding: 2.2rem;
+  background-color: #f9f9f9;
 }
 
+/* Étiquettes de champs */
 .form-label {
   color: #2c3e50;
   font-size: 1.1rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.6rem;
 }
 
+/* Champ de fichier */
 .form-control {
   border: 2px solid #e9ecef;
   border-radius: 8px;
   padding: 0.8rem;
   transition: all 0.3s ease;
+  background-color: #fff;
 }
 
 .form-control:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+  border-color: #5dbfd1;
+  box-shadow: 0 0 0 0.15rem rgba(93, 191, 209, 0.25);
 }
 
+/* Bouton d'import */
 .btn-success {
-  background: linear-gradient(90deg, #7b5fc9 0%, #a084e8 100%);
+  background: linear-gradient(90deg, #5dbfd1 0%, #9282d3 100%);
   border: none;
-  border-radius: 8px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+  font-size: 1rem;
+  color: #fff;
 }
 
 .btn-success:hover {
-  background: linear-gradient(90deg, #a084e8 0%, #7b5fc9 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(123, 95, 201, 0.2);
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-.alert {
-  border-radius: 8px;
-  border: none;
-  background-color: #e8f4f8;
-  color: #2c3e50;
-  font-weight: 500;
-}
-
-.text-muted {
-  color: #6c757d !important;
-}
-
-.bi {
-  margin-right: 0.5rem;
-}
-
-/* Animation pour les messages d'alerte */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.alert {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Style pour les inputs de type file */
-input[type="file"] {
-  cursor: pointer;
-}
-
-input[type="file"]::-webkit-file-upload-button {
-  background: #3498db;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-input[type="file"]::-webkit-file-upload-button:hover {
-  background: #2980b9;
-}
-
+/* Zone danger */
 .danger-zone {
-  border: 2px solid #dc3545;
-  background: #fff0f3;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(220,53,69,0.05);
+  background-color: #fff3f3;
+  border: none;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem;
 }
 
-.danger-title {
-  color: #dc3545;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
 
 .danger-text {
-  color: #b52a3a;
+  color: #c0392b;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* Bouton de réinitialisation */
+.btn-danger {
+  background-color: #e74c3c;
+  border: none;
+  font-weight: 600;
   font-size: 1rem;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
 }

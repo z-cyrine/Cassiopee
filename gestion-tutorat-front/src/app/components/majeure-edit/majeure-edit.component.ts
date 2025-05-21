@@ -5,13 +5,14 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MajorsService } from '../../services/majors/majors.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   standalone: true,
   selector: 'app-majeure-edit',
   templateUrl: './majeure-edit.component.html',
   styleUrls: ['./majeure-edit.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule]
 })
 export class MajeureEditComponent implements OnInit, OnDestroy {
   majeureForm!: FormGroup;

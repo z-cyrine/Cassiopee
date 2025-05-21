@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgClass, RouterLink],
+  imports: [ReactiveFormsModule, NgIf, NgClass, RouterLink, TranslateModule],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css'
 })
@@ -24,14 +25,14 @@ export class AuthComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
     this.casLoginUrl = `${environment.apiUrl}/cas/login`;
-
   }
 
   login() {
@@ -43,13 +44,21 @@ export class AuthComponent {
     this.http.post(`${environment.apiUrl}/auth/login`, { email, password }).subscribe({
       next: (res: any) => {
         localStorage.setItem('token', res.accessToken);
+        // Stocker l'utilisateur authentifié pour le profil
+        const user = {
+          id: res.userId,
+          name: res.username,
+          email: res.email,
+          role: res.role,
+          createdAt: res.createdAt,
+        };
+        localStorage.setItem('user', JSON.stringify(user));
         console.log("login successful");
-        // console.log('token: ', res.accessToken);
         this.router.navigate(['/']);
       },
       error: (err) => {
         this.loading = false;
-        this.errorMessage = err.error?.message || 'Identifiants incorrects';
+        this.errorMessage = this.translate.instant('AUTH.LOGIN_ERROR');
       }
     });
   }

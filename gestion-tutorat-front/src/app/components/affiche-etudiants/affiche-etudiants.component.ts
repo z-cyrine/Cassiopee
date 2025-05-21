@@ -8,11 +8,21 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormatNamePipe } from '../../pipes/format-name/format-name.pipe';
+import { AuthService } from '../../services/gestion-acces/auth-service.service';
 
 @Component({
   selector: 'app-affiche-etudiants',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatTableModule, CommonModule, MatIconModule, RouterLink, TranslateModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    MatTableModule, 
+    MatIconModule, 
+    RouterLink, 
+    TranslateModule,
+    FormatNamePipe
+  ],
   templateUrl: './affiche-etudiants.component.html',
   styleUrls: ['./affiche-etudiants.component.css'],
 })
@@ -42,11 +52,20 @@ export class AfficheEtudiantsComponent implements OnInit {
   constructor(
     private etudiantService: EtudiantService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadStudents();
+
+    this.authService.authStatus$.subscribe(() => {
+      this.role = this.authService.getUserRole();
+      this.isAuthenticated = this.authService.isAuthenticated();
+    });
+
+    // Appel initial
+    this.authService.updateAuthStatus();
   }
 
   get visiblePages(): number[] {
@@ -85,7 +104,18 @@ export class AfficheEtudiantsComponent implements OnInit {
           this.columns = Object.keys(this.students[0])
             .filter((key) => key !== 'logs' && key !== 'createdAt' && key !== 'updatedAt' && key !== 'frozen' && key !== 'majeure')
             .concat('actions');
-          this.displayedColumns = ['figer', 'id', ...this.columns.filter(c => c !== 'id' && c !== 'figer')];
+          // this.displayedColumns = ['figer', 'id', ...this.columns.filter(c => c !== 'id' && c !== 'figer')];
+          this.displayedColumns = ['id', ...this.columns.filter(c => c !== 'id' && c !== 'figer' && c !== 'actions')];
+
+          if (this.role === 'admin') {
+            this.displayedColumns = ['figer', 'id', ...this.columns.filter(c => c !== 'id' && c !== 'figer')];
+            this.showEdit = true;
+            this.showDelete = true;
+          } else {
+            this.showEdit = false;
+            this.showDelete = false;
+          }
+
         }
         this.loading = false;
       },
@@ -188,5 +218,10 @@ onClearSearch(): void {
   this.searchResults = [];
   this.loadStudents();
 }
+
+  //gestion de role 
+  role: string | null = null;
+  isAuthenticated = false;
+
 
 }

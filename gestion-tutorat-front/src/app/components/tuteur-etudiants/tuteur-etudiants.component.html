@@ -1,0 +1,18 @@
+<div class="table-container">
+  <h2 style="color:#0077b6; text-align:center; margin-bottom:2rem;">Liste des étudiants tutorés</h2>
+  <div *ngIf="errorMessage" class="alert alert-danger text-center" style="margin-bottom:1.5rem;">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loading-indicator">Chargement...</div>
+  <div *ngIf="!loading && !errorMessage && etudiants.length === 0" class="text-muted text-center mt-4">
+    Aucun étudiant tutoré trouvé.
+  </div>
+  <div *ngIf="!loading && !errorMessage && etudiants.length > 0" class="table-scroll-wrapper">
+    <table mat-table [dataSource]="etudiants" class="mat-elevation-z8">
+      <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+        <th mat-header-cell *matHeaderCellDef>{{ col | uppercase }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[col] }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div> 

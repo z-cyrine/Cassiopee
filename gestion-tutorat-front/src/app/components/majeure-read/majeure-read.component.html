@@ -39,9 +39,12 @@
 
       <!-- Only Edit button remains -->
       <div class="action-buttons mt-4">
-        <a [routerLink]="['/majeures/edit', majeure.id]" class="btn edit-btn">
+        <a *ngIf="!modeLectureSeul" [routerLink]="['/majeures/edit', majeure.id]" class="btn edit-btn">
           <i class="bi bi-pencil-square"></i> Éditer
         </a>
+        <button class="btn btn-secondary" (click)="goToList()" style="margin-left: 0.5rem;">
+          <i class="bi bi-arrow-left"></i> Liste des majeures
+        </button>
       </div>
     </div>
   </div>
