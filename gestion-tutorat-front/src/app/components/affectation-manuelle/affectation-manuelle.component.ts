@@ -146,6 +146,9 @@ export class AffectationManuelleComponent {
   
     // 3. Optionnel : Met à jour les étudiants filtrés
     this.filteredStudents = [...this.students];
+    this.filteredTuteurs = [...this.tuteurs]; // <-- AJOUTE CECI si absent
+    this.updatePagedStudents();
+    this.updatePagedTuteurs();
   }
   
   //PAGINATION

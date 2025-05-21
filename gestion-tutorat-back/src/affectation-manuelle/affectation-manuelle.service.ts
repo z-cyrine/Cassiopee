@@ -38,6 +38,7 @@ export class AffectationManuelleService {
         etudiant.tuteur = tuteur;    
         
         tuteur.soldeTutoratRestant -= 1;
+        tuteur.nbTutoratAffecte += 1;
 
         etudiant.affecte = true;
         await this.tuteurRepository.save(tuteur);
