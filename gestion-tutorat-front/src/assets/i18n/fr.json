@@ -95,7 +95,8 @@
     "REPORTING_DESC": "Générez des rapports détaillés et des statistiques sur les affectations et le tutorat.",
     "ACCESS_FEATURE": "Accéder",
     "GET_STARTED": "Commencer",
-    "LOGIN_MESSAGE": "Connectez-vous pour accéder à toutes les fonctionnalités de la plateforme de gestion du tutorat."
+    "LOGIN_MESSAGE": "Connectez-vous pour accéder à toutes les fonctionnalités de la plateforme de gestion du tutorat.",
+    "LISTS":"Listes"
   },
   "STUDENTS": {
     "SEARCH_TITLE": "Recherche d'étudiants",
@@ -207,6 +208,7 @@
     "CONFIRM_RESET_MESSAGE": "Confirmez-vous la réinitialisation de la base de données ? Cette action est irréversible."
   },
   "CREATE": {
+    "STATUS": "Status",
     "ADD_STUDENT_TITLE": "Ajouter un Étudiant",
     "ADD_TUTOR_TITLE": "Créer un Tuteur",
     "ADD_MAJOR_TITLE": "Ajouter une Majeure",
@@ -246,7 +248,25 @@
     "CHOOSE_LANGUAGE": "-- Choisir une langue --",
     "CHOOSE": "-- Choisir --",
     "VALUE_REQUIRED": "Veuillez choisir une valeur.",
-    "MIN_LENGTH_USERNAME": "Minimum 3 caractères."
+    "MIN_LENGTH_USERNAME": "Minimum 3 caractères.",
+    "DEPARTMENT": "Départment",
+    "PROFILE": "Profil",
+    "PAR_TUTORAT_ALT": "PAR Alt",
+    "TUTORAT_ALT_AFF": "Étudiants Alt Assignés",
+    "SOLDE_ALT": "Solde ALT",
+    "PAR_TUTORAT_INI": "PAR Ini",
+    "TUTORAT_INI_AFF": "Étudiants Ini Affectés",
+    "SOLDE_INI": "Solde Ini",
+    "TOTAL_ETUDIANTS_PAR": "Total Étudiants PAR",
+    "NB_TUTORAT_AFFECTE": "Nombre d'Étudiants Affectés",
+    "SOLDE_TUTORAT_RESTANT": "Solde de Tutorat Restant",
+    "MATIERES": "Matières (séparées par des virgules)",
+    "DOMAINES_EXPERTISE": "Domaines d’Expertise (séparés par des virgules)",
+    "CODE": "Code",
+    "RESPONSIBLE": "Responsable",
+    "PROGRAM": "Programme",
+    "USERNAME": "Nom d’utilisateur",
+    "DISPLAY_NAME": "Nom Affiché"
   },
   "AUTO_AFFECT": {
     "EQUIVALENCE": "Équivalence :",

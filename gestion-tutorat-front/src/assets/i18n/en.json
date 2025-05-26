@@ -95,7 +95,8 @@
     "REPORTING_DESC": "Generate detailed reports and statistics on assignments and tutoring.",
     "ACCESS_FEATURE": "Access",
     "GET_STARTED": "Get Started",
-    "LOGIN_MESSAGE": "Log in to access all features of the tutoring management platform."
+    "LOGIN_MESSAGE": "Log in to access all features of the tutoring management platform.",
+    "LISTS":"Lists"
   },
   "STUDENTS": {
     "SEARCH_TITLE": "Student Search",
@@ -263,7 +264,7 @@
     "VALUE_REQUIRED": "Please choose a value.",
     "USERNAME": "Username",
     "MIN_LENGTH_USERNAME": "Minimum 3 characters.",
-    "DISPLAY_NAME": "Display Name"
+    "DISPLAY_NAME": "Display Name"    
   },
   "AUTO_AFFECT": {
     "EQUIVALENCE": "Equivalence:",
